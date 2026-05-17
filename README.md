@@ -1,6 +1,6 @@
 # 🌱 EcoTrack & IA — Formation Intensive 2026
 
-> **Transformer le cycle de vie logiciel (SDLC) avec l'Intelligence Artificielle Générative dans l'écosystème Microsoft**
+> **Transformer le cycle de vie logiciel (SDLC) avec l'Intelligence Artificielle Générative dans l'écosystème Microsoft**.
 
 ## 📖 Le Pitch
 
