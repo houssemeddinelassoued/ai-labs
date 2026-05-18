@@ -168,18 +168,18 @@
 
                     <div class="mt-4 grid gap-3">
                         <div class="rounded-3xl border border-stone-200 p-4">
-                            <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Modules</p>
-                            <p id="modules-progress-text" class="mt-2 text-sm font-semibold text-slate-900">0 / 10 modules validés</p>
-                        </div>
-                        <div class="rounded-3xl border border-stone-200 p-4">
                             <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Quiz</p>
                             <p id="quiz-progress-text" class="mt-2 text-sm font-semibold text-slate-900">0 / 5 questions répondues</p>
                             <p id="quiz-score-text" class="mt-1 text-sm text-slate-600">Score : 0 / 5</p>
                         </div>
+                        <div class="rounded-3xl border border-stone-200 p-4">
+                            <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Modules</p>
+                            <p id="modules-progress-text" class="mt-2 text-sm font-semibold text-slate-900">0 / 10 modules validés</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-[2rem] border border-stone-200 p-5 shadow-sm">
+                <div class="bg-white rounded-[2rem] border border-stone-200 p-5 shadow-sm lg:sticky lg:top-6" id="nav-sidebar">
                     <p class="text-xs font-bold uppercase tracking-[0.24em] text-slate-500">Navigation</p>
                     <h2 class="mt-3 text-xl font-extrabold text-slate-950">Les 10 modules</h2>
                     <nav id="module-nav" class="mt-5 space-y-2"></nav>
@@ -543,8 +543,8 @@ Pilote,S11,S12,Retour terrain consolide,Go pilote,Chef de projet,A lancer,
                 format: 'CSV (.csv)',
                 filename: 'ecotrack-template-budget.csv',
                 mimeType: 'text/csv;charset=utf-8',
-                preview: `Categorie,Type,Hypothèse,Cout mensuel,Duree,Cout total\nEquipe projet,Build,2 developpeurs .NET,0,3 mois,`,
-                content: `Categorie,Type,Hypothèse,Cout mensuel,Duree,Cout total,Commentaire
+                preview: `Categorie,Type,Hypothese,Cout mensuel,Duree,Cout total\nEquipe projet,Build,2 developpeurs .NET,0,3 mois,`,
+                content: `Categorie,Type,Hypothese,Cout mensuel,Duree,Cout total,Commentaire
 Equipe projet,Build,2 developpeurs .NET,,3 mois,,
 Equipe projet,Build,1 expert BI,,3 mois,,
 Pilotage,Build,Chef de projet / PMO,,3 mois,,
