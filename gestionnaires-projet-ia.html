@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrack & IA | Parcours Gestionnaires de Projet</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pm: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            900: '#7c2d12'
+                        },
+                        ops: {
+                            50: '#ecfeff',
+                            100: '#cffafe',
+                            500: '#06b6d4',
+                            700: '#0e7490',
+                            900: '#164e63'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f5f4; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+
+        .nav-link-active {
+            background: #fff7ed;
+            border-color: #fed7aa;
+            color: #9a3412;
+            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.12);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.86);
+            backdrop-filter: blur(16px);
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800 selection:bg-pm-100">
+    <header class="relative overflow-hidden border-b border-stone-200 bg-gradient-to-br from-stone-50 via-orange-50 to-cyan-50">
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute -top-20 right-8 h-56 w-56 rounded-full bg-pm-100/80 blur-3xl"></div>
+            <div class="absolute bottom-0 left-1/3 h-48 w-48 rounded-full bg-ops-100/80 blur-3xl"></div>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <div class="flex flex-col gap-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <a href="index.html" class="inline-flex items-center gap-3 text-slate-900 font-bold text-lg">
+                        <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-lg shadow-slate-900/15">🌱</span>
+                        <span>EcoTrack IA</span>
+                    </a>
+                    <a href="index.html" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-stone-300 bg-white/90 text-slate-700 font-semibold hover:border-pm-200 hover:text-pm-700 transition-colors shadow-sm">
+                        <i class="fa-solid fa-arrow-left"></i> Retour au parcours principal
+                    </a>
+                </div>
+
+                <div class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+                    <div>
+                        <span class="inline-flex items-center gap-2 rounded-full border border-pm-200 bg-white/90 px-4 py-2 text-sm font-bold uppercase tracking-[0.2em] text-pm-700 shadow-sm">
+                            <i class="fa-solid fa-briefcase"></i> Nouvelle cible
+                        </span>
+                        <h1 class="mt-5 text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-950 leading-tight">
+                            IA appliquee a la gestion de projet autour d'EcoTrack
+                        </h1>
+                        <p class="mt-5 max-w-3xl text-lg sm:text-xl text-slate-600 leading-relaxed">
+                            Ce parcours dedie aux gestionnaires de projet montre comment exploiter l'IA pour cadrer, planifier, arbitrer et piloter le MVP EcoTrack sans diluer les responsabilites de gouvernance, de budget et d'adoption.
+                        </p>
+
+                        <div class="mt-8 grid gap-4 sm:grid-cols-3">
+                            <div class="glass-panel rounded-3xl border border-white/60 p-5 shadow-sm">
+                                <p class="text-xs font-bold uppercase tracking-[0.2em] text-pm-700">Cible</p>
+                                <p class="mt-3 text-base font-semibold text-slate-900">Chefs de projet, PMO, Delivery Managers, coordinateurs de transformation.</p>
+                            </div>
+                            <div class="glass-panel rounded-3xl border border-white/60 p-5 shadow-sm">
+                                <p class="text-xs font-bold uppercase tracking-[0.2em] text-pm-700">Sorties attendues</p>
+                                <p class="mt-3 text-base font-semibold text-slate-900">Charte projet, roadmap, registre des risques, budget, reporting COPIL et feuille de route V2.</p>
+                            </div>
+                            <div class="glass-panel rounded-3xl border border-white/60 p-5 shadow-sm">
+                                <p class="text-xs font-bold uppercase tracking-[0.2em] text-pm-700">Format</p>
+                                <p class="mt-3 text-base font-semibold text-slate-900">10 modules actionnables, chacun avec un livrable, un angle de pilotage et un prompt de depart.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel rounded-[2rem] border border-white/60 p-6 sm:p-8 shadow-xl">
+                        <div class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-white">
+                            Fil rouge EchoTrack
+                        </div>
+                        <h2 class="mt-5 text-2xl font-extrabold tracking-tight text-slate-950">Ce que le gestionnaire de projet pilote</h2>
+                        <ul class="mt-5 space-y-4 text-slate-600 leading-relaxed">
+                            <li class="flex gap-3">
+                                <span class="mt-1 text-pm-600"><i class="fa-solid fa-check"></i></span>
+                                <span>Aligner le sponsor, la DSI, la RSE, les equipes Dev et les analystes autour d'un MVP mesurable.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="mt-1 text-pm-600"><i class="fa-solid fa-check"></i></span>
+                                <span>Transformer des briefs flous en livrables pilotables : charte, backlog priorise, roadmap, risques, budget.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="mt-1 text-pm-600"><i class="fa-solid fa-check"></i></span>
+                                <span>Industrialiser la communication projet grace a l'IA sans perdre la maitrise des arbitrages humains.</span>
+                            </li>
+                        </ul>
+
+                        <div class="mt-6 rounded-3xl bg-pm-50 border border-pm-100 p-5">
+                            <p class="text-sm font-bold uppercase tracking-[0.2em] text-pm-700">Stack recommandee</p>
+                            <p class="mt-3 text-sm text-slate-700">Copilot M365 pour Word, Excel, PowerPoint et Teams, completementable par ChatGPT ou Copilot Chat pour structurer les livrables de pilotage.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
+        <div class="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
+            <aside class="lg:sticky lg:top-6 self-start space-y-6">
+                <div class="bg-white rounded-[2rem] border border-stone-200 p-5 shadow-sm">
+                    <p class="text-xs font-bold uppercase tracking-[0.24em] text-slate-500">Navigation</p>
+                    <h2 class="mt-3 text-xl font-extrabold text-slate-950">Les 10 modules</h2>
+                    <nav id="module-nav" class="mt-5 space-y-2"></nav>
+                </div>
+
+                <div class="bg-slate-950 rounded-[2rem] p-5 text-slate-200 shadow-xl shadow-slate-900/10">
+                    <p class="text-xs font-bold uppercase tracking-[0.24em] text-pm-300">Rythme suggere</p>
+                    <div class="mt-4 space-y-3 text-sm leading-relaxed">
+                        <p>2 modules de cadrage pour fixer le mandat et la gouvernance.</p>
+                        <p>4 modules de delivery pour structurer le MVP, le planning et les arbitrages.</p>
+                        <p>4 modules de pilotage pour securiser l'execution, l'adoption et la suite du programme.</p>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="space-y-6">
+                <section class="grid gap-6 md:grid-cols-2">
+                    <div class="bg-white border border-stone-200 rounded-[2rem] p-6 shadow-sm">
+                        <p class="text-xs font-bold uppercase tracking-[0.24em] text-pm-700">Mode d'emploi</p>
+                        <h2 class="mt-3 text-2xl font-extrabold text-slate-950">Comment utiliser ce parcours</h2>
+                        <p class="mt-4 text-slate-600 leading-relaxed">Chaque module produit un livrable de pilotage concret. L'IA sert a accelerer la preparation, la reformulation, la synthese et la mise en forme. Les arbitrages, eux, restent du ressort du chef de projet et du sponsor.</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-ops-50 to-white border border-ops-100 rounded-[2rem] p-6 shadow-sm">
+                        <p class="text-xs font-bold uppercase tracking-[0.24em] text-ops-700">Objectif final</p>
+                        <h2 class="mt-3 text-2xl font-extrabold text-slate-950">Un cockpit PM complet pour EchoTrack</h2>
+                        <p class="mt-4 text-slate-600 leading-relaxed">A la fin du parcours, le gestionnaire de projet dispose d'un dossier de cadrage, d'une roadmap MVP 12 semaines, d'un pilotage budget-risques et d'un plan d'adoption activable pour les clients pilotes.</p>
+                    </div>
+                </section>
+
+                <div id="modules-container" class="space-y-6"></div>
+            </main>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-4 right-4 translate-y-20 opacity-0 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-2xl transition-all duration-300">
+        Prompt copie.
+    </div>
+
+    <script>
+        const modulesData = [
+            {
+                id: 'module-1',
+                icon: '🧭',
+                title: 'Cadrage strategique & charte projet',
+                summary: 'Transformer la vision d EcoTrack en mandat projet clair, avec objectifs, limites, hypotheses et indicateurs de succes.',
+                objective: 'Formaliser un cadre de reference partage entre sponsor, metier, DSI et equipes delivery.',
+                deliverable: 'Charte projet EcoTrack prete pour validation en COPIL.',
+                tool: 'Copilot M365 Word / ChatGPT',
+                successMetric: 'Charte validee en une session de gouvernance.',
+                prompt: `Agis comme un chef de projet transformation digitale senior.
+Contexte : EcoTrack est un MVP SaaS B2B qui aide les DSI et directions RSE a mesurer et reduire l empreinte carbone IT.
+Produit une charte projet sur une page incluant :
+- objectif business et valeur attendue
+- perimetre MVP et hors perimetre
+- hypotheses et contraintes majeures
+- KPIs de succes a 90 jours
+- risques de cadrage et points a arbitrer en COPIL
+Restitue le resultat dans un format clair, executif et directement exploitable.`
+            },
+            {
+                id: 'module-2',
+                icon: '🧩',
+                title: 'Parties prenantes & gouvernance',
+                summary: 'Cartographier les acteurs decisifs et etablir une gouvernance qui fluidifie les arbitrages entre produit, data, securite et delivery.',
+                objective: 'Eviter les flous de responsabilite et les blocages transverses en amont.',
+                deliverable: 'Stakeholder map, matrice RACI et cadence de gouvernance.',
+                tool: 'Copilot M365 Excel / Loop',
+                successMetric: 'Roles et instances compris par toutes les equipes.',
+                prompt: `Agis comme un PMO senior.
+Construis la cartographie des parties prenantes du projet EcoTrack : sponsor, DSI cliente, RSE, equipe Dev, BI, securite, utilisateurs pilotes.
+Pour chaque acteur, precise : influence, attentes, risques de friction, niveau d adhesion et plan d engagement.
+Ajoute une matrice RACI pour les decisions produit, data, securite, budget et deploiement.
+Termine par une proposition de cadence de comites et leurs objectifs respectifs.`
+            },
+            {
+                id: 'module-3',
+                icon: '🎯',
+                title: 'Vision produit & priorisation du MVP',
+                summary: 'Traduire les ambitions d EcoTrack en capacites concretes et priorisees pour construire un MVP livrable rapidement.',
+                objective: 'Aligner la priorisation entre valeur business, faisabilite technique et contraintes projet.',
+                deliverable: 'Backlog macro priorise en Must / Should / Could / Wont.',
+                tool: 'Copilot Chat / M365 Word',
+                successMetric: 'Perimetre MVP stabilise et defendable face au sponsor.',
+                prompt: `Agis comme un Product Delivery Manager.
+A partir du contexte EcoTrack, genere un backlog macro de 15 capacites produit.
+Classe chaque capacite en Must, Should, Could ou Wont.
+Explique pour chacune la valeur attendue, les dependances critiques et le risque si elle est repoussee.
+Propose ensuite une version MVP livrable en 12 semaines et justifie les arbitrages effectues.`
+            },
+            {
+                id: 'module-4',
+                icon: '🗺️',
+                title: 'Roadmap, jalons & chemin critique',
+                summary: 'Passer d un backlog priorise a un plan de delivery lisible, jalonne et partageable.',
+                objective: 'Sequencer le travail en tenant compte des dependances et des criteres de passage.',
+                deliverable: 'Roadmap 12 semaines avec jalons, dependances et criteres de go/no-go.',
+                tool: 'Copilot M365 Excel / Planner',
+                successMetric: 'Roadmap comprise par les equipes et par le sponsor.',
+                prompt: `Agis comme un chef de projet delivery.
+Transforme le backlog MVP d EcoTrack en roadmap sur 12 semaines.
+Je veux :
+- des phases claires
+- les jalons de decision
+- les dependances entre lots
+- le chemin critique
+- les criteres de passage entre conception, build, validation et pilote
+Restitue le tout sous forme de tableau de pilotage et de chronologie synthetique.`
+            },
+            {
+                id: 'module-5',
+                icon: '📏',
+                title: 'Estimation de charge & capacite',
+                summary: 'Verifier que le plan est tenable avec les ressources disponibles et les contraintes d agenda du projet.',
+                objective: 'Identifier les surcharges, les points de tension et les besoins d arbitrage capacitaire.',
+                deliverable: 'Plan de charge par profil avec fourchettes et alertes de surcharge.',
+                tool: 'Copilot Excel',
+                successMetric: 'Aucune ressource cle au-dessus de 85% sur la duree critique.',
+                prompt: `Agis comme un responsable de planification projet.
+Equipe disponible pour EcoTrack : 2 developpeurs .NET, 1 expert BI, 1 BA/PO, 0.5 DevOps et un sponsor disponible 2 heures par semaine.
+Estime l effort des chantiers du MVP en fourchette basse et haute.
+Construis un plan de charge realiste par semaine, signale les surcharges et propose 3 leviers d arbitrage : reduction de perimetre, replanification ou renfort ponctuel.`
+            },
+            {
+                id: 'module-6',
+                icon: '⚠️',
+                title: 'Risques, dependances & plans de mitigation',
+                summary: 'Structurer un registre des risques vivant pour piloter les incertitudes projet au lieu de les subir.',
+                objective: 'Rendre visibles les risques techniques, organisationnels, budgetaires et d adoption.',
+                deliverable: 'Risk register avec criticite, declencheurs, mitigation et contingence.',
+                tool: 'Copilot M365 Excel / Teams',
+                successMetric: 'Risques majeurs suivis avec proprietaire et plan d action.',
+                prompt: `Agis comme un PMO Risk Manager.
+Cree un registre des risques pour EcoTrack incluant au minimum : qualite de donnees, dependance aux outils IA, securite, derive planning, derive budget, disponibilite du sponsor, adoption metier.
+Pour chaque risque, donne : probabilite, impact, signal faible, proprietaire, plan de mitigation et plan de contingence.
+Ajoute une recommandation sur les risques a traiter en priorite absolue sur les 30 prochains jours.`
+            },
+            {
+                id: 'module-7',
+                icon: '💶',
+                title: 'Budget, ROI & business case',
+                summary: 'Articuler la logique economique du projet et relier les couts du MVP aux gains attendus pour les clients pilotes.',
+                objective: 'Armer le sponsor avec un argumentaire budgetaire robuste et comprehensible.',
+                deliverable: 'Budget previsionnel build plus run et business case en 3 scenarios.',
+                tool: 'Copilot Excel / PowerPoint',
+                successMetric: 'Budget defendable et scenario central compris du COMEX.',
+                prompt: `Agis comme un chef de projet oriente business case.
+Construis un budget previsionnel EcoTrack sur 12 mois avec une distinction build et run.
+Hypotheses : 3 clients pilotes, reduction de 10% de consommation IT chez les clients pilotes, baisse de 40% du temps de reporting RSE.
+Produis 3 scenarios : prudent, central et ambitieux.
+Pour chaque scenario, donne les couts, gains attendus, risques, ROI et message cle a utiliser devant un comite de direction.`
+            },
+            {
+                id: 'module-8',
+                icon: '📣',
+                title: 'Pilotage execution & reporting COPIL',
+                summary: 'Industrialiser la production des statuts projet tout en elevant le niveau de synthese pour les instances de decision.',
+                objective: 'Gagner du temps de reporting sans perdre la lisibilite des alertes et arbitrages.',
+                deliverable: 'Pack de pilotage hebdomadaire avec statut RAG, alertes, decisions et actions.',
+                tool: 'Copilot M365 Teams / PowerPoint',
+                successMetric: 'COPIL execute en 15 minutes avec decisions explicites.',
+                prompt: `Agis comme un chef de projet senior.
+Prepare un pack de pilotage hebdomadaire pour EcoTrack avec :
+- statut global RAG
+- avancement par lot
+- ecarts planning et budget
+- alertes et arbitrages attendus
+- decisions du COPIL
+- actions de la semaine suivante
+Genere une version message Teams de 10 lignes et une version slide executive d une page.`
+            },
+            {
+                id: 'module-9',
+                icon: '🤝',
+                title: 'Conduite du changement & adoption',
+                summary: 'Preparer le terrain humain pour que le MVP soit utilise, compris et soutenu apres le pilote.',
+                objective: 'Concevoir un dispositif d adoption qui parle aux DSI, a la RSE et aux managers locaux.',
+                deliverable: 'Plan de communication, formation et support post-lancement.',
+                tool: 'Copilot M365 Word / PowerPoint',
+                successMetric: 'Taux d activation et usage des pilotes superieur a 70%.',
+                prompt: `Agis comme un change manager.
+Concois le plan d adoption EcoTrack pour trois populations : DSI, responsables RSE et managers locaux.
+Je veux :
+- messages cles par population
+- planning de communication
+- supports de formation a produire
+- KPIs d adoption
+- dispositif de support post-lancement
+Propose aussi 5 objections probables et les reponses a apporter.`
+            },
+            {
+                id: 'module-10',
+                icon: '🚀',
+                title: 'Retrospective, bilan & feuille de route V2',
+                summary: 'Capitaliser sur le MVP pour alimenter une suite de programme credible, mesurable et soutenable.',
+                objective: 'Transformer la fin du lot en levier d apprentissage et de projection.',
+                deliverable: 'Bilan de lot, retour d experience et roadmap 90 jours.',
+                tool: 'Copilot M365 Word / PowerPoint',
+                successMetric: 'Suite du programme priorisee avec enseignements consolides.',
+                prompt: `Agis comme un directeur de programme.
+Redige la synthese de cloture du lot MVP EcoTrack en distinguant :
+- objectifs atteints et non atteints
+- enseignements projet
+- dette de pilotage ou de coordination
+- opportunites pour la V2
+- feuille de route des 90 prochains jours
+Prepare une version pour le comite de direction et une version pour l equipe projet.`
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNavigation();
+            renderModules();
+            observeSections();
+        });
+
+        function escapeHtml(value) {
+            return value
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function renderNavigation() {
+            const nav = document.getElementById('module-nav');
+            nav.innerHTML = modulesData.map((module, index) => `
+                <a
+                    href="#${module.id}"
+                    data-module-link="${module.id}"
+                    class="block rounded-2xl border border-transparent px-4 py-3 text-sm font-semibold text-slate-600 transition-all hover:border-pm-100 hover:bg-pm-50 hover:text-pm-700"
+                >
+                    <span class="mr-2">${module.icon}</span> Module ${index + 1}
+                    <span class="mt-1 block text-xs font-medium text-slate-500">${escapeHtml(module.title)}</span>
+                </a>
+            `).join('');
+
+            const firstLink = nav.querySelector('[data-module-link="module-1"]');
+            if (firstLink) {
+                firstLink.classList.add('nav-link-active');
+            }
+        }
+
+        function renderModules() {
+            const container = document.getElementById('modules-container');
+            container.innerHTML = modulesData.map((module, index) => `
+                <section id="${module.id}" class="scroll-mt-6 overflow-hidden rounded-[2rem] border border-stone-200 bg-white shadow-sm">
+                    <div class="border-b border-stone-100 bg-gradient-to-r from-white via-white to-pm-50/60 p-6 md:p-8">
+                        <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+                            <div class="max-w-3xl">
+                                <p class="text-xs font-bold uppercase tracking-[0.24em] text-pm-700">Module ${index + 1}</p>
+                                <h2 class="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-slate-950">${module.icon} ${escapeHtml(module.title)}</h2>
+                                <p class="mt-4 text-base md:text-lg leading-relaxed text-slate-600">${escapeHtml(module.summary)}</p>
+                            </div>
+                            <span class="inline-flex items-center rounded-full border border-pm-100 bg-white px-4 py-2 text-sm font-semibold text-pm-700 shadow-sm">${escapeHtml(module.tool)}</span>
+                        </div>
+                    </div>
+
+                    <div class="grid gap-6 p-6 md:p-8 xl:grid-cols-[1.05fr_0.95fr]">
+                        <div class="grid gap-4 md:grid-cols-3 xl:grid-cols-1">
+                            <div class="rounded-3xl border border-stone-200 bg-stone-50 p-5">
+                                <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Objectif</p>
+                                <p class="mt-3 text-sm leading-relaxed text-slate-700">${escapeHtml(module.objective)}</p>
+                            </div>
+                            <div class="rounded-3xl border border-stone-200 bg-stone-50 p-5">
+                                <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Livrable</p>
+                                <p class="mt-3 text-sm leading-relaxed text-slate-700">${escapeHtml(module.deliverable)}</p>
+                            </div>
+                            <div class="rounded-3xl border border-stone-200 bg-stone-50 p-5">
+                                <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Signal de succes</p>
+                                <p class="mt-3 text-sm leading-relaxed text-slate-700">${escapeHtml(module.successMetric)}</p>
+                            </div>
+                        </div>
+
+                        <div class="rounded-[1.75rem] border border-slate-800 bg-slate-950 p-5 text-slate-100 shadow-inner shadow-slate-950/40">
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                <div>
+                                    <p class="text-xs font-bold uppercase tracking-[0.24em] text-pm-300">Prompt de depart</p>
+                                    <p class="mt-1 text-sm text-slate-400">A adapter selon le contexte du client ou du sprint.</p>
+                                </div>
+                                <button onclick="copyPrompt('${module.id}')" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-900 transition-transform hover:-translate-y-0.5">
+                                    <i class="fa-solid fa-copy"></i> Copier
+                                </button>
+                            </div>
+                            <pre class="mt-5 whitespace-pre-wrap break-words rounded-3xl border border-slate-800 bg-slate-900 p-5 text-sm leading-relaxed text-slate-100 font-mono">${escapeHtml(module.prompt)}</pre>
+                        </div>
+                    </div>
+                </section>
+            `).join('');
+        }
+
+        function observeSections() {
+            const links = [...document.querySelectorAll('[data-module-link]')];
+            const sections = modulesData
+                .map((module) => document.getElementById(module.id))
+                .filter(Boolean);
+
+            const observer = new IntersectionObserver((entries) => {
+                const visibleEntry = entries.find((entry) => entry.isIntersecting);
+                if (!visibleEntry) {
+                    return;
+                }
+
+                links.forEach((link) => {
+                    const isActive = link.dataset.moduleLink === visibleEntry.target.id;
+                    link.classList.toggle('nav-link-active', isActive);
+                });
+            }, {
+                rootMargin: '-30% 0px -55% 0px',
+                threshold: 0.1
+            });
+
+            sections.forEach((section) => observer.observe(section));
+        }
+
+        function copyPrompt(moduleId) {
+            const module = modulesData.find((item) => item.id === moduleId);
+            if (!module) {
+                return;
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard
+                    .writeText(module.prompt)
+                    .then(() => showToast('Prompt copie.'))
+                    .catch(() => fallbackCopyText(module.prompt));
+                return;
+            }
+
+            fallbackCopyText(module.prompt);
+        }
+
+        function fallbackCopyText(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            showToast('Prompt copie.');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+
+            window.clearTimeout(showToast.timeoutId);
+            showToast.timeoutId = window.setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 1800);
+        }
+    </script>
+</body>
+</html>
