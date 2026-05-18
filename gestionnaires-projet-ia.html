@@ -143,56 +143,33 @@
 
     <div class="max-w-[1600px] mx-auto px-4 sm:px-5 lg:px-6 xl:px-8 py-10 lg:py-12">
         <div class="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
-            <aside class="lg:sticky lg:top-6 self-start space-y-6">
-                <div class="bg-white rounded-[2rem] border border-stone-200 p-5 shadow-sm">
-                    <div class="flex items-start justify-between gap-4">
-                        <div>
+            <aside class="self-start space-y-4">
+                <div class="bg-white rounded-[2rem] border border-stone-200 p-4 shadow-sm">
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="min-w-0">
                             <p class="text-xs font-bold uppercase tracking-[0.24em] text-slate-500">Progression</p>
-                            <h2 class="mt-3 text-xl font-extrabold text-slate-950">Cockpit du parcours</h2>
+                            <p class="mt-1 text-sm font-semibold text-slate-700">Avancement global</p>
                         </div>
                         <button onclick="resetProgress()" class="inline-flex items-center gap-2 rounded-full border border-stone-200 px-3 py-2 text-xs font-bold text-slate-600 hover:border-pm-200 hover:text-pm-700 transition-colors">
                             <i class="fa-solid fa-rotate-left"></i> Réinitialiser
                         </button>
                     </div>
 
-                    <div class="mt-5 rounded-3xl bg-stone-50 p-4 border border-stone-200">
-                        <div class="flex items-center justify-between gap-4 text-sm font-semibold text-slate-700">
-                            <span>Avancement global</span>
-                            <span id="overall-progress-label">0%</span>
-                        </div>
-                        <div class="mt-3 h-3 rounded-full bg-stone-200 overflow-hidden">
+                    <div class="mt-4 flex items-center gap-3">
+                        <div class="h-3 flex-1 rounded-full bg-stone-200 overflow-hidden">
                             <div id="overall-progress-bar" class="h-full w-0 rounded-full bg-gradient-to-r from-pm-500 to-ops-500 transition-all duration-300"></div>
                         </div>
-                        <p id="overall-progress-text" class="mt-3 text-sm text-slate-600">0 / 15 étapes renseignées</p>
+                        <span id="overall-progress-label" class="text-sm font-bold text-slate-700">0%</span>
                     </div>
-
-                    <div class="mt-4 grid gap-3">
-                        <div class="rounded-3xl border border-stone-200 p-4">
-                            <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Quiz</p>
-                            <p id="quiz-progress-text" class="mt-2 text-sm font-semibold text-slate-900">0 / 5 questions répondues</p>
-                            <p id="quiz-score-text" class="mt-1 text-sm text-slate-600">Score : 0 / 5</p>
-                        </div>
-                        <div class="rounded-3xl border border-stone-200 p-4">
-                            <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Modules</p>
-                            <p id="modules-progress-text" class="mt-2 text-sm font-semibold text-slate-900">0 / 10 modules validés</p>
-                        </div>
-                    </div>
+                    <p id="overall-progress-text" class="mt-2 text-xs text-slate-500">0 / 10 modules complétés</p>
                 </div>
 
-                <div class="bg-white rounded-[2rem] border border-stone-200 p-5 shadow-sm lg:sticky lg:top-6" id="nav-sidebar">
+                <div class="bg-white rounded-[2rem] border border-stone-200 p-5 shadow-sm lg:sticky lg:top-4 lg:max-h-[calc(100vh-1rem)] lg:overflow-y-auto" id="nav-sidebar">
                     <p class="text-xs font-bold uppercase tracking-[0.24em] text-slate-500">Navigation</p>
                     <h2 class="mt-3 text-xl font-extrabold text-slate-950">Les 10 modules</h2>
                     <nav id="module-nav" class="mt-5 space-y-2"></nav>
                 </div>
 
-                <div class="bg-slate-950 rounded-[2rem] p-5 text-slate-200 shadow-xl shadow-slate-900/10">
-                    <p class="text-xs font-bold uppercase tracking-[0.24em] text-pm-300">Rythme suggéré</p>
-                    <div class="mt-4 space-y-3 text-sm leading-relaxed">
-                        <p>2 modules de cadrage pour fixer le mandat et la gouvernance.</p>
-                        <p>4 modules de delivery pour structurer le MVP, le planning et les arbitrages.</p>
-                        <p>4 modules de pilotage pour sécuriser l'exécution, l'adoption et la suite du programme.</p>
-                    </div>
-                </div>
             </aside>
 
             <main class="space-y-6">
@@ -207,14 +184,6 @@
                         <h2 class="mt-3 text-2xl font-extrabold text-slate-950">Un cockpit PM complet pour EchoTrack</h2>
                         <p class="mt-4 text-slate-600 leading-relaxed">À la fin du parcours, le gestionnaire de projet dispose d'un dossier de cadrage, d'une roadmap MVP 12 semaines, d'un pilotage budget-risques et d'un plan d'adoption activable pour les clients pilotes.</p>
                     </div>
-                </section>
-
-                <section class="grid gap-4">
-                    <a href="#module-1" class="rounded-[1.75rem] border border-stone-200 bg-white p-5 shadow-sm hover:border-pm-200 hover:bg-pm-50/50 transition-colors">
-                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-pm-700">Démarrer</p>
-                        <h2 class="mt-2 text-lg font-extrabold text-slate-950">Aller aux modules</h2>
-                        <p class="mt-2 text-sm text-slate-600">Commencer par le cadrage et dérouler les 10 modules dans l'ordre.</p>
-                    </a>
                 </section>
 
                 <div id="modules-container" class="space-y-6"></div>
@@ -681,21 +650,7 @@ Prépare une version pour le comité de direction et une version pour l'équipe 
             document.getElementById('overall-progress-label').textContent = `${overallPct}%`;
             document.getElementById('overall-progress-bar').style.width = `${overallPct}%`;
             document.getElementById('overall-progress-text').textContent = `${completedModules} / ${totalSteps} modules complétés`;
-            document.getElementById('modules-progress-text').textContent = `${completedModules} / ${modulesData.length} modules validés`;
-            
-            // Afficher les infos du quiz seulement si déverrouillé
-            const quizProgressElement = document.getElementById('quiz-progress-text');
-            const quizScoreElement = document.getElementById('quiz-score-text');
-            const quizBlock = quizProgressElement?.closest('.rounded-3xl');
-            
-            if (quizUnlocked) {
-                if (quizBlock) quizBlock.classList.remove('hidden');
-                if (quizProgressElement) quizProgressElement.textContent = `${answeredQuestions} / ${quizData.length} questions répondues`;
-                if (quizScoreElement) quizScoreElement.textContent = answeredQuestions > 0 ? `Score : ${correctAnswers} / ${quizData.length}` : 'Quiz déverrouillé !';
-            } else {
-                if (quizBlock) quizBlock.classList.add('hidden');
-            }
-            
+
             document.getElementById('quiz-score-panel').textContent = quizUnlocked ? `${correctAnswers} / ${quizData.length}` : '🔒';
             document.getElementById('quiz-score-bar').style.width = `${quizPct}%`;
             document.getElementById('quiz-score-detail').textContent = quizUnlocked 
