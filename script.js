@@ -7,6 +7,7 @@ function handleClick() {
 
 // Initialisation du document
 document.addEventListener('DOMContentLoaded', function() {
+    
     console.log('IA EcoTrack Labs chargé avec succès');
     
     // Vous pouvez ajouter votre logique d'initialisation ici
