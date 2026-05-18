@@ -193,23 +193,23 @@
                         <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
                             <div class="max-w-3xl">
                                 <p class="text-xs font-bold uppercase tracking-[0.24em] text-ops-700">Quiz</p>
-                                <h2 class="mt-3 text-2xl md:text-3xl font-extrabold text-slate-950 tracking-tight">Évaluez votre niveau de pilotage IA</h2>
-                                <p class="mt-4 text-base md:text-lg leading-relaxed text-slate-600">Répondez aux questions puis comparez votre score. Le quiz couvre cadrage, gouvernance, budget, risques et adoption du MVP EcoTrack.</p>
+                                <h2 class="mt-3 text-2xl md:text-3xl font-extrabold text-slate-950 tracking-tight">Évaluez vos bonnes pratiques d'utilisation de l'IA</h2>
+                                <p class="mt-4 text-base md:text-lg leading-relaxed text-slate-600">Répondez aux questions puis comparez votre score. Le quiz couvre la formulation des prompts, la vérification des réponses, la confidentialité et l'usage responsable de l'IA.</p>
                             </div>
                             <div class="min-w-[260px] rounded-[1.75rem] border border-stone-200 bg-white p-5 shadow-sm">
                                 <div class="flex items-center justify-between gap-4 text-sm font-semibold text-slate-700">
                                     <span>Score actuel</span>
-                                    <span id="quiz-score-panel">0 / 5</span>
+                                    <span id="quiz-score-panel">0 / 8</span>
                                 </div>
                                 <div class="mt-3 h-3 rounded-full bg-stone-200 overflow-hidden">
                                     <div id="quiz-score-bar" class="h-full w-0 rounded-full bg-gradient-to-r from-emerald-400 to-ops-500 transition-all duration-300"></div>
                                 </div>
-                                <p id="quiz-score-detail" class="mt-3 text-sm text-slate-600">Répondez aux 5 questions pour mesurer votre niveau de pilotage.</p>
+                                <p id="quiz-score-detail" class="mt-3 text-sm text-slate-600">Répondez aux 8 questions pour mesurer votre maîtrise des bonnes pratiques IA.</p>
                             </div>
                         </div>
                     </div>
                     <div class="px-6 pt-5 md:px-8">
-                        <p class="text-sm font-medium text-slate-500">Faites défiler horizontalement pour parcourir les 5 questions du quiz.</p>
+                        <p class="text-sm font-medium text-slate-500">Faites défiler horizontalement pour parcourir les 8 questions du quiz.</p>
                     </div>
                     <div id="quiz-container" class="flex gap-4 overflow-x-auto px-6 pb-6 md:px-8 md:pb-8 snap-x snap-mandatory scroll-px-6 md:scroll-px-8"></div>
                 </section>
@@ -221,7 +221,7 @@
                                 <i class="fa-solid fa-lock text-2xl text-slate-700"></i>
                             </div>
                             <h2 class="text-2xl font-extrabold text-slate-950">Quiz déverrouillé à la fin des modules</h2>
-                            <p class="max-w-2xl text-base leading-relaxed text-slate-600">Complétez tous les 10 modules pour accéder au quiz de validation. Ce dernier teste votre compréhension des notions d'IA appliquées à la gestion de projet et votre maîtrise des astuces d'utilisation.</p>
+                            <p class="max-w-2xl text-base leading-relaxed text-slate-600">Complétez tous les 10 modules pour accéder au quiz de validation. Ce dernier teste votre compréhension des bonnes pratiques d'utilisation de l'IA, de la confidentialité aux méthodes de vérification.</p>
                             <div class="mt-4">
                                 <div class="inline-flex items-center gap-3 rounded-full border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700">
                                     <i class="fa-solid fa-circle-check text-pm-500"></i>
@@ -241,7 +241,7 @@
 
     <script>
         const STORAGE_KEY = 'ecoTrackPmProgress_v2';
-        const QUIZ_VERSION = 2;
+        const QUIZ_VERSION = 3;
 
         const modulesData = [
             {
@@ -416,38 +416,59 @@ Prépare une version pour le comité de direction et une version pour l'équipe 
         const quizData = [
             {
                 id: 'quiz-1',
-                question: 'Quel livrable aligne le sponsor, la DSI et l\'équipe delivery dès le lancement d\'EcoTrack ?',
-                options: ['Le tableau de tests', 'Le PV de recette', 'La charte projet', 'Le backlog technique détaillé'],
-                correctIndex: 2,
-                explanation: 'La charte projet fixe le mandat, le périmètre, les objectifs, les hypothèses et les critères de succès. Elle sert de base commune avant le delivery.'
+                question: 'Quel ensemble d\'informations améliore le plus la qualité d\'un prompt ?',
+                options: ['Une consigne très courte sans contexte', 'Le contexte, l\'objectif, les contraintes et le format attendu', 'Uniquement le nom du projet', 'Une demande vague pour laisser l\'IA deviner'],
+                correctIndex: 1,
+                explanation: 'Un bon prompt donne à l\'IA le contexte, le résultat visé, les contraintes à respecter et le format de restitution. Cela réduit l\'ambiguïté et améliore la pertinence.'
             },
             {
                 id: 'quiz-2',
-                question: 'Si le backlog MVP n\'est pas priorisé entre Must, Should, Could et Won\'t, quel risque augmente en premier ?',
-                options: ['La perte de mots de passe', 'La dérive de périmètre', 'La rupture de licence logicielle', 'La duplication des serveurs'],
-                correctIndex: 1,
-                explanation: 'Sans priorisation explicite, tout semble urgent. Le projet glisse alors rapidement en dérive de périmètre et les arbitrages deviennent plus coûteux.'
+                question: 'Que faut-il faire en priorité avant de partager avec une IA un document client sensible ?',
+                options: ['Le copier tel quel pour gagner du temps', 'Le convertir en image uniquement', 'Supprimer ou anonymiser les données confidentielles', 'Le raccourcir sans relire'],
+                correctIndex: 2,
+                explanation: 'La bonne pratique consiste à retirer ou anonymiser les informations sensibles avant utilisation afin de limiter les risques de confidentialité et de conformité.'
             },
             {
                 id: 'quiz-3',
-                question: 'Dans un COPIL efficace, quel élément doit obligatoirement apparaître pour faciliter la décision ?',
-                options: ['Le code source complet de l\'API', 'La totalité des logs techniques', 'Le détail ligne à ligne du CSS', 'Une liste d\'actions et d\'arbitrages attendus'],
-                correctIndex: 3,
-                explanation: 'Un COPIL n\'est pas un comité de production. Il doit faire remonter les décisions, alertes, écarts et arbitrages attendus, pas noyer les participants dans le détail.'
+                question: 'Face à une réponse IA très convaincante mais non sourcée, quelle est la meilleure réaction ?',
+                options: ['La reprendre telle quelle', 'La publier rapidement avant vérification', 'La vérifier avec des sources fiables et demander les hypothèses', 'L\'ignorer systématiquement'],
+                correctIndex: 2,
+                explanation: 'Une réponse fluide n\'est pas une preuve. Il faut vérifier les faits, confronter avec des sources fiables et clarifier les hypothèses ou incertitudes.'
             },
             {
                 id: 'quiz-4',
-                question: 'Quel couple de leviers aide le plus à défendre le budget EcoTrack devant un comité de direction ?',
-                options: ['Un backlog non trié et des estimations vagues', 'Des captures d\'écran uniquement', 'Un business case scénarisé et des hypothèses explicites', 'Une liste d\'outils sans gains associés'],
-                correctIndex: 2,
-                explanation: 'Le budget devient crédible quand les hypothèses sont visibles et que les scénarios permettent de comparer coût, gains, risques et ROI.'
+                question: 'Si le premier résultat n\'est pas satisfaisant, quelle pratique est la plus efficace ?',
+                options: ['Relancer exactement la même demande en boucle', 'Abandonner l\'outil immédiatement', 'Changer d\'outil sans reformuler', 'Affiner le prompt avec des critères, exemples ou contraintes supplémentaires'],
+                correctIndex: 3,
+                explanation: 'L\'usage efficace de l\'IA est itératif. Ajouter des critères de qualité, des exemples ou des contraintes aide à converger vers une réponse exploitable.'
             },
             {
                 id: 'quiz-5',
-                question: 'Pourquoi le plan d\'adoption doit-il être préparé avant la fin du MVP ?',
-                options: ['Pour remplacer les tests techniques', 'Pour sécuriser l\'usage pilote et la suite du programme', 'Pour éviter toute gouvernance', 'Pour supprimer le besoin de sponsor'],
+                question: 'Quel est le meilleur moyen d\'obtenir un livrable directement réutilisable ?',
+                options: ['Demander un texte libre sans structure', 'Préciser le format attendu, par exemple tableau, mail, plan ou checklist', 'Éviter toute contrainte de longueur', 'Laisser l\'IA choisir seule la présentation'],
                 correctIndex: 1,
-                explanation: 'Sans plan d\'adoption, le MVP peut être livré sans être réellement utilisé. L\'adoption conditionne le retour terrain et la décision de passage à l\'échelle.'
+                explanation: 'Spécifier la forme de sortie attendue augmente fortement l\'utilité du résultat, car l\'IA peut organiser l\'information selon un format immédiatement exploitable.'
+            },
+            {
+                id: 'quiz-6',
+                question: 'Quelle formulation aide le plus l\'IA à adapter son niveau de langage ?',
+                options: ['Indiquer l\'audience, le ton et le niveau de détail attendus', 'Écrire en majuscules', 'Supprimer tous les verbes d\'action', 'Donner uniquement une date limite'],
+                correctIndex: 0,
+                explanation: 'Préciser à qui s\'adresse le livrable, quel ton employer et quel niveau de détail produire permet d\'obtenir une réponse beaucoup plus adaptée au besoin réel.'
+            },
+            {
+                id: 'quiz-7',
+                question: 'Quand vous utilisez l\'IA pour comparer plusieurs options, quelle consigne est la plus pertinente ?',
+                options: ['Demander simplement "quel est le meilleur choix ?"', 'Demander une comparaison selon des critères explicites avec avantages, limites et hypothèses', 'Exiger une seule réponse sans justification', 'Ignorer les hypothèses de départ'],
+                correctIndex: 1,
+                explanation: 'Une comparaison utile repose sur des critères explicites. Cela rend l\'analyse plus transparente, discutable et exploitable pour une décision humaine.'
+            },
+            {
+                id: 'quiz-8',
+                question: 'Quelle reste la responsabilité humaine même lorsque l\'IA produit une réponse de bonne qualité ?',
+                options: ['Copier la réponse sans contrôle', 'Laisser l\'IA prendre la décision finale', 'Valider, contextualiser et arbitrer avant utilisation', 'Éviter toute relecture pour conserver la rapidité'],
+                correctIndex: 2,
+                explanation: 'L\'IA assiste, mais ne remplace pas le jugement humain. La validation finale, le contexte métier et les arbitrages restent sous responsabilité humaine.'
             }
         ];
 
@@ -561,7 +582,7 @@ Prépare une version pour le comité de direction et une version pour l'équipe 
                                 <p class="text-xs font-bold uppercase tracking-[0.2em] text-ops-700">Question ${index + 1}</p>
                                 <h3 class="mt-3 text-lg font-extrabold text-slate-950">${escapeHtml(quiz.question)}</h3>
                             </div>
-                            <span class="inline-flex items-center rounded-full border border-stone-200 bg-white px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Quiz PM</span>
+                            <span class="inline-flex items-center rounded-full border border-stone-200 bg-white px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Quiz IA</span>
                         </div>
                         <div class="mt-5 grid gap-3">${optionsHtml}</div>
                         ${isAnswered ? `
