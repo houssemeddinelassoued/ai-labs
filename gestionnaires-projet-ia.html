@@ -75,7 +75,7 @@
             <div class="flex flex-col gap-6">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <a href="index.html" class="inline-flex items-center gap-3 text-slate-900 font-bold text-lg">
-                        <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-900 text-white shadow-lg shadow-slate-900/15">🌱</span>
+                        <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-50 text-white shadow-lg shadow-slate-900/15">🌱</span>
                         <span>EcoTrack IA</span>
                     </a>
                     <a href="index.html" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-stone-300 bg-white/90 text-slate-700 font-semibold hover:border-pm-200 hover:text-pm-700 transition-colors shadow-sm">
@@ -209,34 +209,17 @@
                     </div>
                 </section>
 
-                <section class="grid gap-4 md:grid-cols-3">
-                    <a href="#templates-section" class="rounded-[1.75rem] border border-stone-200 bg-white p-5 shadow-sm hover:border-pm-200 hover:bg-pm-50/50 transition-colors">
-                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-pm-700">Exporter</p>
-                        <h2 class="mt-2 text-lg font-extrabold text-slate-950">Templates prêts à l'emploi</h2>
-                        <p class="mt-2 text-sm text-slate-600">COPIL, roadmap et budget disponibles en copie ou téléchargement.</p>
-                    </a>
-                    <a href="#quiz-section" class="rounded-[1.75rem] border border-stone-200 bg-white p-5 shadow-sm hover:border-pm-200 hover:bg-pm-50/50 transition-colors">
-                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-pm-700">Évaluer</p>
-                        <h2 class="mt-2 text-lg font-extrabold text-slate-950">Mini quiz chef de projet</h2>
-                        <p class="mt-2 text-sm text-slate-600">5 questions pour tester la maîtrise du pilotage EcoTrack.</p>
-                    </a>
+                <section class="grid gap-4">
                     <a href="#module-1" class="rounded-[1.75rem] border border-stone-200 bg-white p-5 shadow-sm hover:border-pm-200 hover:bg-pm-50/50 transition-colors">
                         <p class="text-xs font-bold uppercase tracking-[0.2em] text-pm-700">Démarrer</p>
                         <h2 class="mt-2 text-lg font-extrabold text-slate-950">Aller aux modules</h2>
-                        <p class="mt-2 text-sm text-slate-600">Commencer par le cadrage et dérouler les livrables dans l'ordre.</p>
+                        <p class="mt-2 text-sm text-slate-600">Commencer par le cadrage et dérouler les 10 modules dans l'ordre.</p>
                     </a>
                 </section>
 
-                <section id="templates-section" class="overflow-hidden rounded-[2rem] border border-stone-200 bg-white shadow-sm">
-                    <div class="border-b border-stone-100 bg-gradient-to-r from-white via-white to-pm-50/60 p-6 md:p-8">
-                        <p class="text-xs font-bold uppercase tracking-[0.24em] text-pm-700">Templates exportables</p>
-                        <h2 class="mt-3 text-2xl md:text-3xl font-extrabold text-slate-950 tracking-tight">Pack COPIL, roadmap et budget</h2>
-                        <p class="mt-4 text-base md:text-lg leading-relaxed text-slate-600">Ces modèles servent de point de départ. Ils peuvent être copiés, téléchargés, puis enrichis dans Word, Excel ou PowerPoint selon votre gouvernance projet.</p>
-                    </div>
-                    <div id="templates-container" class="grid gap-6 p-6 md:p-8 xl:grid-cols-3"></div>
-                </section>
+                <div id="modules-container" class="space-y-6"></div>
 
-                <section id="quiz-section" class="overflow-hidden rounded-[2rem] border border-stone-200 bg-white shadow-sm">
+                <section id="quiz-section" class="hidden overflow-hidden rounded-[2rem] border border-stone-200 bg-white shadow-sm">
                     <div class="border-b border-stone-100 bg-gradient-to-r from-white via-white to-ops-50/60 p-6 md:p-8">
                         <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
                             <div class="max-w-3xl">
@@ -262,7 +245,23 @@
                     <div id="quiz-container" class="flex gap-4 overflow-x-auto px-6 pb-6 md:px-8 md:pb-8 snap-x snap-mandatory scroll-px-6 md:scroll-px-8"></div>
                 </section>
 
-                <div id="modules-container" class="space-y-6"></div>
+                <div id="quiz-locked-message" class="overflow-hidden rounded-[2rem] border border-stone-200 bg-gradient-to-br from-slate-50 to-slate-100 shadow-sm">
+                    <div class="p-6 md:p-8">
+                        <div class="flex flex-col items-center justify-center gap-4 text-center">
+                            <div class="inline-flex h-16 w-16 items-center justify-center rounded-full bg-stone-200">
+                                <i class="fa-solid fa-lock text-2xl text-slate-700"></i>
+                            </div>
+                            <h2 class="text-2xl font-extrabold text-slate-950">Quiz déverrouillé à la fin des modules</h2>
+                            <p class="max-w-2xl text-base leading-relaxed text-slate-600">Complétez tous les 10 modules pour accéder au quiz de validation. Ce dernier teste votre compréhension des notions d'IA appliquées à la gestion de projet et votre maîtrise des astuces d'utilisation.</p>
+                            <div class="mt-4">
+                                <div class="inline-flex items-center gap-3 rounded-full border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-pm-500"></i>
+                                    <span id="quiz-unlock-progress">0 / 10 modules complétés</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
     </div>
@@ -483,86 +482,13 @@ Prépare une version pour le comité de direction et une version pour l'équipe 
             }
         ];
 
-        const templatesData = [
-            {
-                id: 'template-copil',
-                title: 'Template COPIL hebdomadaire',
-                description: 'Support synthétique pour statut global, arbitrages, décisions et prochaines actions.',
-                format: 'Markdown (.md)',
-                filename: 'ecotrack-template-copil.md',
-                mimeType: 'text/markdown;charset=utf-8',
-                preview: `# EcoTrack - Comité de pilotage\n\n## 1. Synthèse exécutive\n- Statut global : Vert / Orange / Rouge\n- Fait marquant : ...`,
-                content: `# EcoTrack - Comité de pilotage
-
-## 1. Synthèse exécutive
-- Statut global : Vert / Orange / Rouge
-- Fait marquant de la semaine :
-- Décision attendue du sponsor :
-
-## 2. Avancement par lot
-| Lot | Objectif | Statut | Prochain jalon | Responsable |
-| --- | --- | --- | --- | --- |
-| Produit |  |  |  |  |
-| Data |  |  |  |  |
-| Plateforme |  |  |  |  |
-
-## 3. Écarts et alertes
-- Planning :
-- Budget :
-- Risques majeurs :
-
-## 4. Arbitrages à rendre
-1. 
-2. 
-
-## 5. Actions de la semaine suivante
-- 
-- 
-`
-            },
-            {
-                id: 'template-roadmap',
-                title: 'Template roadmap MVP',
-                description: 'Modèle tabulaire pour jalons, dépendances, responsables et critères de passage.',
-                format: 'CSV (.csv)',
-                filename: 'ecotrack-template-roadmap.csv',
-                mimeType: 'text/csv;charset=utf-8',
-                preview: `Lot,Semaine debut,Semaine fin,Jalon,Dependances,Responsable,Statut\nCadrage,S1,S2,Charte validee,,Chef de projet,A lancer`,
-                content: `Lot,Semaine debut,Semaine fin,Jalon,Dependances,Responsable,Statut,Commentaire
-Cadrage,S1,S2,Charte validee,,Chef de projet,A lancer,
-Backlog MVP,S2,S3,Priorisation sponsor,Charte validee,PO / Chef de projet,A lancer,
-Build MVP,S4,S8,Lot technique livre,Backlog MVP valide,Lead Dev,A lancer,
-Validation,S9,S10,Go pilote,Build MVP,QA / Sponsor,A lancer,
-Pilote,S11,S12,Retour terrain consolide,Go pilote,Chef de projet,A lancer,
-`
-            },
-            {
-                id: 'template-budget',
-                title: 'Template budget build & run',
-                description: 'Base de chiffrage pour structurer hypothèses, couts mensuels et couts annuels.',
-                format: 'CSV (.csv)',
-                filename: 'ecotrack-template-budget.csv',
-                mimeType: 'text/csv;charset=utf-8',
-                preview: `Categorie,Type,Hypothese,Cout mensuel,Duree,Cout total\nEquipe projet,Build,2 developpeurs .NET,0,3 mois,`,
-                content: `Categorie,Type,Hypothese,Cout mensuel,Duree,Cout total,Commentaire
-Equipe projet,Build,2 developpeurs .NET,,3 mois,,
-Equipe projet,Build,1 expert BI,,3 mois,,
-Pilotage,Build,Chef de projet / PMO,,3 mois,,
-Outils IA,Run,Licences M365 Copilot,,12 mois,,
-Infrastructure,Run,Hebergement et services,,12 mois,,
-Support,Run,Accompagnement utilisateurs,,12 mois,,
-`
-            }
-        ];
-
         const state = loadState();
         let sectionObserver = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             renderNavigation();
-            renderTemplates();
-            renderQuiz();
             renderModules();
+            updateQuizVisibility();
             observeSections();
             updateProgressUI();
         });
@@ -628,33 +554,6 @@ Support,Run,Accompagnement utilisateurs,,12 mois,,
             if (firstLink) {
                 firstLink.classList.add('nav-link-active');
             }
-        }
-
-        function renderTemplates() {
-            const container = document.getElementById('templates-container');
-            container.innerHTML = templatesData.map((template) => `
-                <article class="rounded-[1.75rem] border border-stone-200 bg-stone-50 p-5 shadow-sm flex flex-col">
-                    <div class="flex items-start justify-between gap-4">
-                        <div>
-                            <p class="text-xs font-bold uppercase tracking-[0.2em] text-pm-700">${escapeHtml(template.format)}</p>
-                            <h3 class="mt-3 text-xl font-extrabold text-slate-950">${escapeHtml(template.title)}</h3>
-                        </div>
-                        <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-pm-700 shadow-sm border border-stone-200">
-                            <i class="fa-solid fa-file-export"></i>
-                        </span>
-                    </div>
-                    <p class="mt-4 text-sm leading-relaxed text-slate-600">${escapeHtml(template.description)}</p>
-                    <pre class="mt-5 min-h-[132px] whitespace-pre-wrap break-words rounded-3xl border border-stone-200 bg-white p-4 text-xs leading-relaxed text-slate-700 font-mono">${escapeHtml(template.preview)}</pre>
-                    <div class="mt-5 flex flex-wrap gap-3">
-                        <button onclick="copyTemplate('${template.id}')" class="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-sm font-bold text-white hover:bg-slate-800 transition-colors">
-                            <i class="fa-solid fa-copy"></i> Copier
-                        </button>
-                        <button onclick="downloadTemplate('${template.id}')" class="inline-flex items-center justify-center gap-2 rounded-full border border-pm-200 bg-white px-4 py-2 text-sm font-bold text-pm-700 hover:bg-pm-50 transition-colors">
-                            <i class="fa-solid fa-download"></i> Télécharger
-                        </button>
-                    </div>
-                </article>
-            `).join('');
         }
 
         function renderQuiz() {
@@ -772,22 +671,36 @@ Support,Run,Accompagnement utilisateurs,,12 mois,,
             const completedModules = state.completedModules.length;
             const answeredQuestions = Object.keys(state.quizAnswers).length;
             const correctAnswers = quizData.filter((quiz) => state.quizAnswers[quiz.id] === quiz.correctIndex).length;
-            const totalSteps = modulesData.length + quizData.length;
-            const completedSteps = completedModules + answeredQuestions;
-            const overallPct = Math.round((completedSteps / totalSteps) * 100);
-            const quizPct = Math.round((correctAnswers / quizData.length) * 100);
+            const quizUnlocked = completedModules === modulesData.length;
+            
+            // Avancement global basé UNIQUEMENT sur les modules (le quiz est un bonus)
+            const totalSteps = modulesData.length;
+            const overallPct = Math.round((completedModules / totalSteps) * 100);
+            const quizPct = answeredQuestions > 0 ? Math.round((correctAnswers / quizData.length) * 100) : 0;
 
             document.getElementById('overall-progress-label').textContent = `${overallPct}%`;
             document.getElementById('overall-progress-bar').style.width = `${overallPct}%`;
-            document.getElementById('overall-progress-text').textContent = `${completedSteps} / ${totalSteps} étapes renseignées`;
+            document.getElementById('overall-progress-text').textContent = `${completedModules} / ${totalSteps} modules complétés`;
             document.getElementById('modules-progress-text').textContent = `${completedModules} / ${modulesData.length} modules validés`;
-            document.getElementById('quiz-progress-text').textContent = `${answeredQuestions} / ${quizData.length} questions répondues`;
-            document.getElementById('quiz-score-text').textContent = `Score : ${correctAnswers} / ${quizData.length}`;
-            document.getElementById('quiz-score-panel').textContent = `${correctAnswers} / ${quizData.length}`;
+            
+            // Afficher les infos du quiz seulement si déverrouillé
+            const quizProgressElement = document.getElementById('quiz-progress-text');
+            const quizScoreElement = document.getElementById('quiz-score-text');
+            const quizBlock = quizProgressElement?.closest('.rounded-3xl');
+            
+            if (quizUnlocked) {
+                if (quizBlock) quizBlock.classList.remove('hidden');
+                if (quizProgressElement) quizProgressElement.textContent = `${answeredQuestions} / ${quizData.length} questions répondues`;
+                if (quizScoreElement) quizScoreElement.textContent = answeredQuestions > 0 ? `Score : ${correctAnswers} / ${quizData.length}` : 'Quiz déverrouillé !';
+            } else {
+                if (quizBlock) quizBlock.classList.add('hidden');
+            }
+            
+            document.getElementById('quiz-score-panel').textContent = quizUnlocked ? `${correctAnswers} / ${quizData.length}` : '🔒';
             document.getElementById('quiz-score-bar').style.width = `${quizPct}%`;
-            document.getElementById('quiz-score-detail').textContent = answeredQuestions === quizData.length
-                ? `Quiz terminé. Score final : ${correctAnswers} / ${quizData.length}.`
-                : `Répondez aux ${quizData.length} questions pour mesurer votre niveau de pilotage.`;
+            document.getElementById('quiz-score-detail').textContent = quizUnlocked 
+                ? (answeredQuestions === quizData.length ? `Quiz terminé. Score final : ${correctAnswers} / ${quizData.length}.` : `Répondez aux ${quizData.length} questions pour mesurer votre maîtrise.`)
+                : `Complétez tous les modules pour accéder au quiz de validation.`;
         }
 
         function observeSections() {
@@ -818,6 +731,26 @@ Support,Run,Accompagnement utilisateurs,,12 mois,,
             sections.forEach((section) => sectionObserver.observe(section));
         }
 
+        function updateQuizVisibility() {
+            const allModulesCompleted = state.completedModules.length === modulesData.length;
+            const quizSection = document.getElementById('quiz-section');
+            const quizLockedMessage = document.getElementById('quiz-locked-message');
+            const quizUnlockProgress = document.getElementById('quiz-unlock-progress');
+
+            if (quizUnlockProgress) {
+                quizUnlockProgress.textContent = `${state.completedModules.length} / ${modulesData.length} modules complétés`;
+            }
+
+            if (allModulesCompleted) {
+                if (quizSection) quizSection.classList.remove('hidden');
+                if (quizLockedMessage) quizLockedMessage.classList.add('hidden');
+                renderQuiz();
+            } else {
+                if (quizSection) quizSection.classList.add('hidden');
+                if (quizLockedMessage) quizLockedMessage.classList.remove('hidden');
+            }
+        }
+
         function toggleModuleCompletion(moduleId) {
             const index = state.completedModules.indexOf(moduleId);
             if (index >= 0) {
@@ -830,6 +763,7 @@ Support,Run,Accompagnement utilisateurs,,12 mois,,
             renderNavigation();
             renderModules();
             observeSections();
+            updateQuizVisibility();
             updateProgressUI();
         }
 
@@ -850,9 +784,9 @@ Support,Run,Accompagnement utilisateurs,,12 mois,,
             state.quizAnswers = {};
             saveState();
             renderNavigation();
-            renderQuiz();
             renderModules();
             observeSections();
+            updateQuizVisibility();
             updateProgressUI();
             showToast('Progression réinitialisée.');
         }
@@ -864,15 +798,6 @@ Support,Run,Accompagnement utilisateurs,,12 mois,,
             }
 
             copyText(module.prompt, 'Prompt copié.');
-        }
-
-        function copyTemplate(templateId) {
-            const template = templatesData.find((item) => item.id === templateId);
-            if (!template) {
-                return;
-            }
-
-            copyText(template.content, 'Template copié.');
         }
 
         function copyText(text, successMessage) {
@@ -898,24 +823,6 @@ Support,Run,Accompagnement utilisateurs,,12 mois,,
             document.execCommand('copy');
             document.body.removeChild(textArea);
             showToast(successMessage);
-        }
-
-        function downloadTemplate(templateId) {
-            const template = templatesData.find((item) => item.id === templateId);
-            if (!template) {
-                return;
-            }
-
-            const blob = new Blob([template.content], { type: template.mimeType });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = template.filename;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-            showToast(`Téléchargement : ${template.filename}`);
         }
 
         function showToast(message) {
