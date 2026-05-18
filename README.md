@@ -10,7 +10,7 @@ L'objectif n'est pas seulement d'apprendre à coder plus vite, mais de **transfo
 
 ---
 
-## 🏭 Le Projet Fil Rouge : "EcoTrack"
+## 🌱 Le Projet Fil Rouge : "EcoTrack"
 
 **EcoTrack** est une startup fictive développant une plateforme **SaaS B2B innovante**.
 
@@ -40,6 +40,37 @@ Tout au long des **10 modules**, les participants construisent le **MVP (Minimum
 | **Technologies** | BDD/Gherkin, T-SQL, DAX, MDX, SSRS, SSAS/Cubes OLAP |
 | **Outils IA** | Microsoft 365 Copilot (Word, Excel, PowerPoint), M365 Agent Builder |
 | **Mission** | Traduire les besoins métier, créer des agents autonomes, produire des rapports décisionnels |
+
+### 🟠 **Parcours complémentaire Gestion de Projet** (Chefs de projet, PMO, Delivery Managers)
+
+| Aspect | Détails |
+|--------|---------|
+| **Technologies** | Roadmaps, RACI, registres des risques, templates COPIL, budgets prévisionnels, plans d'adoption |
+| **Outils IA** | Microsoft 365 Copilot (Word, Excel, PowerPoint, Teams), ChatGPT, GitHub Copilot Chat |
+| **Mission** | Cadrer le MVP EcoTrack, piloter le delivery, sécuriser les arbitrages, le budget et l'adoption |
+
+---
+
+## 🟠 Parcours Complémentaire — Gestion de Projet & IA
+
+Un parcours dédié aux **gestionnaires de projet** complète désormais les deux pôles historiques sans modifier leurs contenus.
+
+- **Page dédiée** : `gestionnaires-projet-ia.html`
+- **Positionnement** : pilotage du MVP EcoTrack par l'IA, de la charte projet jusqu'à la feuille de route V2
+- **Livrables couverts** : charte projet, gouvernance, backlog MVP, roadmap, plan de charge, registre des risques, business case, reporting COPIL, conduite du changement, bilan de lot
+
+### Les 10 modules du parcours Gestion de Projet
+
+1. Cadrage stratégique & charte projet
+2. Parties prenantes & gouvernance
+3. Vision produit & priorisation du MVP
+4. Roadmap, jalons & chemin critique
+5. Estimation de charge & capacité
+6. Risques, dépendances & plans de mitigation
+7. Budget, ROI & business case
+8. Pilotage exécution & reporting COPIL
+9. Conduite du changement & adoption
+10. Rétrospective, bilan & feuille de route V2
 
 ---
 
@@ -107,6 +138,7 @@ Ce projet est hébergé sur GitHub Pages :
 ```
 .
 ├── index.html       # Page d'accueil
+├── gestionnaires-projet-ia.html  # Parcours dédié aux gestionnaires de projet
 ├── style.css        # Feuille de style responsive
 ├── script.js        # JavaScript interactif
 ├── README.md        # Cette documentation
