@@ -71,7 +71,7 @@
             <div class="absolute bottom-0 left-1/3 h-48 w-48 rounded-full bg-ops-100/80 blur-3xl"></div>
         </div>
 
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div class="relative max-w-[1600px] mx-auto px-4 sm:px-5 lg:px-6 xl:px-8 py-6 sm:py-8">
             <div class="flex flex-col gap-6">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <a href="index.html" class="inline-flex items-center gap-3 text-slate-900 font-bold text-lg">
@@ -141,7 +141,7 @@
         </div>
     </header>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-12">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-5 lg:px-6 xl:px-8 py-10 lg:py-12">
         <div class="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
             <aside class="lg:sticky lg:top-6 self-start space-y-6">
                 <div class="bg-white rounded-[2rem] border border-stone-200 p-5 shadow-sm">
@@ -256,7 +256,10 @@
                             </div>
                         </div>
                     </div>
-                    <div id="quiz-container" class="space-y-4 p-6 md:p-8"></div>
+                    <div class="px-6 pt-5 md:px-8">
+                        <p class="text-sm font-medium text-slate-500">Faites défiler horizontalement pour parcourir les 5 questions du quiz.</p>
+                    </div>
+                    <div id="quiz-container" class="flex gap-4 overflow-x-auto px-6 pb-6 md:px-8 md:pb-8 snap-x snap-mandatory scroll-px-6 md:scroll-px-8"></div>
                 </section>
 
                 <div id="modules-container" class="space-y-6"></div>
@@ -270,6 +273,7 @@
 
     <script>
         const STORAGE_KEY = 'ecoTrackPmProgress_v2';
+        const QUIZ_VERSION = 2;
 
         const modulesData = [
             {
@@ -445,36 +449,36 @@ Prépare une version pour le comité de direction et une version pour l'équipe 
             {
                 id: 'quiz-1',
                 question: 'Quel livrable aligne le sponsor, la DSI et l\'équipe delivery dès le lancement d\'EcoTrack ?',
-                options: ['La charte projet', 'Le tableau de tests', 'Le PV de recette', 'Le backlog technique détaillé'],
-                correctIndex: 0,
+                options: ['Le tableau de tests', 'Le PV de recette', 'La charte projet', 'Le backlog technique détaillé'],
+                correctIndex: 2,
                 explanation: 'La charte projet fixe le mandat, le périmètre, les objectifs, les hypothèses et les critères de succès. Elle sert de base commune avant le delivery.'
             },
             {
                 id: 'quiz-2',
                 question: 'Si le backlog MVP n\'est pas priorisé entre Must, Should, Could et Won\'t, quel risque augmente en premier ?',
-                options: ['La dérive de périmètre', 'La perte de mots de passe', 'La rupture de licence logicielle', 'La duplication des serveurs'],
-                correctIndex: 0,
+                options: ['La perte de mots de passe', 'La dérive de périmètre', 'La rupture de licence logicielle', 'La duplication des serveurs'],
+                correctIndex: 1,
                 explanation: 'Sans priorisation explicite, tout semble urgent. Le projet glisse alors rapidement en dérive de périmètre et les arbitrages deviennent plus coûteux.'
             },
             {
                 id: 'quiz-3',
                 question: 'Dans un COPIL efficace, quel élément doit obligatoirement apparaître pour faciliter la décision ?',
-                options: ['Une liste d\'actions et d\'arbitrages attendus', 'Le code source complet de l\'API', 'La totalité des logs techniques', 'Le détail ligne à ligne du CSS'],
-                correctIndex: 0,
+                options: ['Le code source complet de l\'API', 'La totalité des logs techniques', 'Le détail ligne à ligne du CSS', 'Une liste d\'actions et d\'arbitrages attendus'],
+                correctIndex: 3,
                 explanation: 'Un COPIL n\'est pas un comité de production. Il doit faire remonter les décisions, alertes, écarts et arbitrages attendus, pas noyer les participants dans le détail.'
             },
             {
                 id: 'quiz-4',
                 question: 'Quel couple de leviers aide le plus à défendre le budget EcoTrack devant un comité de direction ?',
-                options: ['Un business case scénarisé et des hypothèses explicites', 'Un backlog non trié et des estimations vagues', 'Des captures d\'écran uniquement', 'Une liste d\'outils sans gains associés'],
-                correctIndex: 0,
+                options: ['Un backlog non trié et des estimations vagues', 'Des captures d\'écran uniquement', 'Un business case scénarisé et des hypothèses explicites', 'Une liste d\'outils sans gains associés'],
+                correctIndex: 2,
                 explanation: 'Le budget devient crédible quand les hypothèses sont visibles et que les scénarios permettent de comparer coût, gains, risques et ROI.'
             },
             {
                 id: 'quiz-5',
                 question: 'Pourquoi le plan d\'adoption doit-il être préparé avant la fin du MVP ?',
-                options: ['Pour sécuriser l\'usage pilote et la suite du programme', 'Pour remplacer les tests techniques', 'Pour éviter toute gouvernance', 'Pour supprimer le besoin de sponsor'],
-                correctIndex: 0,
+                options: ['Pour remplacer les tests techniques', 'Pour sécuriser l\'usage pilote et la suite du programme', 'Pour éviter toute gouvernance', 'Pour supprimer le besoin de sponsor'],
+                correctIndex: 1,
                 explanation: 'Sans plan d\'adoption, le MVP peut être livré sans être réellement utilisé. L\'adoption conditionne le retour terrain et la décision de passage à l\'échelle.'
             }
         ];
@@ -523,29 +527,29 @@ Prépare une version pour le comité de direction et une version pour l'équipe 
                 format: 'CSV (.csv)',
                 filename: 'ecotrack-template-roadmap.csv',
                 mimeType: 'text/csv;charset=utf-8',
-                preview: `Lot,Semaine début,Semaine fin,Jalon,Dépendances,Responsable,Statut\nCadrage,S1,S2,Charte validée,,Chef de projet,À lancer`,
-                content: `Lot,Semaine début,Semaine fin,Jalon,Dépendances,Responsable,Statut,Commentaire
-Cadrage,S1,S2,Charte validée,,Chef de projet,À lancer,
-Backlog MVP,S2,S3,Priorisation sponsor,Charte validée,PO / Chef de projet,À lancer,
-Build MVP,S4,S8,Lot technique livré,Backlog MVP validé,Lead Dev,À lancer,
-Validation,S9,S10,Go pilote,Build MVP,QA / Sponsor,À lancer,
-Pilote,S11,S12,Retour terrain consolidé,Go pilote,Chef de projet,À lancer,
+                preview: `Lot,Semaine debut,Semaine fin,Jalon,Dependances,Responsable,Statut\nCadrage,S1,S2,Charte validee,,Chef de projet,A lancer`,
+                content: `Lot,Semaine debut,Semaine fin,Jalon,Dependances,Responsable,Statut,Commentaire
+Cadrage,S1,S2,Charte validee,,Chef de projet,A lancer,
+Backlog MVP,S2,S3,Priorisation sponsor,Charte validee,PO / Chef de projet,A lancer,
+Build MVP,S4,S8,Lot technique livre,Backlog MVP valide,Lead Dev,A lancer,
+Validation,S9,S10,Go pilote,Build MVP,QA / Sponsor,A lancer,
+Pilote,S11,S12,Retour terrain consolide,Go pilote,Chef de projet,A lancer,
 `
             },
             {
                 id: 'template-budget',
                 title: 'Template budget build & run',
-                description: 'Base de chiffrage pour structurer hypothèses, coûts mensuels et coûts annuels.',
+                description: 'Base de chiffrage pour structurer hypothèses, couts mensuels et couts annuels.',
                 format: 'CSV (.csv)',
                 filename: 'ecotrack-template-budget.csv',
                 mimeType: 'text/csv;charset=utf-8',
-                preview: `Catégorie,Type,Hypothèse,Coût mensuel,Durée,Coût total\nÉquipe projet,Build,2 développeurs .NET,0,3 mois,`,
-                content: `Catégorie,Type,Hypothèse,Coût mensuel,Durée,Coût total,Commentaire
-Équipe projet,Build,2 développeurs .NET,,3 mois,,
-Équipe projet,Build,1 expert BI,,3 mois,,
+                preview: `Categorie,Type,Hypothèse,Cout mensuel,Duree,Cout total\nEquipe projet,Build,2 developpeurs .NET,0,3 mois,`,
+                content: `Categorie,Type,Hypothèse,Cout mensuel,Duree,Cout total,Commentaire
+Equipe projet,Build,2 developpeurs .NET,,3 mois,,
+Equipe projet,Build,1 expert BI,,3 mois,,
 Pilotage,Build,Chef de projet / PMO,,3 mois,,
 Outils IA,Run,Licences M365 Copilot,,12 mois,,
-Infrastructure,Run,Hébergement et services,,12 mois,,
+Infrastructure,Run,Hebergement et services,,12 mois,,
 Support,Run,Accompagnement utilisateurs,,12 mois,,
 `
             }
@@ -567,21 +571,26 @@ Support,Run,Accompagnement utilisateurs,,12 mois,,
             try {
                 const raw = localStorage.getItem(STORAGE_KEY);
                 if (!raw) {
-                    return { completedModules: [], quizAnswers: {} };
+                    return { completedModules: [], quizAnswers: {}, quizVersion: QUIZ_VERSION };
                 }
 
                 const parsed = JSON.parse(raw);
                 return {
                     completedModules: Array.isArray(parsed.completedModules) ? parsed.completedModules : [],
-                    quizAnswers: parsed.quizAnswers && typeof parsed.quizAnswers === 'object' ? parsed.quizAnswers : {}
+                    quizAnswers: parsed.quizVersion === QUIZ_VERSION && parsed.quizAnswers && typeof parsed.quizAnswers === 'object' ? parsed.quizAnswers : {},
+                    quizVersion: QUIZ_VERSION
                 };
             } catch {
-                return { completedModules: [], quizAnswers: {} };
+                return { completedModules: [], quizAnswers: {}, quizVersion: QUIZ_VERSION };
             }
         }
 
         function saveState() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                completedModules: state.completedModules,
+                quizAnswers: state.quizAnswers,
+                quizVersion: QUIZ_VERSION
+            }));
         }
 
         function escapeHtml(value) {
@@ -678,7 +687,7 @@ Support,Run,Accompagnement utilisateurs,,12 mois,,
                 }).join('');
 
                 return `
-                    <article class="rounded-[1.75rem] border border-stone-200 bg-stone-50 p-5 shadow-sm">
+                    <article class="flex-none snap-start w-[86vw] sm:w-[34rem] xl:w-[38rem] rounded-[1.75rem] border border-stone-200 bg-stone-50 p-5 shadow-sm">
                         <div class="flex items-start justify-between gap-4">
                             <div>
                                 <p class="text-xs font-bold uppercase tracking-[0.2em] text-ops-700">Question ${index + 1}</p>
