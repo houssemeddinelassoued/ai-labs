@@ -336,10 +336,23 @@ Construis un plan de charge réaliste par semaine, signale les surcharges et pro
                 deliverable: 'Risk register avec criticité, déclencheurs, mitigation et contingence.',
                 tool: 'Copilot M365 Excel, Teams, ChatGPT ou Gemini',
                 successMetric: 'Risques majeurs suivis avec propriétaire et plan d\'action.',
-                prompt: `Agis comme un PMO Risk Manager.
+                prompt: `PARTIE 1 — Registre des risques
+Agis comme un PMO Risk Manager.
 Crée un registre des risques pour EcoTrack incluant au minimum : qualité de données, dépendance aux outils IA, sécurité, dérive planning, dérive budget, disponibilité du sponsor, adoption métier.
 Pour chaque risque, donne : probabilité, impact, signal faible, propriétaire, plan de mitigation et plan de contingence.
-Ajoute une recommandation sur les risques à traiter en priorité absolue sur les 30 prochains jours.`
+Présente le résultat sous forme de tableau Excel exploitable, puis propose un ordre de priorité sur les 30 prochains jours.
+
+PARTIE 2 — Création d'un assistant
+À partir de ce registre, explique comment créer un assistant Copilot ou un Gem Gemini capable d'aider le chef de projet à suivre les risques chaque semaine.
+Je veux :
+1. le nom et le rôle de l'assistant
+2. les données ou documents qu'il doit analyser
+3. les instructions à lui donner dans Copilot Studio, Microsoft 365 Copilot ou Gemini Gems
+4. les actions attendues de l'assistant : détecter les nouveaux risques, résumer les évolutions, suggérer des mitigations, préparer un message Teams
+5. un exemple de prompt de départ pour l'utilisateur
+6. le format de sortie idéal dans Excel, Teams et PowerPoint
+
+Termine par une recommandation sur les deux ou trois automatisations les plus utiles à industrialiser en premier.`
             },
             {
                 id: 'module-7',
@@ -400,7 +413,14 @@ Je veux :
 - supports de formation à produire
 - KPIs d'adoption
 - dispositif de support post-lancement
-Propose aussi 5 objections probables et les réponses à apporter.`
+Propose aussi 5 objections probables et les réponses à apporter.
+
+Ajoute un prompt séparé pour générer une infographie moderne et professionnelle (style corporate premium) qui résume le plan d'adoption en une page, avec :
+- une hiérarchie visuelle claire
+- une palette sobre et crédible
+- des icônes métier cohérentes
+- un bloc KPI lisible
+- un format prêt pour PowerPoint ou Canva.`
             },
             {
                 id: 'module-10',
