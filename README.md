@@ -25,6 +25,7 @@ La formation s'articule autour de **deux projets fil conducteur complémentaires
 | [`ecotrack.html`](ecotrack.html) | 🌱 **Projet 1 — EcoTrack** : 10 modules / 20 labs (Tech & Biz, écosystème Microsoft) |
 | [`zerogaspillage.html`](zerogaspillage.html) | 🥐 **Projet 2 — ZeroGaspillage** : 15 modules / 42 labs (SDLC complet, stack de référence libre) |
 | [`gestionnaires-projet-ia.html`](gestionnaires-projet-ia.html) | 🗂️ **Parcours PM** : 10 modules de pilotage + quiz 8 questions (bonnes pratiques IA) |
+| [`product-owner-ia.html`](product-owner-ia.html) | 🧭 **Parcours Product Owner** : 10 modules (opportunités IA, cadrage, user stories IA, gouvernance) + quiz 8 questions |
 | [`quiz-security.html`](quiz-security.html) | 🛡️ **Évaluation Sécurité IA** : 28 scénarios d'entreprise (QCM + analyse critique) |
 | [`ia-explained.html`](ia-explained.html) | 🧠 **Aller plus loin** : 12 démos interactives sur le fonctionnement et les usages de l'IA |
 
@@ -36,7 +37,7 @@ Le programme est découpé en **5 parties réorganisables selon le format de ses
 |---|---|
 | **Part 1 — Comprendre et intégrer l'IA dans le SDLC** (IA dans le cycle de dev, outils IA, workflow assisté) | Démos 1-4 (fondamentaux LLM) · Démo 9 (IA dans le SDLC : gains vs limites) · Démo 10 (panorama des outils) · ZG Module 1 (idéation) · ZG Lab 10.4 (analyse & debug de code existant) |
 | **Part 2 — Prompt Engineering avancé pour équipes techniques** (structurer un prompt, cas d'usage dev, prompt library) | Démo 5 (constructeur de prompt) · Démo 6 (hallucinations & grounding) · ZG Lab 8.2 (**bibliothèque de prompts d'équipe** — livrable) · ZG Labs 4.2 (Gherkin), 10.1 (génération de tests) |
-| **Part 3 — Booster la productivité des équipes** (IA dans le workflow projet, collaboration & gouvernance) | ZG Module 4 + Lab 4.4 (**simulation de sprint**) · ZG Lab 11.3 (**charte d'usage IA & gouvernance**) · Parcours PM (10 modules + quiz) |
+| **Part 3 — Booster la productivité des équipes** (IA dans le workflow projet, collaboration & gouvernance) | ZG Module 4 + Lab 4.4 (**simulation de sprint**) · ZG Lab 11.3 (**charte d'usage IA & gouvernance**) · Parcours PM (10 modules + quiz) · Parcours Product Owner (10 modules + quiz) |
 | **Part 4 — Automatisation intelligente** (tâches récurrentes, orchestration IA, no-code) | Démo 11 (orchestration & workflows no-code) · Démos 7-8 (RAG, agents) · ZG Lab 15.2 (**workflow n8n/Make** : avis → classification → ticket → email) · ZG Lab 15.1 (classification de feedbacks) · EcoTrack Modules 4-5 (agents & orchestration) |
 | **Part 5 — Cas pratiques entreprise + projet final** (cas réels, stratégie d'adoption, mini-projet) | Le parcours **ZeroGaspillage complet** (de l'idée à la V2 = le projet intégrateur) · EcoTrack (cas entreprise Microsoft) · ZG Lab 11.3 (roadmap d'adoption 90 jours) · Quiz Sécurité IA (28 scénarios) |
 
@@ -79,6 +80,14 @@ Même liberté pour la **stack technique** : FastAPI/React (ZeroGaspillage) et .
 | **Livrables** | Charte projet, gouvernance, roadmap, risques, budget, reporting COPIL, conduite du changement |
 | **Outils IA** | Microsoft 365 Copilot, ChatGPT, GitHub Copilot Chat |
 | **Mission** | Cadrer et piloter le MVP EcoTrack par l'IA, de la charte projet à la feuille de route V2 |
+
+### 🟣 **Product Owner** (PO, Product Manager, Business Analyst produit)
+
+| Aspect | Détails |
+|--------|---------|
+| **Livrables** | Cartographie d'opportunités IA, fiches de cadrage, user stories IA avec critères d'acceptation, backlog priorisé, charte de gouvernance |
+| **Outils IA** | ChatGPT, Claude, Gemini, Microsoft 365 Copilot |
+| **Mission** | Repérer les opportunités IA du produit ZeroGaspillage, en évaluer la valeur et les limites, puis les traduire en user stories exploitables |
 
 ---
 
@@ -124,6 +133,21 @@ Même liberté pour la **stack technique** : FastAPI/React (ZeroGaspillage) et .
 14. 📣 **Lancement & Growth** (Biz) — go-to-market local, North Star Metric, A/B tests
 15. 🔁 **Maintenance, Feedback & Itération** (Mixte) — tri des feedbacks, workflow IA no-code (n8n/Make), dette technique, roadmap V2
 
+## 🧭 Parcours Product Owner (10 modules)
+
+Parcours 100 % PO, complémentaire du parcours PM, adossé au projet **ZeroGaspillage** : repérer une opportunité IA dans un produit, en évaluer la valeur et les limites, la cadrer puis la rédiger en user story exploitable.
+
+1. 🧠 **Comprendre l'IA** — définitions et familles de modèles (règles, ML, recommandation, vision, LLM)
+2. ⚖️ **Capacités vs limites** — données, biais, sécurité, gouvernance produit
+3. 🔍 **Repérer les signaux d'opportunité IA** — frictions, volumes, tickets support, churn
+4. 🎯 **Évaluer valeur et faisabilité** — matrice valeur / faisabilité data / risque
+5. 🔗 **Workflow IA de bout en bout** — données → modèle → intégration → UX
+6. 📐 **Cadrer une fonctionnalité IA** — critères d'acceptation adaptés (confiance, cas limites, fallback)
+7. ✍️ **Rédiger une user story IA complète** — reformulation d'un besoin flou + critères Gherkin
+8. 📊 **Prioriser un backlog avec des opportunités IA** — RICE adapté, arbitrage vs dette/fonctionnalités classiques
+9. 🛡️ **Gouvernance et éthique IA du produit** — transparence, revue humaine, biais, RGPD
+10. 📈 **Mesurer, itérer et communiquer** — KPIs, dérive du modèle, synthèse stakeholders
+
 ## 🛡️ Évaluation : Sécurité IA
 
 **28 scénarios d'entreprise** répartis en 5 familles de risques : fuite de données & confidentialité, injection de code malveillant, dépendance aux services externes, cadre légal & normatif (RGPD, AI Act), bonnes pratiques & attaques avancées. Format : QCM et questions d'analyse critique, avec la solution d'un « Architecte Sécurité » pour chaque cas.
@@ -160,6 +184,7 @@ Ce projet est hébergé sur GitHub Pages :
 ├── ecotrack.html                 # 🌱 Projet 1 — EcoTrack (10 modules)
 ├── zerogaspillage.html           # 🥐 Projet 2 — ZeroGaspillage (15 modules)
 ├── gestionnaires-projet-ia.html  # 🗂️ Parcours Gestionnaires de Projet
+├── product-owner-ia.html         # 🧭 Parcours Product Owner
 ├── quiz-security.html            # 🛡️ Évaluation Sécurité IA (28 scénarios)
 ├── ia-explained.html             # 🧠 Démos interactives « Au Cœur de l'IA »
 ├── README.md                     # Cette documentation
@@ -182,6 +207,7 @@ Ce projet est hébergé sur GitHub Pages :
 | `ecoTrackProgress_v2` | Labs EcoTrack |
 | `zeroGaspiProgress_v1` | Labs ZeroGaspillage |
 | `ecoTrackPmProgress_v2` | Modules + quiz du parcours PM |
+| `zeroGaspiPoProgress_v1` | Modules + quiz du parcours Product Owner |
 
 ## 🔄 CI/CD
 

@@ -13,11 +13,12 @@ Site statique de formation « Boostez vos performances avec l'IA » : un cahier 
 | `index.html` | Page d'accueil (hub) : introduit la formation, cartes vers les parcours, la sécurité et les démos | toutes (cartes) |
 | `ecotrack.html` | Projet 1 — EcoTrack (SaaS B2B carbone, stack Microsoft) : 10 modules / 20 labs | `eco` (vert) + `biz` (indigo) |
 | `zerogaspillage.html` | Projet 2 — ZeroGaspillage (anti-gaspillage alimentaire, stack de référence FastAPI/React) : 15 modules / 42 labs, SDLC complet | `zg` (ambre) + `biz` + `mix` (teal) |
-| `gestionnaires-projet-ia.html` | Parcours PM : 10 modules + quiz 8 QCM (contexte fictif « GreenPulse Solutions ») | `pm` (orange) + `ops` (cyan) |
+| `gestionnaires-projet-ia.html` | Parcours PM : 10 modules + quiz 8 QCM (contexte fictif « GreenPulse Solutions »), complémentaire d'EcoTrack | `pm` (orange) + `ops` (cyan) |
+| `product-owner-ia.html` | Parcours Product Owner : 10 modules + quiz 8 QCM (comprendre l'IA, opportunités, cadrage, user stories IA, gouvernance), complémentaire de ZeroGaspillage | `biz` (indigo) + `zg` (ambre) |
 | `quiz-security.html` | Évaluation sécurité IA : 28 scénarios (QCM + réponses libres) | `risk-*` (rouge/orange/violet/bleu/vert) |
 | `ia-explained.html` | « Aller plus loin » : deck de 12 slides interactives (fondamentaux 1-4, usages avancés 5-8, IA en pratique 9-11) | bleu/violet |
 
-Navigation : `index.html` est le seul hub ; chaque page a un lien retour vers lui. Le bouton « Terminer » d'`ia-explained.html` redirige vers `index.html`. Règle visuelle : **une couleur par parcours sur tout le site** (vert = EcoTrack, ambre = ZeroGaspillage, orange = PM, rouge = sécurité, bleu/violet = démos IA).
+Navigation : `index.html` est le seul hub ; chaque page a un lien retour vers lui. Le bouton « Terminer » d'`ia-explained.html` redirige vers `index.html`. Règle visuelle : **une couleur par parcours sur tout le site** (vert = EcoTrack, ambre = ZeroGaspillage, orange = PM, indigo/ambre = Product Owner, rouge = sécurité, bleu/violet = démos IA).
 
 ## Patterns à respecter impérativement
 
@@ -35,8 +36,9 @@ Navigation : `index.html` est le seul hub ; chaque page a un lien retour vers lu
 | `ecoTrackProgress_v2` | ecotrack.html | tableau des ids de labs complétés (ex. `"lab1_1"`) |
 | `zeroGaspiProgress_v1` | zerogaspillage.html | tableau des ids de labs complétés (préfixe `zg_`) |
 | `ecoTrackPmProgress_v2` | gestionnaires-projet-ia.html | objet : modules complétés + réponses quiz (`QUIZ_VERSION`) |
+| `zeroGaspiPoProgress_v1` | product-owner-ia.html | objet : modules complétés + réponses quiz (`QUIZ_VERSION`) |
 
-- **Verrou sécurité** : géré **uniquement dans le hub** (`index.html`) — pas de bouton dupliqué sur `ecotrack.html`/`zerogaspillage.html`. Le hub lit les deux clés de progression et déverrouille la carte Sécurité si L'UN des deux parcours atteint 50 %, via la constante `TOTALS = { ecotrack: 20, zerogaspillage: 42 }` — **à synchroniser si on ajoute/retire des labs**. Le verrou est incitatif : `quiz-security.html` reste accessible par URL directe (assumé).
+- **Verrou sécurité** : géré **uniquement dans le hub** (`index.html`) — pas de bouton dupliqué sur `ecotrack.html`/`zerogaspillage.html`. Le hub lit les deux clés de progression et déverrouille la carte Sécurité si L'UN des deux parcours atteint 50 %, via la constante `TOTALS = { ecotrack: 20, zerogaspillage: 42, pm: 10, po: 10 }` — **à synchroniser si on ajoute/retire des labs ou modules**. Seuls `ecotrack` et `zerogaspillage` comptent pour le déverrouillage sécurité ; `pm` et `po` alimentent uniquement leur propre barre de progression sur le hub. Le verrou est incitatif : `quiz-security.html` reste accessible par URL directe (assumé).
 
 ## Conventions de contenu
 

@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroGaspillage & IA | Parcours Product Owner</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        biz: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81'
+                        },
+                        zg: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            900: '#78350f'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f5f4; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+
+        .nav-link-active {
+            background: #eef2ff;
+            border-color: #c7d2fe;
+            color: #312e81;
+            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.12);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.86);
+            backdrop-filter: blur(16px);
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800 selection:bg-biz-100">
+    <header class="relative overflow-hidden border-b border-stone-200 bg-gradient-to-br from-stone-50 via-indigo-50 to-amber-50">
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="absolute -top-20 right-8 h-56 w-56 rounded-full bg-biz-100/80 blur-3xl"></div>
+            <div class="absolute bottom-0 left-1/3 h-48 w-48 rounded-full bg-zg-100/80 blur-3xl"></div>
+        </div>
+
+        <div class="relative max-w-[1600px] mx-auto px-4 sm:px-5 lg:px-6 xl:px-8 py-6 sm:py-8">
+            <div class="flex flex-col gap-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <a href="index.html" class="inline-flex items-center gap-3 text-slate-900 font-bold text-lg">
+                        <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-50 text-white shadow-lg shadow-slate-900/15">🥐</span>
+                        <span>Accueil formation</span>
+                    </a>
+                    <a href="zerogaspillage.html" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-stone-300 bg-white/90 text-slate-700 font-semibold hover:border-biz-200 hover:text-biz-700 transition-colors shadow-sm">
+                        <i class="fa-solid fa-arrow-left"></i> Retour au parcours ZeroGaspillage
+                    </a>
+                </div>
+
+                <div class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+                    <div>
+                        <span class="inline-flex items-center gap-2 rounded-full border border-biz-200 bg-white/90 px-4 py-2 text-sm font-bold uppercase tracking-[0.2em] text-biz-700 shadow-sm">
+                            <i class="fa-solid fa-list-check"></i> Parcours Product Owner augmenté par l'IA
+                        </span>
+                        <h1 class="mt-5 text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-950 leading-tight">
+                            IA appliquée au métier de Product Owner autour de ZeroGaspillage
+                        </h1>
+                        <p class="mt-5 max-w-3xl text-lg sm:text-xl text-slate-600 leading-relaxed">
+                            Ce parcours 100&nbsp;% Product Owner apprend à repérer les vraies opportunités IA dans un produit, à en cadrer la valeur et les limites, puis à les transformer en user stories exploitables — sans jamais déléguer à l'IA le jugement produit.
+                        </p>
+
+                        <div class="mt-6 rounded-3xl border border-zg-100 bg-white/90 p-5 shadow-sm">
+                            <p class="text-xs font-bold uppercase tracking-[0.2em] text-zg-700">Contexte produit</p>
+                            <p class="mt-3 text-sm sm:text-base leading-relaxed text-slate-700">
+                                <strong>ZeroGaspillage</strong> est une marketplace qui transforme les invendus des commerces de proximité en « Paniers Surprise » à -50/-70&nbsp;%.
+                                L'équipe compte <strong>28 collaborateurs</strong> (produit, tech, data, growth, support client) au service de commerçants partenaires et de clients particuliers.
+                                Dans ce parcours, ce contexte sert de terrain d'entraînement pour repérer, cadrer et rédiger des fonctionnalités IA réalistes.
+                            </p>
+                        </div>
+
+                        <div class="mt-8 grid gap-4 sm:grid-cols-3">
+                            <div class="glass-panel rounded-3xl border border-white/60 p-5 shadow-sm">
+                                <p class="text-xs font-bold uppercase tracking-[0.2em] text-biz-700">Cible</p>
+                                <p class="mt-3 text-base font-semibold text-slate-900">Product Owners, Product Managers, Business Analysts orientés produit (public non développeur).</p>
+                            </div>
+                            <div class="glass-panel rounded-3xl border border-white/60 p-5 shadow-sm">
+                                <p class="text-xs font-bold uppercase tracking-[0.2em] text-biz-700">Sorties attendues</p>
+                                <p class="mt-3 text-base font-semibold text-slate-900">Cartographie d'opportunités IA, fiches de cadrage, user stories IA avec critères d'acceptation, backlog priorisé et charte de gouvernance.</p>
+                            </div>
+                            <div class="glass-panel rounded-3xl border border-white/60 p-5 shadow-sm">
+                                <p class="text-xs font-bold uppercase tracking-[0.2em] text-biz-700">Format</p>
+                                <p class="mt-3 text-base font-semibold text-slate-900">10 modules actionnables, chacun avec un livrable, un angle produit et un prompt de départ orienté cas d'usage IA.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel rounded-[2rem] border border-white/60 p-6 sm:p-8 shadow-xl">
+                        <div class="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-white">
+                            Fil rouge ZeroGaspillage
+                        </div>
+                        <h2 class="mt-5 text-2xl font-extrabold tracking-tight text-slate-950">Ce que le Product Owner pilote</h2>
+                        <ul class="mt-5 space-y-4 text-slate-600 leading-relaxed">
+                            <li class="flex gap-3">
+                                <span class="mt-1 text-biz-600"><i class="fa-solid fa-check"></i></span>
+                                <span>Distinguer un vrai signal d'opportunité IA d'un effet de mode, en s'appuyant sur des données produit concrètes.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="mt-1 text-biz-600"><i class="fa-solid fa-check"></i></span>
+                                <span>Traduire un besoin métier flou en user story IA complète, avec des critères d'acceptation qui tiennent compte de l'incertitude du modèle.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="mt-1 text-biz-600"><i class="fa-solid fa-check"></i></span>
+                                <span>Garder la main sur la valeur, la gouvernance et l'arbitrage produit, même quand l'IA génère une grande partie du contenu.</span>
+                            </li>
+                        </ul>
+
+                        <div class="mt-6 rounded-3xl bg-biz-50 border border-biz-100 p-5">
+                            <p class="text-sm font-bold uppercase tracking-[0.2em] text-biz-700">Stack recommandée</p>
+                            <p class="mt-3 text-sm text-slate-700">ChatGPT, Claude ou Gemini pour cadrer et rédiger, complétés par Copilot M365 (Word/Excel) pour formaliser les livrables et un outil de diagramme (FigJam, Miro ou draw.io) pour visualiser le workflow IA.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-5 lg:px-6 xl:px-8 py-10 lg:py-12">
+        <div class="grid gap-8 lg:grid-cols-[290px_minmax(0,1fr)]">
+            <aside class="space-y-4 lg:self-stretch">
+                <div class="bg-white rounded-[2rem] border border-stone-200 p-4 shadow-sm">
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="min-w-0">
+                            <p class="text-xs font-bold uppercase tracking-[0.24em] text-slate-500">Progression</p>
+                            <p class="mt-1 text-sm font-semibold text-slate-700">Avancement global</p>
+                        </div>
+                        <button onclick="resetProgress()" class="inline-flex items-center gap-2 rounded-full border border-stone-200 px-3 py-2 text-xs font-bold text-slate-600 hover:border-biz-200 hover:text-biz-700 transition-colors">
+                            <i class="fa-solid fa-rotate-left"></i> Réinitialiser
+                        </button>
+                    </div>
+
+                    <div class="mt-4 flex items-center gap-3">
+                        <div class="h-3 flex-1 rounded-full bg-stone-200 overflow-hidden">
+                            <div id="overall-progress-bar" class="h-full w-0 rounded-full bg-gradient-to-r from-biz-500 to-zg-500 transition-all duration-300"></div>
+                        </div>
+                        <span id="overall-progress-label" class="text-sm font-bold text-slate-700">0%</span>
+                    </div>
+                    <p id="overall-progress-text" class="mt-2 text-xs text-slate-500">0 / 10 modules complétés</p>
+                </div>
+
+                <div class="bg-white rounded-[2rem] border border-stone-200 p-5 shadow-sm lg:sticky lg:top-4 lg:max-h-[calc(100vh-1rem)] lg:overflow-y-auto" id="nav-sidebar">
+                    <p class="text-xs font-bold uppercase tracking-[0.24em] text-slate-500">Navigation</p>
+                    <h2 class="mt-3 text-xl font-extrabold text-slate-950">Les 10 modules</h2>
+                    <nav id="module-nav" class="mt-5 space-y-2"></nav>
+                </div>
+
+            </aside>
+
+            <main class="space-y-6">
+                <section class="grid gap-6 md:grid-cols-2">
+                    <div class="bg-white border border-stone-200 rounded-[2rem] p-6 shadow-sm">
+                        <p class="text-xs font-bold uppercase tracking-[0.24em] text-biz-700">Mode d'emploi</p>
+                        <h2 class="mt-3 text-2xl font-extrabold text-slate-950">Comment utiliser ce parcours</h2>
+                        <p class="mt-4 text-slate-600 leading-relaxed">Chaque module produit un livrable produit concret, du repérage d'une opportunité IA jusqu'à sa formalisation en backlog. L'IA sert à accélérer la vulgarisation, le cadrage, la rédaction et la synthèse. La décision de valeur, l'arbitrage et la responsabilité restent celles du Product Owner.</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-zg-50 to-white border border-zg-100 rounded-[2rem] p-6 shadow-sm">
+                        <p class="text-xs font-bold uppercase tracking-[0.24em] text-zg-700">Objectif final</p>
+                        <h2 class="mt-3 text-2xl font-extrabold text-slate-950">Un radar d'opportunités IA complet pour ZeroGaspillage</h2>
+                        <p class="mt-4 text-slate-600 leading-relaxed">À la fin du parcours, le Product Owner dispose d'une cartographie d'opportunités IA priorisée, de fiches de cadrage réutilisables, de user stories IA prêtes pour le backlog et d'une charte de gouvernance activable dès la prochaine feature IA.</p>
+                    </div>
+                </section>
+
+                <div id="modules-container" class="space-y-6"></div>
+
+                <section id="quiz-section" class="hidden overflow-hidden rounded-[2rem] border border-stone-200 bg-white shadow-sm">
+                    <div class="border-b border-stone-100 bg-gradient-to-r from-white via-white to-zg-50/60 p-6 md:p-8">
+                        <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+                            <div class="max-w-3xl">
+                                <p class="text-xs font-bold uppercase tracking-[0.24em] text-zg-700">Quiz</p>
+                                <h2 class="mt-3 text-2xl md:text-3xl font-extrabold text-slate-950 tracking-tight">Évaluez vos réflexes de PO face à l'IA</h2>
+                                <p class="mt-4 text-base md:text-lg leading-relaxed text-slate-600">Répondez aux questions puis comparez votre score. Le quiz couvre la détection d'opportunités IA, le cadrage des critères d'acceptation, les limites du modèle et la gouvernance produit.</p>
+                            </div>
+                            <div class="min-w-[260px] rounded-[1.75rem] border border-stone-200 bg-white p-5 shadow-sm">
+                                <div class="flex items-center justify-between gap-4 text-sm font-semibold text-slate-700">
+                                    <span>Score actuel</span>
+                                    <span id="quiz-score-panel">0 / 8</span>
+                                </div>
+                                <div class="mt-3 h-3 rounded-full bg-stone-200 overflow-hidden">
+                                    <div id="quiz-score-bar" class="h-full w-0 rounded-full bg-gradient-to-r from-emerald-400 to-zg-500 transition-all duration-300"></div>
+                                </div>
+                                <p id="quiz-score-detail" class="mt-3 text-sm text-slate-600">Répondez aux 8 questions pour mesurer votre maîtrise des réflexes IA côté produit.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-6 pt-5 md:px-8">
+                        <p class="text-sm font-medium text-slate-500">Faites défiler horizontalement pour parcourir les 8 questions du quiz.</p>
+                    </div>
+                    <div id="quiz-container" class="flex gap-4 overflow-x-auto px-6 pb-6 md:px-8 md:pb-8 snap-x snap-mandatory scroll-px-6 md:scroll-px-8"></div>
+                </section>
+
+                <div id="quiz-locked-message" class="overflow-hidden rounded-[2rem] border border-stone-200 bg-gradient-to-br from-slate-50 to-slate-100 shadow-sm">
+                    <div class="p-6 md:p-8">
+                        <div class="flex flex-col items-center justify-center gap-4 text-center">
+                            <div class="inline-flex h-16 w-16 items-center justify-center rounded-full bg-stone-200">
+                                <i class="fa-solid fa-lock text-2xl text-slate-700"></i>
+                            </div>
+                            <h2 class="text-2xl font-extrabold text-slate-950">Quiz déverrouillé à la fin des modules</h2>
+                            <p class="max-w-2xl text-base leading-relaxed text-slate-600">Complétez les 10 modules pour accéder au quiz de validation. Ce dernier teste votre capacité à détecter une opportunité IA, à la cadrer et à la traduire en critères d'acceptation exploitables.</p>
+                            <div class="mt-4">
+                                <div class="inline-flex items-center gap-3 rounded-full border border-stone-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-biz-500"></i>
+                                    <span id="quiz-unlock-progress">0 / 10 modules complétés</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed bottom-4 right-4 translate-y-20 opacity-0 rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-2xl transition-all duration-300">
+        Contenu copié.
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'zeroGaspiPoProgress_v1';
+        const QUIZ_VERSION = 1;
+        const QUIZ_UNLOCK_THRESHOLD = 10;
+
+        const modulesData = [
+            {
+                id: 'module-1',
+                icon: '🧠',
+                title: 'Comprendre l\'IA : définitions et familles de modèles',
+                summary: 'Se doter d\'un vocabulaire IA commun avec les équipes data/tech, pour cadrer sans jargon mal maîtrisé ni promesses irréalistes.',
+                objective: 'Distinguer les grandes familles de modèles IA et leurs cas d\'usage produit typiques sur ZeroGaspillage.',
+                deliverable: 'Fiche de vulgarisation « IA pour PO » avec 5 familles de modèles et leurs usages types.',
+                tool: 'ChatGPT, Claude ou Gemini',
+                successMetric: 'Le PO explique en 2 minutes, sans jargon, quelle famille de modèle correspond à un besoin donné.',
+                prompt: `Agis comme un formateur IA qui vulgarise pour des Product Owners non techniques.
+Contexte : ZeroGaspillage est une marketplace anti-gaspillage alimentaire (paniers surprise à prix réduits vendus par des commerçants partenaires).
+Produis une fiche pédagogique d'une page qui explique, en langage business et sans formules mathématiques :
+- 5 grandes familles de modèles IA : règles/heuristiques, machine learning supervisé classique, moteurs de recommandation, vision par ordinateur, grands modèles de langage (LLM)
+- pour chaque famille, un exemple concret d'usage possible sur ZeroGaspillage (ex : prédire les invendus du soir, recommander des paniers pertinents, détecter une photo de panier non conforme, résumer les avis clients, générer des descriptions de paniers)
+- pour chaque famille, les données minimales nécessaires et le niveau de maturité data requis
+- les 3 questions clés qu'un PO doit se poser avant de choisir une famille de modèle avec son équipe technique
+Termine par un tableau récapitulatif « besoin produit → famille de modèle probable ».`
+            },
+            {
+                id: 'module-2',
+                icon: '⚖️',
+                title: 'Capacités vs limites : données, biais, sécurité, gouvernance',
+                summary: 'Évaluer objectivement ce que l\'IA peut garantir ou non, pour ne pas engager le produit sur des promesses intenables.',
+                objective: 'Construire une vigilance systématique avant tout cadrage de fonctionnalité IA.',
+                deliverable: 'Grille « Capacités vs Limites » et checklist de vigilance gouvernance/RGPD.',
+                tool: 'ChatGPT, Claude, Copilot M365 Word',
+                successMetric: 'Aucune fonctionnalité IA n\'est cadrée sans checklist de vigilance validée.',
+                prompt: `Agis comme un consultant IA spécialisé en gouvernance produit.
+Contexte : ZeroGaspillage envisage plusieurs fonctionnalités IA (prédiction d'invendus, recommandation de paniers, détection de photos non conformes, résumé automatique d'avis clients).
+Construis une grille « Capacités vs Limites » qui couvre, pour chaque fonctionnalité envisagée :
+- ce que l'IA peut raisonnablement garantir aujourd'hui
+- ce qu'elle ne peut pas garantir (précision, exhaustivité, absence de biais, disponibilité)
+- les risques de biais spécifiques (ex : sous-représentation de certains commerçants, discrimination de quartiers, avis clients non représentatifs)
+- les risques de sécurité et de confidentialité des données clients et commerçants
+- les points de vigilance RGPD (finalité, minimisation, durée de conservation, droit à l'explication)
+
+Termine par une checklist de vigilance en 8 points qu'un PO doit valider avant de mettre une fonctionnalité IA en backlog.`
+            },
+            {
+                id: 'module-3',
+                icon: '🔍',
+                title: 'Repérer les signaux d\'opportunité IA dans le produit',
+                summary: 'Apprendre à lire les signaux produit (frictions récurrentes, volumes, tickets support, churn) qui trahissent une vraie opportunité IA.',
+                objective: 'Distinguer un signal d\'opportunité IA exploitable d\'un simple effet de mode.',
+                deliverable: 'Carte des signaux d\'opportunité IA sur le parcours client et commerçant.',
+                tool: 'ChatGPT, Claude ou Gemini',
+                successMetric: 'Chaque opportunité retenue s\'appuie sur au moins un signal produit mesurable.',
+                prompt: `Agis comme un Product Manager spécialisé en discovery orientée données.
+Voici des signaux bruts remontés sur ZeroGaspillage :
+- 22 % des tickets support concernent des paniers dont le contenu ne correspondait pas à la description
+- les commerçants mettent en moyenne 6 minutes à fixer le prix d'un panier surprise, avec de fortes variations de marge
+- 15 % des clients abandonnent leur panier après avoir lu les avis d'un commerçant
+- le taux d'invendus non vendus dans les paniers surprise a augmenté de 8 % sur les 3 derniers mois
+- les commerçants Pro demandent un moyen de comprendre pourquoi certains créneaux ne se vendent jamais
+
+Pour chacun de ces signaux, indique :
+1. s'il révèle une opportunité IA ou un simple problème produit/process classique
+2. la friction précise vécue par l'utilisateur
+3. une hypothèse de solution IA (si pertinente) et son alternative non-IA
+Termine par un classement des 3 signaux les plus prometteurs pour une opportunité IA, avec justification.`
+            },
+            {
+                id: 'module-4',
+                icon: '🎯',
+                title: 'Évaluer la valeur et la faisabilité d\'une opportunité IA',
+                summary: 'Passer d\'un signal à une opportunité argumentée grâce à une grille valeur / faisabilité / risque adaptée à l\'IA.',
+                objective: 'Prioriser objectivement les opportunités IA candidates avant de les cadrer.',
+                deliverable: 'Matrice de scoring valeur / faisabilité data / risque pour 6 opportunités IA.',
+                tool: 'ChatGPT, Claude, Copilot M365 Excel',
+                successMetric: 'Les 2 opportunités retenues ont le meilleur ratio valeur/risque de la matrice.',
+                prompt: `Agis comme un Product Owner senior qui arbitre un portefeuille d'opportunités IA.
+Voici 6 opportunités IA identifiées pour ZeroGaspillage :
+1. Prédiction du volume d'invendus par commerçant et par jour
+2. Recommandation personnalisée de paniers aux clients
+3. Détection automatique de photos de paniers non conformes
+4. Résumé automatique des avis clients par commerçant
+5. Suggestion automatique de prix pour les paniers surprise
+6. Chatbot de support client de premier niveau
+
+Construis une matrice de scoring sur 4 critères : valeur business attendue, faisabilité au regard de la qualité/disponibilité des données, risque (biais, sécurité, dépendance externe), effort de mise en œuvre estimé.
+Note chaque opportunité de 1 à 5 sur chaque critère, justifie brièvement chaque note, puis calcule un score global.
+Termine par une recommandation des 2 opportunités à cadrer en priorité et explique pourquoi les autres doivent attendre.`
+            },
+            {
+                id: 'module-5',
+                icon: '🔗',
+                title: 'Comprendre le workflow IA de bout en bout',
+                summary: 'Visualiser le pipeline données → modèle → intégration → UX pour dialoguer avec data/tech sans coder et anticiper les dépendances planning.',
+                objective: 'Identifier les étapes et dépendances d\'un projet IA avant de l\'intégrer dans un planning produit.',
+                deliverable: 'Schéma de workflow IA et liste des dépendances à intégrer dans la roadmap.',
+                tool: 'ChatGPT ou Claude avec un outil de diagramme (FigJam, Miro, draw.io)',
+                successMetric: 'Le PO peut situer une tâche technique donnée dans son étape du pipeline IA.',
+                prompt: `Agis comme un tech lead IA qui explique un pipeline à un Product Owner non technique.
+Cas d'usage retenu : prédire le volume d'invendus par commerçant et par jour sur ZeroGaspillage, pour l'aider à ajuster sa production.
+Décris le workflow IA de bout en bout en 5 étapes claires :
+1. Sources et préparation des données (historique des ventes, météo, jours fériés, événements locaux)
+2. Choix et entraînement du modèle (ce que ça implique côté équipe data, sans détail mathématique)
+3. Intégration technique (API, fréquence de rafraîchissement, latence acceptable)
+4. Expérience utilisateur associée (comment le commerçant voit et utilise la prédiction dans l'app)
+5. Boucle de feedback (comment on mesure si la prédiction était utile et comment on l'améliore)
+
+Pour chaque étape, indique le rôle du PO, le rôle de l'équipe technique, et un risque de délai ou de dépendance à anticiper dans le planning produit.`
+            },
+            {
+                id: 'module-6',
+                icon: '📐',
+                title: 'Cadrer une fonctionnalité IA : critères d\'acceptation adaptés',
+                summary: 'Adapter les critères d\'acceptation classiques aux spécificités de l\'IA : incertitude, cas limites, fallback, explicabilité.',
+                objective: 'Produire un cadrage complet qui anticipe les cas où le modèle se trompe ou hésite.',
+                deliverable: 'Fiche de cadrage IA avec critères d\'acceptation spécifiques.',
+                tool: 'ChatGPT, Claude, Copilot M365 Word',
+                successMetric: 'La fiche de cadrage couvre explicitement le comportement en cas de confiance faible.',
+                prompt: `Agis comme un Product Owner qui cadre une fonctionnalité IA pour son équipe de développement.
+Fonctionnalité à cadrer : suggestion automatique de prix pour les paniers surprise, en fonction de l'heure, du contenu du panier et du taux d'invendus habituel du commerçant.
+Produis une fiche de cadrage complète avec :
+- le contexte et la valeur attendue pour le commerçant
+- les critères d'acceptation fonctionnels classiques (comportement attendu, écrans concernés)
+- des critères d'acceptation spécifiques à l'IA : seuil de confiance minimal accepté, comportement de l'application si la confiance est faible, message affiché au commerçant dans ce cas, possibilité de correction manuelle
+- les cas limites à tester (aucune donnée historique, commerçant nouveau, forte variation saisonnière)
+- le niveau d'explicabilité attendu : le commerçant doit-il comprendre pourquoi ce prix est suggéré, et comment le lui présenter simplement ?
+Restitue le résultat sous forme de fiche structurée prête à partager avec l'équipe technique.`
+            },
+            {
+                id: 'module-7',
+                icon: '✍️',
+                title: 'Rédiger une user story IA complète',
+                summary: 'Reformuler un besoin métier flou en user story IA complète, avec des critères d\'acceptation prêts pour le backlog.',
+                objective: 'Transformer une demande imprécise en user story actionnable par l\'équipe de développement.',
+                deliverable: 'User story IA complète (format standard + critères d\'acceptation) prête pour le backlog.',
+                tool: 'ChatGPT, Claude, Copilot M365 Word',
+                successMetric: 'La user story est directement priorisable sans aller-retour de clarification.',
+                prompt: `Agis comme un Product Owner expert en rédaction de user stories.
+Besoin métier flou remonté par la direction : « On voudrait que l'application aide les commerçants à ne plus avoir d'invendus, en s'appuyant sur l'IA. »
+
+Transforme ce besoin en une user story IA complète comprenant :
+1. Le format standard : « En tant que [rôle], je veux [besoin], afin de [bénéfice] »
+2. Le contexte produit résumé en 2-3 phrases (pourquoi ce besoin compte pour ZeroGaspillage)
+3. Des critères d'acceptation au format Gherkin (Étant donné / Quand / Alors), incluant au moins :
+   - un scénario nominal
+   - un scénario avec confiance du modèle faible ou donnée insuffisante
+   - un scénario de correction manuelle par le commerçant
+4. Les métriques de succès à suivre après mise en production
+5. Les hors périmètre explicites (ce que cette story ne couvre pas)
+
+Restitue le tout dans un format directement copiable dans un outil de backlog (Jira, Azure DevOps, Linear).`
+            },
+            {
+                id: 'module-8',
+                icon: '📊',
+                title: 'Prioriser un backlog avec des opportunités IA',
+                summary: 'Arbitrer entre initiatives IA et fonctionnalités classiques dans un backlog contraint, sans survaloriser l\'IA par effet de mode.',
+                objective: 'Prioriser un backlog mixte de façon défendable devant les parties prenantes.',
+                deliverable: 'Backlog priorisé (RICE adapté IA) avec justification des arbitrages.',
+                tool: 'Copilot M365 Excel, ChatGPT ou Claude',
+                successMetric: 'Le classement final est défendable point par point devant le COMEX produit.',
+                prompt: `Agis comme un Head of Product qui arbitre un backlog trimestriel.
+Voici 8 items de backlog pour ZeroGaspillage, mélangeant fonctionnalités classiques et initiatives IA :
+1. Prédiction du volume d'invendus par commerçant
+2. Refonte du parcours de paiement
+3. Recommandation personnalisée de paniers aux clients
+4. Ajout d'un mode sombre à l'application
+5. Détection automatique de photos non conformes
+6. Programme de fidélité pour les clients réguliers
+7. Résumé automatique des avis clients par commerçant
+8. Export comptable pour les commerçants Pro
+
+Priorise ce backlog avec un RICE adapté (Reach, Impact, Confidence, Effort), en ajoutant explicitement un facteur de risque data/modèle pour les items IA (qualité des données disponibles, dépendance à un modèle externe, risque de biais).
+Présente le résultat sous forme de tableau trié par score, puis explique en 5 lignes pourquoi une initiative IA bien notée peut malgré tout être repoussée si le risque data est trop élevé.`
+            },
+            {
+                id: 'module-9',
+                icon: '🛡️',
+                title: 'Piloter la gouvernance et l\'éthique IA du produit',
+                summary: 'Mettre en place les garde-fous produit (transparence, revue humaine, biais, RGPD) avant qu\'une fonctionnalité IA parte en production.',
+                objective: 'Garantir qu\'aucune fonctionnalité IA ne soit livrée sans garde-fou de gouvernance.',
+                deliverable: 'Charte de gouvernance IA produit et processus de revue humaine.',
+                tool: 'Copilot M365 Word, ChatGPT ou Claude',
+                successMetric: 'Chaque fonctionnalité IA en production référence un point de contact et un processus de revue.',
+                prompt: `Agis comme un Head of Product responsable de la gouvernance IA.
+Contexte : ZeroGaspillage s'apprête à mettre en production ses deux premières fonctionnalités IA (prédiction d'invendus et recommandation de paniers).
+Rédige une charte de gouvernance IA produit incluant :
+- les principes de transparence envers les utilisateurs (comment signaler qu'un contenu ou une suggestion est généré par IA)
+- le processus de revue humaine avant et après mise en production (qui valide, à quelle fréquence)
+- le dispositif de détection et de traitement des biais (ex : un commerçant systématiquement sous-recommandé)
+- les règles de conservation et d'usage des données clients et commerçants
+- le circuit d'escalade si un utilisateur conteste une décision ou une suggestion de l'IA
+- les rôles et responsabilités : qui, au sein de l'équipe produit, est responsable de cette gouvernance au quotidien
+Termine par une checklist de mise en production en 6 points, à valider avant chaque lancement de fonctionnalité IA.`
+            },
+            {
+                id: 'module-10',
+                icon: '📈',
+                title: 'Mesurer, itérer et communiquer sur une fonctionnalité IA',
+                summary: 'Définir les bons KPIs, détecter la dérive du modèle et vulgariser les résultats pour des stakeholders non techniques.',
+                objective: 'Piloter une fonctionnalité IA après son lancement et savoir la présenter simplement.',
+                deliverable: 'Tableau de bord KPI IA, note de synthèse stakeholders et plan d\'itération.',
+                tool: 'Copilot M365 Excel, PowerPoint, ChatGPT ou Claude',
+                successMetric: 'Le comité de direction comprend en une slide si la fonctionnalité IA tient ses promesses.',
+                prompt: `Agis comme un Product Owner qui pilote une fonctionnalité IA en production depuis 2 mois.
+Fonctionnalité concernée : prédiction du volume d'invendus par commerçant, lancée sur ZeroGaspillage.
+Produis :
+1. Un tableau de bord KPI avec au minimum : taux d'adoption par les commerçants, taux de correction manuelle des prédictions, précision perçue (retours qualitatifs), impact business estimé (réduction du taux d'invendus)
+2. Un plan de détection de dérive : quels signaux surveiller pour savoir si le modèle devient moins pertinent avec le temps
+3. Un plan d'itération sur le prochain trimestre, avec 3 pistes d'amélioration priorisées
+4. Une note de synthèse d'une demi-page pour un comité de direction non technique, qui répond clairement à la question « est-ce que ça marche, et qu'est-ce qu'on fait ensuite ? »
+Restitue chaque livrable séparément et clairement identifié.`
+            }
+        ];
+
+        const quizData = [
+            {
+                id: 'quiz-1',
+                question: 'Quelle affirmation décrit le mieux un grand modèle de langage (LLM) pour un Product Owner ?',
+                options: ['Un système qui applique des règles métier écrites à la main', 'Un modèle qui prédit du texte plausible à partir de grandes quantités de données, sans garantie de vérité', 'Une base de données qui stocke des réponses toutes faites', 'Un outil qui remplace systématiquement le jugement produit'],
+                correctIndex: 1,
+                explanation: 'Un LLM génère la suite la plus plausible d\'un texte à partir de ce qu\'il a appris : c\'est puissant pour rédiger ou reformuler, mais cela n\'équivaut ni à une base de faits vérifiés ni à un jugement produit.'
+            },
+            {
+                id: 'quiz-2',
+                question: 'Quel signal indique le plus clairement une opportunité IA dans un backlog ?',
+                options: ['Une envie générale de « faire de l\'IA » sans donnée associée', 'Une tâche manuelle répétitive, à fort volume, avec des données disponibles', 'Une demande ponctuelle d\'un seul client mécontent', 'Une fonctionnalité déjà présente chez un concurrent'],
+                correctIndex: 1,
+                explanation: 'Une opportunité IA solide s\'appuie sur un volume et une répétitivité mesurables, avec des données exploitables — pas seulement sur une intuition ou un effet de mode.'
+            },
+            {
+                id: 'quiz-3',
+                question: 'Avant de cadrer une fonctionnalité IA, quel critère de faisabilité est le plus souvent sous-estimé ?',
+                options: ['Le nom à donner à la fonctionnalité', 'La qualité et la disponibilité réelle des données nécessaires', 'La couleur du bouton dans l\'interface', 'Le nombre de réunions nécessaires pour en parler'],
+                correctIndex: 1,
+                explanation: 'La majorité des projets IA échouent ou dérapent à cause de données absentes, incomplètes ou de mauvaise qualité — un point que le PO doit vérifier avant de s\'engager sur la valeur.'
+            },
+            {
+                id: 'quiz-4',
+                question: 'Que doivent obligatoirement prévoir les critères d\'acceptation d\'une user story IA ?',
+                options: ['Uniquement le scénario où tout se passe parfaitement', 'Le comportement attendu quand la confiance du modèle est faible ou la donnée insuffisante', 'Une clause interdisant toute correction manuelle', 'Un engagement de précision à 100 %'],
+                correctIndex: 1,
+                explanation: 'Une fonctionnalité IA doit toujours définir ce qui se passe dans les cas limites : confiance faible, donnée manquante, ou nécessité d\'une correction humaine.'
+            },
+            {
+                id: 'quiz-5',
+                question: 'Quelle est la meilleure pratique pour limiter les biais dans une fonctionnalité IA produit ?',
+                options: ['Ignorer la question tant qu\'aucun client ne se plaint', 'Surveiller les résultats par sous-groupe (ex : par commerçant, par quartier) et prévoir une revue humaine régulière', 'Faire confiance par défaut au fournisseur du modèle', 'Retirer toute possibilité de contestation utilisateur'],
+                correctIndex: 1,
+                explanation: 'Détecter un biais suppose de regarder les résultats par sous-groupe et d\'organiser une revue humaine périodique, plutôt que d\'attendre une réclamation ou de faire une confiance aveugle au fournisseur.'
+            },
+            {
+                id: 'quiz-6',
+                question: 'Face à une réponse IA très convaincante mais potentiellement fausse (hallucination), quelle est la responsabilité du PO ?',
+                options: ['La publier telle quelle car elle semble crédible', 'La vérifier avec des sources fiables avant toute décision ou communication', 'Laisser l\'équipe technique seule juge de la véracité', 'Ne jamais utiliser l\'IA pour éviter ce risque'],
+                correctIndex: 1,
+                explanation: 'Une réponse fluide n\'est pas une preuve de véracité. Le PO garde la responsabilité de vérifier les faits avant de les intégrer à une décision produit ou à une communication.'
+            },
+            {
+                id: 'quiz-7',
+                question: 'Quelle est la meilleure façon de transformer un besoin métier flou en user story IA exploitable ?',
+                options: ['La transmettre telle quelle à l\'équipe technique', 'La reformuler avec contexte, critères d\'acceptation incluant les cas limites, et métriques de succès', 'Attendre que le développeur devine l\'intention', 'Se limiter au titre de la fonctionnalité sans détail'],
+                correctIndex: 1,
+                explanation: 'Une user story IA exploitable ajoute au format standard un contexte clair, des critères d\'acceptation couvrant les cas limites et des métriques de succès mesurables après lancement.'
+            },
+            {
+                id: 'quiz-8',
+                question: 'Quelle mesure est la plus pertinente pour piloter une fonctionnalité IA après son lancement ?',
+                options: ['Le seul fait que le code ait été déployé en production', 'Un ensemble de KPIs combinant adoption, taux de correction manuelle et impact business', 'Le nombre de lignes de code du modèle', 'L\'avis d\'une seule personne de l\'équipe'],
+                correctIndex: 1,
+                explanation: 'Piloter une fonctionnalité IA suppose de croiser plusieurs signaux : adoption réelle, fréquence des corrections manuelles (signe de confiance ou non) et impact business mesurable.'
+            }
+        ];
+
+        const state = loadState();
+        let sectionObserver = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNavigation();
+            renderModules();
+            updateQuizVisibility();
+            observeSections();
+            updateProgressUI();
+        });
+
+        function loadState() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) {
+                    return { completedModules: [], quizAnswers: {}, quizVersion: QUIZ_VERSION };
+                }
+
+                const parsed = JSON.parse(raw);
+                return {
+                    completedModules: Array.isArray(parsed.completedModules) ? parsed.completedModules : [],
+                    quizAnswers: parsed.quizVersion === QUIZ_VERSION && parsed.quizAnswers && typeof parsed.quizAnswers === 'object' ? parsed.quizAnswers : {},
+                    quizVersion: QUIZ_VERSION
+                };
+            } catch {
+                return { completedModules: [], quizAnswers: {}, quizVersion: QUIZ_VERSION };
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                completedModules: state.completedModules,
+                quizAnswers: state.quizAnswers,
+                quizVersion: QUIZ_VERSION
+            }));
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function renderNavigation() {
+            const nav = document.getElementById('module-nav');
+            nav.innerHTML = modulesData.map((module, index) => {
+                const isCompleted = state.completedModules.includes(module.id);
+                return `
+                    <a
+                        href="#${module.id}"
+                        data-module-link="${module.id}"
+                        class="block rounded-2xl border border-transparent px-4 py-3 text-sm font-semibold text-slate-600 transition-all hover:border-biz-100 hover:bg-biz-50 hover:text-biz-700"
+                    >
+                        <div class="flex items-start gap-3">
+                            <span>${module.icon}</span>
+                            <div class="min-w-0 flex-1">
+                                <span class="block">Module ${index + 1}</span>
+                                <span class="mt-1 block text-xs font-medium text-slate-500">${escapeHtml(module.title)}</span>
+                            </div>
+                            ${isCompleted ? '<span class="text-emerald-600"><i class="fa-solid fa-check-circle"></i></span>' : ''}
+                        </div>
+                    </a>
+                `;
+            }).join('');
+
+            const firstLink = nav.querySelector('[data-module-link="module-1"]');
+            if (firstLink) {
+                firstLink.classList.add('nav-link-active');
+            }
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = quizData.map((quiz, index) => {
+                const selectedIndex = state.quizAnswers[quiz.id];
+                const isAnswered = selectedIndex !== undefined;
+                const isCorrectAnswer = selectedIndex === quiz.correctIndex;
+
+                const optionsHtml = quiz.options.map((option, optionIndex) => {
+                    let optionClass = 'border-stone-200 bg-white hover:border-biz-200 hover:bg-biz-50';
+
+                    if (isAnswered) {
+                        if (optionIndex === quiz.correctIndex) {
+                            optionClass = 'border-emerald-300 bg-emerald-50 text-emerald-900';
+                        } else if (optionIndex === selectedIndex) {
+                            optionClass = 'border-red-300 bg-red-50 text-red-900';
+                        }
+                    }
+
+                    return `
+                        <button
+                            type="button"
+                            onclick="answerQuiz('${quiz.id}', ${optionIndex})"
+                            class="w-full rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition-colors ${optionClass}"
+                        >
+                            ${escapeHtml(option)}
+                        </button>
+                    `;
+                }).join('');
+
+                return `
+                    <article class="flex-none snap-start w-[86vw] sm:w-[34rem] xl:w-[38rem] rounded-[1.75rem] border border-stone-200 bg-stone-50 p-5 shadow-sm">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-[0.2em] text-zg-700">Question ${index + 1}</p>
+                                <h3 class="mt-3 text-lg font-extrabold text-slate-950">${escapeHtml(quiz.question)}</h3>
+                            </div>
+                            <span class="inline-flex items-center rounded-full border border-stone-200 bg-white px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Quiz IA</span>
+                        </div>
+                        <div class="mt-5 grid gap-3">${optionsHtml}</div>
+                        ${isAnswered ? `
+                            <div class="mt-5 rounded-3xl border ${isCorrectAnswer ? 'border-emerald-200 bg-emerald-50' : 'border-amber-200 bg-amber-50'} p-4">
+                                <p class="text-sm font-bold ${isCorrectAnswer ? 'text-emerald-900' : 'text-amber-900'}">${isCorrectAnswer ? 'Bonne réponse' : 'Réponse à revoir'}</p>
+                                <p class="mt-2 text-sm leading-relaxed ${isCorrectAnswer ? 'text-emerald-900/90' : 'text-amber-900/90'}">${escapeHtml(quiz.explanation)}</p>
+                            </div>
+                        ` : ''}
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function renderModules() {
+            const container = document.getElementById('modules-container');
+            container.innerHTML = modulesData.map((module, index) => {
+                const isCompleted = state.completedModules.includes(module.id);
+                const completionClass = isCompleted
+                    ? 'bg-biz-600 border-biz-600 text-white'
+                    : 'bg-white border-biz-200 text-biz-700 hover:bg-biz-50';
+
+                return `
+                    <section id="${module.id}" class="scroll-mt-6 overflow-hidden rounded-[2rem] border ${isCompleted ? 'border-biz-200' : 'border-stone-200'} bg-white shadow-sm">
+                        <div class="border-b border-stone-100 bg-gradient-to-r from-white via-white to-biz-50/60 p-6 md:p-8">
+                            <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+                                <div class="max-w-3xl">
+                                    <p class="text-xs font-bold uppercase tracking-[0.24em] text-biz-700">Module ${index + 1}</p>
+                                    <h2 class="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-slate-950">${module.icon} ${escapeHtml(module.title)}</h2>
+                                    <p class="mt-4 text-base md:text-lg leading-relaxed text-slate-600">${escapeHtml(module.summary)}</p>
+                                </div>
+                                <div class="flex flex-col items-start xl:items-end gap-3">
+                                    <span class="inline-flex items-center rounded-full border border-biz-100 bg-white px-4 py-2 text-sm font-semibold text-biz-700 shadow-sm">${escapeHtml(module.tool)}</span>
+                                    <button onclick="toggleModuleCompletion('${module.id}')" class="inline-flex items-center justify-center gap-2 rounded-full border px-4 py-2 text-sm font-bold transition-colors ${completionClass}">
+                                        <i class="fa-solid ${isCompleted ? 'fa-circle-check' : 'fa-list-check'}"></i>
+                                        ${isCompleted ? 'Module validé' : 'Marquer comme traité'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid gap-6 p-6 md:p-8 xl:grid-cols-[1.05fr_0.95fr]">
+                            <div class="grid gap-4 md:grid-cols-3 xl:grid-cols-1">
+                                <div class="rounded-3xl border border-stone-200 bg-stone-50 p-5">
+                                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Objectif</p>
+                                    <p class="mt-3 text-sm leading-relaxed text-slate-700">${escapeHtml(module.objective)}</p>
+                                </div>
+                                <div class="rounded-3xl border border-stone-200 bg-stone-50 p-5">
+                                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Livrable</p>
+                                    <p class="mt-3 text-sm leading-relaxed text-slate-700">${escapeHtml(module.deliverable)}</p>
+                                </div>
+                                <div class="rounded-3xl border border-stone-200 bg-stone-50 p-5">
+                                    <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Signal de succès</p>
+                                    <p class="mt-3 text-sm leading-relaxed text-slate-700">${escapeHtml(module.successMetric)}</p>
+                                </div>
+                            </div>
+
+                            <div class="rounded-[1.75rem] border border-slate-800 bg-slate-950 p-5 text-slate-100 shadow-inner shadow-slate-950/40">
+                                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                    <div>
+                                        <p class="text-xs font-bold uppercase tracking-[0.24em] text-biz-300">Prompt de départ</p>
+                                        <p class="mt-1 text-sm text-slate-400">À adapter selon le contexte du produit ou du sprint.</p>
+                                    </div>
+                                    <button onclick="copyPrompt('${module.id}')" class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-900 transition-transform hover:-translate-y-0.5">
+                                        <i class="fa-solid fa-copy"></i> Copier
+                                    </button>
+                                </div>
+                                <pre class="mt-5 whitespace-pre-wrap break-words rounded-3xl border border-slate-800 bg-slate-900 p-5 text-sm leading-relaxed text-slate-100 font-mono">${escapeHtml(module.prompt)}</pre>
+                            </div>
+                        </div>
+                    </section>
+                `;
+            }).join('');
+        }
+
+        function updateProgressUI() {
+            const completedModules = state.completedModules.length;
+            const answeredQuestions = Object.keys(state.quizAnswers).length;
+            const correctAnswers = quizData.filter((quiz) => state.quizAnswers[quiz.id] === quiz.correctIndex).length;
+            const quizUnlocked = completedModules >= QUIZ_UNLOCK_THRESHOLD;
+
+            // Avancement global basé UNIQUEMENT sur les modules (le quiz est un bonus)
+            const totalSteps = modulesData.length;
+            const overallPct = Math.round((completedModules / totalSteps) * 100);
+            const quizPct = answeredQuestions > 0 ? Math.round((correctAnswers / quizData.length) * 100) : 0;
+
+            document.getElementById('overall-progress-label').textContent = `${overallPct}%`;
+            document.getElementById('overall-progress-bar').style.width = `${overallPct}%`;
+            document.getElementById('overall-progress-text').textContent = `${completedModules} / ${totalSteps} modules complétés`;
+
+            document.getElementById('quiz-score-panel').textContent = quizUnlocked ? `${correctAnswers} / ${quizData.length}` : '🔒';
+            document.getElementById('quiz-score-bar').style.width = `${quizPct}%`;
+            document.getElementById('quiz-score-detail').textContent = quizUnlocked
+                ? (answeredQuestions === quizData.length ? `Quiz terminé. Score final : ${correctAnswers} / ${quizData.length}.` : `Répondez aux ${quizData.length} questions pour mesurer votre maîtrise.`)
+                : `Complétez les ${QUIZ_UNLOCK_THRESHOLD} modules pour accéder au quiz de validation.`;
+        }
+
+        function observeSections() {
+            const links = [...document.querySelectorAll('[data-module-link]')];
+            const sections = modulesData
+                .map((module) => document.getElementById(module.id))
+                .filter(Boolean);
+
+            if (sectionObserver) {
+                sectionObserver.disconnect();
+            }
+
+            sectionObserver = new IntersectionObserver((entries) => {
+                const visibleEntry = entries.find((entry) => entry.isIntersecting);
+                if (!visibleEntry) {
+                    return;
+                }
+
+                links.forEach((link) => {
+                    const isActive = link.dataset.moduleLink === visibleEntry.target.id;
+                    link.classList.toggle('nav-link-active', isActive);
+                });
+            }, {
+                rootMargin: '-30% 0px -55% 0px',
+                threshold: 0.1
+            });
+
+            sections.forEach((section) => sectionObserver.observe(section));
+        }
+
+        function updateQuizVisibility() {
+            const allModulesCompleted = state.completedModules.length >= QUIZ_UNLOCK_THRESHOLD;
+            const quizSection = document.getElementById('quiz-section');
+            const quizLockedMessage = document.getElementById('quiz-locked-message');
+            const quizUnlockProgress = document.getElementById('quiz-unlock-progress');
+
+            if (quizUnlockProgress) {
+                quizUnlockProgress.textContent = `${Math.min(state.completedModules.length, QUIZ_UNLOCK_THRESHOLD)} / ${QUIZ_UNLOCK_THRESHOLD} modules requis pour le quiz`;
+            }
+
+            if (allModulesCompleted) {
+                if (quizSection) quizSection.classList.remove('hidden');
+                if (quizLockedMessage) quizLockedMessage.classList.add('hidden');
+                renderQuiz();
+            } else {
+                if (quizSection) quizSection.classList.add('hidden');
+                if (quizLockedMessage) quizLockedMessage.classList.remove('hidden');
+            }
+        }
+
+        function toggleModuleCompletion(moduleId) {
+            const index = state.completedModules.indexOf(moduleId);
+            if (index >= 0) {
+                state.completedModules.splice(index, 1);
+            } else {
+                state.completedModules.push(moduleId);
+            }
+
+            saveState();
+            renderNavigation();
+            renderModules();
+            observeSections();
+            updateQuizVisibility();
+            updateProgressUI();
+        }
+
+        function answerQuiz(quizId, optionIndex) {
+            state.quizAnswers[quizId] = optionIndex;
+            saveState();
+            renderQuiz();
+            updateProgressUI();
+        }
+
+        function resetProgress() {
+            const confirmed = window.confirm('Réinitialiser la progression des modules et du quiz ?');
+            if (!confirmed) {
+                return;
+            }
+
+            state.completedModules = [];
+            state.quizAnswers = {};
+            saveState();
+            renderNavigation();
+            renderModules();
+            observeSections();
+            updateQuizVisibility();
+            updateProgressUI();
+            showToast('Progression réinitialisée.');
+        }
+
+        function copyPrompt(moduleId) {
+            const module = modulesData.find((item) => item.id === moduleId);
+            if (!module) {
+                return;
+            }
+
+            copyText(module.prompt, 'Prompt copié.');
+        }
+
+        function copyText(text, successMessage) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard
+                    .writeText(text)
+                    .then(() => showToast(successMessage))
+                    .catch(() => fallbackCopyText(text, successMessage));
+                return;
+            }
+
+            fallbackCopyText(text, successMessage);
+        }
+
+        function fallbackCopyText(text, successMessage) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            showToast(successMessage);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+
+            window.clearTimeout(showToast.timeoutId);
+            showToast.timeoutId = window.setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 1800);
+        }
+    </script>
+</body>
+</html>
