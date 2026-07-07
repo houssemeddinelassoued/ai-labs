@@ -15,11 +15,11 @@ Site statique de formation « Boostez vos performances avec l'IA » : un cahier 
 | `zerogaspillage.html` | Projet 2 — ZeroGaspillage (anti-gaspillage alimentaire, stack de référence FastAPI/React) : 15 modules / 42 labs, SDLC complet | `zg` (ambre) + `biz` + `mix` (teal) |
 | `gestionnaires-projet-ia.html` | Parcours PM : 10 modules + quiz 8 QCM (contexte fictif « GreenPulse Solutions »), complémentaire d'EcoTrack | `pm` (orange) + `ops` (cyan) |
 | `product-owner-ia.html` | Parcours Product Owner : 10 modules + quiz 8 QCM (comprendre l'IA, opportunités, cadrage, user stories IA, gouvernance), complémentaire de ZeroGaspillage | `biz` (indigo) + `zg` (ambre) |
-| `oddo-bhf.html` | Parcours WealthLens — Oddo BHF Tunisie (portail banque privée : KYC/LCB-FT, valorisation & reporting patrimonial, dashboard) : 12 modules / 24 labs, stack .NET avancée / SDLC agentique | `odc` (bleu marine) + `gold` (or) |
+| `oddo-bhf.html` | Parcours NextPortfolio — Oddo BHF Tunisie (portail banque privée : KYC/LCB-FT, valorisation & reporting patrimonial, dashboard) : 12 modules / 27 labs, stack .NET avancée / SDLC agentique (outil principal : GitHub Copilot) | `odc` (bleu marine) + `gold` (or) |
 | `quiz-security.html` | Évaluation sécurité IA : 28 scénarios (QCM + réponses libres) | `risk-*` (rouge/orange/violet/bleu/vert) |
 | `ia-explained.html` | « Aller plus loin » : deck de 12 slides interactives (fondamentaux 1-4, usages avancés 5-8, IA en pratique 9-11) | bleu/violet |
 
-Navigation : `index.html` est le seul hub ; chaque page a un lien retour vers lui. Le bouton « Terminer » d'`ia-explained.html` redirige vers `index.html`. Règle visuelle : **une couleur par parcours sur tout le site** (vert = EcoTrack, ambre = ZeroGaspillage, orange = PM, indigo/ambre = Product Owner, bleu marine/or = WealthLens/Oddo BHF, rouge = sécurité, bleu/violet = démos IA).
+Navigation : `index.html` est le seul hub ; chaque page a un lien retour vers lui. Le bouton « Terminer » d'`ia-explained.html` redirige vers `index.html`. Règle visuelle : **une couleur par parcours sur tout le site** (vert = EcoTrack, ambre = ZeroGaspillage, orange = PM, indigo/ambre = Product Owner, bleu marine/or = NextPortfolio/Oddo BHF, rouge = sécurité, bleu/violet = démos IA).
 
 ## Patterns à respecter impérativement
 
@@ -40,7 +40,7 @@ Navigation : `index.html` est le seul hub ; chaque page a un lien retour vers lu
 | `zeroGaspiPoProgress_v1` | product-owner-ia.html | objet : modules complétés + réponses quiz (`QUIZ_VERSION`) |
 | `oddoBhfProgress_v1` | oddo-bhf.html | tableau des ids de labs complétés (préfixe `wl`, ex. `"wl1_1"`) |
 
-- **Verrou sécurité** : géré **uniquement dans le hub** (`index.html`) — pas de bouton dupliqué sur `ecotrack.html`/`zerogaspillage.html`. Le hub lit les clés de progression et déverrouille la carte Sécurité si L'UN des deux projets principaux atteint 50 %, via la constante `TOTALS = { ecotrack: 20, zerogaspillage: 42, pm: 10, po: 10, wealthlens: 24 }` — **à synchroniser si on ajoute/retire des labs ou modules**. Seuls `ecotrack` et `zerogaspillage` comptent pour le déverrouillage sécurité ; `pm`, `po` et `wealthlens` (Oddo BHF) alimentent uniquement leur propre barre de progression sur le hub. Le verrou est incitatif : `quiz-security.html` reste accessible par URL directe (assumé).
+- **Verrou sécurité** : géré **uniquement dans le hub** (`index.html`) — pas de bouton dupliqué sur `ecotrack.html`/`zerogaspillage.html`. Le hub lit les clés de progression et déverrouille la carte Sécurité si L'UN des deux projets principaux atteint 50 %, via la constante `TOTALS = { ecotrack: 20, zerogaspillage: 42, pm: 10, po: 10, wealthlens: 27 }` — **à synchroniser si on ajoute/retire des labs ou modules**. Seuls `ecotrack` et `zerogaspillage` comptent pour le déverrouillage sécurité ; `pm`, `po` et `wealthlens` (Oddo BHF) alimentent uniquement leur propre barre de progression sur le hub. Le verrou est incitatif : `quiz-security.html` reste accessible par URL directe (assumé).
 
 ## Conventions de contenu
 
