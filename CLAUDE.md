@@ -50,6 +50,7 @@ Navigation : `index.html` est le seul hub ; chaque page a un lien retour vers lu
 - Servir localement : `python -m http.server 8000` (équivalent GitHub Pages) ; tester aussi en `file://` (double-clic) car les apprenants ouvrent souvent les fichiers directement.
 - Scénarios : navigation hub ↔ toutes les pages sans 404 ; cocher un lab → recharger → progression persistée ; donut Chart.js à jour ; déverrouillage sécurité à 50 % ; deck IA complet (compteur, dots, « Terminer » → hub) ; responsive mobile (sidebar off-canvas via `toggleSidebar()`).
 - Seeder la progression en console, ex. : `localStorage.setItem('ecoTrackProgress_v2', JSON.stringify(["lab1_1","lab2_1","lab2_2","lab2_3","lab3_1","lab3_2","lab3_3","lab4_1","lab5_1","lab5_2"]))` (10/20 = 50 %).
+- **CI/CD** : `.github/workflows/ci-cd.yml` valide (`node .github/scripts/validate-site.js` — syntaxe JS inline + liens internes) avant tout déploiement GitHub Pages. Lancer ce script avant de pousser ; un lien cassé ou un script invalide bloque le déploiement.
 
 ## Pièges connus
 

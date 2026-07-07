@@ -164,6 +164,9 @@ Ce projet est hébergé sur GitHub Pages :
 ├── ia-explained.html             # 🧠 Démos interactives « Au Cœur de l'IA »
 ├── README.md                     # Cette documentation
 ├── CLAUDE.md                     # Guide technique (architecture, conventions)
+├── .github/
+│   ├── workflows/ci-cd.yml       # Workflow CI/CD (validation + déploiement Pages)
+│   └── scripts/validate-site.js  # Script de validation (syntaxe JS, liens internes)
 └── .gitignore
 ```
 
@@ -179,6 +182,22 @@ Ce projet est hébergé sur GitHub Pages :
 | `ecoTrackProgress_v2` | Labs EcoTrack |
 | `zeroGaspiProgress_v1` | Labs ZeroGaspillage |
 | `ecoTrackPmProgress_v2` | Modules + quiz du parcours PM |
+
+## 🔄 CI/CD
+
+Le déploiement est automatisé via **GitHub Actions** (workflow [`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml)), déclenché à chaque `push` sur `main` (et exécuté aussi, sans déploiement, sur les Pull Requests) :
+
+1. **`validate` (CI)** — installe Node.js et exécute [`.github/scripts/validate-site.js`](.github/scripts/validate-site.js), qui :
+   - vérifie la **syntaxe** de tous les `<script>` inline de chaque page HTML de la racine (aucune page n'a de build, donc c'est la seule vérification statique possible) ;
+   - vérifie que tous les **liens internes** (`href="*.html"` et redirections `location.href`) pointent vers un fichier existant du dépôt, pour détecter les liens brisés avant qu'un apprenant ne les rencontre.
+2. **`deploy` (CD)** — ne se déclenche **que si `validate` réussit** et uniquement sur `main` (jamais sur une Pull Request) : empaquette le contenu du dépôt et le publie sur **GitHub Pages** via les actions officielles (`configure-pages`, `upload-pages-artifact`, `deploy-pages`).
+
+Concrètement : une page cassée (script invalide ou lien mort) **bloque le déploiement** au lieu de partir en production silencieusement — avant ce workflow, GitHub Pages republiait automatiquement chaque push sans aucune vérification. Le site reste sans étape de build : le workflow ne fait que valider et publier tel quel.
+
+Pour lancer la validation en local avant de pousser :
+```bash
+node .github/scripts/validate-site.js
+```
 
 ## 🚀 Getting Started
 
