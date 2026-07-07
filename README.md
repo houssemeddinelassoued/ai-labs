@@ -8,7 +8,7 @@ Ce cursus intensif unifie les équipes techniques et métiers autour de **cas d'
 
 La formation s'articule autour de **deux projets fil conducteur complémentaires** :
 
-| | 🌱 **EcoTrack** | 🥕 **ZeroGaspillage** |
+| | 🌱 **EcoTrack** | 🥐 **ZeroGaspillage** |
 |---|---|---|
 | **Produit fictif** | SaaS B2B de mesure de l'empreinte carbone IT (CSRD, Green IT) | Marketplace anti-gaspillage alimentaire (« Paniers Surprise » d'invendus) |
 | **Écosystème** | Microsoft : C# 12, .NET 8, EF Core, SQL Server, SSRS/OLAP | Open-source : Python 3.12, FastAPI, PostgreSQL, React 18 + TypeScript |
@@ -23,7 +23,7 @@ La formation s'articule autour de **deux projets fil conducteur complémentaires
 |---|---|
 | [`index.html`](index.html) | 🏠 **Page d'accueil** : introduit le parcours et donne accès à tout (progression par parcours, verrou sécurité) |
 | [`ecotrack.html`](ecotrack.html) | 🌱 **Projet 1 — EcoTrack** : 10 modules / 20 labs (Tech & Biz, écosystème Microsoft) |
-| [`zerogaspillage.html`](zerogaspillage.html) | 🥕 **Projet 2 — ZeroGaspillage** : 15 modules / 42 labs (SDLC complet, stack de référence libre) |
+| [`zerogaspillage.html`](zerogaspillage.html) | 🥐 **Projet 2 — ZeroGaspillage** : 15 modules / 42 labs (SDLC complet, stack de référence libre) |
 | [`gestionnaires-projet-ia.html`](gestionnaires-projet-ia.html) | 🗂️ **Parcours PM** : 10 modules de pilotage + quiz 8 questions (bonnes pratiques IA) |
 | [`quiz-security.html`](quiz-security.html) | 🛡️ **Évaluation Sécurité IA** : 28 scénarios d'entreprise (QCM + analyse critique) |
 | [`ia-explained.html`](ia-explained.html) | 🧠 **Aller plus loin** : 12 démos interactives sur le fonctionnement et les usages de l'IA |
@@ -97,7 +97,7 @@ Même liberté pour la **stack technique** : FastAPI/React (ZeroGaspillage) et .
 9. 📊 **BI, Data & Reporting** (Biz) — SSRS, DAX/MDX, storytelling
 10. ⚫ **Documentation** (Tech) — le README de référence
 
-## 🥕 Projet 2 : ZeroGaspillage (15 modules — le SDLC complet)
+## 🥐 Projet 2 : ZeroGaspillage (15 modules — le SDLC complet)
 
 **ZeroGaspillage** est une marketplace où les commerces de proximité vendent leurs invendus du jour en « Paniers Surprise » à -50/-70 %. Modèle éco : commission 1,50 €/panier + abonnement « Commerçant Pro » (analytics prédictifs). Ce parcours démarre **avant le code** (idéation) et se termine **après** (growth, itération) :
 
@@ -150,7 +150,7 @@ Même liberté pour la **stack technique** : FastAPI/React (ZeroGaspillage) et .
 ## 🌐 Déploiement GitHub Pages
 
 Ce projet est hébergé sur GitHub Pages :
-🔗 **https://houssemeddinelassoued.github.io/ai-echotrack-labs-2026-tech-business/**
+🔗 **https://houssemeddinelassoued.github.io/ai-labs/**
 
 ### 📁 Structure du Projet
 
@@ -158,7 +158,7 @@ Ce projet est hébergé sur GitHub Pages :
 .
 ├── index.html                    # 🏠 Page d'accueil (hub de la formation)
 ├── ecotrack.html                 # 🌱 Projet 1 — EcoTrack (10 modules)
-├── zerogaspillage.html           # 🥕 Projet 2 — ZeroGaspillage (15 modules)
+├── zerogaspillage.html           # 🥐 Projet 2 — ZeroGaspillage (15 modules)
 ├── gestionnaires-projet-ia.html  # 🗂️ Parcours Gestionnaires de Projet
 ├── quiz-security.html            # 🛡️ Évaluation Sécurité IA (28 scénarios)
 ├── ia-explained.html             # 🧠 Démos interactives « Au Cœur de l'IA »
@@ -203,8 +203,8 @@ node .github/scripts/validate-site.js
 
 ### Cloner le repository
 ```bash
-git clone https://github.com/houssemeddinelassoued/ai-echotrack-labs-2026-tech-business.git
-cd ai-echotrack-labs-2026-tech-business
+git clone https://github.com/houssemeddinelassoued/ai-labs.git
+cd ai-labs
 ```
 
 ### Ouvrir localement

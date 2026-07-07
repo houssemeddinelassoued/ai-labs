@@ -4,7 +4,7 @@ Guide pour Claude Code sur ce dépôt. Contenu de formation **entièrement en fr
 
 ## Vue d'ensemble
 
-Site statique de formation « Boostez vos performances avec l'IA » : un cahier de TP autour de projets fil conducteur fictifs. **Aucun build, aucun framework, aucun package.json** — chaque page HTML est autonome (Tailwind CSS via CDN + JS vanilla embarqué en fin de page). Déployé sur GitHub Pages : https://houssemeddinelassoued.github.io/ai-echotrack-labs-2026-tech-business/
+Site statique de formation « Boostez vos performances avec l'IA » : un cahier de TP autour de projets fil conducteur fictifs. **Aucun build, aucun framework, aucun package.json** — chaque page HTML est autonome (Tailwind CSS via CDN + JS vanilla embarqué en fin de page). Déployé sur GitHub Pages : https://houssemeddinelassoued.github.io/ai-labs/
 
 ## Carte des pages
 
@@ -36,7 +36,7 @@ Navigation : `index.html` est le seul hub ; chaque page a un lien retour vers lu
 | `zeroGaspiProgress_v1` | zerogaspillage.html | tableau des ids de labs complétés (préfixe `zg_`) |
 | `ecoTrackPmProgress_v2` | gestionnaires-projet-ia.html | objet : modules complétés + réponses quiz (`QUIZ_VERSION`) |
 
-- **Verrou sécurité** : le quiz sécurité est « déverrouillé » à ≥ 50 % de labs complétés. Chaque page parcours ne connaît que sa propre progression ; le hub lit les deux clés et déverrouille si L'UN des deux parcours atteint 50 %, via la constante `TOTALS = { ecotrack: 20, zerogaspillage: 42 }` dans `index.html` — **à synchroniser si on ajoute/retire des labs** (seul couplage inter-pages). Le verrou est incitatif : `quiz-security.html` reste accessible par URL directe (assumé).
+- **Verrou sécurité** : géré **uniquement dans le hub** (`index.html`) — pas de bouton dupliqué sur `ecotrack.html`/`zerogaspillage.html`. Le hub lit les deux clés de progression et déverrouille la carte Sécurité si L'UN des deux parcours atteint 50 %, via la constante `TOTALS = { ecotrack: 20, zerogaspillage: 42 }` — **à synchroniser si on ajoute/retire des labs**. Le verrou est incitatif : `quiz-security.html` reste accessible par URL directe (assumé).
 
 ## Conventions de contenu
 
@@ -48,7 +48,7 @@ Navigation : `index.html` est le seul hub ; chaque page a un lien retour vers lu
 ## Vérification (pas de tests automatisés)
 
 - Servir localement : `python -m http.server 8000` (équivalent GitHub Pages) ; tester aussi en `file://` (double-clic) car les apprenants ouvrent souvent les fichiers directement.
-- Scénarios : navigation hub ↔ toutes les pages sans 404 ; cocher un lab → recharger → progression persistée ; donut Chart.js à jour ; déverrouillage sécurité à 50 % ; deck IA complet (compteur, dots, « Terminer » → hub) ; responsive mobile (sidebar off-canvas via `toggleSidebar()`).
+- Scénarios : navigation hub ↔ toutes les pages sans 404 ; cocher un lab → recharger → progression persistée ; donut Chart.js à jour ; déverrouillage sécurité à 50 % (sur le hub) ; deck IA complet (compteur, dots, « Terminer » → hub) ; responsive mobile (sidebar off-canvas via `toggleSidebar()`).
 - Seeder la progression en console, ex. : `localStorage.setItem('ecoTrackProgress_v2', JSON.stringify(["lab1_1","lab2_1","lab2_2","lab2_3","lab3_1","lab3_2","lab3_3","lab4_1","lab5_1","lab5_2"]))` (10/20 = 50 %).
 - **CI/CD** : `.github/workflows/ci-cd.yml` valide (`node .github/scripts/validate-site.js` — syntaxe JS inline + liens internes) avant tout déploiement GitHub Pages. Lancer ce script avant de pousser ; un lien cassé ou un script invalide bloque le déploiement.
 

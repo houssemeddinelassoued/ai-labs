@@ -137,17 +137,8 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <a href="ia-explained.html" class="flex-1 px-6 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-center transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-200 flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-lightbulb"></i> En Savoir Plus sur l'IA
-                        </a>
-                        <button onclick="goToFirstLab()" class="flex-1 px-6 py-4 rounded-xl bg-eco-600 hover:bg-eco-700 text-white font-bold text-center transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-200 flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-arrow-right"></i> Aller aux Labs
-                        </button>
-                    </div>
-
-                    <button id="security-platform-btn" onclick="goToSecurityPlatform()" disabled class="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-bold text-center transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mt-4">
-                        <i class="fa-solid fa-shield"></i> Plateforme d'Évaluation : Sécurité IA <span id="security-completion-status" class="text-xs ml-2 opacity-80"></span>
+                    <button onclick="goToFirstLab()" class="w-full px-6 py-4 rounded-xl bg-eco-600 hover:bg-eco-700 text-white font-bold text-center transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-200 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-arrow-right"></i> Aller aux Labs
                     </button>
                 </div>
 
@@ -440,7 +431,6 @@ Action : En appliquant strictement cette Skill, génère le fichier "docker-comp
             renderSidebar();
             initChart();
             updateProgressUI();
-            updateSecurityPlatformButton();
         });
 
         // --- Core Functions ---
@@ -495,34 +485,6 @@ Action : En appliquant strictement cette Skill, génère le fichier "docker-comp
         function goToFirstLab() {
             if(courseData.length > 0) {
                 loadModule(0);
-            }
-        }
-
-        function goToSecurityPlatform() {
-            window.location.href = 'quiz-security.html';
-        }
-
-        function getCompletionPercentage() {
-            let totalLabs = 0;
-            courseData.forEach(m => totalLabs += m.labs.length);
-            if (totalLabs === 0) return 0;
-            const completed = state.completedLabs.length;
-            return Math.round((completed / totalLabs) * 100);
-        }
-
-        function updateSecurityPlatformButton() {
-            const completionPct = getCompletionPercentage();
-            const securityBtn = document.getElementById('security-platform-btn');
-            const completionStatus = document.getElementById('security-completion-status');
-            
-            if (securityBtn) {
-                if (completionPct >= 50) {
-                    securityBtn.disabled = false;
-                    completionStatus.innerText = `(${completionPct}% - Déverrouillé)`;
-                } else {
-                    securityBtn.disabled = true;
-                    completionStatus.innerText = `(${completionPct}% - Minimum 50% requis)`;
-                }
             }
         }
 
@@ -727,7 +689,6 @@ Action : En appliquant strictement cette Skill, génère le fichier "docker-comp
                 chartInstance.update();
             }
             renderSidebar();
-            updateSecurityPlatformButton();
         }
     </script>
 </body>
