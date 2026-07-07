@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parcours WealthLens — Oddo BHF Tunisie · Cahier de TP IA (.NET avancé)</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        odc: {
+                            50: '#eef2f8',
+                            100: '#dbe3f0',
+                            200: '#b7c6e0',
+                            300: '#8ba3c9',
+                            400: '#5c7aa8',
+                            500: '#1e3a5f',
+                            600: '#182f4d',
+                            700: '#12243b',
+                            900: '#0a1626',
+                        },
+                        gold: {
+                            50: '#fbf8ef',
+                            100: '#f6efd6',
+                            200: '#ecdca8',
+                            300: '#ddc271',
+                            400: '#d4af37',
+                            500: '#bf982c',
+                            600: '#9d7c22',
+                            700: '#7c611b',
+                            900: '#493810',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 160px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 160px;
+            max-height: 160px;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f5f4; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(229, 231, 235, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800 font-sans h-screen flex overflow-hidden selection:bg-odc-100">
+
+    <aside class="w-full md:w-80 bg-white border-r border-stone-200 flex flex-col h-full flex-shrink-0 transition-transform duration-300 absolute md:relative z-20 transform -translate-x-full md:translate-x-0" id="sidebar">
+        <div class="p-6 border-b border-stone-200">
+            <a href="index.html" class="text-xs font-bold text-slate-500 hover:text-odc-700 transition-colors uppercase tracking-wider inline-flex items-center gap-1 mb-2">
+                <i class="fa-solid fa-arrow-left"></i> Accueil formation
+            </a>
+            <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                <span>🏦</span> WealthLens <span class="text-gold-600">IA</span>
+            </h1>
+            <p class="text-sm text-slate-500 mt-2">Banque Privée · Oddo BHF Tunisie · Nearshore .NET</p>
+
+            <button id="mobile-close" class="md:hidden absolute top-4 right-4 text-slate-500 text-2xl" onclick="toggleSidebar()">×</button>
+        </div>
+
+        <div class="p-4 border-b border-stone-200 bg-stone-50/50">
+            <h3 class="text-sm font-bold text-slate-600 mb-2 text-center uppercase tracking-wider">Progression</h3>
+            <div class="chart-container">
+                <canvas id="progressChart"></canvas>
+            </div>
+            <p id="progress-text" class="text-center text-xs font-bold text-slate-500 mt-2">0 Labs complétés</p>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto p-4 space-y-2" id="module-nav">
+            </nav>
+
+        <div class="p-4 border-t border-stone-200 text-xs text-center bg-stone-50">
+            <div class="font-bold text-slate-700 text-sm">Houssem Eddine Lassoued</div>
+            <a href="https://www.linkedin.com/in/houssemeddinelassoued/" target="_blank" class="text-odc-700 font-bold mb-2 uppercase tracking-wide hover:text-odc-900 transition-colors inline-block">
+                <i class="fa-brands fa-linkedin mr-1"></i> LinkedIn
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-full relative overflow-hidden">
+        <header class="md:hidden bg-white border-b border-stone-200 p-4 flex justify-between items-center z-10 shadow-sm">
+            <h2 class="text-lg font-bold text-odc-700">🏦 WealthLens IA</h2>
+            <button class="text-2xl text-slate-600" onclick="toggleSidebar()">☰</button>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12" id="main-content">
+            <!-- Vue introduction (modules) -->
+            <div id="intro-view" class="max-w-4xl mx-auto space-y-8 animate-fade-in">
+                <div class="bg-gradient-to-br from-odc-50 to-gold-50 border border-stone-200 rounded-2xl p-8 shadow-sm">
+                    <h1 class="text-5xl font-extrabold text-slate-900 mb-2 tracking-tight">🏦 WealthLens & IA</h1>
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">Le cursus intensif <strong>100 % hands-on dans l'IDE</strong> pour révolutionner le cycle de vie logiciel (SDLC) d'une plateforme de <strong>banque privée</strong>, appliqué à un environnement <strong>.NET nearshore</strong> chez Oddo BHF Tunisie.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="bg-white border border-odc-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                            <h3 class="font-bold text-odc-700 mb-2 flex items-center gap-2">
+                                <span>🔵</span> Pôle Tech .NET
+                            </h3>
+                            <p class="text-sm text-slate-600">Devs, Tech Leads, Architectes — C# 12, .NET 8, ASP.NET Core, microservices, EF Core, xUnit/NUnit, Semantic Kernel, Docker, GitHub Actions.</p>
+                        </div>
+                        <div class="bg-white border border-gold-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                            <h3 class="font-bold text-gold-700 mb-2 flex items-center gap-2">
+                                <span>🟡</span> Pôle Conformité &amp; Restitution
+                            </h3>
+                            <p class="text-sm text-slate-600">BA, Analystes Conformité, PO — KYC / LCB-FT, MiFID II, RGPD, Gherkin, reporting patrimonial, restitution COMEX.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-300 rounded-xl p-6 mb-8">
+                        <p class="text-sm text-amber-900"><strong>🎯 Objectif :</strong> Construire le MVP de <strong>WealthLens</strong>, un portail de banque privée (agrégation multi-comptes, onboarding <strong>KYC / LCB-FT</strong>, valorisation &amp; reporting patrimonial, dashboard interactif) — avec une architecture <strong>microservices .NET</strong> et l'IA générative de bout en bout.</p>
+                    </div>
+
+                    <div class="bg-white border border-stone-200 rounded-xl p-5 mb-2">
+                        <p class="text-sm text-slate-600"><strong>🧰 Outils IA libres :</strong> chaque lab affiche plusieurs outils au choix — 💬 ChatGPT, Gemini, Claude, Grok, Mistral · ⌨️ GitHub Copilot, Claude Code, Codex, Cursor, AntiGravity · 📄 M365 Copilot, Gemini Workspace · 🎨 Stitch, v0.dev... Ce sont des exemples populaires, jamais des exigences. De même, la stack .NET est un cadre — les principes restent transférables.</p>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button onclick="goToFirstLab()" class="bg-odc-500 hover:bg-odc-600 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2">
+                        🚀 Démarrer le Module 1
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="module-cards"></div>
+            </div>
+
+            <!-- Vue module (labs) -->
+            <div id="module-view" class="max-w-4xl mx-auto hidden"></div>
+        </div>
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl transition-all duration-300 translate-y-20 opacity-0 z-50 flex items-center gap-2">
+        <span>✅</span> Prompt copié dans le presse-papiers
+    </div>
+
+    <script>
+        // --- Data Storage ---
+        // Outils IA au choix, par catégorie — des exemples populaires, jamais des exigences
+        const OUTILS = {
+            chat: ["ChatGPT", "Gemini", "Claude", "Grok", "Mistral"],
+            ide: ["GitHub Copilot", "Claude Code", "Codex", "Cursor", "AntiGravity"],
+            ui: ["Stitch", "v0.dev", "Lovable", "Bolt.new"]
+        };
+
+        const courseData = [
+            {
+                id: "mod1", icon: "🔵", target: "Tech",
+                title: "Module 1 : Conception & Architecture",
+                subtitle: "(Shift Left · Microservices .NET)",
+                intro: "Avant d'écrire du code, l'IA accélère la modélisation du domaine bancaire (comptes, clients KYC, portefeuilles, positions) et la décomposition en microservices .NET (bounded contexts, ADR, diagrammes C4).",
+                labs: [
+                    {
+                        id: "wl1_1", title: "Lab 1.1 : Modélisation du domaine & schéma EF Core",
+                        targetBadge: "Architectes / Devs .NET", tools: OUTILS.chat,
+                        objective: "Générer un modèle de domaine bancaire et le schéma de persistance (EF Core / SQL) associé.",
+                        astuce: "Précisez le SGBD cible (SQL Server 2022 ou PostgreSQL 16) et exigez des types financiers adaptés (decimal(19,4) pour les montants, pas de float) pour éviter les erreurs d'arrondi réglementairement inacceptables.",
+                        prompt: `Agis comme un Domain-Driven Design Architect dans une banque privée. Je conçois le MVP 'WealthLens' pour Oddo BHF. Modélise le domaine suivant :\n1. Client (personne physique) avec statut KYC/LCB-FT (dont indicateur PPE - Personne Politiquement Exposée).\n2. Comptes et portefeuilles rattachés à un client.\n3. Positions (instruments financiers : actions, obligations, fonds) et leur quantité.\n4. Transactions (achat/vente) et historique de valorisation journalière.\n\nGénère :\n1. Le diagramme ERD en Mermaid.js.\n2. Les entités C# (records/classes) avec types financiers stricts (decimal(19,4), jamais de float), et les configurations Fluent API EF Core (clés, index, contraintes d'unicité).\n3. Signale explicitement les invariants métier à protéger (ex: un portefeuille ne peut exister sans client KYC validé).`
+                    },
+                    {
+                        id: "wl1_2", title: "Lab 1.2 : Architecture microservices (C4 + ADR)",
+                        targetBadge: "Architectes / Tech Leads", tools: OUTILS.chat,
+                        objective: "Décomposer WealthLens en microservices .NET et formaliser les décisions d'architecture.",
+                        astuce: "Demandez à l'IA de justifier chaque frontière de service par le langage métier (bounded context) et d'expliciter les communications synchrones (REST/gRPC) vs asynchrones (messaging/événements) — c'est ce qui distingue une archi robuste d'un monolithe distribué fragile.",
+                        prompt: `Agis comme un Architecte logiciel .NET spécialisé microservices. Pour WealthLens (banque privée Oddo BHF), propose une décomposition en microservices à partir de ces capacités : Onboarding & KYC, Gestion de portefeuille & valorisation, Reporting patrimonial, Notifications/Alertes, Authentification.\n\nProduis :\n1. Un diagramme de conteneurs C4 (niveau 2) en Mermaid, avec l'API Gateway et le bus d'événements.\n2. Pour chaque service : sa responsabilité, sa base de données dédiée, et le style de communication (REST/gRPC synchrone vs message asynchrone).\n3. Deux ADR (Architecture Decision Records) au format standard (Contexte / Décision / Conséquences) : (a) le choix messaging asynchrone entre KYC et Portefeuille, (b) le pattern de cohérence des données (Saga vs transaction distribuée).`
+                    }
+                ]
+            },
+            {
+                id: "mod2", icon: "🧭", target: "Tech",
+                title: "Module 2 : Contexte & Workspace",
+                subtitle: "(Maîtriser l'IDE agentique)",
+                intro: "Un prompt sans contexte hallucine. Ce module apprend à ancrer les réponses de l'IA dans l'architecture .NET existante via les variables de contexte (@workspace, #file, #selection) et un fichier d'instructions de dépôt.",
+                labs: [
+                    {
+                        id: "wl2_1", title: "Lab 2.1 : Ancrer l'IA dans l'architecture existante",
+                        targetBadge: "Développeurs .NET", tools: OUTILS.ide,
+                        objective: "Utiliser les variables de contexte pour obtenir des réponses fidèles à la solution existante.",
+                        astuce: "Dans Copilot / Cursor, #file cible un fichier précis, #selection le code surligné, et @workspace indexe toute la solution. Combinez-les : plus le contexte est précis, moins l'IA invente des classes ou des namespaces inexistants.",
+                        prompt: `Contexte : solution .NET 8 multi-projets WealthLens (Api.Kyc, Api.Portfolio, Domain, Infrastructure).\n\nEn t'appuyant sur @workspace, réponds à ces demandes en respectant STRICTEMENT les conventions et namespaces déjà présents :\n1. Où (quel projet/dossier) dois-je ajouter un nouveau service de calcul de performance de portefeuille, et pourquoi ?\n2. À partir de #file (le PortfolioController existant), génère une nouvelle action GET conforme au style des actions déjà écrites (mêmes conventions de nommage, d'injection de dépendances et de gestion d'erreurs).\n3. Liste les fichiers de la solution que tu as utilisés comme référence pour répondre.`
+                    },
+                    {
+                        id: "wl2_2", title: "Lab 2.2 : Instructions de dépôt (copilot-instructions.md)",
+                        targetBadge: "Tech Leads", tools: OUTILS.ide,
+                        objective: "Standardiser le comportement de l'IA pour toute l'équipe via un fichier d'instructions versionné.",
+                        astuce: "Le fichier .github/copilot-instructions.md est chargé automatiquement dans le contexte. Il évite de répéter vos conventions à chaque prompt et garantit que chaque développeur obtient un code homogène, conforme aux standards de la banque.",
+                        prompt: `--- FICHIER : .github/copilot-instructions.md ---\n# Instructions dépôt WealthLens (Oddo BHF)\n\n## Stack & conventions\n- C# 12 / .NET 8, ASP.NET Core Minimal APIs, EF Core, architecture microservices.\n- Nommage en anglais, documentation XML sur les membres publics.\n- Applique SOLID, préfère l'immutabilité (records), injection de dépendances par constructeur.\n\n## Règles métier (non négociables)\n- Tous les montants sont des 'decimal' (jamais 'float'/'double').\n- Aucune donnée client KYC ne doit apparaître dans les logs (RGPD).\n- Toute nouvelle API doit renvoyer des codes HTTP explicites et un ProblemDetails en cas d'erreur.\n\n## Tests\n- Chaque service métier livré s'accompagne de tests xUnit/NUnit couvrant les cas limites.\n\nAction : en te basant sur ces instructions, génère un exemple de endpoint Minimal API 'GET /clients/{id}/kyc-status' conforme, puis explique quelles règles du fichier tu as appliquées.`
+                    }
+                ]
+            },
+            {
+                id: "mod3", icon: "📋", target: "Biz",
+                title: "Module 3 : Spécifications & Conformité",
+                subtitle: "(Le pont Métier / Réglementaire)",
+                intro: "Les Business Analysts et Analystes Conformité utilisent l'IA pour traduire une exigence réglementaire floue (KYC, LCB-FT, MiFID II) en spécifications testables (BDD/Gherkin) et pour outiller leur veille via un agent métier sécurisé.",
+                labs: [
+                    {
+                        id: "wl3_1", title: "Lab 3.1 : Exigence réglementaire → BDD (Gherkin)",
+                        targetBadge: "Analystes Conformité / PO", tools: ["M365 Copilot (Word)", "ChatGPT", "Gemini", "Claude"],
+                        objective: "Transformer une règle de conformité en critères d'acceptation stricts, prêts pour SpecFlow/Reqnroll (.NET).",
+                        astuce: "La syntaxe Gherkin (Given/When/Then) rédigée par l'analyste se colle directement dans le projet de tests d'acceptation .NET. Un bon scénario réglementaire décrit toujours le cas nominal ET le cas de blocage (refus).",
+                        prompt: `Agis comme un Business Analyst spécialisé conformité bancaire. Une exigence LCB-FT est exprimée ainsi : "On ne peut pas ouvrir de portefeuille pour un client tant que son KYC n'est pas validé, et si le client est une Personne Politiquement Exposée (PPE), une validation manuelle par la conformité est obligatoire."\n\n1. Rédige la User Story formelle (En tant que... Je veux... Afin de...).\n2. Rédige les Critères d'Acceptation en Gherkin couvrant : (a) KYC validé, non-PPE → ouverture autorisée, (b) KYC non validé → blocage, (c) client PPE → mise en attente de validation conformité.\n3. Ajoute un scénario de traçabilité : toute décision doit être journalisée (audit trail).`
+                    },
+                    {
+                        id: "wl3_2", title: "Lab 3.2 : Agent Métier Conformité personnalisé",
+                        targetBadge: "Analystes Conformité / BA", tools: ["M365 Agent Builder", "GPTs (ChatGPT)", "Gems (Gemini)", "Projects (Claude)"],
+                        objective: "Configurer un assistant M365 qui synthétise la documentation réglementaire interne sans halluciner.",
+                        astuce: "Dans l'onglet 'Configurer', limitez les Connaissances à un dossier SharePoint de procédures internes et désactivez la recherche Web. En banque, un agent qui invente une règle réglementaire est un risque majeur : le grounding strict est une exigence, pas une option.",
+                        prompt: `--- CONFIGURATION DE L'AGENT M365 (à coller dans l'Agent Builder) ---\n\nNom : Assistant Conformité WealthLens\nDescription : Assistant de synthèse des procédures internes KYC / LCB-FT / MiFID II.\n\nInstructions (Prompt Système) :\nTu es un Analyste Conformité Senior. Ton rôle est de synthétiser les procédures internes et d'aider à la rédaction de spécifications.\nRègles obligatoires :\n1. Base tes réponses UNIQUEMENT sur les documents fournis dans tes connaissances (SharePoint conformité). Recherche Web désactivée.\n2. Si l'information n'est pas dans tes sources, réponds exactement : "Information non disponible dans la base documentaire — à confirmer auprès de la Conformité".\n3. Cite toujours le document et la section source de chaque affirmation.\n4. Ton professionnel, prudent, structuré ; privilégie les tableaux.\n\nRequêtes suggérées (Starters) :\n- "Résume la procédure d'onboarding d'un client PPE."\n- "Génère les critères d'acceptation Gherkin pour cette règle."\n- "Liste les contrôles LCB-FT obligatoires avant ouverture de compte."`
+                    }
+                ]
+            },
+            {
+                id: "mod4", icon: "🟢", target: "Tech",
+                title: "Module 4 : Développement & Logique Métier",
+                subtitle: "(Le cœur du réacteur C#)",
+                intro: "Configuration de l'agent .NET pour le Clean Code, puis implémentation du moteur de valorisation et de performance de portefeuille avec des design patterns adaptés.",
+                labs: [
+                    {
+                        id: "wl4_1", title: "Lab 4.1 : Configuration de l'Agent .NET",
+                        targetBadge: "Développeurs C#", tools: OUTILS.ide,
+                        objective: "Paramétrer le contexte de l'IA pour un code C# propre, testable et sécurisé.",
+                        prompt: `Contexte : Tu es un Développeur Senior C# sur "WealthLens" (banque privée Oddo BHF).\nLangage : C# 12, .NET 8, ASP.NET Core, Entity Framework Core.\nRègles :\n- Applique SOLID, DRY, préfère les records immuables et l'injection de dépendances.\n- Montants financiers en 'decimal' uniquement ; arrondis maîtrisés (MidpointRounding.ToEven).\n- LINQ performant, gestion des erreurs par exceptions personnalisées + ProblemDetails.\n- Documentation XML sur l'API publique, variables en anglais.\n- Ne jamais logguer de données personnelles client (RGPD).\nConfirme que tu as intégré ces règles avant de coder.`
+                    },
+                    {
+                        id: "wl4_2", title: "Lab 4.2 : Moteur de valorisation & performance",
+                        targetBadge: "Développeurs C#", tools: OUTILS.ide,
+                        objective: "Implémenter le calcul de valorisation et de performance (TWR) avec un pattern extensible.",
+                        astuce: "Demandez d'abord à l'IA de proposer un Design Pattern (Strategy pour les types d'instruments, Factory pour l'instanciation) AVANT de générer les classes. Le calcul de performance pondérée dans le temps (TWR) est un piège classique : exigez la formule et des tests.",
+                        prompt: `Implémente le moteur de valorisation de portefeuille de WealthLens en C# orienté objet.\n1. Une interface IInstrumentValuationStrategy avec des implémentations pour Action, Obligation et Fonds (pattern Strategy).\n2. Un PortfolioValuationService qui agrège la valorisation d'un portefeuille via LINQ (données de positions fictives).\n3. Le calcul de la performance pondérée dans le temps (Time-Weighted Return) sur une période, avec gestion des flux entrants/sortants.\nExige : montants en decimal, aucune division par zéro non gérée, et sépare le code par fichiers structurés (pas un seul gros bloc).`
+                    }
+                ]
+            },
+            {
+                id: "mod5", icon: "🧹", target: "Tech",
+                title: "Module 5 : Refactoring, Migration & Code Review",
+                subtitle: "(Dette technique & PR)",
+                intro: "Stratégies de refactoring sur du code C# legacy (application de design patterns, migration de versions de framework) puis automatisation du premier niveau de revue de code (style, performance, anti-patterns) et nettoyage de code obsolète.",
+                labs: [
+                    {
+                        id: "wl5_1", title: "Lab 5.1 : Refactoring legacy & migration de framework",
+                        targetBadge: "Tech Leads / Devs", tools: OUTILS.ide,
+                        objective: "Transformer une 'God class' legacy en code SOLID et planifier une migration de version.",
+                        astuce: "L'IA excelle à décomposer une classe monolithique en responsabilités isolées et à traduire des API obsolètes. Pour une migration (.NET Framework → .NET 8, EF6 → EF Core), demandez un plan par étapes et les breaking changes AVANT de toucher au code.",
+                        prompt: `Agis comme un expert Refactoring & Clean Code .NET. Voici un extrait legacy typique d'une banque : une classe 'ClientManager' de 800 lignes qui gère à la fois l'accès aux données (ADO.NET brut), la logique KYC, l'envoi d'emails et la journalisation. (Génère toi-même un court exemple représentatif de cette God class.)\n\n1. Identifie les code smells (violations SRP, couplage fort, duplication).\n2. Propose un refactoring cible avec des design patterns adaptés (Repository, Service, Notification) et un diagramme des nouvelles classes.\n3. Fournis un plan de migration incrémental de ce module depuis .NET Framework 4.8 + EF6 vers .NET 8 + EF Core, en listant les breaking changes et les étapes vérifiables (strangler pattern).`
+                    },
+                    {
+                        id: "wl5_2", title: "Lab 5.2 : Code Review IA & nettoyage",
+                        targetBadge: "Tech Leads / Devs", tools: OUTILS.ide,
+                        objective: "Automatiser une première passe de revue de PR et détecter le code mort.",
+                        astuce: "Un reviewer IA ne remplace pas l'humain mais élimine 80 % du bruit (conventions, null-safety, allocations inutiles) avant la revue humaine. Faites-lui produire des commentaires actionnables reliés à des lignes précises.",
+                        prompt: `Agis comme un Reviewer .NET senior. On te fournit une Pull Request touchant le service de portefeuille de WealthLens (utilise #changes / le diff courant, ou génère un exemple de diff C# contenant volontairement : une requête EF Core non asynchrone, un 'catch(Exception){}' silencieux, une méthode privée jamais appelée et un montant en double).\n\n1. Produis une revue structurée par thème : Style, Performance, Sécurité, Anti-patterns.\n2. Pour chaque remarque : fichier/ligne concernée, sévérité (bloquant/majeur/mineur) et correctif proposé.\n3. Liste séparément le code obsolète/mort à supprimer, avec justification.`
+                    }
+                ]
+            },
+            {
+                id: "mod6", icon: "🤖", target: "Tech",
+                title: "Module 6 : Agents Spécialisés",
+                subtitle: "(Les Experts Individuels)",
+                intro: "Au lieu d'un simple chat, vous créez des experts individuels dédiés à des tâches précises (Testeur, Refactor, Contrat d'API, Sécurité), chacun avec des instructions strictes et des outils autorisés.",
+                labs: [
+                    {
+                        id: "wl6_1", title: "Lab 6.1 : Créer les Profils Spécialisés",
+                        targetBadge: "Tech Leads / Devs", tools: OUTILS.ide,
+                        objective: "Définir les instructions et les rôles des agents experts du dépôt.",
+                        astuce: "En pratique, ces fichiers vivent dans votre dépôt Git (ex: '.github/agents/'). Vous les invoquez un par un selon le besoin, ou vous les faites piloter par un Master Agent (module suivant).",
+                        prompt: `--- FICHIER 1 : unit-tester.agent.md ---\nRôle : QA automatisé (Framework: xUnit/NUnit + Moq).\nObjectifs : Couverture > 90%, edge cases financiers (montants négatifs, arrondis, devises), cas invalides.\nOutils : #read, #edit, #runTests, #testFailure.\nSortie : Rapport d'analyse et code de test unitaire robuste.\n\n--- FICHIER 2 : refactor.agent.md ---\nRôle : Senior Dev orienté Clean Code.\nObjectifs : Réduire la complexité (SOLID, DRY), proposer des renommages, produire des patches sûrs.\nOutils : #read/problems, #search/changes.\n\n--- FICHIER 3 : api-contract.agent.md ---\nRôle : Architecte d'API.\nObjectifs : Cohérence REST/OpenAPI, codes HTTP corrects, versioning, aucun breaking change.\nSortie : Spécification OpenAPI (YAML) mise à jour.\n\n--- FICHIER 4 : security.agent.md ---\nRôle : AppSec Engineer bancaire.\nObjectifs : Détecter les failles OWASP (injection, IDOR sur comptes clients, fuite de secrets, données KYC dans les logs).\nSortie : Rapport de mitigation priorisé + patchs de sécurité.`
+                    },
+                    {
+                        id: "wl6_2", title: "Lab 6.2 : L'Agent Contrat d'API (OpenAPI)",
+                        targetBadge: "Architectes API / Devs", tools: OUTILS.ide,
+                        objective: "Utiliser l'agent api-contract pour garantir la non-régression du contrat public.",
+                        astuce: "En microservices, un changement de contrat non maîtrisé casse les consommateurs. L'agent doit comparer l'ancienne et la nouvelle spec OpenAPI et signaler tout breaking change (suppression de champ, changement de type, code HTTP modifié).",
+                        prompt: `@api-contract Analyse l'évolution de l'API du service Portefeuille de WealthLens.\n\nContexte : on ajoute un champ 'currency' à la réponse de 'GET /portfolios/{id}' et on remplace le champ 'value' (number) par 'valuation' (objet { amount, currency }).\n\n1. Génère la spec OpenAPI 3.1 (YAML) mise à jour de cet endpoint.\n2. Identifie précisément les breaking changes pour les consommateurs existants.\n3. Propose une stratégie de compatibilité (versioning d'API /v2, dépréciation progressive) et les codes HTTP appropriés.`
+                    }
+                ]
+            },
+            {
+                id: "mod7", icon: "🧠", target: "Tech",
+                title: "Module 7 : Orchestration Multi-Agents",
+                subtitle: "(Master Agent & Semantic Kernel)",
+                intro: "L'étape supérieure : l'orchestration. Un Master Agent pilote lui-même les sous-agents pour un audit complet. Puis on industrialise ce pattern en .NET avec Microsoft Semantic Kernel (plugins, planner).",
+                labs: [
+                    {
+                        id: "wl7_1", title: "Lab 7.1 : Le Chef d'Orchestre",
+                        targetBadge: "Tech Leads", tools: OUTILS.ide,
+                        objective: "Créer le Master Agent qui pilote les sous-agents via #runSubagent.",
+                        astuce: "Le Master Agent code peu : son rôle est managérial. Il collecte le contexte, cascade les tâches aux experts, puis consolide leurs rapports en un unique Plan Qualité priorisé.",
+                        prompt: `--- FICHIER : master.agent.md ---\nDescription : "Full Quality Squad Agent - Orchestrateur QA WealthLens".\nOutils autorisés : ['#agent/runSubagent', '#execute/runTests', '#edit', '#todo']\n\nRôle : Quality Lead. Tu coordonnes l'audit du module demandé.\nStratégie d'orchestration :\n1. Collecte le contexte du code ciblé.\n2. Invoque unit-tester via #runSubagent pour générer/compléter les tests.\n3. Invoque refactor pour réduire la complexité.\n4. Invoque api-contract si des endpoints sont impactés.\n5. Invoque security pour le scan AppSec (OWASP, données KYC).\n6. Consolidation : compile les retours, élimine les doublons, produis un "Plan Qualité Final" priorisé (Bloquant/Majeur/Mineur, patchs) dans /reports.`
+                    },
+                    {
+                        id: "wl7_2", title: "Lab 7.2 : Orchestration via Semantic Kernel (.NET)",
+                        targetBadge: "Développeurs C#", tools: OUTILS.ide,
+                        objective: "Industrialiser l'orchestration en code .NET avec Microsoft Semantic Kernel.",
+                        astuce: "Semantic Kernel permet d'exposer vos services métier comme des 'plugins' invocables par le LLM, et d'enchaîner les appels via un planner. C'est la brique pour intégrer l'IA DANS l'application WealthLens, pas seulement dans l'IDE.",
+                        prompt: `Agis comme un ingénieur .NET expert en IA générative avec Microsoft Semantic Kernel. Pour WealthLens, je veux un assistant conformité qui répond à "Ce client peut-il ouvrir un portefeuille ?" en s'appuyant sur nos services internes.\n\n1. Montre comment configurer un Kernel .NET 8 (SK) avec un connecteur de chat.\n2. Crée un plugin natif 'KycPlugin' exposant deux fonctions : GetKycStatus(clientId) et IsPep(clientId), décorées avec [KernelFunction] et des descriptions claires.\n3. Écris l'appel qui laisse le planner/function-calling orchestrer ces fonctions pour répondre à la question, en gérant le cas où le KYC est invalide.\n4. Souligne les précautions de sécurité (ne jamais exposer de données personnelles au modèle, journalisation des invocations).`
+                    }
+                ]
+            },
+            {
+                id: "mod8", icon: "🧪", target: "Tech",
+                title: "Module 8 : Tests Robustes",
+                subtitle: "(QA : unitaire & intégration)",
+                intro: "Création autonome de stratégies de tests basées sur l'analyse comportementale du code .NET : tests unitaires (xUnit/NUnit, Moq) sur les cas limites financiers, puis tests d'intégration sur l'API KYC avec des conteneurs éphémères.",
+                labs: [
+                    {
+                        id: "wl8_1", title: "Lab 8.1 : Tests unitaires xUnit / NUnit (Moq)",
+                        targetBadge: "Développeurs C#", tools: OUTILS.ide,
+                        objective: "Générer des tests unitaires ciblant les cas limites du moteur de valorisation.",
+                        astuce: "Exigez des tests paramétrés ([Theory]/[TestCase]) pour couvrir les valeurs limites financières : montant nul, négatif, très grand, arrondis à mi-chemin, portefeuille vide. C'est là que se cachent les bugs coûteux en banque.",
+                        prompt: `Voici mon PortfolioValuationService C# (colle le code du Lab 4.2). Agis comme un QA Engineer impitoyable.\n1. Liste au moins 5 edge cases financiers susceptibles de provoquer une erreur (division par zéro sur TWR, portefeuille vide, montant négatif, arrondi à mi-chemin, position en devise étrangère).\n2. Écris les tests unitaires en xUnit ET donne l'équivalent NUnit, avec Moq pour les dépendances, et des tests paramétrés ([Theory]/[TestCase]).\n3. Inclus le Happy Path et vérifie les montants au centime près (assertions sur decimal).`
+                    },
+                    {
+                        id: "wl8_2", title: "Lab 8.2 : Tests d'intégration (Testcontainers)",
+                        targetBadge: "Développeurs / QA", tools: OUTILS.ide,
+                        objective: "Tester l'API KYC de bout en bout contre une vraie base éphémère.",
+                        astuce: "WebApplicationFactory + Testcontainers démarrent une base réelle (SQL/Postgres) dans un conteneur jetable : vos tests d'intégration deviennent fiables et reproductibles, sans mocker la persistance.",
+                        prompt: `Agis comme un ingénieur QA .NET. Je veux des tests d'intégration pour l'endpoint 'POST /clients/{id}/kyc/validate' de WealthLens (ASP.NET Core Minimal API + EF Core).\n\n1. Mets en place une WebApplicationFactory personnalisée qui remplace la base par un conteneur PostgreSQL éphémère via Testcontainers (.NET).\n2. Écris des tests xUnit couvrant : validation KYC réussie (200), client PPE → mise en attente (202), client inexistant (404).\n3. Assure l'isolation entre tests (base réinitialisée) et vérifie l'état persisté en base après chaque appel.`
+                    }
+                ]
+            },
+            {
+                id: "mod9", icon: "🛡️", target: "Tech",
+                title: "Module 9 : Sécurité by Design",
+                subtitle: "(AppSec · OWASP Top 10)",
+                intro: "Auditer et corriger le code directement dans l'IDE : identifier, bloquer et corriger les vulnérabilités OWASP Top 10, puis sécuriser l'authentification/autorisation et la protection des données KYC (RGPD).",
+                labs: [
+                    {
+                        id: "wl9_1", title: "Lab 9.1 : Audit OWASP Top 10 dans l'IDE",
+                        targetBadge: "Développeurs / AppSec", tools: OUTILS.ide,
+                        objective: "Détecter et corriger injection SQL, IDOR et fuite de secrets sur le code bancaire.",
+                        astuce: "En banque privée, l'IDOR (Insecure Direct Object Reference) est critique : un client ne doit JAMAIS accéder au portefeuille d'un autre en changeant un id dans l'URL. Faites auditer l'autorisation, pas seulement l'injection.",
+                        prompt: `Agis comme un AppSec Engineer expert OWASP Top 10. Audite ce endpoint C# de WealthLens (génère un exemple réaliste contenant volontairement plusieurs failles) :\n\n[HttpGet("/portfolios/{id}")]\npublic IActionResult Get(int id) {\n    var sql = "SELECT * FROM Portfolios WHERE Id = " + id;\n    var connStr = "Server=prod;User=sa;Password=P@ssw0rd!";\n    // ... exécution SQL brute, aucun contrôle du propriétaire, données client renvoyées telles quelles\n}\n\n1. Identifie chaque vulnérabilité OWASP (Injection, IDOR/Broken Access Control, secret en dur, exposition de données) avec sa référence.\n2. Fournis la version corrigée : requête paramétrée/EF Core, vérification que le portefeuille appartient à l'utilisateur authentifié, secrets via configuration/Key Vault, DTO filtrant les données sensibles.\n3. Classe les corrections par priorité.`
+                    },
+                    {
+                        id: "wl9_2", title: "Lab 9.2 : AuthN/AuthZ & protection RGPD",
+                        targetBadge: "Développeurs / AppSec", tools: OUTILS.ide,
+                        objective: "Mettre en place JWT/OAuth2, l'autorisation par ressource et le chiffrement des données sensibles.",
+                        astuce: "Séparez authentification (qui es-tu ?) et autorisation (as-tu le droit sur CETTE ressource ?). En .NET, l'autorisation par ressource (resource-based authorization) empêche un conseiller d'accéder aux clients d'un autre.",
+                        prompt: `Agis comme un ingénieur sécurité .NET. Sécurise l'accès aux données patrimoniales de WealthLens.\n1. Configure l'authentification JWT Bearer (OAuth2) dans ASP.NET Core 8 et un exemple de policy d'autorisation.\n2. Implémente une autorisation basée sur la ressource : un conseiller ne peut consulter que les portefeuilles de SES clients (IAuthorizationHandler + requirement).\n3. Propose une stratégie de protection des données KYC au repos : chiffrement des champs sensibles (ex: numéro d'identité) et exclusion stricte de ces données des logs (RGPD). Fournis le code des points clés.`
+                    }
+                ]
+            },
+            {
+                id: "mod10", icon: "🎨", target: "Tech",
+                title: "Module 10 : Frontend, Skills & Hooks",
+                subtitle: "(Accélération UI & personnalisation)",
+                intro: "Prototyper rapidement le dashboard patrimonial interactif, puis standardiser la génération de code via un fichier Skill et étendre les capacités des agents avec des Hooks.",
+                labs: [
+                    {
+                        id: "wl10_1", title: "Lab 10.1 : Prototypage du dashboard patrimonial",
+                        targetBadge: "Développeurs / UX", tools: OUTILS.ui,
+                        objective: "Générer la structure UI d'un tableau de bord patrimonial interactif connecté à l'API .NET.",
+                        astuce: "Les outils de génération UI (Stitch, v0.dev) transforment un prompt en interface fonctionnelle. Décrivez les données réelles renvoyées par vos endpoints .NET pour que le composant soit directement branchable.",
+                        prompt: `Crée le wireframe du dashboard patrimonial de WealthLens (banque privée, ton sobre et premium).\nInclus :\n- Une barre latérale sombre (bleu marine) de navigation (Portefeuilles, Clients, Reporting, Alertes).\n- Une carte KPI 'Patrimoine total sous gestion' (ex: 2 480 000 €) avec variation (+3,2% en vert).\n- Un graphique 'donut' d'allocation d'actifs (Actions / Obligations / Fonds / Liquidités).\n- Un graphique de performance (courbe) sur 12 mois.\n- Un tableau des dernières transactions.\nStyle : moderne, premium, coins arrondis, accents dorés discrets, accessible (contrastes AA). Précise les endpoints .NET que chaque composant consommerait.`
+                    },
+                    {
+                        id: "wl10_2", title: "Lab 10.2 : Fichier Skill UI & Hooks",
+                        targetBadge: "Tech Leads / Devs", tools: OUTILS.ide,
+                        objective: "Figer le Design System via un Skill et automatiser des contrôles via des Hooks.",
+                        astuce: "Un fichier Skill agit comme un manuel de directives (l'IA ne réinvente plus votre CSS). Un Hook déclenche une action automatique (ex: sur sauvegarde ou avant commit) : combinés, ils rendent l'assistance IA déterministe et conforme.",
+                        prompt: `--- FICHIER 1 : frontend-ui.skill.md ---\nDescription : Directives de génération UI pour WealthLens.\nRègles :\n- Tailwind CSS EXCLUSIVEMENT, aucun style inline.\n- Palette : primaire bleu marine (bg-slate-900/text-slate-100 en nav), accent doré (text-amber-500) parcimonieux, fond clair (bg-stone-50).\n- Accessibilité : attributs ARIA systématiques, contrastes AA, responsive (sm:/md:/lg:).\n- Composants réutilisables, jamais de valeurs monétaires codées en dur.\n\n--- FICHIER 2 : hooks (pseudo-config) ---\nHook 'pre-commit' : lance le security.agent sur les fichiers modifiés et bloque le commit si un secret ou une donnée KYC en clair est détecté.\nHook 'on-save' (composants UI) : vérifie la conformité à frontend-ui.skill.md.\n\nAction : en appliquant strictement le Skill, génère le composant "AssetAllocationCard" (donut d'allocation), puis explique comment le Hook pre-commit protégerait ce projet bancaire.`
+                    }
+                ]
+            },
+            {
+                id: "mod11", icon: "⚙️", target: "Tech",
+                title: "Module 11 : DevOps & Déploiement",
+                subtitle: "(CI/CD · Docker · Observabilité)",
+                intro: "Automatiser la chaîne de livraison des microservices .NET : pipeline CI/CD, conteneurisation Docker multi-services et observabilité (logs structurés, traçabilité).",
+                labs: [
+                    {
+                        id: "wl11_1", title: "Lab 11.1 : Pipeline CI/CD (.NET 8)",
+                        targetBadge: "Développeurs / DevOps", tools: OUTILS.chat,
+                        objective: "Générer un workflow GitHub Actions qui build, teste et scanne les microservices.",
+                        prompt: `Génère un fichier .github/workflows/ci.yml pour la solution microservices .NET 8 de WealthLens.\nÉtapes :\n1. Checkout + setup .NET 8.\n2. Restore NuGet, dotnet build en Release.\n3. dotnet test avec couverture de code (seuil minimal 80%, échec sinon).\n4. Analyse statique / scan de sécurité des dépendances (dotnet list package --vulnerable).\n5. Build et push des images Docker de chaque microservice vers un registre, taggées par SHA de commit.\nAjoute des commentaires expliquant chaque étape et la gestion des secrets (GitHub Secrets, jamais en clair).`
+                    },
+                    {
+                        id: "wl11_2", title: "Lab 11.2 : Docker Compose & observabilité",
+                        targetBadge: "Tech Leads / DevOps", tools: OUTILS.ide,
+                        objective: "Standardiser l'environnement local multi-services et la journalisation structurée.",
+                        astuce: "Un fichier Skill fige vos conventions d'infrastructure : chaque conteneur généré est sécurisé et conforme. Les logs structurés (Serilog) sont indispensables en banque pour la traçabilité et l'audit.",
+                        prompt: `---\nname : wealthlens-docker-observability\ndescription : Skill d'environnement local multi-services + observabilité\n---\n# SKILL : Environnement local WealthLens (Docker Compose)\n\nRègles d'infrastructure obligatoires :\n- Un service par microservice (.NET 8) + une base PostgreSQL 'postgres:16-alpine' par service ayant un état.\n- Ne hardcode JAMAIS de secret : variables d'environnement (POSTGRES_USER/PASSWORD/DB, connection strings) via un fichier .env non versionné.\n- Volumes nommés pour la persistance ; ports exposés uniquement sur 127.0.0.1.\n- Un bloc healthcheck par base ('pg_isready').\n- Journalisation structurée : configure Serilog (sortie console JSON) et interdit tout log de données personnelles KYC.\n\nAction : en appliquant strictement cette Skill, génère le 'docker-compose.yml' pour l'environnement local (services Api.Kyc, Api.Portfolio, leurs bases, et un reverse-proxy), puis le snippet de configuration Serilog correspondant.`
+                    }
+                ]
+            },
+            {
+                id: "mod12", icon: "📊", target: "Biz",
+                title: "Module 12 : Documentation & Reporting",
+                subtitle: "(Restitution technique & patrimoniale)",
+                intro: "Automatiser la documentation technique (README, OpenAPI, commentaires structurés) et la restitution métier : générer des rapports d'analyse et un reporting patrimonial parlant pour le client et le COMEX.",
+                labs: [
+                    {
+                        id: "wl12_1", title: "Lab 12.1 : Documentation technique automatisée",
+                        targetBadge: "Développeurs", tools: OUTILS.ide,
+                        objective: "Générer un README, la doc d'API OpenAPI et un rapport d'analyse d'architecture.",
+                        astuce: "Faites documenter à partir de l'arborescence réelle (@workspace) pour éviter les inventions. Un bon README bancaire précise aussi les prérequis de conformité et de sécurité de l'environnement.",
+                        prompt: `À partir de @workspace (solution microservices .NET 8 WealthLens), produis :\n1. Un README.md professionnel : pitch, schéma d'architecture (microservices, bases, gateway), prérequis, démarrage local (docker compose up, dotnet run), et note de sécurité/conformité.\n2. Une description OpenAPI 3.1 synthétique des endpoints clés du service Portefeuille (avec exemples de réponses).\n3. Un rapport d'analyse d'architecture d'une page : points forts, dette technique détectée, et 3 recommandations priorisées.`
+                    },
+                    {
+                        id: "wl12_2", title: "Lab 12.2 : Reporting patrimonial & Executive Summary",
+                        targetBadge: "Analystes / Management", tools: ["M365 Copilot (Word/PPT)", "ChatGPT", "Gemini", "Claude"],
+                        objective: "Transformer des données patrimoniales brutes en restitution client et synthèse COMEX.",
+                        astuce: "Dans Word/PowerPoint, référencez le fichier de données (ex: '/reporting.xlsx') pour que Copilot rédige un rapport factuel, sans inventer de chiffres — impératif en banque privée.",
+                        prompt: `À partir du jeu de données suivant (génère un court mock : encours sous gestion, allocation par classe d'actifs, performance YTD, top/flop positions), produis deux livrables pour WealthLens :\n\n1. Un 'Reporting patrimonial client' (1 page) : synthèse de la performance, allocation, et commentaire pédagogique adapté à un client de banque privée (ton rassurant, factuel, sans jargon).\n2. Un 'Executive Summary' pour le COMEX : chiffre clé, analyse des tendances de collecte, risques (concentration, conformité), et 3 recommandations orientées 'Business Value'.\nTon : formel, précis, orienté décision.`
+                    }
+                ]
+            }
+        ];
+
+        // --- State Management ---
+        let state = {
+            currentModuleIndex: null,
+            completedLabs: JSON.parse(localStorage.getItem('oddoBhfProgress_v1')) || []
+        };
+        let chartInstance = null;
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSidebar();
+            renderModuleCards();
+            initChart();
+            updateProgressUI();
+        });
+
+        // --- Core Functions ---
+
+        function renderSidebar() {
+            const nav = document.getElementById('module-nav');
+            nav.innerHTML = '';
+
+            const homeBtn = document.createElement('button');
+            homeBtn.className = `w-full text-left px-4 py-3 rounded-xl transition-all duration-200 flex items-center gap-3 font-medium hover:bg-stone-100 text-slate-700 mb-2`;
+            homeBtn.innerHTML = `<span>🏠</span> <span class="truncate">Accueil Projet</span>`;
+            homeBtn.onclick = () => showIntro();
+            nav.appendChild(homeBtn);
+
+            courseData.forEach((mod, index) => {
+                const btn = document.createElement('button');
+                const isSelected = state.currentModuleIndex === index;
+
+                let activeClass = 'bg-stone-100 border-stone-300 text-slate-800';
+                if(isSelected) {
+                    activeClass = mod.target === 'Biz' ? 'bg-gold-100 border-gold-300 text-gold-900 shadow-sm' : 'bg-odc-50 border-odc-200 text-odc-900 shadow-sm';
+                }
+
+                btn.className = `w-full text-left px-3 py-3 rounded-xl transition-all duration-200 flex items-center gap-3 border
+                    ${isSelected ? activeClass : 'border-transparent hover:bg-stone-100 text-slate-600'}`;
+
+                const modLabs = mod.labs.map(l => l.id);
+                const completedInMod = modLabs.filter(id => state.completedLabs.includes(id)).length;
+                const isModComplete = completedInMod === modLabs.length && modLabs.length > 0;
+
+                btn.innerHTML = `
+                    <span class="text-xl flex-shrink-0">${mod.icon}</span> 
+                    <div class="flex-1 min-w-0">
+                        <div class="truncate text-sm font-bold">${mod.title.split(' : ')[0]}</div>
+                        <div class="truncate text-xs ${isSelected && mod.target === 'Biz' ? 'text-gold-700' : 'text-slate-500'}">${mod.title.split(' : ')[1] || ''}</div>
+                    </div>
+                    ${isModComplete ? '<span class="text-odc-500 text-sm">✔</span>' : ''}
+                `;
+                btn.onclick = () => loadModule(index);
+                nav.appendChild(btn);
+            });
+        }
+
+        function renderModuleCards() {
+            const container = document.getElementById('module-cards');
+            if(!container) return;
+            container.innerHTML = '';
+            courseData.forEach((mod, index) => {
+                const isBiz = mod.target === 'Biz';
+                const card = document.createElement('button');
+                card.className = `text-left bg-white border ${isBiz ? 'border-gold-200 hover:border-gold-400' : 'border-odc-200 hover:border-odc-400'} rounded-xl p-5 shadow-sm hover:shadow-md transition-all`;
+                card.onclick = () => loadModule(index);
+                card.innerHTML = `
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">${mod.icon}</span>
+                        <span class="text-xs font-bold uppercase tracking-wider ${isBiz ? 'text-gold-700' : 'text-odc-700'}">${isBiz ? 'Conformité / Restitution' : 'Tech .NET'}</span>
+                    </div>
+                    <div class="font-bold text-slate-800">${mod.title}</div>
+                    <div class="text-sm text-slate-500 mt-1">${mod.labs.length} lab(s)</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function showIntro() {
+            state.currentModuleIndex = null;
+            document.getElementById('intro-view').classList.remove('hidden');
+            document.getElementById('module-view').classList.add('hidden');
+            renderSidebar();
+            if(window.innerWidth < 768) toggleSidebar();
+        }
+
+        function goToFirstLab() {
+            if(courseData.length > 0) {
+                loadModule(0);
+            }
+        }
+
+        function loadModule(index) {
+            state.currentModuleIndex = index;
+            const mod = courseData[index];
+            const view = document.getElementById('module-view');
+            const intro = document.getElementById('intro-view');
+
+            intro.classList.add('hidden');
+            view.classList.remove('hidden');
+            view.innerHTML = '';
+
+            const isBiz = mod.target === 'Biz';
+
+            // Couleurs de thème (statiques pour Tailwind)
+            const themeStyles = {
+                odc: { borderLight: 'border-odc-200', textPrimary: 'text-odc-600', bgLight: 'bg-odc-50', borderMedium: 'border-odc-400', bgMedium: 'bg-odc-500', textDark: 'text-odc-900' },
+                gold: { borderLight: 'border-gold-200', textPrimary: 'text-gold-600', bgLight: 'bg-gold-100', borderMedium: 'border-gold-400', bgMedium: 'bg-gold-500', textDark: 'text-gold-900' }
+            };
+            const theme = themeStyles[isBiz ? 'gold' : 'odc'];
+
+            const header = document.createElement('div');
+            header.className = `bg-white border ${theme.borderLight} p-8 rounded-2xl mb-8 shadow-sm`;
+            header.innerHTML = `
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-3xl">${mod.icon}</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">${mod.title}</h2>
+                </div>
+                ${mod.subtitle ? `<p class="${theme.textPrimary} font-bold mb-4 uppercase tracking-wide text-sm">${mod.subtitle}</p>` : ''}
+
+                ${mod.image ? `<img src="${mod.image}" alt="Illustration ${mod.title}" class="w-full h-auto rounded-xl mb-6 shadow-md border border-stone-200 object-cover mt-4">` : ''}
+
+                <p class="text-slate-600 leading-relaxed text-lg">${mod.intro}</p>
+            `;
+            view.appendChild(header);
+
+            mod.labs.forEach((lab) => {
+                const isCompleted = state.completedLabs.includes(lab.id);
+                const labCard = document.createElement('div');
+                labCard.className = `bg-white border rounded-2xl overflow-hidden transition-all duration-300 mb-6 ${isCompleted ? `${theme.borderMedium} shadow-md` : 'border-stone-200 shadow-sm'}`;
+
+                labCard.innerHTML = `
+                    <div class="p-6 md:p-8 border-b border-stone-100 flex flex-col md:flex-row justify-between items-start gap-4">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="inline-flex items-center bg-stone-100 text-stone-700 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider">🎯 ${lab.targetBadge}</span>
+                                <span class="inline-flex items-center bg-slate-800 text-slate-100 text-xs px-2.5 py-1 rounded-md font-bold tracking-wider">🛠 Au choix</span>
+                                ${(lab.tools || [lab.toolBadge]).map(t => `<span class="inline-flex items-center bg-white border border-slate-300 text-slate-700 text-xs px-2.5 py-1 rounded-md font-semibold">${t}</span>`).join('')}
+                            </div>
+                            <h3 class="text-xl font-extrabold text-slate-900 mb-2">${lab.title}</h3>
+                            <p class="text-slate-600 mb-4 font-medium">${lab.objective}</p>
+
+                            ${lab.astuce ? `
+                            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 shadow-sm">
+                                <span class="text-amber-500 text-xl flex-shrink-0">💡</span>
+                                <div>
+                                    <h4 class="text-sm font-bold text-amber-900 mb-1">Impact Métier / Tech</h4>
+                                    <p class="text-sm text-amber-800 leading-relaxed">${lab.astuce}</p>
+                                </div>
+                            </div>
+                            ` : ''}
+
+                        </div>
+                        <button onclick="toggleLab('${lab.id}')" class="flex-shrink-0 w-12 h-12 rounded-full border-2 flex items-center justify-center transition-colors text-lg
+                            ${isCompleted ? `${theme.bgMedium} ${theme.borderMedium} text-white` : 'border-stone-300 text-transparent hover:border-stone-400'}">
+                            ✔
+                        </button>
+                    </div>
+                    <div class="p-6 md:p-8 bg-stone-50">
+                        <div class="flex justify-between items-center mb-3">    
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Prompt à copier</span>
+                            <button onclick="copyToClipboard(this, '${lab.id}')" class="text-sm ${theme.textPrimary} hover:font-bold font-bold flex items-center gap-1 transition-colors bg-white px-3 py-1 rounded-md border border-stone-200 shadow-sm">
+                                <span>📋</span> Copier
+                            </button>
+                        </div>
+                        <pre class="bg-slate-900 text-stone-100 p-5 rounded-xl text-sm overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed shadow-inner border border-slate-800">${lab.prompt}</pre>
+                    </div>
+                `;
+                view.appendChild(labCard);
+            });
+
+            renderSidebar();
+            if(window.innerWidth < 768) toggleSidebar();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleLab(labId) {
+            const idx = state.completedLabs.indexOf(labId);
+            if (idx > -1) {
+                state.completedLabs.splice(idx, 1);
+            } else {
+                state.completedLabs.push(labId);
+            }
+
+            localStorage.setItem('oddoBhfProgress_v1', JSON.stringify(state.completedLabs));
+            updateProgressUI();
+            if(state.currentModuleIndex !== null) loadModule(state.currentModuleIndex);
+        }
+
+        function copyToClipboard(btnElement, labId) {
+            let textToCopy = "";
+            courseData.forEach(mod => {
+                const lab = mod.labs.find(l => l.id === labId);
+                if (lab) textToCopy = lab.prompt;
+            });
+
+            if (!textToCopy) return;
+
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    const toast = document.getElementById('toast');
+                    toast.classList.remove('translate-y-20', 'opacity-0');
+
+                    const originalHtml = btnElement.innerHTML;
+                    btnElement.innerHTML = `<span>✅</span> Copié`;
+                    btnElement.classList.add('text-green-700', 'border-green-300', 'bg-green-50');
+
+                    setTimeout(() => {
+                        toast.classList.add('translate-y-20', 'opacity-0');
+                        btnElement.innerHTML = originalHtml;
+                        btnElement.classList.remove('text-green-700', 'border-green-300', 'bg-green-50');
+                    }, 2000);
+                }
+            } catch (err) {
+                console.error('Oops, impossible de copier', err);
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Complété', 'À faire'],
+                    datasets: [{
+                        data: [0, 100],
+                        backgroundColor: ['#1e3a5f', '#e5e7eb'],
+                        borderWidth: 0,
+                        hoverOffset: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    animation: { animateScale: true }
+                },
+                plugins: [{
+                    id: 'textCenter',
+                    beforeDraw: function(chart) {
+                        var width = chart.width, height = chart.height, ctx = chart.ctx;
+                        ctx.restore();
+                        var fontSize = (height / 90).toFixed(2);
+                        ctx.font = "bold " + fontSize + "em sans-serif";
+                        ctx.textBaseline = "middle";
+                        ctx.fillStyle = "#1e293b";
+
+                        var percentage = chart.data.datasets[0].data[0] + chart.data.datasets[0].data[1] === 0 ? 0 :
+                            Math.round((chart.data.datasets[0].data[0] / (chart.data.datasets[0].data[0] + chart.data.datasets[0].data[1])) * 100);
+
+                        var text = percentage + "%",
+                            textX = Math.round((width - ctx.measureText(text).width) / 2),
+                            textY = height / 2;
+
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+            });
+        }
+
+        function updateProgressUI() {
+            let totalLabs = 0;
+            courseData.forEach(m => totalLabs += m.labs.length);
+            const completed = state.completedLabs.length;
+            const remaining = totalLabs - completed;
+
+            document.getElementById('progress-text').innerText = `${completed} / ${totalLabs} Labs complétés`;
+
+            if(chartInstance) {
+                chartInstance.data.datasets[0].data = [completed, remaining];
+                chartInstance.data.datasets[0].backgroundColor = completed === totalLabs ? ['#12243b', '#e5e7eb'] : ['#1e3a5f', '#e5e7eb'];
+                chartInstance.update();
+            }
+            renderSidebar();
+        }
+    </script>
+</body>
+</html>
