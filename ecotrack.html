@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parcours EcoTrack — Cahier de TP IA (Dev & Analyse)</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        eco: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            900: '#064e3b',
+                        },
+                        biz: {
+                            100: '#e0e7ff',
+                            600: '#4f46e5',
+                            800: '#3730a3'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 160px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 160px;
+            max-height: 160px;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f5f4; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(229, 231, 235, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800 font-sans h-screen flex overflow-hidden selection:bg-eco-200">
+
+    <aside class="w-full md:w-80 bg-white border-r border-stone-200 flex flex-col h-full flex-shrink-0 transition-transform duration-300 absolute md:relative z-20 transform -translate-x-full md:translate-x-0" id="sidebar">
+        <div class="p-6 border-b border-stone-200">
+            <a href="index.html" class="text-xs font-bold text-slate-500 hover:text-eco-700 transition-colors uppercase tracking-wider inline-flex items-center gap-1 mb-2">
+                <i class="fa-solid fa-arrow-left"></i> Accueil formation
+            </a>
+            <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                <span>🌱</span> EcoTrack <span class="text-eco-600">IA</span>
+            </h1>
+            <p class="text-sm text-slate-500 mt-2">Tech Leads, Devs & Analystes BI</p>
+            
+            <button id="mobile-close" class="md:hidden absolute top-4 right-4 text-slate-500 text-2xl" onclick="toggleSidebar()">×</button>
+        </div>
+
+        <div class="p-4 border-b border-stone-200 bg-stone-50/50">
+            <h3 class="text-sm font-bold text-slate-600 mb-2 text-center uppercase tracking-wider">Progression</h3>
+            <div class="chart-container">
+                <canvas id="progressChart"></canvas>
+            </div>
+            <p id="progress-text" class="text-center text-xs font-bold text-slate-500 mt-2">0 Labs complétés</p>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto p-4 space-y-2" id="module-nav">
+            </nav>
+        
+        <div class="p-4 border-t border-stone-200 text-xs text-center bg-stone-50">
+            <div class="font-bold text-slate-700 text-sm">Houssem Eddine Lassoued</div>
+            <a href="https://www.linkedin.com/in/houssemeddinelassoued/" target="_blank" class="text-eco-700 font-bold mb-2 uppercase tracking-wide hover:text-eco-800 transition-colors inline-block">
+                <i class="fa-brands fa-linkedin mr-1"></i> LinkedIn
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-full relative overflow-hidden">
+        <header class="md:hidden bg-white border-b border-stone-200 p-4 flex justify-between items-center z-10 shadow-sm">
+            <h2 class="text-lg font-bold text-eco-700">🌱 EcoTrack IA</h2>
+            <button class="text-2xl text-slate-600" onclick="toggleSidebar()">☰</button>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12" id="main-content">
+            <!-- Vue introduction (modules) -->
+            <div id="intro-view" class="max-w-4xl mx-auto space-y-8 animate-fade-in">
+                <div class="bg-gradient-to-br from-eco-50 to-blue-50 border border-stone-200 rounded-2xl p-8 shadow-sm">
+                    <h1 class="text-5xl font-extrabold text-slate-900 mb-2 tracking-tight">🌱 EcoTrack & IA</h1>
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">Le cursus intensif pour transformer le cycle de vie logiciel avec l'Intelligence Artificielle Générative dans l'écosystème Microsoft.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="bg-white border border-eco-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                            <h3 class="font-bold text-eco-700 mb-2 flex items-center gap-2">
+                                <span>🔴</span> Pôle Tech
+                            </h3>
+                            <p class="text-sm text-slate-600">Développeurs, Architectes, DevOps — C# 12, .NET 8, SQL Server, Docker, GitHub Actions.</p>
+                        </div>
+                        <div class="bg-white border border-blue-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                            <h3 class="font-bold text-blue-700 mb-2 flex items-center gap-2">
+                                <span>🔵</span> Pôle Biz & Data
+                            </h3>
+                            <p class="text-sm text-slate-600">BA, PO, BI Experts — Gherkin, T-SQL, DAX, SSRS, SSAS, M365 Copilot.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-300 rounded-xl p-6 mb-8">
+                        <p class="text-sm text-amber-900"><strong>🎯 Objectif :</strong> Construire le MVP d'EcoTrack, une plateforme SaaS B2B pour mesurer et réduire l'empreinte carbone informatique conforme au CSRD.</p>
+                    </div>
+
+                    <div class="bg-white border border-stone-200 rounded-xl p-5 mb-8">
+                        <p class="text-sm text-slate-600"><strong>🧰 Outils IA libres :</strong> chaque lab affiche plusieurs outils au choix — 💬 ChatGPT, Gemini, Claude, Grok, Mistral · ⌨️ GitHub Copilot, Claude Code, Codex, Cursor, AntiGravity · 📄 M365 Copilot, Gemini Workspace · 🎨 Stitch, v0.dev... Ce sont des exemples populaires, jamais des exigences.</p>
+                    </div>
+
+                    <div class="bg-white border border-orange-200 rounded-xl p-6 mb-8 shadow-sm">
+                        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                            <div>
+                                <h3 class="font-bold text-orange-700 mb-2 flex items-center gap-2">
+                                    <span>🟠</span> Parcours pour les Gestionnaires de Projet
+                                </h3>
+                                <p class="text-sm text-slate-600 leading-relaxed">Chefs de projet, PMO et Delivery Managers disposent maintenant d'une page complementaire dediee a l'IA appliquee au pilotage du projet EchoTrack, avec 10 modules orientes cadrage, planning, risques, budget et gouvernance.</p>
+                            </div>
+                            <a href="gestionnaires-projet-ia.html" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-bold text-center transition-all shadow-md hover:shadow-lg whitespace-nowrap">
+                                <i class="fa-solid fa-briefcase"></i> Acceder au parcours PM
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <a href="ia-explained.html" class="flex-1 px-6 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-center transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-200 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-lightbulb"></i> En Savoir Plus sur l'IA
+                        </a>
+                        <button onclick="goToFirstLab()" class="flex-1 px-6 py-4 rounded-xl bg-eco-600 hover:bg-eco-700 text-white font-bold text-center transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-200 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-arrow-right"></i> Aller aux Labs
+                        </button>
+                    </div>
+
+                    <button id="security-platform-btn" onclick="goToSecurityPlatform()" disabled class="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-bold text-center transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mt-4">
+                        <i class="fa-solid fa-shield"></i> Plateforme d'Évaluation : Sécurité IA <span id="security-completion-status" class="text-xs ml-2 opacity-80"></span>
+                    </button>
+                </div>
+
+                <div class="bg-white border border-stone-200 rounded-2xl p-8 shadow-sm">
+                    <div class="mb-6 p-5 bg-stone-50 border-l-4 border-eco-500 rounded-r-xl">
+                        <h3 class="font-bold text-slate-800 mb-2">Contexte Métier (Le Cas d'Usage)</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">      
+                            <strong>EcoTrack</strong> est une plateforme SaaS B2B novatrice conçue pour aider les entreprises à mesurer, analyser et réduire l'empreinte carbone de leur infrastructure informatique. Face aux nouvelles réglementations environnementales (comme la CSRD en Europe) et à la pression pour un numérique responsable, EcoTrack agrège les données de consommation énergétique des serveurs, des postes de travail et du réseau. L'objectif est de fournir aux DSI et aux directions RSE des tableaux de bord décisionnels et des pistes d'optimisation (Green IT).
+                        </p>
+                    </div>
+
+                    <p class="text-lg text-slate-600 mb-6 leading-relaxed">     
+                        Ce cursus unifie les équipes autour de la stack Microsoft. Les <strong>Développeurs (.NET, C#, SQL) et Experts BI</strong> coderont le moteur, optimiseront les bases de données et concevront les rapports (SSRS/Cubes OLAP). Les <strong>Analystes (BA/BI)</strong> utiliseront l'IA pour traduire les besoins métiers en spécifications (Gherkin, DAX, SQL) et créeront leurs propres <strong>Agents personnalisés</strong> dans M365. Vous découvrirez également <strong>l'Orchestration Multi-Agents</strong>, où plusieurs IA collaborent pour tester et sécuriser votre code de bout en bout.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-stone-50 p-6 rounded-xl border border-stone-200">
+                            <h3 class="font-bold text-slate-800 mb-3 text-lg flex items-center gap-2"><span>💻</span> Pour les Développeurs & BI</h3>
+                            <p class="text-sm text-slate-600 mb-3">Utilisation de <strong>GitHub Copilot (Visual Studio/VS Code)</strong> et IA Cloud pour l'architecture .NET, l'optimisation T-SQL, l'Orchestration d'Agents autonomes, le TDD, et les rapports SSRS.</p>
+                            <span class="text-xs font-bold bg-stone-200 text-stone-700 px-2 py-1 rounded">Modules 1, 3, 4, 5, 6, 7, 8, 10</span>
+                        </div>
+                        <div class="bg-biz-100/50 p-6 rounded-xl border border-biz-100">
+                            <h3 class="font-bold text-biz-800 mb-3 text-lg flex items-center gap-2"><span>📊</span> Pour les Analystes (BA/BI)</h3>
+                            <p class="text-sm text-slate-600 mb-3">Utilisation de <strong>Copilot M365 (Word/Excel/Agent Builder)</strong> ou IA Cloud pour structurer les User Stories, le BDD (Gherkin), créer des assistants spécialisés, et la conception des Data Warehouses.</p>
+                            <span class="text-xs font-bold bg-biz-100 text-biz-800 px-2 py-1 rounded">Modules 2, 9</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vue modules (contenu dynamique) -->
+            <div id="module-view" class="max-w-6xl mx-auto space-y-6 hidden"></div>
+        </div>
+    </main>
+
+    <div id="toast" class="fixed bottom-4 right-4 bg-slate-900 text-white px-6 py-3 rounded-lg shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-2 font-medium">
+        <span>📋</span> Prompt copié !
+    </div>
+
+    <script>
+        // --- Data Storage ---
+        // Outils IA au choix, par catégorie — des exemples populaires, jamais des exigences
+        const OUTILS = {
+            chat: ["ChatGPT", "Gemini", "Claude", "Grok", "Mistral"],
+            ide: ["GitHub Copilot", "Claude Code", "Codex", "Cursor", "AntiGravity"],
+            ui: ["Stitch", "v0.dev", "Lovable", "Bolt.new"]
+        };
+
+        const courseData = [
+            {
+                id: "mod1", icon: "🟢", target: "Tech",
+                title: "Module 1 : Conception & Architecture",
+                subtitle: "(Shift Left)",
+                intro: "L'IA Cloud accélère les phases de conception qui précèdent l'écriture du code (Modélisation DB SQL Server, Choix d'Architecture .NET).",
+                labs: [
+                    {
+                        id: "lab1_1", title: "Lab 1.1 : Modélisation T-SQL & Base de Données",
+                        targetBadge: "Architectes / Devs SQL", tools: OUTILS.chat,
+                        objective: "Générer un schéma relationnel et le script T-SQL (SQL Server) associé.",
+                        astuce: "Précisez la version de votre SGBD (ex: SQL Server 2022) pour profiter des dernières fonctionnalités (JSON, Temporal Tables) dans les scripts générés.",
+                        prompt: `Agis comme un Data Architect SQL Server. Je conçois le MVP 'EcoTrack'. Propose un modèle relationnel pour gérer :\n1. Entreprises clientes.\n2. Employés.\n3. Assets IT (Laptops, Serveurs) assignés.\n4. Historique de conso journalier.\n\nGénère :\n1. Le code Mermaid.js (ERD).\n2. Le script DDL complet en T-SQL avec clés primaires, étrangères, et des index non-clusterisés optimisés pour les lectures.`
+                    }
+                ]
+            },
+            {
+                id: "mod2", icon: "🤝", target: "Biz",
+                title: "Module 2 : Spécifications & Analyse Métier",
+                subtitle: "(Le pont Métier/Dev)",
+                intro: "Ce module montre comment les Business Analysts (BA) et Product Owners utilisent l'IA pour traduire un besoin métier flou en spécifications techniques (BDD/Gherkin) et concevoir leurs propres agents personnalisés via M365.",
+                labs: [
+                    {
+                        id: "lab2_1", title: "Lab 2.1 : Traduction du Besoin en BDD (Gherkin)",
+                        targetBadge: "Analystes / Product Owners", tools: ["M365 Copilot (Word)", "ChatGPT", "Gemini", "Claude"],
+                        objective: "Transformer une User Story basique en critères d'acceptation stricts compréhensibles par les tests automatisés (SpecFlow/.NET).",
+                        astuce: "La syntaxe Gherkin (Given/When/Then) générée par le BA dans Word peut être copiée/collée par le développeur dans Visual Studio pour générer les tests automatisés SpecFlow via Copilot.",
+                        prompt: `Agis comme un Product Owner technique. Notre client a exprimé ce besoin flou : "Je veux pouvoir ajouter un nouveau serveur au profil d'un employé, mais s'il a déjà 3 appareils, ça doit bloquer."\n\n1. Rédige la User Story formelle (En tant que... Je veux... Afin de...).\n2. Rédige les Critères d'Acceptation en syntaxe BDD Gherkin (Étant donné que... Quand... Alors...) incluant le cas nominal et le cas d'erreur (limite de 3 appareils atteinte).`
+                    },
+                    {
+                        id: "lab2_2", title: "Lab 2.2 : Dictionnaire de Données pour Cube OLAP",
+                        targetBadge: "Business Analysts / BI", tools: ["M365 Copilot (Excel)", "Gemini Workspace (Sheets)", "ChatGPT", "Claude"],
+                        objective: "Créer un référentiel commun (Lexique) pour aligner le vocabulaire du Data Warehouse (Faits, Dimensions).",
+                        astuce: "Dans Excel avec Copilot, utilisez ce prompt pour concevoir la structure en étoile de votre futur Cube OLAP.",
+                        prompt: `Génère la structure d'un Data Warehouse (Modèle en étoile) pour EcoTrack sous forme de tableau.\nColonnes requises : Type (Table de Fait / Dimension), Nom Technique suggéré, Description métier, Granularité.\n\nInclus les dimensions Temps, Entreprise, Équipement IT, et la table de Fait "Consommation Énergétique".`
+                    },
+                    {
+                        id: "lab2_3", title: "Lab 2.3 : Création d'un Agent Métier personnalisé",
+                        targetBadge: "Business Analysts / PO", tools: ["M365 Agent Builder", "GPTs (ChatGPT)", "Gems (Gemini)", "Projects (Claude)"],
+                        objective: "Configurer un assistant personnalisé dans Microsoft 365 Copilot pour automatiser l'analyse de documents ou la rédaction de spécifications.",
+                        astuce: "Dans l'onglet 'Configurer' de M365 Agent Builder, limitez les 'Connaissances' à des fichiers ou dossiers SharePoint spécifiques et désactivez la recherche Web. Cela évite les hallucinations et garantit que votre agent ne se base que sur votre propre référentiel métier sécurisé.",
+                        prompt: `--- CONFIGURATION DE L'AGENT M365 (À coller dans l'Agent Builder) ---\n\nNom : Expert Spécifications & Data\nDescription : Assistant spécialisé dans la synthèse documentaire et la rédaction technique de projets IT.\n\nInstructions (Prompt Système) :\nTu es un Assistant Business Analyst Senior. Ton rôle est de synthétiser les données d'entreprise et d'aider à la rédaction.\nRègles obligatoires :\n1. Base tes analyses UNIQUEMENT sur les fichiers fournis dans tes connaissances (SharePoint/OneDrive).\n2. Adopte un ton professionnel, structuré et concis.\n3. Si on te demande une User Story, utilise toujours le format "En tant que... Je veux... Afin de...".\n4. Privilégie les tableaux pour synthétiser des données complexes.\n5. Si l'information n'est pas dans tes fichiers sources, réponds "Information non disponible dans la base de connaissances".\n\nRequêtes suggérées (Starters) :\n- "Rédige un résumé exécutif du dernier document chargé."\n- "Génère les critères d'acceptation (Gherkin) pour cette fonctionnalité."\n- "Extrais les KPIs principaux sous forme de tableau."`
+                    }
+                ]
+            },
+            {
+                id: "mod3", icon: "🟡", target: "Tech",
+                title: "Module 3 : Développement & Agents Simples",
+                subtitle: "(Le cœur du réacteur C# & SQL)",
+                intro: "Configuration de l'Agent IA de base dans Visual Studio / VS Code, développement de la logique C# et refactoring de code SQL legacy.",
+                labs: [
+                    {
+                        id: "lab3_1", title: "Lab 3.1 : Configuration de l'Agent .NET",
+                        targetBadge: "Développeurs C#", tools: OUTILS.ide,
+                        objective: "Paramétrer le contexte de l'IA pour respecter la Clean Code en C#.",
+                        prompt: `Context : Tu es un Développeur Senior C# travaillant sur "EcoTrack".\nLanguage : C# 12, .NET 8, Entity Framework Core.\nRules : Applique SOLID, utilise LINQ de manière performante, variables en anglais, ajoute la documentation XML summary, gère les erreurs via des Exceptions personnalisées.`
+                    },
+                    {
+                        id: "lab3_2", title: "Lab 3.2 : Moteur de Calcul (C# & EF Core)",
+                        targetBadge: "Développeurs C#", tools: OUTILS.ide,
+                        objective: "Implémenter la logique métier avec l'Agent.",
+                        astuce: "Dans Visual Studio, demandez d'abord à Copilot Chat de proposer un Design Pattern (Strategy/Factory) adapté au C# avant de générer les classes.",
+                        prompt: `Implémente le moteur de calcul carbone orienté objet en C#.\n1. Crée les interfaces de base.\n2. Logique de calcul pour Serveur et Laptop.\n3. Utilise LINQ pour agréger les données fictives d'une liste.\nNe me donne pas tout dans un seul gros bloc, sépare le code par fichiers structurés.`
+                    },
+                    {
+                        id: "lab3_3", title: "Lab 3.3 : Refactoring SQL Legacy (Curseurs)",
+                        targetBadge: "Développeurs SQL / BI", tools: OUTILS.ide,
+                        objective: "Remplacer un code itératif T-SQL lent par une approche ensembliste performante.",
+                        astuce: "Les IA sont excellentes pour traduire des boucles WHILE ou des CURSEURS en opérations SET-BASED (CTE, Window Functions) optimisées pour SQL Server.",
+                        prompt: `Agis comme un Expert SQL Server (T-SQL). J'ai ce vieux code utilisant un curseur pour calculer un cumul de consommation par entreprise :\n(Génère toi-même un court exemple de curseur T-SQL inefficace).\n\nRéécris ce code en utilisant une approche ensembliste performante (Set-based) avec les fonctions de fenêtrage (Window Functions : OVER, PARTITION BY). Explique le gain de performance estimé.`
+                    }
+                ]
+            },
+            {
+                id: "mod4", icon: "🤖", target: "Tech",
+                title: "Module 4 : Création d'Agents Spécialisés",
+                subtitle: "(Les Experts Individuels)",
+                intro: "Bienvenue dans le développement assisté avancé. Au lieu d'utiliser un simple chat, vous allez créer des experts individuels dédiés à des tâches précises (Testeur, Nettoyeur, Architecte, Ingénieur Sécurité). Ces agents possèderont des instructions strictes pour vous assister sur leur domaine d'expertise spécifique.",
+                labs: [
+                    {
+                        id: "lab4_1", title: "Lab 4.1 : Créer les Profils Spécialisés",
+                        targetBadge: "Tech Leads / Devs", tools: OUTILS.ide,
+                        objective: "Définir les instructions strictes et les rôles de chaque agent expert.",
+                        astuce: "En pratique, vous créez ces 4 fichiers dans votre dépôt Git (ex: '.github/agents/'). Vous pourrez ensuite les consulter ou les invoquer un par un selon le besoin.",
+                        prompt: `--- FICHIER 1 : unit-tester.agent.md ---\nRôle : QA automatisé (Framework: xUnit/Moq).\nObjectifs : Couverture > 90%, Edge cases, Cas invalides.\nOutils : #read, #edit, #runTests, #testFailure.\nSortie : Rapport d'analyse et génération de code de test unitaire robuste.\n\n--- FICHIER 2 : refactor.agent.md ---\nRôle : Senior Dev orienté Clean Code.\nObjectifs : Réduire complexité (SOLID, DRY), proposer des renommages, créer des patches sûrs.\nOutils : #read/problems, #search/changes.\n\n--- FICHIER 3 : api-contract.agent.md ---\nRôle : Architecte d'API.\nObjectifs : Cohérence REST/OpenAPI, codes HTTP, pas de breaking changes.\nSortie : Spécifications mises à jour (Swagger/OpenAPI YAML).\n\n--- FICHIER 4 : security.agent.md ---\nRôle : AppSec Engineer.\nObjectifs : Détecter failles (OWASP), Injection SQL, fuite de secrets.\nSortie : Rapport de mitigation priorisé et patchs de sécurité.`
+                    }
+                ]
+            },
+            {
+                id: "mod5", icon: "🧠", target: "Tech",
+                title: "Module 5 : Orchestration Multi-Agents",
+                subtitle: "(Le Master Agent)",
+                intro: "Voici l'étape supérieure : l'Orchestration. Plutôt que d'invoquer vous-même chaque expert, vous allez créer un <strong>Master Agent</strong>. C'est le Chef d'Orchestre. Il analyse votre code et décide de piloter lui-même les sous-agents (Test, Sécurité, Refactor) pour un audit complet.",
+                labs: [
+                    {
+                        id: "lab5_1", title: "Lab 5.1 : Le Chef d'Orchestre",
+                        targetBadge: "Tech Leads", tools: OUTILS.ide,
+                        objective: "Créer le cerveau qui va piloter les sous-agents via l'outil #runSubagent.",
+                        astuce: "Le Master Agent ne code presque pas. Son rôle est managérial : il consolide les rapports des sous-agents en un Plan Qualité unique et priorisé.",
+                        prompt: `--- FICHIER : master.agent.md ---\nDescription: "Full Testing Squad Agent - Orchestrateur QA".\nOutils autorisés : ['#agent/runSubagent', '#execute/runTests', '#edit', '#todo']\n\nRôle : Test/QA Lead. Tu coordonnes le module demandé.\nStratégie d'orchestration :\n1. Collecte le contexte du code ciblé.\n2. Invoque l'Agent 1 (Unit Tester) via #runSubagent pour générer les tests.\n3. Invoque l'Agent 2 (Refactor) pour simplifier le code.\n4. Invoque l'Agent 3 (API Contract) si des endpoints sont touchés.\n5. Invoque l'Agent 4 (Security) pour le scan AppSec.\n6. Consolidation : Compile leurs retours, élimine les doublons, et crée un "Plan Qualité Final" (Priorités, Patches générés) dans /reports.`
+                    },
+                    {
+                        id: "lab5_2", title: "Lab 5.2 : Lancer la Squad sur EcoTrack",
+                        targetBadge: "Développeurs C#", tools: OUTILS.ide,
+                        objective: "Observer le Master Agent prendre le contrôle et exécuter le workflow complet.",
+                        astuce: "Donnez une tâche unique au Master, il va cascader les commandes aux autres IA en arrière-plan.",
+                        prompt: `@master_agent Lance une révision complète de l'API EcoTrack sur le fichier 'EmissionCalculationController.cs'.\n\nTon objectif :\n- S'assurer que le calcul carbone est testé à >90%.\n- Que le endpoint ne présente pas de faille d'injection.\n- Que la spec OpenAPI correspond bien au contrat retourné.\n\nDéclenche ta Squad, valide les tests, et fournis-moi le Plan d'Action Qualité final consolidé.`
+                    }
+                ]
+            },
+            {
+                id: "mod6", icon: "🎨", target: "Tech",
+                title: "Module 6 : Frontend & Visualisation",
+                subtitle: "(Accélération UI & Skills)",
+                intro: "Création rapide d'une interface de tableau de bord professionnelle en modélisant l'UI avec l'IA et en standardisant la génération de code via un fichier Skill.",
+                labs: [
+                    {
+                        id: "lab6_1", title: "Lab 6.1 : Modélisation Rapide UI/UX",
+                        targetBadge: "Développeurs / UX", tools: OUTILS.ui,
+                        objective: "Générer la structure UI visuelle du tableau de bord de manière interactive.",
+                        astuce: "Les outils d'IA générative UI (comme Stitch de Google ou v0.dev) permettent de modéliser une interface fonctionnelle à partir d'un simple prompt ou d'un croquis, accélérant considérablement l'idéation avant le codage effectif.",
+                        prompt: `Crée le wireframe Frontend du Dashboard EcoTrack.\nInclus : Une barre latérale de navigation sombre, une carte KPI 'Empreinte Totale' (ex: 4,520 kgCO2), un indicateur de tendance (-12% en vert), et une zone principale pour un graphique Area Chart.\nLe style doit être moderne, SaaS B2B, avec beaucoup d'espace blanc et des coins arrondis.`
+                    },
+                    {
+                        id: "lab6_2", title: "Lab 6.2 : Le Fichier Skill Frontend",
+                        targetBadge: "Tech Leads / Devs", tools: OUTILS.ide,
+                        objective: "Créer un fichier de 'Skill' (compétence) pour dicter à l'IA les règles strictes de développement UI.",
+                        astuce: "Le fichier Skill agit comme un manuel de directives. En le fournissant dans le contexte de votre IDE, vous garantissez que l'IA n'invente pas de CSS aléatoire et respecte votre Design System à la lettre.",
+                        prompt: `--- FICHIER : frontend-ui.skill.md ---\nDescription: Instructions de génération UI/UX pour EcoTrack.\n\nRègles CSS & Framework :\n- Utilise EXCLUSIVEMENT Tailwind CSS.\n- Interdiction d'écrire du CSS inline (style="...").\n\nPalette de Couleurs (Design System) :\n- Primaire : Emerald (bg-emerald-500, text-emerald-700).\n- Neutres : Slate (bg-slate-50, text-slate-800).\n\nComposants & Bonnes Pratiques :\n- Ajoute systématiquement les attributs ARIA pour l'accessibilité.\n- Rends l'interface responsive (classes sm:, md:, lg:).\n\nAction : En appliquant strictement cette Skill, génère le composant "EmpreinteKpiCard".`
+                    }
+                ]
+            },
+            {
+                id: "mod7", icon: "🛡️", target: "Tech",
+                title: "Module 7 : Sécurité Ciblée (AppSec)",
+                subtitle: "(Au-delà des Agents)",
+                intro: "Si vous n'utilisez pas l'Orchestration Automatique, voici comment prompter l'IA ponctuellement pour auditer le code T-SQL et bloquer les failles.",
+                labs: [
+                    {
+                        id: "lab7_1", title: "Lab 7.1 : QA & Tests xUnit (Moq)",
+                        targetBadge: "Développeurs C#", tools: OUTILS.ide,
+                        objective: "Générer des tests unitaires C# pour les cas limites (approche manuelle).",
+                        prompt: `Voici ma méthode C# de calcul carbone (coller code du lab 3.2). Agis comme un QA Engineer impitoyable.\n1. Liste 3 Edge Cases qui pourraient déclencher une exception (ex: null reference, division by zero).\n2. Écris les tests unitaires en utilisant xUnit et Moq pour mocker les dépendances. Inclus le Happy Path.`
+                    },
+                    {
+                        id: "lab7_2", title: "Lab 7.2 : Audit Sécurité T-SQL (SQLi)",
+                        targetBadge: "Développeurs SQL", tools: OUTILS.chat,
+                        objective: "Identifier et corriger les vulnérabilités dans les procédures stockées.",
+                        astuce: "Le SQL dynamique (\`EXEC(@sql)\`) est une source majeure de failles. Utilisez l'IA pour le transformer en \`sp_executesql\` sécurisé.",
+                        prompt: `Agis comme un DBA Cybersécurité. Analyse cette procédure stockée contenant du SQL dynamique :\n\nCREATE PROCEDURE GetAssetsByCompany @CompanyName VARCHAR(100)\nAS\nDECLARE @sql VARCHAR(MAX) = 'SELECT * FROM Assets WHERE Company = ''' + @CompanyName + '''';\nEXEC(@sql);\n\n1. Explique pourquoi ce code est vulnérable à l'Injection SQL.\n2. Fournis la version corrigée et sécurisée en utilisant sp_executesql.`
+                    }
+                ]
+            },
+            {
+                id: "mod8", icon: "⚙️", target: "Tech",
+                title: "Module 8 : DevOps & Déploiement",
+                subtitle: "(CI/CD & Infra Skills)",
+                intro: "Automatisation de la stack Microsoft avec CI/CD, déploiement de bases de données, et standardisation de l'infrastructure locale (Docker/PostgreSQL) via des fichiers Skills.",
+                labs: [
+                    {
+                        id: "lab8_1", title: "Lab 8.1 : Pipeline CI/CD (.NET & DACPAC)",
+                        targetBadge: "Développeurs / DevOps", tools: OUTILS.chat,
+                        objective: "Générer un workflow GitHub Actions pour compiler l'API et la BDD.",
+                        prompt: `Génère un fichier .github/workflows/ci.yml pour un projet .NET 8 et SQL Server.\nÉtapes :\n1. Checkout du code.\n2. Setup .NET 8.\n3. Restauration NuGet et dotnet build.\n4. Lancement des tests dotnet test.\n5. Build d'un projet de base de données SQL (DACPAC) prêt pour le déploiement continu.`
+                    },
+                    {
+                        id: "lab8_2", title: "Lab 8.2 : Fichier Skill DevOps (PostgreSQL & Docker)",
+                        targetBadge: "Tech Leads / DevOps", tools: OUTILS.ide,
+                        objective: "Créer un fichier Skill pour standardiser la génération d'environnements locaux avec Docker Compose.",
+                        astuce: "Un fichier Skill fige vos conventions d'infrastructure. Ainsi, chaque fois qu'un développeur demande un conteneur Postgres, l'IA (Copilot) générera systématiquement une configuration sécurisée et conforme aux règles de votre équipe.",
+                        prompt: `---
+name : db-postgres-docker-integration
+description : Skill d'implémentation de PostgresSQL via Docker Compose 
+---
+# SKILL : Intégration d'une Base de Données (Docker Compose + PostgreSQL)
+
+Règles d'infrastructure obligatoires :
+- Utilise l'image officielle 'postgres:16-alpine' (légèreté et sécurité).
+- Ne hardcode JAMAIS les mots de passe. Utilise POSTGRES_USER, POSTGRES_PASSWORD, et POSTGRES_DB via des variables d'environnement.
+- Déclare un volume Docker nommé 'ecotrack_pg_data' pour la persistance dans /var/lib/postgresql/data.
+- Expose le port 5432 uniquement sur l'hôte local (127.0.0.1:5432:5432).
+- Inclus un bloc 'healthcheck' qui utilise 'pg_isready -U \${POSTGRES_USER}'.
+
+Action : En appliquant strictement cette Skill, génère le fichier "docker-compose.yml" pour l'environnement local de développement.`
+                    }
+                ]
+            },
+            {
+                id: "mod9", icon: "📊", target: "Biz",
+                title: "Module 9 : BI, Data & Reporting",
+                subtitle: "(SSRS, OLAP & DAX)",
+                intro: "Ce module montre comment les développeurs BI et Analystes utilisent l'IA pour générer des Datasets SSRS, concevoir des requêtes multidimensionnelles (DAX/MDX) et faire parler la donnée.",
+                labs: [
+                    {
+                        id: "lab9_1", title: "Lab 9.1 : Datasets pour Rapports SSRS",
+                        targetBadge: "Développeurs BI / SQL", tools: OUTILS.ide,
+                        objective: "Générer des requêtes complexes avec des paramètres en cascade pour SQL Server Reporting Services.",
+                        astuce: "Précisez à l'IA d'utiliser la fonction \`ISNULL\` ou \`COALESCE\` avec les paramètres pour gérer la fonctionnalité 'Select All' de SSRS nativement dans le SQL.",
+                        prompt: `Agis comme un Expert SSRS. Rédige une requête T-SQL optimisée pour un Dataset de rapport qui affiche l'empreinte carbone par employé.\n\nLa requête doit accepter deux paramètres : @StartDate et @EndDate, et un paramètre à choix multiple @DepartmentID.\nFais en sorte que si @DepartmentID vaut NULL, la requête renvoie tous les départements (astuce SSRS Select All).\nAjoute des commentaires explicatifs.`
+                    },
+                    {
+                        id: "lab9_2", title: "Lab 9.2 : Mesures DAX & MDX pour Cubes OLAP",
+                        targetBadge: "Experts BI / Data Analysts", tools: OUTILS.chat,
+                        objective: "Générer des mesures temporelles analytiques complexes pour SSAS / Power BI.",
+                        astuce: "Fournissez la structure de vos tables (Faits et Dimensions) à l'IA pour que les mesures DAX utilisent vos vrais noms de colonnes (Context Grounding).",
+                        prompt: `Agis comme un Expert Business Intelligence (SSAS / Power BI). Je travaille sur notre cube EcoTrack.\nMa table de fait s'appelle 'FactEmissions' (Colonnes: DateKey, CO2Amount) et ma dimension temps est 'DimDate'.\n\nÉcris et explique la mesure DAX optimisée qui calcule :\n1. L'empreinte carbone YTD (Year-To-Date).\n2. La comparaison Year-Over-Year (YoY) en pourcentage par rapport à la même période l'année précédente.`
+                    },
+                    {
+                        id: "lab9_3", title: "Lab 9.3 : Executive Summary & Storytelling",
+                        targetBadge: "Business Analysts / Management", tools: ["M365 Copilot (Word/PPT)", "ChatGPT", "Gemini", "Claude"],
+                        objective: "Faire parler les données brutes pour le comité de direction.",
+                        astuce: "Dans Microsoft Word, utilisez Copilot avec le document Excel de données en référence (ex: '/FichierDonnees.xlsx') pour qu'il rédige le rapport factuel automatiquement.",
+                        prompt: `À partir du jeu de données suivant (génère un court mock de données CO2 YTD généré au Lab précédent), rédige un 'Executive Summary' d'une page pour le Comex.\n\nStructure :\n1. Constat majeur (Le chiffre clé qui choque).\n2. Analyse des causes.\n3. Recommandations d'actions pour réduire l'empreinte de 15% le trimestre prochain.\nTon ton doit être formel, orienté 'Business Value'.`
+                    }
+                ]
+            },
+            {
+                id: "mod10", icon: "⚫", target: "Tech",
+                title: "Module 10 : Documentation",
+                subtitle: "",
+                intro: "Générer un README parfait basé sur l'arborescence du projet C#.",
+                labs: [
+                    {
+                        id: "lab10_1", title: "Lab 10.1 : Le README Parfait",
+                        targetBadge: "Développeurs", tools: OUTILS.ide,
+                        objective: "Documenter le projet EcoTrack.",
+                        prompt: `Rédige un fichier README.md professionnel pour notre solution .NET. Sections : Pitch du projet, Architecture (C#, SQL Server, SSRS), Prérequis, Commandes d'installation locales (dotnet run), et Restore de la DB via DACPAC.`
+                    }
+                ]
+            }
+        ];
+
+        // --- State Management ---
+        let state = {
+            currentModuleIndex: null,
+            completedLabs: JSON.parse(localStorage.getItem('ecoTrackProgress_v2')) || []
+        };
+        let chartInstance = null;
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSidebar();
+            initChart();
+            updateProgressUI();
+            updateSecurityPlatformButton();
+        });
+
+        // --- Core Functions ---
+
+        function renderSidebar() {
+            const nav = document.getElementById('module-nav');
+            nav.innerHTML = '';
+            
+            const homeBtn = document.createElement('button');
+            homeBtn.className = `w-full text-left px-4 py-3 rounded-xl transition-all duration-200 flex items-center gap-3 font-medium hover:bg-stone-100 text-slate-700 mb-2`;
+            homeBtn.innerHTML = `<span>🏠</span> <span class="truncate">Accueil Projet</span>`;
+            homeBtn.onclick = () => showIntro();
+            nav.appendChild(homeBtn);
+
+            courseData.forEach((mod, index) => {
+                const btn = document.createElement('button');
+                const isSelected = state.currentModuleIndex === index;
+                
+                let activeClass = 'bg-stone-100 border-stone-300 text-slate-800';
+                if(isSelected) {
+                    activeClass = mod.target === 'Biz' ? 'bg-biz-100 border-biz-300 text-biz-900 shadow-sm' : 'bg-eco-50 border-eco-200 text-eco-900 shadow-sm';
+                }
+
+                btn.className = `w-full text-left px-3 py-3 rounded-xl transition-all duration-200 flex items-center gap-3 border
+                    ${isSelected ? activeClass : 'border-transparent hover:bg-stone-100 text-slate-600'}`;
+                
+                const modLabs = mod.labs.map(l => l.id);
+                const completedInMod = modLabs.filter(id => state.completedLabs.includes(id)).length;
+                const isModComplete = completedInMod === modLabs.length && modLabs.length > 0;
+                
+                btn.innerHTML = `
+                    <span class="text-xl flex-shrink-0">${mod.icon}</span> 
+                    <div class="flex-1 min-w-0">
+                        <div class="truncate text-sm font-bold">${mod.title.split(' : ')[0]}</div>
+                        <div class="truncate text-xs ${isSelected && mod.target === 'Biz' ? 'text-biz-700' : 'text-slate-500'}">${mod.title.split(' : ')[1] || ''}</div>
+                    </div>
+                    ${isModComplete ? '<span class="text-eco-500 text-sm">✔</span>' : ''}
+                `;
+                btn.onclick = () => loadModule(index);
+                nav.appendChild(btn);
+            });
+        }
+
+        function showIntro() {
+            state.currentModuleIndex = null;
+            document.getElementById('intro-view').classList.remove('hidden');
+            document.getElementById('module-view').classList.add('hidden');
+            renderSidebar(); 
+            if(window.innerWidth < 768) toggleSidebar();
+        }
+
+        function goToFirstLab() {
+            if(courseData.length > 0) {
+                loadModule(0);
+            }
+        }
+
+        function goToSecurityPlatform() {
+            window.location.href = 'quiz-security.html';
+        }
+
+        function getCompletionPercentage() {
+            let totalLabs = 0;
+            courseData.forEach(m => totalLabs += m.labs.length);
+            if (totalLabs === 0) return 0;
+            const completed = state.completedLabs.length;
+            return Math.round((completed / totalLabs) * 100);
+        }
+
+        function updateSecurityPlatformButton() {
+            const completionPct = getCompletionPercentage();
+            const securityBtn = document.getElementById('security-platform-btn');
+            const completionStatus = document.getElementById('security-completion-status');
+            
+            if (securityBtn) {
+                if (completionPct >= 50) {
+                    securityBtn.disabled = false;
+                    completionStatus.innerText = `(${completionPct}% - Déverrouillé)`;
+                } else {
+                    securityBtn.disabled = true;
+                    completionStatus.innerText = `(${completionPct}% - Minimum 50% requis)`;
+                }
+            }
+        }
+
+        function loadModule(index) {
+            state.currentModuleIndex = index;
+            const mod = courseData[index];
+            const view = document.getElementById('module-view');
+            const intro = document.getElementById('intro-view');
+            
+            intro.classList.add('hidden');
+            view.classList.remove('hidden');
+            view.innerHTML = ''; 
+
+            const isBiz = mod.target === 'Biz';
+            
+            // Couleurs de thème (statiques pour Tailwind)
+            const themeStyles = {
+                eco: { borderLight: 'border-eco-200', textPrimary: 'text-eco-600', bgLight: 'bg-eco-50', borderMedium: 'border-eco-400', bgMedium: 'bg-eco-500', textDark: 'text-eco-900' },
+                biz: { borderLight: 'border-biz-200', textPrimary: 'text-biz-600', bgLight: 'bg-biz-100', borderMedium: 'border-biz-400', bgMedium: 'bg-biz-500', textDark: 'text-biz-900' }
+            };
+            const theme = themeStyles[isBiz ? 'biz' : 'eco'];
+
+            const header = document.createElement('div');
+            header.className = `bg-white border ${theme.borderLight} p-8 rounded-2xl mb-8 shadow-sm`;
+            header.innerHTML = `
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-3xl">${mod.icon}</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">${mod.title}</h2>
+                </div>
+                ${mod.subtitle ? `<p class="${theme.textPrimary} font-bold mb-4 uppercase tracking-wide text-sm">${mod.subtitle}</p>` : ''}
+
+                ${mod.image ? `<img src="${mod.image}" alt="Illustration ${mod.title}" class="w-full h-auto rounded-xl mb-6 shadow-md border border-stone-200 object-cover mt-4">` : ''}
+
+                <p class="text-slate-600 leading-relaxed text-lg">${mod.intro}</p>
+            `;
+            view.appendChild(header);
+
+            mod.labs.forEach((lab) => {
+                const isCompleted = state.completedLabs.includes(lab.id);
+                const labCard = document.createElement('div');
+                labCard.className = `bg-white border rounded-2xl overflow-hidden transition-all duration-300 ${isCompleted ? `${theme.borderMedium} shadow-md` : 'border-stone-200 shadow-sm'}`;
+
+                labCard.innerHTML = `
+                    <div class="p-6 md:p-8 border-b border-stone-100 flex flex-col md:flex-row justify-between items-start gap-4">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="inline-flex items-center bg-stone-100 text-stone-700 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider">🎯 ${lab.targetBadge}</span>
+                                <span class="inline-flex items-center bg-slate-800 text-slate-100 text-xs px-2.5 py-1 rounded-md font-bold tracking-wider">🛠 Au choix</span>
+                                ${(lab.tools || [lab.toolBadge]).map(t => `<span class="inline-flex items-center bg-white border border-slate-300 text-slate-700 text-xs px-2.5 py-1 rounded-md font-semibold">${t}</span>`).join('')}
+                            </div>
+                            <h3 class="text-xl font-extrabold text-slate-900 mb-2">${lab.title}</h3>
+                            <p class="text-slate-600 mb-4 font-medium">${lab.objective}</p>
+
+                            ${lab.astuce ? `
+                            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 shadow-sm">
+                                <span class="text-amber-500 text-xl flex-shrink-0">💡</span>
+                                <div>
+                                    <h4 class="text-sm font-bold text-amber-900 mb-1">Impact Métier / Tech</h4>
+                                    <p class="text-sm text-amber-800 leading-relaxed">${lab.astuce}</p>
+                                </div>
+                            </div>
+                            ` : ''}
+
+                        </div>
+                        <button onclick="toggleLab('${lab.id}')" class="flex-shrink-0 w-12 h-12 rounded-full border-2 flex items-center justify-center transition-colors text-lg
+                            ${isCompleted ? `${theme.bgMedium} ${theme.borderMedium} text-white` : 'border-stone-300 text-transparent hover:border-stone-400'}">
+                            ✔
+                        </button>
+                    </div>
+                    <div class="p-6 md:p-8 bg-stone-50">
+                        <div class="flex justify-between items-center mb-3">    
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Prompt à copier</span>
+                            <button onclick="copyToClipboard(this, '${lab.id}')" class="text-sm ${theme.textPrimary} hover:font-bold font-bold flex items-center gap-1 transition-colors bg-white px-3 py-1 rounded-md border border-stone-200 shadow-sm">
+                                <span>📋</span> Copier
+                            </button>
+                        </div>
+                        <pre class="bg-slate-900 text-stone-100 p-5 rounded-xl text-sm overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed shadow-inner border border-slate-800">${lab.prompt}</pre>
+                    </div>
+                `;
+                view.appendChild(labCard);
+            });
+
+            renderSidebar();
+            if(window.innerWidth < 768) toggleSidebar();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleLab(labId) {
+            const idx = state.completedLabs.indexOf(labId);
+            if (idx > -1) {
+                state.completedLabs.splice(idx, 1); 
+            } else {
+                state.completedLabs.push(labId); 
+            }
+            
+            localStorage.setItem('ecoTrackProgress_v2', JSON.stringify(state.completedLabs));
+            updateProgressUI();
+            if(state.currentModuleIndex !== null) loadModule(state.currentModuleIndex); 
+        }
+
+        function copyToClipboard(btnElement, labId) {
+            let textToCopy = "";
+            courseData.forEach(mod => {
+                const lab = mod.labs.find(l => l.id === labId);
+                if (lab) textToCopy = lab.prompt;
+            });
+
+            if (!textToCopy) return;
+
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    const toast = document.getElementById('toast');
+                    toast.classList.remove('translate-y-20', 'opacity-0');
+                    
+                    const originalHtml = btnElement.innerHTML;
+                    btnElement.innerHTML = `<span>✅</span> Copié`;
+                    btnElement.classList.add('text-green-700', 'border-green-300', 'bg-green-50');
+                    
+                    setTimeout(() => {
+                        toast.classList.add('translate-y-20', 'opacity-0');
+                        btnElement.innerHTML = originalHtml;
+                        btnElement.classList.remove('text-green-700', 'border-green-300', 'bg-green-50');
+                    }, 2000);
+                }
+            } catch (err) {
+                console.error('Oops, impossible de copier', err);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Complété', 'À faire'],
+                    datasets: [{
+                        data: [0, 100],
+                        backgroundColor: ['#10b981', '#e5e7eb'], 
+                        borderWidth: 0,
+                        hoverOffset: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, 
+                    cutout: '75%',
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    animation: { animateScale: true }
+                },
+                plugins: [{
+                    id: 'textCenter',
+                    beforeDraw: function(chart) {
+                        var width = chart.width, height = chart.height, ctx = chart.ctx;
+                        ctx.restore();
+                        var fontSize = (height / 90).toFixed(2);
+                        ctx.font = "bold " + fontSize + "em sans-serif";
+                        ctx.textBaseline = "middle";
+                        ctx.fillStyle = "#1e293b"; 
+
+                        var percentage = chart.data.datasets[0].data[0] + chart.data.datasets[0].data[1] === 0 ? 0 : 
+                            Math.round((chart.data.datasets[0].data[0] / (chart.data.datasets[0].data[0] + chart.data.datasets[0].data[1])) * 100);
+                        
+                        var text = percentage + "%",
+                            textX = Math.round((width - ctx.measureText(text).width) / 2),
+                            textY = height / 2;
+
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+            });
+        }
+
+        function updateProgressUI() {
+            let totalLabs = 0;
+            courseData.forEach(m => totalLabs += m.labs.length);
+            const completed = state.completedLabs.length;
+            const remaining = totalLabs - completed;
+
+            document.getElementById('progress-text').innerText = `${completed} / ${totalLabs} Labs complétés`;
+
+            if(chartInstance) {
+                chartInstance.data.datasets[0].data = [completed, remaining];
+                chartInstance.data.datasets[0].backgroundColor = completed === totalLabs ? ['#047857', '#e5e7eb'] : ['#10b981', '#e5e7eb'];
+                chartInstance.update();
+            }
+            renderSidebar();
+            updateSecurityPlatformButton();
+        }
+    </script>
+</body>
+</html>

@@ -181,7 +181,7 @@
             </div>
         </div>
 
-        <div class="text-sm font-bold text-slate-400" id="slide-counter">1 / 5</div>
+        <div class="text-sm font-bold text-slate-400" id="slide-counter">1 / 12</div>
     </header>
 
     <!-- Main Content Area -->
@@ -203,7 +203,7 @@
                     <i class="fa-solid fa-bullseye text-2xl text-blue-500 mt-1"></i>
                     <div>
                         <h3 class="font-bold text-lg mb-1">Objectif de cette session :</h3>
-                        <p class="text-slate-600">Comprendre les 4 piliers fondamentaux : <strong>Tokenisation, Attention, Réseaux Profonds et Génération Probabiliste</strong>.</p>
+                        <p class="text-slate-600">Trois blocs : les <strong>4 piliers fondamentaux</strong> (slides 1-4) — <strong>Tokenisation, Attention, Réseaux Profonds, Génération Probabiliste</strong> ; les <strong>4 usages avancés</strong> (slides 5-8) — <strong>Prompt Engineering, Hallucinations &amp; Grounding, RAG, Agents</strong> ; et l'<strong>IA en pratique &amp; en équipe</strong> (slides 9-11) — <strong>IA dans le SDLC, Panorama des outils, Workflows automatisés</strong>.</p>
                     </div>
                 </div>
             </div>
@@ -404,6 +404,266 @@
             </div>
         </div>
 
+        <!-- SLIDE 6: PROMPT ENGINEERING -->
+        <div class="slide" id="slide-5">
+            <div class="max-w-5xl mx-auto w-full">
+                <h2 class="text-4xl font-bold mb-2"><span class="text-violet-500">5.</span> Le Prompt Engineering</h2>
+                <p class="text-xl text-slate-500 mb-8">La qualité de la réponse dépend de la structure de la demande.</p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Constructeur de prompt -->
+                    <div class="glass-panel p-8">
+                        <h3 class="text-2xl font-bold mb-4"><i class="fa-solid fa-sliders text-violet-500 mr-2"></i>Constructeur de Prompt</h3>
+                        <p class="text-slate-600 mb-5 text-sm">Tâche de départ : <em>« Propose des idées pour valoriser mes invendus. »</em><br>Activez les composants pour structurer la demande :</p>
+                        <div class="space-y-2 mb-5" id="prompt-toggles">
+                            <!-- Interrupteurs générés par JS -->
+                        </div>
+                        <div class="bg-slate-900 rounded-xl p-4 font-mono text-xs text-slate-100 leading-relaxed min-h-[140px]" id="prompt-preview"></div>
+                    </div>
+
+                    <!-- Qualité & réponse simulée -->
+                    <div class="glass-panel p-8 bg-gradient-to-br from-slate-50 to-violet-50">
+                        <h3 class="text-2xl font-bold mb-4"><i class="fa-solid fa-gauge-high text-violet-500 mr-2"></i>Qualité attendue de la réponse</h3>
+                        <div class="flex justify-between text-sm font-bold text-slate-500 mb-2">
+                            <span>Vague</span>
+                            <span id="prompt-quality-label" class="text-violet-600 text-lg">20%</span>
+                            <span>Exploitable</span>
+                        </div>
+                        <div class="h-3 bg-slate-100 rounded-full overflow-hidden mb-6 border border-slate-200">
+                            <div id="prompt-quality-bar" class="h-full bg-red-400 transition-all duration-500" style="width: 20%"></div>
+                        </div>
+                        <div class="bg-white p-5 rounded-xl border-2 border-violet-100 shadow-md mb-4">
+                            <p class="text-sm font-bold text-slate-400 uppercase mb-2">Réponse simulée de l'IA</p>
+                            <div id="prompt-response" class="text-sm text-slate-600 leading-relaxed"></div>
+                        </div>
+                        <div class="p-4 bg-violet-50 rounded-lg border border-violet-200 text-sm text-violet-900">
+                            <strong>Concept clé :</strong> Rôle + Contexte + Contraintes + Format + Exemple. Chaque composant réduit l'espace des réponses possibles — c'est du <em>guidage probabiliste</em>, pas de la magie.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: HALLUCINATIONS & GROUNDING -->
+        <div class="slide" id="slide-6">
+            <div class="max-w-5xl mx-auto w-full">
+                <h2 class="text-4xl font-bold mb-2"><span class="text-violet-500">6.</span> Hallucinations &amp; Grounding</h2>
+                <p class="text-xl text-slate-500 mb-8">L'IA ne sait pas qu'elle ne sait pas : elle complète le texte, avec aplomb.</p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                    <div class="lg:col-span-3 glass-panel p-8">
+                        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 font-mono text-sm mb-4">
+                            <span class="text-slate-400">Prompt :</span> Combien d'articles compte la loi Garot contre le gaspillage alimentaire ?
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3 mb-4">
+                            <button id="verify-facts-btn" class="bg-white border-2 border-red-200 rounded-xl px-4 py-2 font-bold text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                <i class="fa-solid fa-magnifying-glass mr-1"></i> Vérifier les faits
+                            </button>
+                            <label class="flex items-center gap-2 cursor-pointer select-none bg-white border-2 border-emerald-200 rounded-xl px-4 py-2 font-bold text-sm text-emerald-700 hover:bg-emerald-50 transition-colors">
+                                <input type="checkbox" id="grounding-toggle" class="w-4 h-4 accent-emerald-600">
+                                <i class="fa-solid fa-paperclip"></i> Fournir une source (grounding)
+                            </label>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl border-2 border-slate-100 shadow-md mb-4">
+                            <p class="text-sm font-bold text-slate-400 uppercase mb-3">Réponse du modèle</p>
+                            <div id="hallucination-answer" class="text-lg text-slate-700 leading-relaxed"></div>
+                            <p id="hallucination-note" class="text-xs text-slate-400 mt-3"></p>
+                        </div>
+                        <div id="source-panel" class="hidden bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-sm text-emerald-900">
+                            <strong>[1] Source fournie au modèle :</strong> « La loi n° 2016-138 du 11 février 2016 (dite loi Garot) comprend <strong>4 articles</strong>. Elle interdit aux supermarchés de plus de <strong>400 m²</strong> de détruire leurs invendus et les oblige à proposer une convention de don à des associations. »
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2 flex flex-col gap-4">
+                        <div class="glass-panel p-6 border-l-4 border-l-red-400">
+                            <h4 class="font-bold text-lg mb-2">Pourquoi ça arrive ?</h4>
+                            <p class="text-slate-600 text-sm">Le modèle prédit le mot suivant le plus <em>plausible</em> (slide 4), pas le plus <em>vrai</em>. S'il n'a pas la connaissance, il génère quand même — avec le même ton assuré.</p>
+                        </div>
+                        <div class="glass-panel p-6 border-l-4 border-l-emerald-400">
+                            <h4 class="font-bold text-lg mb-2">La parade : le Grounding</h4>
+                            <p class="text-slate-600 text-sm">Ancrer la réponse dans des <strong>sources fournies</strong> : le modèle cite au lieu de deviner. C'est le principe qui fonde le RAG (slide suivante).</p>
+                        </div>
+                        <div class="glass-panel p-6 bg-orange-50 border border-orange-200">
+                            <h4 class="font-bold text-sm mb-2 text-orange-900"><i class="fa-solid fa-list-check mr-1"></i> Checklist anti-hallucination</h4>
+                            <ul class="text-sm text-orange-800 space-y-1">
+                                <li>✔ Vérifier chiffres, dates, références</li>
+                                <li>✔ Exiger des citations de sources</li>
+                                <li>✔ Borner : « réponds uniquement à partir du contexte, sinon dis "je ne sais pas" »</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: RAG -->
+        <div class="slide" id="slide-7">
+            <div class="max-w-5xl mx-auto w-full">
+                <h2 class="text-4xl font-bold mb-2"><span class="text-violet-500">7.</span> Le RAG (Retrieval-Augmented Generation)</h2>
+                <p class="text-xl text-slate-500 mb-6">Brancher l'IA sur VOS documents plutôt que sur sa seule mémoire.</p>
+
+                <!-- Pipeline -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+                    <div class="rag-step glass-panel p-4 text-center transition-all duration-300 opacity-40" id="rag-step-0">
+                        <div class="text-3xl mb-1">❓</div><div class="font-bold text-sm">1. Question</div>
+                    </div>
+                    <div class="rag-step glass-panel p-4 text-center transition-all duration-300 opacity-40" id="rag-step-1">
+                        <div class="text-3xl mb-1">🔎</div><div class="font-bold text-sm">2. Recherche vectorielle</div>
+                    </div>
+                    <div class="rag-step glass-panel p-4 text-center transition-all duration-300 opacity-40" id="rag-step-2">
+                        <div class="text-3xl mb-1">📎</div><div class="font-bold text-sm">3. Injection du contexte</div>
+                    </div>
+                    <div class="rag-step glass-panel p-4 text-center transition-all duration-300 opacity-40" id="rag-step-3">
+                        <div class="text-3xl mb-1">✅</div><div class="font-bold text-sm">4. Réponse citée</div>
+                    </div>
+                </div>
+
+                <div class="glass-panel p-5 mb-5">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Posez une question (base documentaire : FAQ interne ZeroGaspillage)</p>
+                    <div class="flex flex-wrap gap-3" id="rag-questions"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="glass-panel p-6">
+                        <h3 class="font-bold text-lg mb-3"><i class="fa-solid fa-database text-violet-500 mr-2"></i>Base documentaire <span class="text-xs font-normal text-slate-400">(score de similarité)</span></h3>
+                        <div id="rag-docs" class="space-y-3 text-sm text-slate-500">Lancez une question pour voir la recherche vectorielle...</div>
+                    </div>
+                    <div class="glass-panel p-6 bg-slate-800 text-white border-none">
+                        <h3 class="font-bold text-lg mb-3 text-emerald-400"><i class="fa-solid fa-comment-dots mr-2"></i>Réponse générée</h3>
+                        <div id="rag-answer" class="text-sm leading-relaxed text-slate-300">En attente d'une question...</div>
+                        <div class="mt-4 p-3 bg-slate-900 rounded-lg border border-slate-700 text-xs text-slate-400">
+                            <strong class="text-slate-300">Sans RAG :</strong> le modèle devine (voir slide Hallucinations). <strong class="text-emerald-400">Avec RAG :</strong> il cite vos données, à jour et vérifiables.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: AGENTS & FUNCTION CALLING -->
+        <div class="slide" id="slide-8">
+            <div class="max-w-5xl mx-auto w-full">
+                <h2 class="text-4xl font-bold mb-2"><span class="text-violet-500">8.</span> Les Agents &amp; le Function Calling</h2>
+                <p class="text-xl text-slate-500 mb-8">Quand l'IA ne se contente plus de répondre : elle utilise des outils pour agir.</p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+                    <div class="lg:col-span-3 glass-panel p-6 bg-slate-900 border-none flex flex-col min-h-[420px]">
+                        <div class="text-sm text-slate-300 font-mono mb-4 pb-3 border-b border-slate-700">
+                            <i class="fa-solid fa-robot text-violet-400 mr-2"></i>Objectif : « Trouve-moi le panier anti-gaspi le moins cher à moins de 2 km et réserve-le. »
+                        </div>
+                        <div id="agent-log" class="flex-1 space-y-3 overflow-y-auto pr-2">
+                            <p class="text-slate-500 text-sm italic">Cliquez sur « Lancer l'agent » pour observer sa boucle de raisonnement...</p>
+                        </div>
+                        <button id="agent-run-btn" class="mt-4 w-full px-4 py-3 rounded-xl bg-violet-600 hover:bg-violet-700 text-white font-bold transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-play mr-2"></i> Lancer l'agent
+                        </button>
+                    </div>
+
+                    <div class="lg:col-span-2 flex flex-col gap-4">
+                        <div class="glass-panel p-5 border-l-4 border-l-violet-400">
+                            <h4 class="font-bold mb-1">🧠 Le LLM décide</h4>
+                            <p class="text-sm text-slate-600">Il analyse l'objectif et choisit QUEL outil appeler, avec quels paramètres : c'est le « function calling ».</p>
+                        </div>
+                        <div class="glass-panel p-5 border-l-4 border-l-blue-400">
+                            <h4 class="font-bold mb-1">🔧 L'outil exécute</h4>
+                            <p class="text-sm text-slate-600">L'appel n'est que du JSON : c'est VOTRE code (API, base de données) qui exécute réellement l'action.</p>
+                        </div>
+                        <div class="glass-panel p-5 border-l-4 border-l-emerald-400">
+                            <h4 class="font-bold mb-1">🔁 La boucle continue</h4>
+                            <p class="text-sm text-slate-600">Le résultat est renvoyé au LLM, qui décide de la suite... jusqu'à atteindre l'objectif.</p>
+                        </div>
+                        <div class="glass-panel p-4 bg-orange-50 border border-orange-200">
+                            <p class="text-orange-800 text-sm font-semibold">
+                                <i class="fa-solid fa-triangle-exclamation mr-2"></i>Un agent qui agit = des garde-fous obligatoires : périmètre d'outils limité, validation humaine pour toute action irréversible (paiement !).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: IA DANS LE SDLC -->
+        <div class="slide" id="slide-9">
+            <div class="max-w-5xl mx-auto w-full">
+                <h2 class="text-4xl font-bold mb-2"><span class="text-emerald-500">9.</span> L'IA dans le SDLC : gains vs limites</h2>
+                <p class="text-xl text-slate-500 mb-6">Où l'IA intervient dans un projet logiciel — et où l'humain reste indispensable.</p>
+
+                <div class="glass-panel p-5 mb-5">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Cliquez sur une étape du cycle de développement</p>
+                    <div class="flex flex-wrap gap-2" id="sdlc-stages"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4" id="sdlc-detail"></div>
+
+                <div class="glass-panel p-4 bg-orange-50 border border-orange-200 mt-5">
+                    <p class="text-orange-800 text-sm font-semibold">
+                        <i class="fa-solid fa-triangle-exclamation mr-2"></i>Constante à toutes les étapes : l'IA accélère la production, l'humain garde la décision, la relecture et la responsabilité.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: PANORAMA DES OUTILS IA -->
+        <div class="slide" id="slide-10">
+            <div class="max-w-5xl mx-auto w-full">
+                <h2 class="text-4xl font-bold mb-2"><span class="text-emerald-500">10.</span> Panorama des outils IA</h2>
+                <p class="text-xl text-slate-500 mb-6">Cinq familles d'outils — le choix vous appartient.</p>
+
+                <div class="flex flex-wrap gap-2 mb-5" id="tool-family-tabs"></div>
+
+                <div class="glass-panel p-6 mb-5">
+                    <p id="tool-family-desc" class="text-slate-500 text-sm mb-4"></p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="tool-family-grid"></div>
+                </div>
+
+                <div class="glass-panel p-4 bg-emerald-50 border border-emerald-200">
+                    <p class="text-emerald-800 text-sm font-semibold">
+                        <i class="fa-solid fa-unlock mr-2"></i>🧰 Ces outils sont des exemples populaires : tous les labs de la formation fonctionnent avec n'importe lequel d'entre eux. Choisissez celui que votre entreprise autorise et que vous maîtrisez.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: ORCHESTRATION & WORKFLOWS -->
+        <div class="slide" id="slide-11">
+            <div class="max-w-5xl mx-auto w-full">
+                <h2 class="text-4xl font-bold mb-2"><span class="text-emerald-500">11.</span> Orchestration &amp; Workflows no-code</h2>
+                <p class="text-xl text-slate-500 mb-6">Automatiser une chaîne de tâches avec l'IA — sans écrire de code (n8n, Make, Zapier, Power Automate).</p>
+
+                <!-- Pipeline de nœuds -->
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-5" id="workflow-nodes"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                    <div class="lg:col-span-3 glass-panel p-6 bg-slate-900 border-none flex flex-col min-h-[280px]">
+                        <div class="text-sm text-slate-300 font-mono mb-3 pb-2 border-b border-slate-700">
+                            <i class="fa-solid fa-diagram-project text-emerald-400 mr-2"></i>Journal d'exécution du workflow
+                        </div>
+                        <div id="workflow-log" class="flex-1 space-y-2 overflow-y-auto pr-2 text-sm">
+                            <p class="text-slate-500 italic">Cliquez sur « Exécuter le workflow » pour voir la chaîne se dérouler...</p>
+                        </div>
+                        <button id="workflow-run-btn" class="mt-4 w-full px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-play mr-2"></i> Exécuter le workflow
+                        </button>
+                    </div>
+
+                    <div class="lg:col-span-2 flex flex-col gap-4">
+                        <div class="glass-panel p-5 border-l-4 border-l-emerald-400">
+                            <h4 class="font-bold mb-1">🔀 Workflow ≠ Agent</h4>
+                            <p class="text-sm text-slate-600">Le workflow suit un <strong>chemin fixe</strong> que VOUS avez dessiné ; l'agent (slide 8) choisit lui-même ses étapes. Commencez toujours par un workflow : plus simple, prévisible et moins cher.</p>
+                        </div>
+                        <div class="glass-panel p-5 border-l-4 border-l-blue-400">
+                            <h4 class="font-bold mb-1">🧩 La recette universelle</h4>
+                            <p class="text-sm text-slate-600">Entrée (déclencheur) → nœud IA (prompt + sortie structurée JSON) → transformation → sortie (ticket, email, rapport). Toute tâche répétitive à base de texte est candidate.</p>
+                        </div>
+                        <div class="glass-panel p-4 bg-orange-50 border border-orange-200">
+                            <p class="text-orange-800 text-sm font-semibold">
+                                <i class="fa-solid fa-triangle-exclamation mr-2"></i>Toute action irréversible (email envoyé, ticket public) passe par une étape de validation humaine.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- Footer Controls -->
@@ -436,7 +696,7 @@
         
         let currentSlide = 0;
         const totalSlides = slides.length;
-        const slideTitles = ["Introduction", "Tokenisation", "Attention", "Couches Profondes", "Génération"];
+        const slideTitles = ["Introduction", "Tokenisation", "Attention", "Couches Profondes", "Génération", "Prompting", "Hallucinations", "RAG", "Agents", "SDLC", "Outils", "Workflows"];
 
         function initNavigation() {
             // Créer les points de navigation et labels de progression
@@ -825,10 +1085,390 @@
         tempSlider.addEventListener('input', (e) => updateProbabilities(parseFloat(e.target.value)));
 
 
+        // --- LOGIQUE SLIDE 6 : PROMPT ENGINEERING ---
+        const promptComponents = [
+            { id: 'role', label: 'Rôle', hint: '« Agis comme... »', snippet: "Agis comme un chef cuisinier spécialiste de l'anti-gaspillage.", color: 'text-violet-300' },
+            { id: 'contexte', label: 'Contexte', hint: 'Qui suis-je, quelle situation ?', snippet: "Je suis boulanger : il me reste chaque soir environ 20 baguettes et 5 viennoiseries.", color: 'text-blue-300' },
+            { id: 'contraintes', label: 'Contraintes', hint: 'Limites, budget, temps...', snippet: "Recettes réalisables en moins de 30 minutes, avec moins de 2 € d'ingrédients ajoutés.", color: 'text-amber-300' },
+            { id: 'format', label: 'Format de sortie', hint: 'Tableau, liste, JSON...', snippet: "Présente le résultat en tableau : Recette | Temps | Coût | Prix de revente conseillé.", color: 'text-emerald-300' },
+            { id: 'exemple', label: 'Exemple', hint: 'Montrer le niveau attendu', snippet: "Niveau attendu : \"Pain perdu premium — 15 min — 1,20 € — 4,50 €\".", color: 'text-pink-300' }
+        ];
+
+        const promptResponses = {
+            low: `« Voici quelques idées : vous pouvez faire du pain perdu, des croûtons, ou encore donner vos invendus. Il existe de nombreuses possibilités selon votre situation... »<br><em class="text-slate-400">Générique, sans chiffres, inutilisable telle quelle.</em>`,
+            mid: `« Avec vos 20 baguettes : 1) Pain perdu (rapide et rentable), 2) Chapelure maison à vendre en sachets, 3) Croûtons aromatisés à proposer aux restaurants voisins. »<br><em class="text-slate-400">Pertinent et contextualisé, mais le format devra être re-précisé.</em>`,
+            high: `<table class="w-full text-xs border-collapse mb-2"><tr class="font-bold text-slate-700 border-b border-slate-200"><td class="py-1">Recette</td><td>Temps</td><td>Coût</td><td>Revente</td></tr><tr class="border-b border-slate-100"><td class="py-1">Pain perdu premium</td><td>15 min</td><td>1,20 €</td><td>4,50 €</td></tr><tr class="border-b border-slate-100"><td class="py-1">Croûtons 3 saveurs</td><td>20 min</td><td>0,80 €</td><td>3,00 €</td></tr><tr><td class="py-1">Pudding de viennoiseries</td><td>25 min</td><td>1,50 €</td><td>4,00 €</td></tr></table><em class="text-slate-400">Directement exploitable : structuré, chiffré, conforme au format demandé.</em>`
+        };
+
+        function renderPromptBuilder() {
+            const togglesContainer = document.getElementById('prompt-toggles');
+            togglesContainer.innerHTML = promptComponents.map(c => `
+                <label class="flex items-center gap-3 bg-white border border-slate-200 rounded-xl px-4 py-2.5 cursor-pointer select-none hover:border-violet-300 transition-colors">
+                    <input type="checkbox" class="prompt-toggle w-4 h-4 accent-violet-600" data-id="${c.id}">
+                    <span class="font-bold text-sm text-slate-700 w-32">${c.label}</span>
+                    <span class="text-xs text-slate-400">${c.hint}</span>
+                </label>
+            `).join('');
+            togglesContainer.querySelectorAll('.prompt-toggle').forEach(cb => cb.addEventListener('change', updatePromptPreview));
+            updatePromptPreview();
+        }
+
+        function updatePromptPreview() {
+            const activeIds = Array.from(document.querySelectorAll('.prompt-toggle:checked')).map(cb => cb.getAttribute('data-id'));
+            const activeComponents = promptComponents.filter(c => activeIds.includes(c.id));
+
+            const parts = activeComponents.map(c => `<span class="${c.color}">${c.snippet}</span>`);
+            parts.push(`<span class="text-slate-100">Propose des idées pour valoriser mes invendus.</span>`);
+            document.getElementById('prompt-preview').innerHTML = parts.join('<br>');
+
+            const count = activeComponents.length;
+            const quality = 20 + count * 15;
+            const bar = document.getElementById('prompt-quality-bar');
+            bar.style.width = `${quality}%`;
+            bar.classList.remove('bg-red-400', 'bg-amber-400', 'bg-emerald-500');
+            bar.classList.add(count <= 1 ? 'bg-red-400' : (count <= 3 ? 'bg-amber-400' : 'bg-emerald-500'));
+            document.getElementById('prompt-quality-label').innerText = `${quality}%`;
+
+            const tier = count <= 1 ? 'low' : (count <= 3 ? 'mid' : 'high');
+            document.getElementById('prompt-response').innerHTML = promptResponses[tier];
+        }
+
+
+        // --- LOGIQUE SLIDE 7 : HALLUCINATIONS & GROUNDING ---
+        const halluState = { verified: false, grounded: false };
+
+        const halluTemplates = {
+            plain: `La loi Garot du 11 février 2016 compte 47 articles. Son article 12 impose aux supermarchés de plus de 200 m² de donner leurs invendus à des associations.`,
+            verified: `La loi Garot du 11 février 2016 compte <span class="bg-red-100 text-red-700 px-1 rounded font-bold">47 articles ✗</span>. Son <span class="bg-red-100 text-red-700 px-1 rounded font-bold">article 12 ✗</span> impose aux supermarchés de plus de <span class="bg-red-100 text-red-700 px-1 rounded font-bold">200 m² ✗</span> de donner leurs invendus à des associations.`,
+            grounded: `D'après la source fournie <span class="bg-emerald-100 text-emerald-700 px-1 rounded font-bold">[1]</span>, la loi Garot comprend <span class="bg-emerald-100 text-emerald-700 px-1 rounded font-bold">4 articles ✓</span>. Elle oblige les supermarchés de plus de <span class="bg-emerald-100 text-emerald-700 px-1 rounded font-bold">400 m² ✓</span> à proposer une convention de don à des associations <span class="bg-emerald-100 text-emerald-700 px-1 rounded font-bold">[1]</span>.`
+        };
+
+        function renderHallucination() {
+            const answerEl = document.getElementById('hallucination-answer');
+            const noteEl = document.getElementById('hallucination-note');
+            const sourcePanel = document.getElementById('source-panel');
+            const verifyBtn = document.getElementById('verify-facts-btn');
+
+            if (halluState.grounded) {
+                answerEl.innerHTML = halluTemplates.grounded;
+                noteEl.innerText = "Chaque affirmation est ancrée dans la source [1] : vérifiable en un clic.";
+                sourcePanel.classList.remove('hidden');
+                verifyBtn.disabled = true;
+                verifyBtn.classList.add('opacity-40', 'cursor-not-allowed');
+            } else {
+                answerEl.innerHTML = halluState.verified ? halluTemplates.verified : halluTemplates.plain;
+                noteEl.innerText = halluState.verified
+                    ? "3 « faits » inventés détectés : la vraie loi comprend 4 articles et vise les surfaces de plus de 400 m². Le ton assuré ne prouve rien."
+                    : "Réponse fluide et confiante... mais est-elle vraie ?";
+                sourcePanel.classList.add('hidden');
+                verifyBtn.disabled = false;
+                verifyBtn.classList.remove('opacity-40', 'cursor-not-allowed');
+            }
+        }
+
+        document.getElementById('verify-facts-btn').addEventListener('click', () => {
+            halluState.verified = true;
+            renderHallucination();
+        });
+
+        document.getElementById('grounding-toggle').addEventListener('change', (e) => {
+            halluState.grounded = e.target.checked;
+            renderHallucination();
+        });
+
+
+        // --- LOGIQUE SLIDE 8 : RAG ---
+        const ragDocs = [
+            "FAQ — Remboursements & annulations",
+            "CGU — Conditions générales",
+            "Guide commerçant — Publier un panier",
+            "Charte anti-gaspillage"
+        ];
+
+        const ragScenarios = [
+            {
+                question: "Un client peut-il être remboursé si le panier est décevant ?",
+                scores: [92, 71, 24, 18],
+                answer: `Oui, sous conditions : d'après la FAQ <span class="text-emerald-400 font-bold">[1]</span>, un remboursement intégral est possible si le contenu ne correspond manifestement pas à la description, sur réclamation sous 24 h avec photo. Les CGU <span class="text-emerald-400 font-bold">[2]</span> précisent que la surprise du contenu n'est pas un motif : c'est le principe même du Panier Surprise.`
+            },
+            {
+                question: "Jusqu'à quand peut-on annuler une réservation ?",
+                scores: [88, 64, 31, 12],
+                answer: `L'annulation est gratuite jusqu'à <span class="text-emerald-400 font-bold">1 heure avant l'heure limite de retrait</span> du panier <span class="text-emerald-400 font-bold">[1]</span>. Passé ce délai, la réservation reste due au commerçant, car ses invendus ont été retirés de la vente <span class="text-emerald-400 font-bold">[2]</span>.`
+            }
+        ];
+
+        let ragTimeouts = [];
+
+        function renderRagQuestions() {
+            const container = document.getElementById('rag-questions');
+            container.innerHTML = ragScenarios.map((s, i) => `
+                <button onclick="runRag(${i})" class="rag-question-btn px-4 py-2 rounded-xl bg-white border-2 border-violet-200 text-sm font-bold text-violet-700 hover:bg-violet-50 transition-colors">
+                    ${s.question}
+                </button>
+            `).join('');
+        }
+
+        function setRagStep(index) {
+            document.querySelectorAll('.rag-step').forEach((step, i) => {
+                if (i <= index) {
+                    step.classList.remove('opacity-40');
+                    step.classList.add('ring-2', 'ring-violet-400');
+                } else {
+                    step.classList.add('opacity-40');
+                    step.classList.remove('ring-2', 'ring-violet-400');
+                }
+            });
+        }
+
+        function runRag(scenarioIndex) {
+            const scenario = ragScenarios[scenarioIndex];
+            const docsEl = document.getElementById('rag-docs');
+            const answerEl = document.getElementById('rag-answer');
+
+            ragTimeouts.forEach(clearTimeout);
+            ragTimeouts = [];
+
+            // Étape 1 : question posée
+            setRagStep(0);
+            docsEl.innerHTML = `<p class="text-slate-400 italic text-sm">Vectorisation de la question...</p>`;
+            answerEl.innerHTML = `<span class="text-slate-500 italic">Le pipeline travaille...</span>`;
+
+            // Étape 2 : recherche vectorielle
+            ragTimeouts.push(setTimeout(() => {
+                setRagStep(1);
+                docsEl.innerHTML = ragDocs.map((doc, i) => {
+                    const score = scenario.scores[i];
+                    const isTop = score >= 60;
+                    return `
+                        <div class="p-3 rounded-lg border ${isTop ? 'border-emerald-300 bg-emerald-50' : 'border-slate-200 bg-white opacity-60'}">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-xs ${isTop ? 'text-emerald-800' : 'text-slate-500'}">[${i + 1}] ${doc}</span>
+                                <span class="font-mono text-xs ${isTop ? 'text-emerald-600 font-bold' : 'text-slate-400'}">${score}%</span>
+                            </div>
+                            <div class="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-full ${isTop ? 'bg-emerald-500' : 'bg-slate-300'} transition-all duration-700" style="width: ${score}%"></div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }, 700));
+
+            // Étape 3 : injection du contexte
+            ragTimeouts.push(setTimeout(() => {
+                setRagStep(2);
+                answerEl.innerHTML = `<span class="text-slate-400 italic">Les 2 documents les plus pertinents sont injectés dans le prompt du modèle...</span>`;
+            }, 1600));
+
+            // Étape 4 : réponse citée
+            ragTimeouts.push(setTimeout(() => {
+                setRagStep(3);
+                answerEl.innerHTML = scenario.answer;
+            }, 2500));
+        }
+
+
+        // --- LOGIQUE SLIDE 9 : AGENTS & FUNCTION CALLING ---
+        const agentSteps = [
+            { type: 'think', content: "L'utilisateur veut le panier le moins cher dans un rayon de 2 km. Je commence par chercher les paniers disponibles." },
+            { type: 'tool_call', content: '{ "tool": "chercher_paniers", "args": { "rayon_km": 2, "tri": "prix_asc" } }' },
+            { type: 'tool_result', content: '[ { "id": 42, "commerce": "Boulangerie Marius", "prix": 2.90, "distance_km": 0.8 },\n  { "id": 57, "commerce": "Primeur Soleil", "prix": 3.50, "distance_km": 1.4 } ]' },
+            { type: 'think', content: "Le panier n°42 (Boulangerie Marius, 2,90 €, à 800 m) est le moins cher. Je lance la réservation." },
+            { type: 'tool_call', content: '{ "tool": "reserver_panier", "args": { "panier_id": 42 } }' },
+            { type: 'tool_result', content: '{ "statut": "confirmee", "code_retrait": "ZG-7F2K", "retrait_avant": "19h30" }' },
+            { type: 'answer', content: "✅ C'est réservé ! Panier Surprise de la Boulangerie Marius à 2,90 € (à 800 m). Code de retrait : ZG-7F2K, à récupérer avant 19h30." }
+        ];
+
+        const agentBubbleStyles = {
+            think: { label: '🧠 Réflexion du LLM', cls: 'bg-violet-900/40 border-violet-500/40 text-violet-100' },
+            tool_call: { label: '📤 Appel d\'outil (JSON)', cls: 'bg-blue-900/40 border-blue-500/40 text-blue-100 font-mono text-xs whitespace-pre-wrap' },
+            tool_result: { label: '📥 Résultat de l\'outil', cls: 'bg-slate-700/60 border-slate-500/40 text-slate-200 font-mono text-xs whitespace-pre-wrap' },
+            answer: { label: '💬 Réponse finale à l\'utilisateur', cls: 'bg-emerald-900/40 border-emerald-500/40 text-emerald-100 font-bold' }
+        };
+
+        let agentTimeouts = [];
+
+        function runAgent() {
+            const log = document.getElementById('agent-log');
+            const btn = document.getElementById('agent-run-btn');
+
+            agentTimeouts.forEach(clearTimeout);
+            agentTimeouts = [];
+            log.innerHTML = '';
+            btn.disabled = true;
+
+            agentSteps.forEach((step, i) => {
+                agentTimeouts.push(setTimeout(() => {
+                    const style = agentBubbleStyles[step.type];
+                    const bubble = document.createElement('div');
+                    bubble.className = `p-3 rounded-xl border ${style.cls}`;
+                    bubble.innerHTML = `<div class="text-[10px] uppercase tracking-widest opacity-70 mb-1 font-sans font-bold">${style.label}</div>${step.content}`;
+                    log.appendChild(bubble);
+                    log.scrollTop = log.scrollHeight;
+
+                    if (i === agentSteps.length - 1) {
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fa-solid fa-rotate-right mr-2"></i> Rejouer';
+                    }
+                }, i * 900));
+            });
+        }
+
+        document.getElementById('agent-run-btn').addEventListener('click', runAgent);
+
+
+        // --- LOGIQUE SLIDE 10 : IA DANS LE SDLC ---
+        const sdlcStages = [
+            { label: "💡 Idéation", gains: "Brainstorming structuré, personas, analyses de marché en minutes au lieu de jours.", limites: "Aucune connaissance de VOTRE terrain : les chiffres générés doivent être re-sourcés.", roles: "PO / PM : facilitateur d'atelier augmenté — l'arbitrage reste humain." },
+            { label: "📋 Spécifications", gains: "User stories, critères Gherkin et PRD générés, cohérents et exhaustifs.", limites: "L'IA spécifie ce qu'on lui dit, pas ce qu'on veut : l'ambiguïté du besoin reste à lever par l'humain.", roles: "BA / PO : passe de rédacteur à relecteur-arbitre." },
+            { label: "🎨 Design UX", gains: "Wireframes et design systems générés en minutes (Stitch, v0.dev...).", limites: "Tendance au générique : l'identité visuelle et l'accessibilité exigent un œil humain.", roles: "Designer : curation et cohérence plutôt que production brute." },
+            { label: "⌨️ Code", gains: "Boilerplate, refactoring, explication de code legacy : gains majeurs sur les tâches répétitives.", limites: "Hallucinations d'API, race conditions subtiles, dette invisible si le code n'est pas relu.", roles: "Dev : moins de frappe, plus d'architecture et de revue critique." },
+            { label: "🧪 Tests", gains: "Génération de cas limites, tests unitaires exhaustifs, données de test réalistes.", limites: "L'IA teste ce que le code FAIT, pas ce qu'il DEVRAIT faire : les règles métier restent à fournir.", roles: "QA : conçoit la stratégie de test — l'IA produit le volume." },
+            { label: "🔄 CI/CD", gains: "Pipelines YAML, Dockerfiles et scripts générés, commentés et cohérents.", limites: "Secrets et permissions : une configuration générée trop permissive peut exposer l'infra.", roles: "DevOps : gardien des accès, de la simplicité et des coûts." },
+            { label: "🚀 Production", gains: "Synthèse d'incidents, runbooks, analyse de logs en langage naturel.", limites: "Sans outillage (RAG, agents), l'IA n'a pas accès à l'état temps réel de vos systèmes.", roles: "SRE : l'IA prépare le diagnostic, l'humain décide et agit." },
+            { label: "🔁 Maintenance", gains: "Tri automatique des feedbacks, classification des bugs, documentation maintenue à jour.", limites: "Prioriser reste un arbitrage business que l'IA ne peut qu'éclairer, jamais trancher.", roles: "Toute l'équipe : la boucle de feedback s'accélère." }
+        ];
+
+        let currentSdlcStage = 3;
+
+        function selectSdlcStage(i) {
+            currentSdlcStage = i;
+            renderSdlc();
+        }
+
+        function renderSdlc() {
+            const btns = document.getElementById('sdlc-stages');
+            btns.innerHTML = sdlcStages.map((s, i) => `
+                <button onclick="selectSdlcStage(${i})" class="px-3 py-2 rounded-xl border-2 text-sm font-bold transition-colors ${i === currentSdlcStage ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-slate-200 bg-white text-slate-500 hover:border-blue-300'}">${s.label}</button>
+            `).join('');
+            const s = sdlcStages[currentSdlcStage];
+            document.getElementById('sdlc-detail').innerHTML = `
+                <div class="glass-panel p-5 border-l-4 border-l-emerald-400"><h4 class="font-bold mb-1 text-emerald-700">✅ Gains réels</h4><p class="text-sm text-slate-600">${s.gains}</p></div>
+                <div class="glass-panel p-5 border-l-4 border-l-orange-400"><h4 class="font-bold mb-1 text-orange-700">⚠️ Limites</h4><p class="text-sm text-slate-600">${s.limites}</p></div>
+                <div class="glass-panel p-5 border-l-4 border-l-violet-400"><h4 class="font-bold mb-1 text-violet-700">👥 Impact sur les rôles</h4><p class="text-sm text-slate-600">${s.roles}</p></div>
+            `;
+        }
+
+
+        // --- LOGIQUE SLIDE 11 : PANORAMA DES OUTILS ---
+        const toolFamilies = [
+            { icon: "💬", label: "Assistants (chat)", desc: "Analyse, rédaction, raisonnement — le couteau suisse du quotidien. Sans installation : un navigateur suffit.", tools: [
+                { name: "ChatGPT", force: "le généraliste le plus répandu, GPTs personnalisés" },
+                { name: "Gemini", force: "intégré à l'écosystème Google, très grand contexte" },
+                { name: "Claude", force: "raisonnement, code et documents longs" },
+                { name: "Grok", force: "informations en temps réel via X" },
+                { name: "Mistral (Le Chat)", force: "acteur européen, rapide" }
+            ]},
+            { icon: "⌨️", label: "Agents & IDE", desc: "Dans l'éditeur : autocomplétion, refactoring, agents autonomes qui modifient le code.", tools: [
+                { name: "GitHub Copilot", force: "intégration native VS Code / GitHub" },
+                { name: "Claude Code", force: "agent autonome (terminal, VS Code)" },
+                { name: "Codex", force: "agent OpenAI, délégation de tâches" },
+                { name: "Cursor", force: "IDE entièrement conçu autour de l'IA" },
+                { name: "AntiGravity", force: "IDE agentique de Google" }
+            ]},
+            { icon: "📄", label: "Bureautique", desc: "Docs, tableurs, présentations et mails augmentés — pour les profils Biz et PM.", tools: [
+                { name: "M365 Copilot", force: "Word, Excel, PowerPoint, Teams, Outlook" },
+                { name: "Gemini Workspace", force: "Docs, Sheets, Gmail" },
+                { name: "Claude / ChatGPT", force: "upload et analyse de documents" }
+            ]},
+            { icon: "🎨", label: "Génération d'UI", desc: "Du prompt à l'interface fonctionnelle, avant d'écrire le code.", tools: [
+                { name: "Stitch", force: "maquettes et écrans (Google)" },
+                { name: "v0.dev", force: "composants React/Tailwind (Vercel)" },
+                { name: "Lovable", force: "applications complètes full-stack" },
+                { name: "Bolt.new", force: "prototypage web dans le navigateur" }
+            ]},
+            { icon: "🔀", label: "Automation no-code", desc: "Orchestrer l'IA dans des workflows automatisés, sans coder (voir slide suivante).", tools: [
+                { name: "n8n", force: "open-source, auto-hébergeable" },
+                { name: "Make", force: "visuel, riche en connecteurs" },
+                { name: "Zapier", force: "le plus simple pour démarrer" },
+                { name: "Power Automate", force: "natif dans l'écosystème Microsoft" }
+            ]}
+        ];
+
+        let currentToolFamily = 0;
+
+        function selectToolFamily(i) {
+            currentToolFamily = i;
+            renderToolFamilies();
+        }
+
+        function renderToolFamilies() {
+            const tabs = document.getElementById('tool-family-tabs');
+            tabs.innerHTML = toolFamilies.map((f, i) => `
+                <button onclick="selectToolFamily(${i})" class="px-4 py-2 rounded-xl border-2 text-sm font-bold transition-colors ${i === currentToolFamily ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-slate-200 bg-white text-slate-500 hover:border-blue-300'}">${f.icon} ${f.label}</button>
+            `).join('');
+            const f = toolFamilies[currentToolFamily];
+            document.getElementById('tool-family-desc').innerText = f.desc;
+            document.getElementById('tool-family-grid').innerHTML = f.tools.map(t => `
+                <div class="bg-white border border-slate-200 rounded-xl p-4 hover:border-blue-300 hover:shadow-md transition-all">
+                    <div class="font-bold text-slate-800 mb-1">${t.name}</div>
+                    <div class="text-xs text-slate-500">${t.force}</div>
+                </div>
+            `).join('');
+        }
+
+
+        // --- LOGIQUE SLIDE 12 : ORCHESTRATION & WORKFLOWS ---
+        const workflowSteps = [
+            { icon: "⭐", title: "Déclencheur", desc: "Nouvel avis client 1★", output: `Avis reçu : "Impossible de récupérer mon panier, le code ne marchait pas. Très déçu !!"` },
+            { icon: "🤖", title: "IA : Classification", desc: "Prompt + sortie JSON", output: `{ "categorie": "bug", "face": "consommateur", "sentiment": -2, "urgence": 4, "resume": "Code de retrait non reconnu" }` },
+            { icon: "🎫", title: "Créer un ticket", desc: "GitHub / Jira", output: `Ticket #481 créé — "Code de retrait non reconnu" (priorité haute) → assigné à l'équipe backend` },
+            { icon: "🤖", title: "IA : Brouillon d'email", desc: "Réponse personnalisée", output: `"Bonjour, nous sommes sincèrement désolés pour ce souci de code de retrait. Votre panier vous est intégralement remboursé..."` },
+            { icon: "👤", title: "Validation humaine", desc: "Approbation avant envoi", output: `⏸ En attente d'approbation du support — rien ne part sans validation humaine.` }
+        ];
+
+        let workflowTimeouts = [];
+
+        function renderWorkflowNodes(activeIndex) {
+            document.getElementById('workflow-nodes').innerHTML = workflowSteps.map((s, i) => `
+                <div class="glass-panel p-3 text-center transition-all duration-300 ${i <= activeIndex ? 'ring-2 ring-emerald-400' : 'opacity-40'}">
+                    <div class="text-2xl mb-1">${s.icon}</div>
+                    <div class="font-bold text-xs">${s.title}</div>
+                    <div class="text-[10px] text-slate-400">${s.desc}</div>
+                </div>
+            `).join('');
+        }
+
+        function runWorkflow() {
+            const log = document.getElementById('workflow-log');
+            const btn = document.getElementById('workflow-run-btn');
+
+            workflowTimeouts.forEach(clearTimeout);
+            workflowTimeouts = [];
+            log.innerHTML = '';
+            btn.disabled = true;
+            renderWorkflowNodes(-1);
+
+            workflowSteps.forEach((step, i) => {
+                workflowTimeouts.push(setTimeout(() => {
+                    renderWorkflowNodes(i);
+                    const entry = document.createElement('div');
+                    entry.className = 'p-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-200';
+                    entry.innerHTML = `<div class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold mb-1">${step.icon} ${step.title}</div><span class="${i === 1 || i === 3 ? 'font-mono text-xs' : 'text-sm'}">${step.output}</span>`;
+                    log.appendChild(entry);
+                    log.scrollTop = log.scrollHeight;
+
+                    if (i === workflowSteps.length - 1) {
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fa-solid fa-rotate-right mr-2"></i> Rejouer';
+                    }
+                }, i * 900));
+            });
+        }
+
+        document.getElementById('workflow-run-btn').addEventListener('click', runWorkflow);
+
+
         // Initialisation globale
         initNavigation();
         tokenizeAndRender();
         updateProbabilities(0.7);
+        renderPromptBuilder();
+        renderHallucination();
+        renderRagQuestions();
+        renderSdlc();
+        renderToolFamilies();
+        renderWorkflowNodes(-1);
 
     </script>
 </body>

@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parcours ZeroGaspillage — Cahier de TP IA (De l'idée au lancement)</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        zg: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f',
+                        },
+                        biz: {
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        },
+                        mix: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            300: '#5eead4',
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            900: '#134e4a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 160px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 160px;
+            max-height: 160px;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f5f4; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(229, 231, 235, 0.8);
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800 font-sans h-screen flex overflow-hidden selection:bg-zg-200">
+
+    <aside class="w-full md:w-80 bg-white border-r border-stone-200 flex flex-col h-full flex-shrink-0 transition-transform duration-300 absolute md:relative z-20 transform -translate-x-full md:translate-x-0" id="sidebar">
+        <div class="p-6 border-b border-stone-200">
+            <a href="index.html" class="text-xs font-bold text-slate-500 hover:text-zg-700 transition-colors uppercase tracking-wider inline-flex items-center gap-1 mb-2">
+                <i class="fa-solid fa-arrow-left"></i> Accueil formation
+            </a>
+            <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                <span>🥕</span> ZeroGaspillage <span class="text-zg-600">IA</span>
+            </h1>
+            <p class="text-sm text-slate-500 mt-2">De l'idéation au lancement — le SDLC complet</p>
+
+            <button id="mobile-close" class="md:hidden absolute top-4 right-4 text-slate-500 text-2xl" onclick="toggleSidebar()">×</button>
+        </div>
+
+        <div class="p-4 border-b border-stone-200 bg-stone-50/50">
+            <h3 class="text-sm font-bold text-slate-600 mb-2 text-center uppercase tracking-wider">Progression</h3>
+            <div class="chart-container">
+                <canvas id="progressChart"></canvas>
+            </div>
+            <p id="progress-text" class="text-center text-xs font-bold text-slate-500 mt-2">0 Labs complétés</p>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto p-4 space-y-2" id="module-nav">
+            </nav>
+
+        <div class="p-4 border-t border-stone-200 text-xs text-center bg-stone-50">
+            <div class="font-bold text-slate-700 text-sm">Houssem Eddine Lassoued</div>
+            <a href="https://www.linkedin.com/in/houssemeddinelassoued/" target="_blank" class="text-zg-700 font-bold mb-2 uppercase tracking-wide hover:text-zg-800 transition-colors inline-block">
+                <i class="fa-brands fa-linkedin mr-1"></i> LinkedIn
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-full relative overflow-hidden">
+        <header class="md:hidden bg-white border-b border-stone-200 p-4 flex justify-between items-center z-10 shadow-sm">
+            <h2 class="text-lg font-bold text-zg-700">🥕 ZeroGaspillage IA</h2>
+            <button class="text-2xl text-slate-600" onclick="toggleSidebar()">☰</button>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12" id="main-content">
+            <!-- Vue introduction (modules) -->
+            <div id="intro-view" class="max-w-4xl mx-auto space-y-8 animate-fade-in">
+                <div class="bg-gradient-to-br from-zg-50 to-mix-50 border border-stone-200 rounded-2xl p-8 shadow-sm">
+                    <h1 class="text-5xl font-extrabold text-slate-900 mb-2 tracking-tight">🥕 ZeroGaspillage & IA</h1>
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">Le parcours qui déroule <strong>tout le cycle de vie logiciel</strong> — de l'idéation au lancement puis à la V2 — en construisant une startup anti-gaspillage alimentaire avec l'IA générative à chaque étape.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <div class="bg-white border border-zg-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                            <h3 class="font-bold text-zg-700 mb-2 flex items-center gap-2">
+                                <span>🟠</span> Pôle Tech
+                            </h3>
+                            <p class="text-sm text-slate-600">Devs, Architectes, DevOps — Python 3.12, FastAPI, PostgreSQL, React 18 + TypeScript, Docker, GitHub Actions.</p>
+                        </div>
+                        <div class="bg-white border border-biz-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                            <h3 class="font-bold text-biz-700 mb-2 flex items-center gap-2">
+                                <span>🔵</span> Pôle Biz & Produit
+                            </h3>
+                            <p class="text-sm text-slate-600">PO, BA, Marketing — étude de marché, business model, priorisation, growth — M365 Copilot & IA Cloud.</p>
+                        </div>
+                        <div class="bg-white border border-mix-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                            <h3 class="font-bold text-mix-700 mb-2 flex items-center gap-2">
+                                <span>🟢</span> Modules Mixtes
+                            </h3>
+                            <p class="text-sm text-slate-600">Ateliers communs Tech + Biz : idéation, specs, UX, sécurité & RGPD, itération produit.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-300 rounded-xl p-6 mb-8">
+                        <p class="text-sm text-amber-900"><strong>🎯 Objectif :</strong> Dérouler les 15 étapes du cycle de vie logiciel pour construire le MVP de ZeroGaspillage, la marketplace qui transforme les invendus des commerces de proximité en « Paniers Surprise » à prix réduit.</p>
+                    </div>
+
+                    <div class="bg-white border-2 border-mix-200 rounded-xl p-6 mb-8">
+                        <h3 class="font-bold text-mix-700 mb-2 flex items-center gap-2"><span>🧰</span> Stack & outils : le choix vous appartient</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed mb-3">FastAPI / React / PostgreSQL ne sont qu'une <strong>stack de référence pour les exemples</strong>. Réalisez chaque lab avec <strong>votre propre stack</strong> (Java/Spring, .NET, Node/Express, PHP/Laravel, Ruby on Rails...) : chaque prompt technique inclut un rappel pour transposer l'exemple. Même liberté pour les outils IA — chaque lab affiche plusieurs choix populaires, jamais une exigence :</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs text-slate-600">
+                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong>💬 Assistants :</strong> ChatGPT, Gemini, Claude, Grok, Mistral</div>
+                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong>⌨️ Agents & IDE :</strong> GitHub Copilot, Claude Code, Codex, Cursor, AntiGravity</div>
+                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong>📄 Bureautique :</strong> M365 Copilot, Gemini Workspace</div>
+                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong>🎨 Génération d'UI :</strong> Stitch, v0.dev, Lovable, Bolt.new</div>
+                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong>🔀 No-code :</strong> n8n, Make, Zapier, Power Automate</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <div class="bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><span>🧭</span> Explorer & Cadrer</h3>
+                            <p class="text-sm text-slate-600">Modules 1 à 5 : idéation, étude de marché, business model, spécifications, UX/UI.</p>
+                        </div>
+                        <div class="bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><span>🏗️</span> Construire</h3>
+                            <p class="text-sm text-slate-600">Modules 6 à 10 : architecture, données, backend, frontend, tests.</p>
+                        </div>
+                        <div class="bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><span>🚀</span> Sécuriser & Lancer</h3>
+                            <p class="text-sm text-slate-600">Modules 11 à 15 : sécurité & RGPD, CI/CD, production, growth, itération.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <a href="ia-explained.html" class="flex-1 px-6 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-center transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-200 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-lightbulb"></i> En Savoir Plus sur l'IA
+                        </a>
+                        <button onclick="goToFirstLab()" class="flex-1 px-6 py-4 rounded-xl bg-zg-600 hover:bg-zg-700 text-white font-bold text-center transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-200 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-arrow-right"></i> Aller aux Labs
+                        </button>
+                    </div>
+
+                    <button id="security-platform-btn" onclick="goToSecurityPlatform()" disabled class="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white font-bold text-center transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mt-4">
+                        <i class="fa-solid fa-shield"></i> Plateforme d'Évaluation : Sécurité IA <span id="security-completion-status" class="text-xs ml-2 opacity-80"></span>
+                    </button>
+                </div>
+
+                <div class="bg-white border border-stone-200 rounded-2xl p-8 shadow-sm">
+                    <div class="mb-6 p-5 bg-stone-50 border-l-4 border-zg-500 rounded-r-xl">
+                        <h3 class="font-bold text-slate-800 mb-2">Contexte Métier (Le Cas d'Usage)</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            <strong>ZeroGaspillage</strong> est une startup française fictive qui lutte contre le gaspillage alimentaire des commerces de proximité. Chaque soir, boulangeries, primeurs, restaurants et supérettes publient leurs invendus sous forme de <strong>« Paniers Surprise »</strong> à -50/-70 %. Les consommateurs réservent, paient en ligne et retirent leur panier avant la fermeture. Un tableau de bord aide le commerçant à analyser ses invendus récurrents pour ajuster sa production. <strong>Modèle économique :</strong> commission de 1,50 € par panier vendu + abonnement « Commerçant Pro » (analytics prédictifs, mise en avant).
+                        </p>
+                    </div>
+
+                    <p class="text-lg text-slate-600 mb-6 leading-relaxed">
+                        Contrairement au parcours EcoTrack (centré sur l'écosystème Microsoft), ce parcours s'appuie sur une <strong>stack de référence open-source</strong> (FastAPI, PostgreSQL, React) — de simples exemples : <strong>chaque participant travaille avec la stack et les outils IA de son choix</strong> — et couvre surtout <strong>l'intégralité du cycle de vie</strong> : les phases amont (idéation, marché, business model) et aval (lancement, growth, itération) qui précèdent et suivent le code. Chaque module vous met dans la peau d'un rôle différent de la startup, l'IA servant tour à tour de facilitateur d'atelier, d'analyste, de pair-programmeur et de coach produit.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-stone-50 p-6 rounded-xl border border-stone-200">
+                            <h3 class="font-bold text-slate-800 mb-3 text-lg flex items-center gap-2"><span>💻</span> Pour les Développeurs & DevOps</h3>
+                            <p class="text-sm text-slate-600 mb-3">Utilisation de <strong>GitHub Copilot</strong> et IA Cloud pour l'architecture, PostgreSQL/SQLAlchemy, FastAPI, React/TypeScript, les tests pytest/Playwright, la CI/CD et l'observabilité.</p>
+                            <span class="text-xs font-bold bg-stone-200 text-stone-700 px-2 py-1 rounded">Modules 6, 7, 8, 9, 10, 12, 13</span>
+                        </div>
+                        <div class="bg-biz-100/50 p-6 rounded-xl border border-biz-100">
+                            <h3 class="font-bold text-biz-800 mb-3 text-lg flex items-center gap-2"><span>📊</span> Pour les profils Biz, Produit & Mixtes</h3>
+                            <p class="text-sm text-slate-600 mb-3">Utilisation de <strong>Copilot M365 (Word/Excel)</strong>, IA Cloud et outils de génération UI (v0.dev, Stitch) pour la discovery, le business model, les specs, l'UX, le RGPD et le growth.</p>
+                            <span class="text-xs font-bold bg-biz-100 text-biz-800 px-2 py-1 rounded">Modules 1, 2, 3, 4, 5, 11, 14, 15</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vue modules (contenu dynamique) -->
+            <div id="module-view" class="max-w-6xl mx-auto space-y-6 hidden"></div>
+        </div>
+    </main>
+
+    <div id="toast" class="fixed bottom-4 right-4 bg-slate-900 text-white px-6 py-3 rounded-lg shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-2 font-medium">
+        <span>📋</span> Prompt copié !
+    </div>
+
+    <script>
+        // --- Data Storage ---
+        // Outils IA au choix, par catégorie — des exemples populaires, jamais des exigences
+        const OUTILS = {
+            chat: ["ChatGPT", "Gemini", "Claude", "Grok", "Mistral"],
+            ide: ["GitHub Copilot", "Claude Code", "Codex", "Cursor", "AntiGravity"],
+            ui: ["Stitch", "v0.dev", "Lovable", "Bolt.new"],
+            nocode: ["n8n", "Make", "Zapier", "Power Automate"]
+        };
+
+        const courseData = [
+            {
+                id: "zg_mod1", icon: "💡", target: "Mixte",
+                title: "Module 1 : Idéation & Cadrage du Problème",
+                subtitle: "(Design Thinking augmenté)",
+                intro: "Avant la première ligne de code : cadrer le bon problème. L'IA devient facilitateur d'atelier — elle structure la divergence (générer beaucoup d'idées) puis la convergence (choisir et justifier).",
+                labs: [
+                    {
+                        id: "zg_lab1_1", title: "Lab 1.1 : Brainstorming structuré (HMW + SCAMPER)",
+                        targetBadge: "Tous profils", tools: OUTILS.chat,
+                        objective: "Explorer le problème du gaspillage alimentaire des commerces de proximité et faire émerger 3 pistes de solutions priorisées.",
+                        astuce: "Ne demandez jamais « donne-moi des idées » à froid : imposez un cadre (HMW, SCAMPER) et un format de restitution. L'IA passe de générateur aléatoire à véritable atelier structuré.",
+                        prompt: `Agis comme un facilitateur de Design Thinking expérimenté. Nous démarrons un projet de startup contre le gaspillage alimentaire des commerces de proximité (boulangeries, primeurs, restaurants).\n\n1. Reformule le problème en 5 questions "How Might We" (Comment pourrions-nous...).\n2. Pour la question la plus prometteuse, génère 20 idées de solutions en appliquant la méthode SCAMPER (Substituer, Combiner, Adapter, Modifier, Produire autrement, Éliminer, Réorganiser).\n3. Classe ces 20 idées dans une matrice Impact / Effort (tableau Markdown).\n4. Recommande les 3 idées à creuser en priorité et justifie en 2 lignes chacune.`
+                    },
+                    {
+                        id: "zg_lab1_2", title: "Lab 1.2 : Personas & Cartes d'Empathie",
+                        targetBadge: "Tous profils", tools: ["ChatGPT", "Gemini", "Claude", "M365 Copilot (Word)"],
+                        objective: "Formaliser les deux personas fondateurs du produit : le commerçant et la consommatrice urbaine.",
+                        astuce: "Confrontez ensuite ces personas à la réalité : utilisez-les comme grille d'entretien avec de vrais commerçants. Un persona généré par l'IA est une hypothèse, pas une vérité.",
+                        prompt: `Agis comme un UX Researcher. Notre solution retenue est "ZeroGaspillage" : une marketplace où les commerces de proximité vendent leurs invendus du jour sous forme de "Paniers Surprise" à -50/-70 %.\n\nCrée 2 personas détaillés :\n1. Un commerçant (boulanger indépendant) : profil, journée type, frustrations liées aux invendus, objections face au numérique.\n2. Une consommatrice urbaine (25-35 ans) : motivations (prix, écologie), freins, habitudes mobiles.\n\nPour chacun, produis une carte d'empathie (Ce qu'il pense / ressent / voit / entend / dit / fait, Douleurs, Gains) sous forme de tableau, puis résume en une phrase son "Job To Be Done".`
+                    }
+                ]
+            },
+            {
+                id: "zg_mod2", icon: "🔍", target: "Biz",
+                title: "Module 2 : Étude de Marché & Validation",
+                subtitle: "(Avant d'écrire une ligne de code)",
+                intro: "Valider qu'un marché existe avant de construire. Analyse concurrentielle, entretiens terrain et smoke test : l'IA accélère la discovery sans jamais remplacer le contact réel avec les utilisateurs.",
+                labs: [
+                    {
+                        id: "zg_lab2_1", title: "Lab 2.1 : Matrice Concurrentielle",
+                        targetBadge: "Analystes / PO", tools: OUTILS.chat,
+                        objective: "Cartographier les acteurs existants (Too Good To Go, Phenix, Karma...) et identifier les espaces de différenciation.",
+                        astuce: "Exigez que l'IA signale ses incertitudes : les chiffres de marché générés doivent TOUJOURS être re-sourcés (études ADEME, presse éco) avant d'entrer dans un business plan.",
+                        prompt: `Agis comme un analyste en stratégie. Je prépare le lancement de ZeroGaspillage (marketplace d'invendus alimentaires pour commerces de proximité en France).\n\n1. Établis une matrice concurrentielle comparant Too Good To Go, Phenix, Karma et les solutions de dons associatifs.\nColonnes : proposition de valeur, cible commerçants, modèle de revenus, forces, faiblesses, part de marché estimée (signale le niveau de confiance de chaque chiffre).\n2. Identifie 3 espaces de différenciation crédibles pour un nouvel entrant (ex : hyper-local, analytics prédictifs pour le commerçant, zéro commission d'entrée).\n3. Rédige un positionnement en une phrase : "Contrairement à [concurrent], ZeroGaspillage [différence] pour [cible]."`
+                    },
+                    {
+                        id: "zg_lab2_2", title: "Lab 2.2 : Guide d'Entretien & Synthèse de Verbatims",
+                        targetBadge: "PO / UX Research", tools: OUTILS.chat,
+                        objective: "Préparer la discovery terrain : un guide d'entretien non biaisé et une grille de synthèse des verbatims.",
+                        astuce: "Les entretiens simulés servent à répéter l'exercice de synthèse, pas à remplacer le terrain. Le livrable réutilisable ici, c'est le guide et la grille de synthèse.",
+                        prompt: `Agis comme un expert en discovery produit (méthode The Mom Test).\n\n1. Rédige un guide d'entretien de 10 questions pour interviewer des commerçants de proximité sur leur gestion des invendus. Contraintes : questions ouvertes, orientées passé et faits (jamais "achèteriez-vous ?"), sans mentionner notre solution.\n2. Simule ensuite 3 comptes-rendus d'entretiens réalistes et contrastés (un boulanger enthousiaste, un restaurateur sceptique, une gérante de supérette débordée).\n3. Synthétise les verbatims dans un tableau : Douleur exprimée / Fréquence / Intensité / Solution actuelle / Signal pour ZeroGaspillage.`
+                    },
+                    {
+                        id: "zg_lab2_3", title: "Lab 2.3 : Landing Page « Smoke Test »",
+                        targetBadge: "Marketing / PO", tools: OUTILS.ui,
+                        objective: "Générer une landing page de validation pour mesurer l'intérêt réel (inscriptions à la liste d'attente) avant tout développement.",
+                        astuce: "Le taux de conversion de cette page (visites → inscriptions) est votre première métrique de validation : fixez un seuil de succès AVANT de la publier (ex : 5 %).",
+                        prompt: `Génère une landing page "smoke test" pour ZeroGaspillage, destinée à mesurer l'intérêt réel avant développement.\n\nContenu attendu :\n1. Hero : promesse principale orientée bénéfice commerçant ("Transformez vos invendus en revenus") + sous-titre consommateur.\n2. 3 blocs bénéfices avec icônes (revenus récupérés, nouveaux clients, impact anti-gaspi mesuré).\n3. Un formulaire d'inscription à la liste d'attente (email + code postal + type de commerce).\n4. Preuve sociale factice à remplacer (logos presse, compteur de paniers sauvés).\n\nStyle : Tailwind CSS, tons ambre/vert, mobile-first. Une seule page HTML autonome.`
+                    }
+                ]
+            },
+            {
+                id: "zg_mod3", icon: "💰", target: "Biz",
+                title: "Module 3 : Business Model & Pricing",
+                subtitle: "(Lean Startup)",
+                intro: "Transformer l'idée validée en modèle économique viable : canvas, hypothèses risquées et simulation financière assistés par l'IA.",
+                labs: [
+                    {
+                        id: "zg_lab3_1", title: "Lab 3.1 : Business Model Canvas & Hypothèses à Risque",
+                        targetBadge: "PO / Direction", tools: OUTILS.chat,
+                        objective: "Remplir le canvas complet et surtout en extraire les hypothèses les plus risquées, avec leur plan de test.",
+                        astuce: "Le canvas n'est pas le livrable : la liste d'hypothèses risquées et leurs tests, si. C'est elle qui pilote les 3 prochains sprints.",
+                        prompt: `Agis comme un coach en business model (méthode Lean Startup). Pour ZeroGaspillage (marketplace d'invendus, commission de 1,50 € par panier + abonnement "Commerçant Pro" à 29 €/mois avec analytics prédictifs) :\n\n1. Remplis le Business Model Canvas complet (9 blocs) sous forme de tableau Markdown.\n2. Liste les 5 hypothèses les plus risquées du modèle (ex : les commerçants acceptent-ils une commission ? le panier moyen couvre-t-il le coût d'acquisition ?).\n3. Pour chaque hypothèse : propose un test de validation rapide (moins de 2 semaines, moins de 500 €) avec sa métrique de succès.`
+                    },
+                    {
+                        id: "zg_lab3_2", title: "Lab 3.2 : Simulation Financière à 24 Mois",
+                        targetBadge: "Direction / Finance", tools: ["M365 Copilot (Excel)", "Gemini Workspace (Sheets)", "ChatGPT (analyse de données)", "Claude"],
+                        objective: "Construire le prévisionnel : revenus, coûts, point mort et besoin de financement, avec scénarios.",
+                        astuce: "Dans Excel, Copilot peut générer les formules ET les graphiques. Vérifiez chaque formule de croissance composée : c'est l'erreur n°1 des simulations générées.",
+                        prompt: `Agis comme un analyste financier de startup early-stage. Construis dans Excel une simulation financière à 24 mois pour ZeroGaspillage.\n\nHypothèses de départ : 20 commerçants au mois 1, croissance +15 %/mois, 25 paniers vendus/commerçant/mois, commission 1,50 €/panier, 10 % des commerçants en abonnement Pro à 29 €/mois, coûts fixes 8 000 €/mois (équipe + hébergement), coût d'acquisition commerçant 80 €.\n\n1. Génère le tableau mensuel : commerçants actifs, paniers vendus, revenus (commissions + abonnements), coûts, trésorerie cumulée.\n2. Calcule le point mort (break-even) et le besoin de financement maximal.\n3. Ajoute un scénario pessimiste (-50 % de croissance) et optimiste (+50 %) et commente l'écart en 5 lignes.`
+                    }
+                ]
+            },
+            {
+                id: "zg_mod4", icon: "📋", target: "Mixte",
+                title: "Module 4 : Spécifications, User Stories & Backlog",
+                subtitle: "(Du besoin au backlog)",
+                intro: "Traduire la vision en spécifications exécutables : PRD, user stories, Gherkin, priorisation, puis simulation du premier sprint — le pont entre le métier et l'équipe de développement.",
+                labs: [
+                    {
+                        id: "zg_lab4_1", title: "Lab 4.1 : PRD Une Page & Découpage en Épics",
+                        targetBadge: "PO / PM", tools: OUTILS.chat,
+                        objective: "Rédiger le Product Requirements Document du MVP, avec un périmètre ET un hors-périmètre explicites.",
+                        astuce: "Le « hors périmètre » est la section la plus précieuse d'un PRD : elle protège le MVP de l'inflation de fonctionnalités. Exigez toujours que l'IA la remplisse.",
+                        prompt: `Agis comme un Lead Product Manager. Rédige le PRD (Product Requirements Document) une page du MVP ZeroGaspillage.\n\nStructure imposée :\n1. Problème & opportunité (3 lignes, chiffrées).\n2. Objectifs & métriques de succès (3 KPI max).\n3. Personas cibles (rappel en 2 lignes).\n4. Périmètre MVP : découpage en 5 épics maximum (côté consommateur : découvrir / réserver / retirer ; côté commerçant : publier / suivre).\n5. Hors périmètre explicite (paiement en plusieurs fois, livraison, dons associatifs...).\n6. Risques & dépendances.\n\nContrainte : tenir sur une page, zéro jargon, lisible par un développeur comme par un investisseur.`
+                    },
+                    {
+                        id: "zg_lab4_2", title: "Lab 4.2 : User Stories & Critères Gherkin",
+                        targetBadge: "PO / BA", tools: ["M365 Copilot (Word)", "ChatGPT", "Gemini", "Claude"],
+                        objective: "Détailler l'épic « Réserver un Panier Surprise » en user stories et critères d'acceptation BDD.",
+                        astuce: "Les scénarios Gherkin écrits ici seront directement réutilisés au Module 10 pour générer les tests pytest et Playwright : le même texte sert le métier ET la QA.",
+                        prompt: `Agis comme un Product Owner technique. Pour l'épic "Réserver un Panier Surprise" de ZeroGaspillage :\n\n1. Rédige les User Stories formelles (En tant que... Je veux... Afin de...) couvrant : consulter les paniers autour de moi, réserver un panier, payer en ligne, annuler avant l'heure limite, récupérer le panier avec un code de retrait.\n2. Pour la story "Réserver un panier", rédige les critères d'acceptation en Gherkin (Étant donné / Quand / Alors) incluant : cas nominal, panier épuisé pendant le paiement, réservation après l'heure limite de retrait, annulation avec remboursement.\n3. Signale les règles métier ambiguës qui nécessitent un arbitrage humain.`
+                    },
+                    {
+                        id: "zg_lab4_3", title: "Lab 4.3 : Priorisation MoSCoW vs RICE",
+                        targetBadge: "PO / PM", tools: OUTILS.chat,
+                        objective: "Prioriser le backlog MVP avec deux méthodes, confronter les résultats et arbitrer.",
+                        astuce: "Faire produire DEUX méthodes de priorisation puis les confronter révèle les biais de chacune — et donne un argumentaire solide pour le COPIL.",
+                        prompt: `Agis comme un coach produit. Voici le backlog candidat du MVP ZeroGaspillage : carte des paniers autour de moi, réservation + paiement, code de retrait, notation des commerçants, notifications push "nouveau panier", tableau de bord commerçant, analytics prédictifs des invendus, programme de fidélité, dons associatifs des invendus non vendus, chat commerçant-client.\n\n1. Priorise ces 10 items avec la méthode MoSCoW (Must / Should / Could / Won't pour le MVP), justification en 1 ligne chacun.\n2. Recalcule la priorité avec un score RICE (Reach, Impact, Confidence, Effort — propose des valeurs argumentées).\n3. Compare les deux classements : où divergent-ils et pourquoi ? Quelle est ta recommandation finale de périmètre pour un MVP à 3 mois ?`
+                    },
+                    {
+                        id: "zg_lab4_4", title: "Lab 4.4 : Simulation de Sprint 1 (Sprint Planning assisté)",
+                        targetBadge: "PO / Tech Leads", tools: ["ChatGPT", "Gemini", "Claude", "Grok", "Mistral"],
+                        objective: "Transformer trois user stories du backlog en un plan de sprint complet : tâches estimées, dépendances, plan de test et documentation.",
+                        astuce: "C'est l'exercice « équipe » par excellence : faites générer le plan par l'IA, puis challengez les estimations en groupe — l'IA estime sans connaître votre vélocité réelle.",
+                        prompt: `Agis comme un coach agile et tech lead. Nous lançons le Sprint 1 du MVP ZeroGaspillage (équipe : 2 devs backend, 1 dev frontend, 1 QA à mi-temps ; sprint de 2 semaines).\n\nÀ partir de ces 3 user stories du backlog :\n1. "En tant que consommateur, je vois les Paniers Surprise autour de moi sur une carte."\n2. "En tant que consommateur, je réserve et paie un panier en ligne."\n3. "En tant que commerçant, je publie un panier en moins de 2 minutes."\n\nProduis :\n1. Le découpage en tâches techniques (backend, frontend, QA) avec estimation en points (suite de Fibonacci) et dépendances entre tâches.\n2. La capacité du sprint vs la charge estimée : que faut-il déprioriser si ça ne rentre pas ?\n3. Le plan de test du sprint (quoi tester, comment, par qui).\n4. Le squelette de la documentation du sprint (objectif, périmètre, definition of done).\n5. Les 3 risques principaux du sprint et leur plan de mitigation.`
+                    }
+                ]
+            },
+            {
+                id: "zg_mod5", icon: "🎨", target: "Mixte",
+                title: "Module 5 : UX/UI Design",
+                subtitle: "(Du parcours au Design System)",
+                intro: "Concevoir l'expérience avant l'interface : parcours, wireframes et design system figé dans un fichier Skill réutilisable par toutes les IA du projet.",
+                labs: [
+                    {
+                        id: "zg_lab5_1", title: "Lab 5.1 : Wireframes des 3 Écrans Clés",
+                        targetBadge: "Designers / Devs Front", tools: OUTILS.ui,
+                        objective: "Concevoir les écrans Découverte, Fiche panier et Confirmation, avec leurs états (vide, erreur, chargement).",
+                        astuce: "Décrire les états vides et d'erreur dès le wireframe évite 80 % des allers-retours design/dev. Exigez-les systématiquement de l'IA.",
+                        prompt: `Agis comme un Product Designer mobile-first. Conçois les 3 écrans clés de l'app consommateur ZeroGaspillage :\n1. Découverte : carte + liste des Paniers Surprise à proximité (distance, prix barré, heure limite de retrait).\n2. Fiche panier : contenu indicatif, commerçant, créneau de retrait, bouton réserver.\n3. Confirmation : code de retrait, itinéraire, compte à rebours.\n\nPour chaque écran, décris : hiérarchie visuelle, composants UI, états (chargement, vide, erreur), micro-interactions. Puis génère le wireframe en HTML/Tailwind (mobile 375px).\n\nContrainte d'accessibilité : contrastes AA, zones tactiles 44px minimum.`
+                    },
+                    {
+                        id: "zg_lab5_2", title: "Lab 5.2 : Fichier Skill « Design System »",
+                        targetBadge: "Designers / Tech Leads", tools: OUTILS.chat,
+                        objective: "Figer l'identité visuelle et les composants canoniques dans un fichier de référence ingérable par toute IA.",
+                        astuce: "C'est le pattern « Infrastructure via Skills » vu sur EcoTrack : on fige les conventions dans un fichier que chaque prompt UI référencera — fini les interfaces incohérentes.",
+                        prompt: `Crée le fichier "design-system-zerogaspillage.skill.md" : la référence que toute IA devra ingérer avant de générer de l'UI pour le projet.\n\nContenu :\n1. Identité : mission anti-gaspi, ton chaleureux et engagé, pictos food.\n2. Tokens : palette (ambre primaire #f59e0b, vert impact #10b981, alertes), typographie, espacements, rayons de bordure — au format variables Tailwind config.\n3. Composants canoniques : PanierCard, CountdownBadge, ImpactCounter (structure + classes Tailwind).\n4. Règles d'or : mobile-first, accessibilité AA, jamais de rouge pour les prix (connotation négative), affichage systématique de l'impact (kg de nourriture sauvée).\n5. Anti-patterns interdits.\n\nFormat : Markdown structuré, directement utilisable comme contexte d'un prompt.`
+                    }
+                ]
+            },
+            {
+                id: "zg_mod6", icon: "🏗️", target: "Tech",
+                title: "Module 6 : Architecture Technique & ADR",
+                subtitle: "(Décider et documenter)",
+                intro: "Poser les fondations techniques : comparer les architectures, décider (ADR), documenter (C4) et contractualiser (OpenAPI) — l'IA argumente, l'équipe décide.",
+                labs: [
+                    {
+                        id: "zg_lab6_1", title: "Lab 6.1 : Comparaison d'Architectures & ADR",
+                        targetBadge: "Architectes / Tech Leads", tools: OUTILS.chat,
+                        objective: "Choisir l'architecture du MVP en connaissance de cause et documenter la décision dans un ADR versionné.",
+                        astuce: "Un ADR généré par l'IA se relit en équipe et se versionne dans le repo (docs/adr/001-...). La décision vous appartient ; l'IA structure l'argumentaire.",
+                        prompt: `Agis comme un architecte logiciel senior. Le MVP ZeroGaspillage doit servir : une app consommateur (React), un dashboard commerçant (React), une API (FastAPI/PostgreSQL), des notifications temps réel, des pics de charge à 18h (publication des paniers).\n\n1. Compare 3 options d'architecture : monolithe modulaire FastAPI, microservices (paniers / réservations / paiement), monolithe + workers asynchrones (Celery/Redis).\nCritères : time-to-market, coût d'infra, complexité opérationnelle pour une équipe de 3 devs, évolutivité.\n2. Recommande une option pour le MVP et rédige l'ADR (Architecture Decision Record) : Contexte / Décision / Conséquences / Options écartées.\n3. Indique le signal mesurable qui déclencherait une migration vers l'option supérieure.`
+                    },
+                    {
+                        id: "zg_lab6_2", title: "Lab 6.2 : Diagrammes C4 en Mermaid.js",
+                        targetBadge: "Architectes / Devs", tools: OUTILS.chat,
+                        objective: "Produire les diagrammes Contexte et Conteneurs, compilables tels quels, pour la documentation du repo.",
+                        astuce: "Collez le code Mermaid dans mermaid.live pour valider le rendu. Un diagramme dans le repo (docs/architecture.md) devient du contexte réutilisable pour tous les prompts suivants.",
+                        prompt: `Agis comme un architecte. Génère les diagrammes C4 du MVP ZeroGaspillage en Mermaid.js :\n\n1. Niveau 1 (Contexte) : acteurs (Consommateur, Commerçant), système ZeroGaspillage, systèmes externes (Stripe pour le paiement, service d'emails, notifications push).\n2. Niveau 2 (Conteneurs) : SPA React consommateur, dashboard React commerçant, API FastAPI, PostgreSQL, worker asynchrone, cache Redis.\n3. Ajoute les protocoles sur les flèches (HTTPS/REST, WebSocket, SQL).\n\nContrainte : code Mermaid valide et compilable tel quel, un bloc par diagramme, libellés en français.`
+                    },
+                    {
+                        id: "zg_lab6_3", title: "Lab 6.3 : Contrat d'API OpenAPI",
+                        targetBadge: "Devs Back / Front", tools: OUTILS.ide,
+                        objective: "Contractualiser le domaine « Paniers & Réservations » en OpenAPI 3.1 pour développer back et front en parallèle.",
+                        astuce: "Contract-first : ce YAML sert de source de vérité au backend (Module 8) ET au frontend (Module 9), qui peuvent être développés en parallèle.",
+                        prompt: `Agis comme un API Designer. Rédige le contrat OpenAPI 3.1 (YAML) du domaine "Paniers & Réservations" de ZeroGaspillage.\n\nEndpoints attendus :\n- GET /paniers?lat=&lng=&rayon= (recherche géolocalisée, pagination)\n- POST /paniers (commerçant : publier un panier — titre, prix, quantité, heure limite de retrait)\n- POST /reservations (réserver : décrémente le stock de façon atomique)\n- DELETE /reservations/{id} (annuler avant l'heure limite)\n- GET /reservations/{id}/code-retrait\n\nPour chaque endpoint : schémas de données, codes d'erreur métier (409 stock épuisé, 410 heure limite dépassée), exemples de payloads, sécurité JWT avec rôles (consommateur / commercant).`
+                    }
+                ]
+            },
+            {
+                id: "zg_mod7", icon: "🗄️", target: "Tech",
+                title: "Module 7 : Modèle de Données",
+                subtitle: "(PostgreSQL & concurrence)",
+                intro: "Modéliser les données du domaine dans PostgreSQL : du MCD aux migrations Alembic, avec LE piège du métier — la concurrence sur le dernier panier.",
+                labs: [
+                    {
+                        id: "zg_lab7_1", title: "Lab 7.1 : MCD & Script DDL PostgreSQL",
+                        targetBadge: "Data / Devs Back", tools: OUTILS.chat,
+                        objective: "Générer le modèle entité-association et le DDL PostgreSQL 16 optimisé (géospatial, contraintes, ENUM).",
+                        astuce: "La question de la concurrence (2 clients réservent le dernier panier en même temps) est LE piège du domaine. Gardez la réponse de l'IA : elle sera testée au Module 10.",
+                        prompt: `Agis comme un Data Architect PostgreSQL. Conçois le modèle de données du MVP ZeroGaspillage.\n\nEntités : commerces (géolocalisés), utilisateurs, paniers (prix, quantité initiale/restante, date-heure limite de retrait), réservations (statut : réservée / retirée / annulée / expirée, code de retrait), paiements, évaluations.\n\n1. Génère le diagramme entité-association en Mermaid.js (erDiagram).\n2. Génère le script DDL PostgreSQL 16 : clés primaires UUID, contraintes (quantité restante >= 0, statuts en ENUM), index géospatial (PostGIS ou earthdistance) pour la recherche par rayon, index sur (panier_id, statut) pour les réservations.\n3. Explique en 5 lignes comment éviter la survente d'un panier en cas de réservations simultanées (verrou, transaction, contrainte CHECK).`
+                    },
+                    {
+                        id: "zg_lab7_2", title: "Lab 7.2 : Modèles SQLAlchemy & Migration Alembic",
+                        targetBadge: "Devs Python", tools: OUTILS.ide,
+                        objective: "Traduire le DDL en modèles SQLAlchemy 2.0 + schémas Pydantic v2, et créer la première migration.",
+                        astuce: "Donnez TOUJOURS le DDL en contexte plutôt que de laisser Copilot réinventer le schéma : c'est le principe de Context Grounding appliqué à la data.",
+                        prompt: `Agis comme un développeur Python senior. À partir du DDL PostgreSQL du lab précédent (colle-le en contexte) :\n\n1. Génère les modèles SQLAlchemy 2.0 (style declarative avec Mapped[] et mapped_column), relations bidirectionnelles, contraintes reflétées.\n2. Génère les schémas Pydantic v2 associés (PanierCreate, PanierOut, ReservationCreate...) avec validateurs (prix > 0, heure limite dans le futur).\n3. Crée la première migration Alembic (revision --autogenerate) et explique la commande.\n4. Ajoute une fixture de données de démo : 3 commerces marseillais, 5 paniers, 2 réservations.`
+                    }
+                ]
+            },
+            {
+                id: "zg_mod8", icon: "⚙️", target: "Tech",
+                title: "Module 8 : Développement Backend",
+                subtitle: "(FastAPI & Copilot)",
+                intro: "Développer le backend avec un agent IA : conventions figées dans copilot-instructions.md, bibliothèque de prompts partagée par l'équipe, endpoints métier atomiques et moteur de suggestion anti-gaspi.",
+                labs: [
+                    {
+                        id: "zg_lab8_1", title: "Lab 8.1 : Fichier copilot-instructions.md",
+                        targetBadge: "Tech Leads / Devs", tools: OUTILS.ide,
+                        objective: "Figer les conventions du repo backend pour que chaque suggestion Copilot les respecte automatiquement.",
+                        astuce: "Ce fichier est lu automatiquement par Copilot (VS Code) pour TOUTES les suggestions du repo : c'est l'équivalent backend du fichier Skill design system.",
+                        prompt: `Crée le fichier ".github/copilot-instructions.md" du repo backend ZeroGaspillage, pour que GitHub Copilot respecte nos conventions à chaque suggestion.\n\nSections attendues :\n1. Stack : Python 3.12, FastAPI, SQLAlchemy 2.0 async, Pydantic v2, PostgreSQL 16, pytest.\n2. Conventions : routers par domaine (paniers, reservations, commerces), services séparés des routes, pas de logique métier dans les endpoints, typage strict, docstrings françaises.\n3. Gestion d'erreurs : exceptions métier custom (StockEpuiseError, HeureLimiteDepasseeError) converties en HTTPException par un handler global.\n4. Sécurité : jamais de secret en dur, requêtes paramétrées uniquement, validation Pydantic systématique des entrées.\n5. Tests : chaque endpoint a un test nominal + un test d'erreur métier.`
+                    },
+                    {
+                        id: "zg_lab8_2", title: "Lab 8.2 : Bibliothèque de Prompts de l'Équipe",
+                        targetBadge: "Tech Leads / Devs", tools: ["ChatGPT", "Claude", "Gemini", "GitHub Copilot", "Claude Code"],
+                        objective: "Standardiser l'usage de l'IA dans l'équipe : un fichier prompt-library.md avec 6 prompts réutilisables et paramétrables — livrable directement exploitable en entreprise.",
+                        astuce: "Un prompt d'équipe est un livrable versionné comme le code : rangé dans le repo, avec un owner et des variables {{...}} claires. C'est le complément du copilot-instructions.md du lab précédent.",
+                        prompt: `Agis comme un Tech Lead qui industrialise l'usage de l'IA dans son équipe. Crée le fichier "docs/prompt-library.md" du projet ZeroGaspillage.\n\nPour chacun des 6 prompts suivants, fournis : le titre, quand l'utiliser, le prompt complet avec variables {{entre_doubles_accolades}}, et un exemple d'utilisation :\n1. Code review : relire {{fichier}} selon nos conventions (typage strict, services séparés des routes, tests obligatoires).\n2. Bug fixing : diagnostiquer à partir de {{stacktrace}} + {{code_suspect}}, proposer un correctif minimal et un test de non-régression.\n3. Explication de code : expliquer {{fichier}} à un développeur qui découvre le projet.\n4. Génération de tests : produire les tests de {{fonction}} en couvrant les cas limites métier.\n5. Documentation : générer la docstring et la section README de {{module}}.\n6. Message de commit : résumer {{diff}} en un message de commit conventionnel (feat/fix/chore).\n\nTermine par une section "Règles d'usage" : où vit ce fichier, comment proposer un nouveau prompt, qui valide.`
+                    },
+                    {
+                        id: "zg_lab8_3", title: "Lab 8.3 : Endpoints Réservation & Règles Métier",
+                        targetBadge: "Devs Python", tools: OUTILS.ide,
+                        objective: "Implémenter le domaine Réservations avec décrément de stock ATOMIQUE et exceptions métier.",
+                        astuce: "Relisez la requête de décrément générée : si l'IA propose un SELECT puis un UPDATE séparés, elle vient d'introduire une race condition. Exigez l'UPDATE atomique.",
+                        prompt: `Agis comme un développeur FastAPI senior. Implémente le domaine "Réservations" de ZeroGaspillage en suivant le contrat OpenAPI du Module 6 (colle-le en contexte).\n\n1. Router POST /reservations : vérifie que le panier existe, que l'heure limite n'est pas dépassée, décrémente la quantité restante de façon ATOMIQUE (UPDATE ... WHERE quantite_restante > 0 RETURNING), génère un code de retrait à 6 caractères, déclenche le paiement Stripe (stub).\n2. Router DELETE /reservations/{id} : annulation autorisée jusqu'à 1h avant l'heure limite, réincrémente le stock, rembourse (stub).\n3. Service ReservationService séparé, exceptions métier custom, tests unitaires du service (cas : dernier panier disputé par 2 requêtes simultanées).\n\nCode complet, typé, docstrings en français.`
+                    },
+                    {
+                        id: "zg_lab8_4", title: "Lab 8.4 : Moteur de Suggestion Anti-Gaspi",
+                        targetBadge: "Devs Python / Data", tools: OUTILS.ide,
+                        objective: "Implémenter le scoring qui ordonne les paniers pour maximiser les invendus sauvés — et analyser ses biais.",
+                        astuce: "Demander à l'IA d'analyser les biais de son propre algorithme est un réflexe d'IA responsable — et une question quasi certaine en COPIL.",
+                        prompt: `Agis comme un développeur Python orienté data. Implémente le moteur de suggestion "anti-gaspi" de ZeroGaspillage : ordonner les paniers affichés à un utilisateur pour MAXIMISER les invendus sauvés.\n\n1. Fonction score_panier(panier, utilisateur) combinant : urgence (temps restant avant l'heure limite, pondération exponentielle), distance (décroissance linéaire jusqu'à 5 km), affinité (catégories déjà achetées), prix.\n2. Les pondérations doivent être configurables (dataclass ScoringConfig) pour pouvoir être A/B testées au Module 14.\n3. Écris 5 cas de test qui documentent le comportement attendu (un panier qui expire dans 30 min à 500 m doit battre un panier à 4h/3 km, etc.).\n4. Analyse en 5 lignes : quels biais ce scoring peut-il créer pour les petits commerçants éloignés ?`
+                    }
+                ]
+            },
+            {
+                id: "zg_mod9", icon: "🖥️", target: "Tech",
+                title: "Module 9 : Développement Frontend",
+                subtitle: "(React + TypeScript)",
+                intro: "Construire le frontend React : du premier jet v0.dev au composant typé aligné sur le design system, jusqu'à l'optimistic UI de la réservation.",
+                labs: [
+                    {
+                        id: "zg_lab9_1", title: "Lab 9.1 : Du Wireframe au Composant « PanierCard »",
+                        targetBadge: "Devs React", tools: ["Stitch / v0.dev / Lovable", "puis Copilot / Claude Code / Cursor"],
+                        objective: "Générer le composant vitrine avec v0, puis l'industrialiser dans le projet (types, design system, états).",
+                        astuce: "Le pattern à retenir : v0 pour le premier jet visuel, puis Copilot DANS le projet pour l'aligner sur vos types et votre design system. Jamais l'inverse.",
+                        prompt: `Étape 1 (v0.dev / Stitch) : "Génère un composant React + Tailwind PanierCard pour une app anti-gaspillage : photo du commerce, badge catégorie, prix barré / prix réduit, distance, compte à rebours avant l'heure limite de retrait, jauge de stock restant, bouton Réserver. Style chaleureux, ambre/vert, mobile-first."\n\nÉtape 2 (Copilot, dans le projet) : adapte le composant généré :\n1. TypeScript strict : interface PanierCardProps alignée sur le schéma PanierOut de l'API (Module 7).\n2. Applique les tokens du fichier design-system-zerogaspillage.skill.md (Module 5) — colle-le en contexte.\n3. États : stock épuisé (bouton désactivé), panier expiré (carte grisée), compte à rebours < 30 min (badge pulsant).\n4. Accessibilité : aria-labels, focus visible, contraste AA.`
+                    },
+                    {
+                        id: "zg_lab9_2", title: "Lab 9.2 : Intégration API & Optimistic UI",
+                        targetBadge: "Devs React", tools: OUTILS.ide,
+                        objective: "Brancher le front sur l'API : hooks de données, mutation de réservation optimiste avec rollback, erreurs en français.",
+                        astuce: "L'optimistic UI est le détail qui rend l'app « instantanée » — mais exigez le scénario de rollback : c'est lui que l'IA oublie une fois sur deux.",
+                        prompt: `Agis comme un développeur React senior. Implémente le flux de réservation côté front (React 18 + TypeScript + TanStack Query).\n\n1. Hook usePaniers(lat, lng, rayon) : fetch GET /paniers, rafraîchissement automatique toutes les 60s, gestion des états loading / error / empty.\n2. Hook useReserverPanier() : mutation POST /reservations avec optimistic update (le stock affiché décrémente immédiatement), rollback + toast d'erreur si 409 (stock épuisé) ou 410 (heure limite dépassée).\n3. Composant ReservationConfirmation : code de retrait, compte à rebours, bouton annuler (avec confirmation).\n4. Intercepteur d'authentification JWT (refresh token).\n\nContrainte : messages d'erreur en français, orientés utilisateur ("Ce panier vient d'être réservé par quelqu'un d'autre 😔"), jamais de code d'erreur brut à l'écran.`
+                    }
+                ]
+            },
+            {
+                id: "zg_mod10", icon: "🧪", target: "Tech",
+                title: "Module 10 : Tests & Qualité",
+                subtitle: "(La preuve par les tests)",
+                intro: "Prouver que ça marche : tests unitaires des règles métier, agent QA réutilisable, parcours E2E Playwright qui devient le gate de la CI — et le réflexe du debug assisté sur du code existant.",
+                labs: [
+                    {
+                        id: "zg_lab10_1", title: "Lab 10.1 : Suite pytest du Moteur de Réservation",
+                        targetBadge: "QA / Devs Python", tools: OUTILS.ide,
+                        objective: "Couvrir chaque règle métier du PRD par un test, y compris la concurrence sur le dernier panier.",
+                        astuce: "Le test des 2 réservations simultanées valide la réponse « concurrence » donnée par l'IA au Module 7. Si le test échoue, c'est que l'UPDATE atomique n'en était pas un.",
+                        prompt: `Agis comme un ingénieur QA Python. Écris la suite pytest du ReservationService de ZeroGaspillage (colle le service du Module 8 en contexte).\n\n1. Fixtures : base PostgreSQL de test (testcontainers, ou SQLite si tu justifies le compromis), commerce, panier avec quantité 1, utilisateurs.\n2. Cas nominaux : réservation OK, code de retrait généré, annulation avec restock.\n3. Edge cases OBLIGATOIRES : deux réservations simultanées sur le dernier panier (asyncio.gather — une seule doit gagner), réservation à heure limite + 1 seconde, annulation à 59 min de l'heure limite (refusée), panier supprimé pendant la réservation, remboursement en échec.\n4. Utilise pytest.mark.parametrize pour les règles temporelles et fige le temps avec freezegun.\n\nObjectif : chaque règle métier du PRD a au moins un test qui la prouve.`
+                    },
+                    {
+                        id: "zg_lab10_2", title: "Lab 10.2 : Agent QA Spécialisé Python",
+                        targetBadge: "QA / Tech Leads", tools: OUTILS.chat, noStackNote: true,
+                        objective: "Créer le profil d'agent IA strict dédié à la revue des tests, réutilisable sur tout le projet.",
+                        astuce: "Même pattern que les 4 agents EcoTrack : un rôle étroit + une grille + un format de sortie = un agent fiable. La largesse du rôle est l'ennemie de la qualité.",
+                        prompt: `Crée le fichier "qa-python.agent.md" : le profil d'un agent IA strict, spécialisé revue de tests Python, réutilisable sur tout le projet.\n\nStructure :\n1. Rôle : "Tu es un ingénieur QA senior Python. Tu ne réponds QUE sur la qualité des tests."\n2. Contexte permanent : stack (pytest, FastAPI, SQLAlchemy async), conventions du repo (.github/copilot-instructions.md).\n3. Grille d'analyse systématique : couverture des règles métier du PRD, cas limites temporels, concurrence, indépendance des tests, fixtures propres, assertions précises (pas de assert True).\n4. Format de sortie imposé : tableau Verdict (✅/⚠️/❌) par fichier + liste des tests manquants classés par risque.\n5. Interdictions : ne jamais réécrire le code de production, ne jamais approuver sans exécuter mentalement chaque test.`
+                    },
+                    {
+                        id: "zg_lab10_3", title: "Lab 10.3 : Parcours E2E Playwright",
+                        targetBadge: "QA Automation", tools: OUTILS.ide,
+                        objective: "Automatiser le parcours critique « réserver et retirer un panier », multi-navigateurs, sans flakiness.",
+                        astuce: "Un seul parcours E2E critique et stable vaut mieux que 30 tests flaky. Ce test devient le « gate » du pipeline CI/CD du Module 12.",
+                        prompt: `Agis comme un ingénieur QA automation. Écris le test E2E Playwright (TypeScript) du parcours critique de ZeroGaspillage : "réserver et retirer un panier".\n\nScénario (reprends les critères Gherkin du Module 4) :\n1. Le consommateur se connecte, autorise la géolocalisation (mock des coordonnées de Marseille).\n2. Il filtre les paniers "boulangerie" à moins de 2 km, ouvre la fiche du premier.\n3. Il réserve, paie (Stripe en mode test), reçoit le code de retrait.\n4. Vérifications : stock décrémenté à l'écran, email de confirmation (via Mailhog), le même panier réservé par un second navigateur en parallèle affiche "épuisé".\n5. Le commerçant (second contexte de navigateur) valide le retrait avec le code.\n\nBonnes pratiques : sélecteurs par rôle (getByRole), pas de waitForTimeout, données de test isolées par run.`
+                    },
+                    {
+                        id: "zg_lab10_4", title: "Lab 10.4 : Debug Assisté — Comprendre du Code Existant",
+                        targetBadge: "Devs / QA", tools: ["GitHub Copilot", "Claude Code", "Codex", "Cursor", "AntiGravity"],
+                        objective: "Le réflexe n°1 du développeur augmenté : faire expliquer, diagnostiquer et corriger du code existant par l'IA — sans jamais valider à l'aveugle.",
+                        astuce: "Copiez le code ET la stacktrace : une IA qui ne voit que l'un des deux devine l'autre. Et exigez toujours le test de non-régression qui prouve le correctif.",
+                        prompt: `Agis comme un développeur Python senior. Voici un extrait du moteur de réservation ZeroGaspillage qui pose problème en production.\n\nCode :\nasync def reserver(session, panier_id, user_id):\n    panier = await session.get(Panier, panier_id)\n    if panier.quantite_restante > 0:\n        reservation = Reservation(panier_id=panier_id, user_id=user_id, code=genere_code())\n        session.add(reservation)\n        panier.quantite_restante = panier.quantite_restante - 1\n        await session.commit()\n        return reservation\n    raise StockEpuiseError(panier_id)\n\nSymptômes observés le vendredi soir (pic de trafic) : des paniers avec quantite_restante = -2 apparaissent en base, et deux clients reçoivent parfois le même code de retrait.\n\n1. Explique ce code ligne à ligne à un développeur junior.\n2. Identifie la ou les causes racines des deux symptômes (indice : que se passe-t-il quand deux requêtes exécutent ce code en même temps ?).\n3. Propose le correctif minimal (UPDATE atomique ou verrou), puis une version refactorée propre.\n4. Écris le test de non-régression qui échoue avec l'ancien code et passe avec le nouveau.`
+                    }
+                ]
+            },
+            {
+                id: "zg_mod11", icon: "🛡️", target: "Mixte",
+                title: "Module 11 : Sécurité & Conformité RGPD",
+                subtitle: "(OWASP & RGPD)",
+                intro: "Sécuriser et encadrer : audit OWASP API Top 10 orienté failles métier, RGPD appliqué aux données sensibles (géolocalisation, habitudes alimentaires) et charte d'usage IA de l'équipe.",
+                labs: [
+                    {
+                        id: "zg_lab11_1", title: "Lab 11.1 : Audit OWASP API Top 10",
+                        targetBadge: "Devs / AppSec", tools: OUTILS.chat,
+                        objective: "Auditer les endpoints du MVP : IDOR, mass assignment, injection, force brute sur les codes de retrait.",
+                        astuce: "L'énumération des codes de retrait est la faille « métier » que les scanners ratent : elle vaut de vrais paniers gratuits. Les failles à plus fort impact business sont rarement techniques.",
+                        prompt: `Agis comme un pentester applicatif. Audite l'API ZeroGaspillage (colle le code des routers du Module 8 en contexte) selon l'OWASP API Security Top 10.\n\n1. Vérifie en priorité :\n- BOLA/IDOR : un utilisateur peut-il consulter GET /reservations/{id} d'un autre client ? Le commerçant A peut-il modifier les paniers du commerçant B ?\n- Mass assignment : peut-on s'auto-promouvoir "commercant" via le payload d'inscription ?\n- Injection : la recherche géolocalisée (paramètres lat/lng/rayon) est-elle paramétrée ?\n- Rate limiting : peut-on énumérer les codes de retrait à 6 caractères par force brute ?\n2. Pour chaque faille : sévérité CVSS estimée, preuve de concept (requête curl), correctif en code FastAPI.\n3. Produis la checklist de non-régression sécurité à intégrer en CI.`
+                    },
+                    {
+                        id: "zg_lab11_2", title: "Lab 11.2 : Registre RGPD & Politique de Confidentialité",
+                        targetBadge: "DPO / PO", tools: ["M365 Copilot (Word)", "ChatGPT", "Gemini", "Claude"], noStackNote: true,
+                        objective: "Produire le registre des traitements (art. 30) et une politique de confidentialité lisible, en traitant les données sensibles.",
+                        astuce: "L'historique d'achats alimentaires est une donnée faussement anodine : halal, casher, sans alcool... Le principe de minimisation n'est pas une option, c'est votre meilleure défense.",
+                        prompt: `Agis comme un DPO (Délégué à la Protection des Données). ZeroGaspillage collecte : identité, email, géolocalisation en temps réel, historique d'achats alimentaires, données de paiement (via Stripe).\n\n1. Rédige le registre des traitements (article 30 RGPD) sous forme de tableau : traitement, finalité, base légale, données, durée de conservation, destinataires, mesures de sécurité.\n2. Points sensibles à traiter explicitement : la géolocalisation (consentement spécifique, pas de stockage de l'historique de position), les habitudes alimentaires (peuvent révéler des convictions religieuses — minimisation obligatoire), les mineurs.\n3. Rédige la politique de confidentialité en français clair (niveau collège), 1 page maximum.\n4. Liste les 5 actions techniques prioritaires pour l'équipe dev (pseudonymisation, TTL des positions, export/suppression de compte).`
+                    },
+                    {
+                        id: "zg_lab11_3", title: "Lab 11.3 : Charte d'Usage IA & Roadmap d'Adoption",
+                        targetBadge: "Tech Leads / Management", tools: ["ChatGPT", "Gemini", "Claude", "Grok", "Mistral"], noStackNote: true,
+                        objective: "Encadrer l'usage de l'IA dans l'équipe : une charte claire, les erreurs à éviter et une roadmap d'adoption en 90 jours.",
+                        astuce: "Une gouvernance légère vaut mieux qu'une interdiction contournée : la charte doit dire OÙ l'IA est encouragée, pas seulement où elle est interdite.",
+                        prompt: `Agis comme un consultant en transformation des équipes de développement. ZeroGaspillage (équipe de 6 : 3 devs, 1 QA, 1 PO, 1 designer) veut généraliser l'usage de l'IA sans créer de risques.\n\n1. Rédige la charte d'usage IA de l'équipe (1 page) : données autorisées / interdites dans les prompts (code propriétaire ? données clients ? secrets ?), validation humaine obligatoire (quand ?), outils approuvés et processus pour en ajouter un, transparence (signaler le code généré ?), responsabilité finale.\n2. Liste le top 5 des erreurs fréquentes en entreprise (ex : coller des données clients dans un chat grand public, merger du code généré non relu, dépendre d'un seul outil...) avec la parade pour chacune.\n3. Distingue les quick wins (moins d'1 mois, sans budget) de la transformation long terme.\n4. Propose la roadmap d'adoption en 90 jours : jalons, indicateurs de succès (temps de revue, taux d'adoption, incidents), rituels d'équipe (partage de prompts, rétro IA mensuelle).`
+                    }
+                ]
+            },
+            {
+                id: "zg_mod12", icon: "🔄", target: "Tech",
+                title: "Module 12 : CI/CD & Industrialisation",
+                subtitle: "(Chaque merge est vérifié)",
+                intro: "Industrialiser : pipeline GitHub Actions bi-stack et conteneurisation figée dans un Skill Docker — chaque merge est vérifié, chaque poste de dev est identique.",
+                labs: [
+                    {
+                        id: "zg_lab12_1", title: "Lab 12.1 : Pipeline GitHub Actions Bi-Stack",
+                        targetBadge: "DevOps / Devs", tools: OUTILS.chat,
+                        objective: "Créer la CI du monorepo : lint/tests Python et TypeScript en parallèle, E2E en gate, cache et filtres par chemins.",
+                        astuce: "Le filtre par « paths » évite de payer 10 minutes de CI backend pour une virgule dans le frontend. Sur un monorepo, c'est la première optimisation rentable.",
+                        prompt: `Agis comme un ingénieur DevOps. Crée le pipeline GitHub Actions du monorepo ZeroGaspillage (backend/ FastAPI + frontend/ React).\n\n1. Workflow ci.yml déclenché sur PR :\n- Job backend : ruff (lint + format), mypy, pytest avec PostgreSQL en service container, couverture minimale 80 %.\n- Job frontend : eslint, tsc --noEmit, vitest, build Vite.\n- Jobs en parallèle, avec cache des dépendances (pip + npm), déclenchement filtré par paths.\n2. Workflow e2e.yml : lance docker compose, exécute le test Playwright du Module 10, publie le rapport en artefact.\n3. Protection : la branche main exige les 3 checks verts.\n\nCommente chaque section du YAML en français.`
+                    },
+                    {
+                        id: "zg_lab12_2", title: "Lab 12.2 : Fichier Skill « Docker Compose »",
+                        targetBadge: "DevOps / Tech Leads", tools: OUTILS.chat,
+                        objective: "Figer la conteneurisation de référence (compose de dev, Dockerfiles multi-stage, règles d'or) dans un Skill.",
+                        astuce: "Miroir du Skill Docker d'EcoTrack (Module 8) : comparez les deux fichiers pour voir ce qui est générique (règles d'or) et ce qui est spécifique à la stack.",
+                        prompt: `Crée le fichier "docker-zerogaspillage.skill.md" : la référence conteneurisation du projet, à donner en contexte à toute IA qui touche à l'infra.\n\n1. docker-compose.yml de développement : services api (FastAPI, hot-reload), front (Vite), db (PostgreSQL 16 + volume), redis, mailhog. Réseaux, healthchecks, variables d'environnement via .env.\n2. Dockerfile backend multi-stage (uv pour les dépendances, image finale slim non-root).\n3. Dockerfile frontend (build Vite puis nginx).\n4. Règles d'or : jamais de secret dans l'image, .dockerignore obligatoire, tags d'images épinglés (pas de :latest), utilisateur non-root.\n5. Commandes usuelles documentées (make up, make logs, make psql).`
+                    }
+                ]
+            },
+            {
+                id: "zg_mod13", icon: "🚀", target: "Tech",
+                title: "Module 13 : Déploiement & Observabilité",
+                subtitle: "(Production & SRE)",
+                intro: "Mettre en production et garder les yeux ouverts : déploiement PaaS, logs structurés, métriques métier, alertes et runbook d'incident testé.",
+                labs: [
+                    {
+                        id: "zg_lab13_1", title: "Lab 13.1 : Déploiement PaaS & Gestion des Secrets",
+                        targetBadge: "DevOps", tools: OUTILS.chat,
+                        objective: "Comparer les PaaS (région UE = critère RGPD), générer la config de déploiement et le workflow de mise en production.",
+                        astuce: "L'hébergement UE n'est pas un détail : vos données de géolocalisation sont soumises au RGPD (Module 11). Faites de la région un critère éliminatoire, pas un bonus.",
+                        prompt: `Agis comme un ingénieur plateforme. Prépare le déploiement du MVP ZeroGaspillage sur un PaaS type Render / Fly.io / Railway.\n\n1. Compare ces 3 PaaS pour notre besoin (API conteneurisée + PostgreSQL managé + front statique) : prix au démarrage, scaling, régions UE (RGPD), simplicité. Recommandation argumentée.\n2. Génère la configuration de déploiement pour l'option retenue (fichier render.yaml ou fly.toml) : service API, base managée, front en static site, healthcheck /health.\n3. Stratégie de secrets : variables d'environnement par environnement (staging/prod), rotation de la clé JWT, checklist "aucun secret dans le repo".\n4. Workflow deploy.yml : déploiement automatique en staging à chaque merge sur main, en production sur tag v*.`
+                    },
+                    {
+                        id: "zg_lab13_2", title: "Lab 13.2 : Logging Structuré, Métriques & Alertes",
+                        targetBadge: "SRE / Devs", tools: OUTILS.chat,
+                        objective: "Rendre l'API observable : logs JSON sans données personnelles, métriques métier Prometheus et alertes justifiées.",
+                        astuce: "Les meilleures alertes sont métier : « aucun panier publié à 18h un jeudi » détecte une panne AVANT le monitoring technique — sinon c'est le commerçant qui la voit.",
+                        prompt: `Agis comme un ingénieur SRE. Rends l'API ZeroGaspillage observable.\n\n1. Logging structuré JSON (structlog) : middleware FastAPI qui trace chaque requête (méthode, route, durée, user_id pseudonymisé, request_id de corrélation). AUCUNE donnée personnelle en clair dans les logs (géolocalisation interdite).\n2. Métriques Prometheus (/metrics) : latence p95 par endpoint, taux d'erreur, et MÉTRIQUES MÉTIER : paniers publiés/heure, taux de réservation, taux de retrait effectif, paniers expirés invendus.\n3. Définis 4 alertes avec seuils justifiés : API down, p95 > 800 ms, taux d'échec de paiement > 5 %, chute anormale des publications de paniers à 18h (signal métier !).\n4. Maquette le dashboard de suivi (structure Grafana ou description panneau par panneau).`
+                    },
+                    {
+                        id: "zg_lab13_3", title: "Lab 13.3 : Runbook d'Incident",
+                        targetBadge: "SRE / Astreinte", tools: OUTILS.chat, noStackNote: true,
+                        objective: "Rédiger le runbook du pire scénario : l'API paniers muette un vendredi à 18h30, en plein pic.",
+                        astuce: "Un runbook s'écrit AVANT l'incident et se teste en « game day ». Demandez ensuite à l'IA de jouer l'incident et vérifiez que votre runbook tient.",
+                        prompt: `Agis comme un ingénieur d'astreinte senior. Rédige le runbook de l'incident le plus critique de ZeroGaspillage : "L'API paniers ne répond plus un vendredi à 18h30" (pic de publication et de réservation).\n\nStructure :\n1. Détection : quelles alertes se déclenchent, comment confirmer en 2 minutes.\n2. Triage : arbre de décision (base saturée ? worker mort ? déploiement récent ? Stripe down ?) avec les commandes exactes pour chaque vérification.\n3. Mitigation immédiate : rollback du dernier déploiement, scaling manuel, mode dégradé (lecture seule : consultation sans réservation).\n4. Communication : messages types (bannière app, email commerçants) — honnêtes, sans jargon.\n5. Post-mortem : template blameless (chronologie, causes racines, actions).\n\nFormat : Markdown, étapes numérotées, exécutable par un dev junior en situation de stress.`
+                    }
+                ]
+            },
+            {
+                id: "zg_mod14", icon: "📣", target: "Biz",
+                title: "Module 14 : Lancement & Growth",
+                subtitle: "(Go-to-market & data)",
+                intro: "Lancer et croître : go-to-market hyper-local (l'offre d'abord), North Star Metric et premiers A/B tests sur l'algorithme de suggestion.",
+                labs: [
+                    {
+                        id: "zg_lab14_1", title: "Lab 14.1 : Plan Go-To-Market Local",
+                        targetBadge: "Marketing / Growth", tools: ["M365 Copilot", "ChatGPT", "Gemini", "Claude", "Grok"],
+                        objective: "Préparer le lancement dans un quartier test : recruter l'offre (commerçants) puis activer la demande.",
+                        astuce: "Sur une marketplace, l'offre PUIS la demande : 30 commerçants actifs valent mieux que 3 000 téléchargements sans paniers à réserver. L'IA doit intégrer cette séquence.",
+                        prompt: `Agis comme un Growth Marketer spécialisé marketplaces locales. Prépare le lancement de ZeroGaspillage à Marseille (quartier test : le Panier — ça ne s'invente pas).\n\n1. Stratégie "offre d'abord" : plan de recrutement des 30 premiers commerçants (porte-à-porte outillé, argumentaire d'une minute, offre de lancement zéro commission 2 mois).\n2. Côté demande : calendrier de 2 semaines de contenus (Instagram/TikTok/LinkedIn) — génère les 6 premiers posts complets (accroche, texte, visuel décrit, CTA, hashtags locaux).\n3. Partenariats : 3 relais locaux à activer (associations anti-gaspi, mairie de secteur, influenceurs food locaux) avec le message d'approche pour chacun.\n4. Budget : 2 000 € — répartis et justifie.`
+                    },
+                    {
+                        id: "zg_lab14_2", title: "Lab 14.2 : North Star Metric, KPI & A/B Tests",
+                        targetBadge: "Product / Data", tools: OUTILS.chat,
+                        objective: "Choisir la métrique qui pilote tout, la décomposer en arbre de KPI et concevoir les premiers A/B tests.",
+                        astuce: "« Paniers réservés » est une vanity metric : un panier réservé non retiré = un commerçant déçu + un invendu quand même gaspillé. La NSM doit encoder le retrait.",
+                        prompt: `Agis comme un Head of Growth data-driven.\n\n1. Propose 3 candidates de North Star Metric pour ZeroGaspillage (ex : paniers effectivement RETIRÉS par semaine — pas réservés, retirés) ; analyse chacune (reflète-t-elle la valeur pour les 2 faces ? est-elle manipulable ? actionnable ?) et tranche.\n2. Décompose la NSM retenue en arbre de KPI : acquisition commerçants, paniers publiés, taux de réservation, taux de retrait, rétention M+1 des deux faces.\n3. Conçois les 2 premiers A/B tests sur l'algorithme de suggestion du Module 8 (ScoringConfig A vs B) : hypothèse, métrique primaire, taille d'échantillon approximative, durée, seuil de décision.\n4. Maquette le dashboard hebdomadaire du COPIL (5 chiffres max).`
+                    }
+                ]
+            },
+            {
+                id: "zg_mod15", icon: "🔁", target: "Mixte",
+                title: "Module 15 : Maintenance, Feedback & Itération",
+                subtitle: "(Boucler la boucle)",
+                intro: "Le cycle ne se termine pas, il itère : industrialiser le feedback, l'automatiser dans un workflow no-code, rembourser la dette technique et construire la roadmap V2 à partir des données réelles.",
+                labs: [
+                    {
+                        id: "zg_lab15_1", title: "Lab 15.1 : Classification Automatique des Feedbacks",
+                        targetBadge: "Product Ops", tools: OUTILS.chat,
+                        objective: "Industrialiser le tri des ~200 feedbacks hebdomadaires avec un prompt few-shot à sortie JSON.",
+                        astuce: "Le livrable n'est pas la classification de 8 feedbacks : c'est le PROMPT industrialisable (few-shot + sortie JSON) qui tournera chaque semaine en automatique.",
+                        prompt: `Agis comme un Product Ops. ZeroGaspillage reçoit environ 200 feedbacks/semaine (avis stores, emails support, messages commerçants).\n\n1. Conçois le prompt de classification réutilisable qui, pour chaque feedback, produit un JSON : {categorie: bug|feature|ux|paiement|autre, face: consommateur|commercant, sentiment: -2..+2, urgence: 1..4, resume_une_ligne}. Inclus 5 exemples few-shot dans le prompt.\n2. Applique-le à ces 8 feedbacks (invente-les réalistes et variés : bug de code de retrait, boulanger qui ne comprend pas ses stats, demande de filtres végétariens, échec de remboursement...).\n3. Agrège : top 3 des irritants par face, et la décision produit que tu recommandes cette semaine.`
+                    },
+                    {
+                        id: "zg_lab15_2", title: "Lab 15.2 : Automatiser un Workflow IA No-Code (n8n / Make)",
+                        targetBadge: "Product Ops / Devs", tools: ["n8n", "Make", "Zapier", "Power Automate"],
+                        objective: "Passer du prompt manuel au workflow automatisé : orchestrer la chaîne avis client → classification IA → ticket → réponse, sans écrire de code.",
+                        astuce: "La règle d'or de l'automatisation IA : chaque action irréversible (une réponse envoyée au client) passe par une validation humaine. L'IA prépare, l'humain approuve.",
+                        prompt: `Agis comme un expert en automatisation no-code (n8n / Make / Zapier / Power Automate). Je veux industrialiser le tri des feedbacks ZeroGaspillage (Lab 15.1) dans un workflow automatisé.\n\nConçois le workflow complet :\n1. Déclencheur : nouvel avis client (webhook du store / email support).\n2. Nœud IA n°1 : classification de l'avis (réutilise le prompt JSON du Lab 15.1) — précise le modèle appelé, la température et le format de sortie attendu.\n3. Branchement selon la catégorie : bug → création d'un ticket (GitHub/Jira) avec titre et priorité générés ; réclamation paiement → escalade vers le support humain.\n4. Nœud IA n°2 : brouillon de réponse personnalisée au client (ton chaleureux, en français).\n5. Validation humaine : étape d'approbation avant tout envoi.\n\nLivrable : le schéma du workflow nœud par nœud (entrées/sorties de chacun), les 2 prompts complets des nœuds IA, les cas d'erreur (API indisponible, JSON invalide) et les 3 signaux qui indiqueraient qu'il faut passer du no-code à du code (volume, latence, logique trop complexe).`
+                    },
+                    {
+                        id: "zg_lab15_3", title: "Lab 15.3 : Audit & Priorisation de la Dette Technique",
+                        targetBadge: "Tech Leads", tools: OUTILS.ide,
+                        objective: "Trois mois après le lancement : classer la dette, chiffrer le remboursement et le vendre au COPIL en langage business.",
+                        astuce: "Traduire la dette technique en risque business (« chaque seconde de latence = -7 % de conversion ») est la seule façon d'obtenir l'arbitrage. Faites faire cette traduction à l'IA.",
+                        prompt: `Agis comme un Tech Lead. Trois mois après le lancement, le MVP ZeroGaspillage montre ses limites. Audite et priorise la dette technique.\n\nSymptômes constatés : la recherche géolocalisée dépasse 2s aux heures de pointe, 4 endpoints sans tests ajoutés "en urgence", le worker de notifications plante silencieusement, les migrations Alembic divergent entre staging et prod, 3 dépendances avec CVE connues.\n\n1. Classe ces dettes avec la matrice de Fowler (délibérée/accidentelle × prudente/imprudente).\n2. Estime pour chacune : coût de remboursement (jours-dev), coût du statu quo (risque × impact), et propose un ordre de priorité argumenté.\n3. Propose la règle d'équipe pour éviter l'accumulation (ex : 20 % de chaque sprint, definition of done renforcée).\n4. Rédige le message au COPIL qui justifie de ralentir les features 2 sprints — en langage business (risque churn, incidents), pas technique.`
+                    },
+                    {
+                        id: "zg_lab15_4", title: "Lab 15.4 : Roadmap V2 Pilotée par les Données",
+                        targetBadge: "Product / Direction", tools: OUTILS.chat,
+                        objective: "Construire la roadmap V2 à partir des données d'usage réelles — et reboucler sur les hypothèses du Module 3.",
+                        astuce: "La boucle est bouclée : les données d'usage réécrivent le canvas du Module 3. C'est ça, « tout le cycle de vie logiciel » — il ne se termine pas, il itère.",
+                        prompt: `Agis comme un Head of Product. Construis la roadmap V2 de ZeroGaspillage à partir des données de 3 mois d'usage :\n- NSM : 1 850 paniers retirés/semaine (+12 %/mois), taux de retrait 87 %\n- Rétention commerçants M+1 : 68 % (les partants citent "trop peu de réservations")\n- Rétention consommateurs M+1 : 31 %\n- Top demandes : filtres régimes alimentaires (consommateurs), prévision des invendus (commerçants)\n- L'abonnement Pro ne convertit qu'à 4 %\n\n1. Diagnostic : quel est LE problème n°1 ? (indice : croise la rétention commerçants et la densité de consommateurs par zone).\n2. Propose 3 thèmes de roadmap trimestrielle, chacun relié à une métrique cible chiffrée.\n3. Arbitre : analytics prédictifs des invendus (le pari de l'abonnement Pro) vs filtres régimes (rétention consommateurs) — critères, décision, et ce qu'on sacrifie.\n4. Boucle avec le début du parcours : quelles hypothèses initiales du Business Model Canvas (Module 3) sont validées, invalidées, à retester ?`
+                    }
+                ]
+            }
+        ];
+
+        // Rappel « stack libre » ajouté aux prompts techniques (modules 6 à 13) — affecte l'affichage ET la copie
+        const STACK_NOTE = "\n\nNB : si ma stack est différente (je te la précise), transpose l'intégralité de l'exemple à ma stack.";
+        const STACK_NOTE_MODULES = ["zg_mod6", "zg_mod7", "zg_mod8", "zg_mod9", "zg_mod10", "zg_mod11", "zg_mod12", "zg_mod13"];
+        courseData.filter(mod => STACK_NOTE_MODULES.includes(mod.id)).forEach(mod => {
+            mod.labs.forEach(lab => { if (!lab.noStackNote) lab.prompt += STACK_NOTE; });
+        });
+
+        // --- State Management ---
+        let state = {
+            currentModuleIndex: null,
+            completedLabs: JSON.parse(localStorage.getItem('zeroGaspiProgress_v1')) || []
+        };
+        let chartInstance = null;
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSidebar();
+            initChart();
+            updateProgressUI();
+            updateSecurityPlatformButton();
+        });
+
+        // --- Core Functions ---
+
+        function renderSidebar() {
+            const nav = document.getElementById('module-nav');
+            nav.innerHTML = '';
+
+            const homeBtn = document.createElement('button');
+            homeBtn.className = `w-full text-left px-4 py-3 rounded-xl transition-all duration-200 flex items-center gap-3 font-medium hover:bg-stone-100 text-slate-700 mb-2`;
+            homeBtn.innerHTML = `<span>🏠</span> <span class="truncate">Accueil Projet</span>`;
+            homeBtn.onclick = () => showIntro();
+            nav.appendChild(homeBtn);
+
+            courseData.forEach((mod, index) => {
+                const btn = document.createElement('button');
+                const isSelected = state.currentModuleIndex === index;
+
+                let activeClass = 'bg-stone-100 border-stone-300 text-slate-800';
+                if(isSelected) {
+                    if (mod.target === 'Biz') activeClass = 'bg-biz-100 border-biz-300 text-biz-900 shadow-sm';
+                    else if (mod.target === 'Mixte') activeClass = 'bg-mix-50 border-mix-300 text-mix-900 shadow-sm';
+                    else activeClass = 'bg-zg-50 border-zg-300 text-zg-900 shadow-sm';
+                }
+
+                btn.className = `w-full text-left px-3 py-3 rounded-xl transition-all duration-200 flex items-center gap-3 border
+                    ${isSelected ? activeClass : 'border-transparent hover:bg-stone-100 text-slate-600'}`;
+
+                const modLabs = mod.labs.map(l => l.id);
+                const completedInMod = modLabs.filter(id => state.completedLabs.includes(id)).length;
+                const isModComplete = completedInMod === modLabs.length && modLabs.length > 0;
+
+                let subtitleClass = 'text-slate-500';
+                if (isSelected && mod.target === 'Biz') subtitleClass = 'text-biz-700';
+                else if (isSelected && mod.target === 'Mixte') subtitleClass = 'text-mix-700';
+
+                btn.innerHTML = `
+                    <span class="text-xl flex-shrink-0">${mod.icon}</span>
+                    <div class="flex-1 min-w-0">
+                        <div class="truncate text-sm font-bold">${mod.title.split(' : ')[0]}</div>
+                        <div class="truncate text-xs ${subtitleClass}">${mod.title.split(' : ')[1] || ''}</div>
+                    </div>
+                    ${isModComplete ? '<span class="text-zg-500 text-sm">✔</span>' : ''}
+                `;
+                btn.onclick = () => loadModule(index);
+                nav.appendChild(btn);
+            });
+        }
+
+        function showIntro() {
+            state.currentModuleIndex = null;
+            document.getElementById('intro-view').classList.remove('hidden');
+            document.getElementById('module-view').classList.add('hidden');
+            renderSidebar();
+            if(window.innerWidth < 768) toggleSidebar();
+        }
+
+        function goToFirstLab() {
+            if(courseData.length > 0) {
+                loadModule(0);
+            }
+        }
+
+        function goToSecurityPlatform() {
+            window.location.href = 'quiz-security.html';
+        }
+
+        function getCompletionPercentage() {
+            let totalLabs = 0;
+            courseData.forEach(m => totalLabs += m.labs.length);
+            if (totalLabs === 0) return 0;
+            const completed = state.completedLabs.length;
+            return Math.round((completed / totalLabs) * 100);
+        }
+
+        function updateSecurityPlatformButton() {
+            const completionPct = getCompletionPercentage();
+            const securityBtn = document.getElementById('security-platform-btn');
+            const completionStatus = document.getElementById('security-completion-status');
+
+            if (securityBtn) {
+                if (completionPct >= 50) {
+                    securityBtn.disabled = false;
+                    completionStatus.innerText = `(${completionPct}% - Déverrouillé)`;
+                } else {
+                    securityBtn.disabled = true;
+                    completionStatus.innerText = `(${completionPct}% - Minimum 50% requis)`;
+                }
+            }
+        }
+
+        function loadModule(index) {
+            state.currentModuleIndex = index;
+            const mod = courseData[index];
+            const view = document.getElementById('module-view');
+            const intro = document.getElementById('intro-view');
+
+            intro.classList.add('hidden');
+            view.classList.remove('hidden');
+            view.innerHTML = '';
+
+            // Couleurs de thème (statiques pour Tailwind)
+            const themeStyles = {
+                zg: { borderLight: 'border-zg-200', textPrimary: 'text-zg-600', bgLight: 'bg-zg-50', borderMedium: 'border-zg-400', bgMedium: 'bg-zg-500', textDark: 'text-zg-900' },
+                biz: { borderLight: 'border-biz-200', textPrimary: 'text-biz-600', bgLight: 'bg-biz-100', borderMedium: 'border-biz-400', bgMedium: 'bg-biz-500', textDark: 'text-biz-900' },
+                mixte: { borderLight: 'border-mix-200', textPrimary: 'text-mix-600', bgLight: 'bg-mix-50', borderMedium: 'border-mix-400', bgMedium: 'bg-mix-500', textDark: 'text-mix-900' }
+            };
+            const themeKey = mod.target === 'Biz' ? 'biz' : (mod.target === 'Mixte' ? 'mixte' : 'zg');
+            const theme = themeStyles[themeKey];
+
+            const header = document.createElement('div');
+            header.className = `bg-white border ${theme.borderLight} p-8 rounded-2xl mb-8 shadow-sm`;
+            header.innerHTML = `
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-3xl">${mod.icon}</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">${mod.title}</h2>
+                </div>
+                ${mod.subtitle ? `<p class="${theme.textPrimary} font-bold mb-4 uppercase tracking-wide text-sm">${mod.subtitle}</p>` : ''}
+                <p class="text-slate-600 leading-relaxed text-lg">${mod.intro}</p>
+            `;
+            view.appendChild(header);
+
+            mod.labs.forEach((lab) => {
+                const isCompleted = state.completedLabs.includes(lab.id);
+                const labCard = document.createElement('div');
+                labCard.className = `bg-white border rounded-2xl overflow-hidden transition-all duration-300 ${isCompleted ? `${theme.borderMedium} shadow-md` : 'border-stone-200 shadow-sm'}`;
+
+                labCard.innerHTML = `
+                    <div class="p-6 md:p-8 border-b border-stone-100 flex flex-col md:flex-row justify-between items-start gap-4">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span class="inline-flex items-center bg-stone-100 text-stone-700 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider">🎯 ${lab.targetBadge}</span>
+                                <span class="inline-flex items-center bg-slate-800 text-slate-100 text-xs px-2.5 py-1 rounded-md font-bold tracking-wider">🛠 Au choix</span>
+                                ${(lab.tools || [lab.toolBadge]).map(t => `<span class="inline-flex items-center bg-white border border-slate-300 text-slate-700 text-xs px-2.5 py-1 rounded-md font-semibold">${t}</span>`).join('')}
+                            </div>
+                            <h3 class="text-xl font-extrabold text-slate-900 mb-2">${lab.title}</h3>
+                            <p class="text-slate-600 mb-4 font-medium">${lab.objective}</p>
+
+                            ${lab.astuce ? `
+                            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 shadow-sm">
+                                <span class="text-amber-500 text-xl flex-shrink-0">💡</span>
+                                <div>
+                                    <h4 class="text-sm font-bold text-amber-900 mb-1">Impact Métier / Tech</h4>
+                                    <p class="text-sm text-amber-800 leading-relaxed">${lab.astuce}</p>
+                                </div>
+                            </div>
+                            ` : ''}
+
+                        </div>
+                        <button onclick="toggleLab('${lab.id}')" class="flex-shrink-0 w-12 h-12 rounded-full border-2 flex items-center justify-center transition-colors text-lg
+                            ${isCompleted ? `${theme.bgMedium} ${theme.borderMedium} text-white` : 'border-stone-300 text-transparent hover:border-stone-400'}">
+                            ✔
+                        </button>
+                    </div>
+                    <div class="p-6 md:p-8 bg-stone-50">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Prompt à copier</span>
+                            <button onclick="copyToClipboard(this, '${lab.id}')" class="text-sm ${theme.textPrimary} hover:font-bold font-bold flex items-center gap-1 transition-colors bg-white px-3 py-1 rounded-md border border-stone-200 shadow-sm">
+                                <span>📋</span> Copier
+                            </button>
+                        </div>
+                        <pre class="bg-slate-900 text-stone-100 p-5 rounded-xl text-sm overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed shadow-inner border border-slate-800">${lab.prompt}</pre>
+                    </div>
+                `;
+                view.appendChild(labCard);
+            });
+
+            renderSidebar();
+            if(window.innerWidth < 768) toggleSidebar();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleLab(labId) {
+            const idx = state.completedLabs.indexOf(labId);
+            if (idx > -1) {
+                state.completedLabs.splice(idx, 1);
+            } else {
+                state.completedLabs.push(labId);
+            }
+
+            localStorage.setItem('zeroGaspiProgress_v1', JSON.stringify(state.completedLabs));
+            updateProgressUI();
+            if(state.currentModuleIndex !== null) loadModule(state.currentModuleIndex);
+        }
+
+        function copyToClipboard(btnElement, labId) {
+            let textToCopy = "";
+            courseData.forEach(mod => {
+                const lab = mod.labs.find(l => l.id === labId);
+                if (lab) textToCopy = lab.prompt;
+            });
+
+            if (!textToCopy) return;
+
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    const toast = document.getElementById('toast');
+                    toast.classList.remove('translate-y-20', 'opacity-0');
+
+                    const originalHtml = btnElement.innerHTML;
+                    btnElement.innerHTML = `<span>✅</span> Copié`;
+                    btnElement.classList.add('text-green-700', 'border-green-300', 'bg-green-50');
+
+                    setTimeout(() => {
+                        toast.classList.add('translate-y-20', 'opacity-0');
+                        btnElement.innerHTML = originalHtml;
+                        btnElement.classList.remove('text-green-700', 'border-green-300', 'bg-green-50');
+                    }, 2000);
+                }
+            } catch (err) {
+                console.error('Oops, impossible de copier', err);
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('progressChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Complété', 'À faire'],
+                    datasets: [{
+                        data: [0, 100],
+                        backgroundColor: ['#f59e0b', '#e5e7eb'],
+                        borderWidth: 0,
+                        hoverOffset: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    animation: { animateScale: true }
+                },
+                plugins: [{
+                    id: 'textCenter',
+                    beforeDraw: function(chart) {
+                        var width = chart.width, height = chart.height, ctx = chart.ctx;
+                        ctx.restore();
+                        var fontSize = (height / 90).toFixed(2);
+                        ctx.font = "bold " + fontSize + "em sans-serif";
+                        ctx.textBaseline = "middle";
+                        ctx.fillStyle = "#1e293b";
+
+                        var percentage = chart.data.datasets[0].data[0] + chart.data.datasets[0].data[1] === 0 ? 0 :
+                            Math.round((chart.data.datasets[0].data[0] / (chart.data.datasets[0].data[0] + chart.data.datasets[0].data[1])) * 100);
+
+                        var text = percentage + "%",
+                            textX = Math.round((width - ctx.measureText(text).width) / 2),
+                            textY = height / 2;
+
+                        ctx.fillText(text, textX, textY);
+                        ctx.save();
+                    }
+                }]
+            });
+        }
+
+        function updateProgressUI() {
+            let totalLabs = 0;
+            courseData.forEach(m => totalLabs += m.labs.length);
+            const completed = state.completedLabs.length;
+            const remaining = totalLabs - completed;
+
+            document.getElementById('progress-text').innerText = `${completed} / ${totalLabs} Labs complétés`;
+
+            if(chartInstance) {
+                chartInstance.data.datasets[0].data = [completed, remaining];
+                chartInstance.data.datasets[0].backgroundColor = completed === totalLabs ? ['#b45309', '#e5e7eb'] : ['#f59e0b', '#e5e7eb'];
+                chartInstance.update();
+            }
+            renderSidebar();
+            updateSecurityPlatformButton();
+        }
+    </script>
+</body>
+</html>
