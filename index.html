@@ -57,6 +57,15 @@
                             600: '#182f4d',
                             700: '#12243b',
                             900: '#0a1626'
+                        },
+                        fm: {
+                            50: '#fdf4ff',
+                            100: '#fae8ff',
+                            200: '#f5d0fe',
+                            500: '#d946ef',
+                            600: '#c026d3',
+                            700: '#a21caf',
+                            900: '#701a75'
                         }
                     }
                 }
@@ -107,6 +116,7 @@
                 <span class="inline-flex items-center gap-2 rounded-full bg-white/90 border border-stone-200 px-4 py-2 text-sm font-bold text-slate-700 shadow-sm">🗂️ Gestion de Projet</span>
                 <span class="inline-flex items-center gap-2 rounded-full bg-white/90 border border-stone-200 px-4 py-2 text-sm font-bold text-slate-700 shadow-sm">🧭 Product Owner</span>
                 <span class="inline-flex items-center gap-2 rounded-full bg-white/90 border border-stone-200 px-4 py-2 text-sm font-bold text-slate-700 shadow-sm">🏦 Banque Privée .NET</span>
+                <span class="inline-flex items-center gap-2 rounded-full bg-white/90 border border-stone-200 px-4 py-2 text-sm font-bold text-slate-700 shadow-sm">🥕 GitHub Copilot</span>
             </div>
         </div>
     </header>
@@ -251,6 +261,34 @@
                     </div>
                 </div>
             </a>
+
+            <!-- Carte Parcours FrigoMalin (GitHub Copilot) -->
+            <a href="frigomalin.html" class="group mt-6 bg-white border-2 border-fm-100 hover:border-fm-500 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col lg:flex-row lg:items-center gap-6">
+                <div class="flex items-center gap-4 flex-1">
+                    <span class="text-5xl">🥕</span>
+                    <div>
+                        <h3 class="text-2xl font-extrabold text-slate-900 group-hover:text-fm-700 transition-colors">Parcours FrigoMalin — GitHub Copilot</h3>
+                        <p class="text-sm font-bold text-fm-600 uppercase tracking-wider mb-2">Spécialisé — Maîtriser Copilot, de l'idée au POC publié</p>
+                        <p class="text-slate-600 leading-relaxed">Développeurs (80 %) et Product Owners (20 %) : l'application anti-gaspillage du foyer, 100 % navigateur, publiée sur <strong>GitHub Pages</strong> sans backend ni Docker. 11 modules / 33 labs (dont 4 bonus) pour maîtriser <strong>GitHub Copilot</strong> : instructions, .copilotignore, Google Stitch, prompt files, skills, agents, orchestration, optimisation du contexte et des tokens. Ici, pas de prompt à copier : on apprend à le construire.</p>
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            <span class="text-xs font-bold bg-stone-100 text-stone-700 px-2.5 py-1 rounded-md">GitHub Copilot</span>
+                            <span class="text-xs font-bold bg-stone-100 text-stone-700 px-2.5 py-1 rounded-md">Google Stitch</span>
+                            <span class="text-xs font-bold bg-stone-100 text-stone-700 px-2.5 py-1 rounded-md">TypeScript / PWA</span>
+                            <span class="text-xs font-bold bg-stone-100 text-stone-700 px-2.5 py-1 rounded-md">GitHub Pages</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-64 flex-shrink-0">
+                    <div class="text-sm font-bold text-slate-700 mb-2">11 modules · 33 labs</div>
+                    <div class="w-full bg-stone-100 rounded-full h-2.5 border border-stone-200">
+                        <div id="fm-progress-bar" class="bg-fm-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    <div class="flex justify-between items-center mt-2">
+                        <span id="fm-progress-text" class="text-xs font-bold text-slate-500">0 % complété</span>
+                        <span class="text-sm font-bold text-fm-600 inline-flex items-center gap-1">Commencer <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i></span>
+                    </div>
+                </div>
+            </a>
         </section>
 
         <!-- ===================== SÉCURITÉ IA ===================== -->
@@ -333,7 +371,7 @@
     <script>
         // Nombre total de labs par parcours — À SYNCHRONISER si des labs sont ajoutés/retirés
         // (voir courseData dans ecotrack.html et zerogaspillage.html, modulesData dans gestionnaires-projet-ia.html et product-owner-ia.html)
-        const TOTALS = { ecotrack: 20, zerogaspillage: 42, pm: 10, po: 10, wealthlens: 27 };
+        const TOTALS = { ecotrack: 20, zerogaspillage: 42, pm: 10, po: 10, wealthlens: 27, frigomalin: 33 };
 
         function readCompletedArray(key) {
             try {
@@ -363,6 +401,7 @@
             const pmPct = Math.min(100, Math.round((readModulesCompleted('ecoTrackPmProgress_v2') / TOTALS.pm) * 100));
             const poPct = Math.min(100, Math.round((readModulesCompleted('zeroGaspiPoProgress_v1') / TOTALS.po) * 100));
             const odcPct = Math.min(100, Math.round((readCompletedArray('oddoBhfProgress_v1') / TOTALS.wealthlens) * 100));
+            const fmPct = Math.min(100, Math.round((readCompletedArray('frigoMalinProgress_v1') / TOTALS.frigomalin) * 100));
 
             document.getElementById('eco-progress-bar').style.width = `${ecoPct}%`;
             document.getElementById('eco-progress-text').innerText = `${ecoPct} % complété`;
@@ -374,6 +413,8 @@
             document.getElementById('po-progress-text').innerText = `${poPct} % complété`;
             document.getElementById('odc-progress-bar').style.width = `${odcPct}%`;
             document.getElementById('odc-progress-text').innerText = `${odcPct} % complété`;
+            document.getElementById('fm-progress-bar').style.width = `${fmPct}%`;
+            document.getElementById('fm-progress-text').innerText = `${fmPct} % complété`;
 
             // Verrou sécurité : déverrouillé dès que L'UN des deux projets atteint 50 %
             const securityBtn = document.getElementById('security-platform-btn');

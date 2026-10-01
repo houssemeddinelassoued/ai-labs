@@ -1,0 +1,2447 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FrigoMalin — Parcours GitHub Copilot · Cahier de TP IA</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        fm: {
+                            50: '#fdf4ff',
+                            100: '#fae8ff',
+                            200: '#f5d0fe',
+                            300: '#f0abfc',
+                            400: '#e879f9',
+                            500: '#d946ef',
+                            600: '#c026d3',
+                            700: '#a21caf',
+                            900: '#701a75',
+                        },
+                        biz: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                        mix: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            300: '#5eead4',
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            900: '#134e4a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f5f5f4; }
+        ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+        .shake { animation: shake 0.3s ease-in-out 2; }
+    </style>
+</head>
+<body class="bg-stone-50 text-slate-800 font-sans h-screen flex overflow-hidden selection:bg-fm-100">
+
+    <aside class="w-full md:w-80 bg-white border-r border-stone-200 flex flex-col h-full flex-shrink-0 transition-transform duration-300 absolute md:relative z-20 transform -translate-x-full md:translate-x-0" id="sidebar">
+        <div class="p-6 border-b border-stone-200 relative">
+            <a href="index.html" class="text-xs font-bold text-slate-500 hover:text-fm-700 transition-colors uppercase tracking-wider inline-flex items-center gap-1 mb-2">
+                <i class="fa-solid fa-arrow-left"></i> Accueil formation
+            </a>
+            <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                <span>🥕</span> FrigoMalin <span class="text-fm-600">Copilot</span>
+            </h1>
+            <p class="text-sm text-slate-500 mt-2">De l'idée au POC publié sur GitHub Pages</p>
+
+            <!-- Accès formateur (discret) -->
+            <button class="trainer-btn hidden md:inline-flex absolute top-4 right-4 w-7 h-7 items-center justify-center rounded-full text-stone-300 hover:text-stone-500 hover:bg-stone-100 transition-colors text-xs" title="Accès formateur" aria-label="Accès formateur" onclick="openTrainerModal()">
+                <i class="fa-solid fa-key"></i>
+            </button>
+            <button id="mobile-close" class="md:hidden absolute top-4 right-4 text-slate-500 text-2xl" onclick="toggleSidebar()">×</button>
+        </div>
+
+        <div class="px-6 py-4 border-b border-stone-200">
+            <div class="flex items-baseline justify-between mb-2">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Parcours essentiel</span>
+                <span id="progress-percent" class="text-sm font-extrabold text-fm-700 tabular-nums">0 %</span>
+            </div>
+            <div id="progress-track" class="h-2 w-full bg-stone-100 rounded-full overflow-hidden" role="progressbar" aria-label="Progression du parcours essentiel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-fm-400 to-fm-700 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <p id="progress-text" class="text-xs text-slate-500 mt-2">0 / 0 labs essentiels</p>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto p-4 space-y-2" id="module-nav">
+            </nav>
+
+        <div class="p-4 border-t border-stone-200 text-xs text-center bg-stone-50">
+            <div class="font-bold text-slate-700 text-sm">Houssem Eddine Lassoued</div>
+            <a href="https://www.linkedin.com/in/houssemeddinelassoued/" target="_blank" class="text-fm-700 font-bold mb-2 uppercase tracking-wide hover:text-fm-900 transition-colors inline-block">
+                <i class="fa-brands fa-linkedin mr-1"></i> LinkedIn
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-full relative overflow-hidden">
+        <header class="md:hidden bg-white border-b border-stone-200 p-4 flex justify-between items-center z-10 shadow-sm">
+            <h2 class="text-lg font-bold text-fm-700">🥕 FrigoMalin Copilot</h2>
+            <div class="flex items-center gap-3">
+                <button class="trainer-btn w-7 h-7 inline-flex items-center justify-center rounded-full text-stone-300 hover:text-stone-500 text-xs" title="Accès formateur" aria-label="Accès formateur" onclick="openTrainerModal()">
+                    <i class="fa-solid fa-key"></i>
+                </button>
+                <button class="text-2xl text-slate-600" onclick="toggleSidebar()">☰</button>
+            </div>
+        </header>
+
+        <!-- Bandeau mode formateur -->
+        <div id="trainer-banner" class="hidden bg-fm-900 text-fm-50 px-4 py-2 text-sm flex items-center justify-between gap-3">
+            <span><strong>🎓 Mode formateur actif</strong> : prompts complets et corrigés affichés sous chaque lab.</span>
+            <button onclick="exitTrainerMode()" class="text-xs font-bold underline underline-offset-2 hover:text-white flex-shrink-0">Masquer les corrigés</button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12" id="main-content">
+            <!-- Vue introduction -->
+            <div id="intro-view" class="max-w-4xl mx-auto space-y-8">
+                <div class="bg-gradient-to-br from-fm-50 to-biz-50 border border-stone-200 rounded-2xl p-6 md:p-8 shadow-sm">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-2 tracking-tight">🥕 FrigoMalin &amp; GitHub Copilot</h1>
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">De l'idée au <strong>POC publié sur GitHub Pages</strong>, en maîtrisant <strong>toutes les fonctionnalités de GitHub Copilot</strong> : instructions, prompt files, skills, agents personnalisés, orchestration, optimisation du contexte et des tokens.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        <div class="bg-white border border-fm-200 rounded-xl p-5 shadow-sm">
+                            <h3 class="font-bold text-fm-700 mb-2 flex items-center gap-2"><span>💻</span> Développeurs · ~80 %</h3>
+                            <p class="text-sm text-slate-600">Workspace &amp; contexte, maquettes Stitch, skills, agents, orchestration, optimisation, tests, CI/CD. Stack de référence : Vite + TypeScript (React, Vue ou Svelte au choix), IndexedDB, Vitest, Playwright.</p>
+                        </div>
+                        <div class="bg-white border border-biz-200 rounded-xl p-5 shadow-sm">
+                            <h3 class="font-bold text-biz-700 mb-2 flex items-center gap-2"><span>🧭</span> Product Owners &amp; Architecture · ~20 %</h3>
+                            <p class="text-sm text-slate-600">PRODUCT.md, périmètre du MVP, backlog GitHub Issues via MCP (les critères Gherkin servent de spécification), ADR, recette sur l'URL publique, backlog V2 prêt pour les agents.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-300 rounded-xl p-6 mb-6">
+                        <p class="text-sm text-amber-900"><strong>🎯 Le produit :</strong> <strong>FrigoMalin</strong>, l'application anti-gaspillage du foyer (cousine de ZeroGaspillage). Inventaire du frigo et des placards avec <strong>scan de code-barres</strong> (Open Food Facts), dates DLC/DDM, <strong>« Que cuisiner ? »</strong> avec ce qui expire, liste de courses anti-doublon, tableau « kg et € sauvés », <strong>PWA installable et hors ligne</strong>. 100 % navigateur : <strong>aucun backend, aucun Docker</strong>, publiée sur GitHub Pages.</p>
+                    </div>
+
+                    <div class="bg-white border border-stone-200 rounded-xl p-5">
+                        <p class="text-sm text-slate-600"><strong>🛠 Outil unique : GitHub Copilot</strong> (VS Code et github.com), complété par <strong>Google Stitch</strong> pour les maquettes. Contrairement aux autres parcours, l'outil n'est pas « au choix » : maîtriser Copilot est l'objet même de la formation. <span class="text-slate-500">📅 Fonctionnalités vérifiées en octobre 2026 ; Copilot évolue vite, vérifiez la documentation officielle avant chaque session.</span></p>
+                    </div>
+                </div>
+
+                <!-- Le parcours idéal -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-6 md:p-8 shadow-sm">
+                    <h2 class="text-2xl font-extrabold text-slate-900 mb-4">🧭 Le parcours : de l'idée à l'URL publique</h2>
+                    <div class="flex flex-wrap items-center gap-2 text-sm">
+                        <span class="bg-biz-50 border border-biz-200 text-biz-900 px-3 py-1.5 rounded-lg font-semibold">💡 Idée &amp; PRODUCT.md</span><span class="text-stone-400">→</span>
+                        <span class="bg-mix-50 border border-mix-200 text-mix-900 px-3 py-1.5 rounded-lg font-semibold">🏛️ Architecture &amp; ADR</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">⚙️ Contexte Copilot</span><span class="text-stone-400">→</span>
+                        <span class="bg-mix-50 border border-mix-200 text-mix-900 px-3 py-1.5 rounded-lg font-semibold">📐 Spec → Plan → Code</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">🎨 Stitch &amp; skills</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">💻 Features</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">🤖 Agents</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">🧠 Orchestration</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">⚡ Optimisation</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">🛡️ Garde-fous</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">🚀 CI/CD</span><span class="text-stone-400">→</span>
+                        <span class="bg-slate-900 text-white px-3 py-1.5 rounded-lg font-bold">🌍 GitHub Pages</span><span class="text-stone-400">→</span>
+                        <span class="bg-biz-50 border border-biz-200 text-biz-900 px-3 py-1.5 rounded-lg font-semibold">🎬 Recette &amp; V2</span>
+                    </div>
+                    <p class="text-sm text-slate-500 mt-4"><strong>Fil rouge « consommation » :</strong> dès le module 3, chaque lab note ses crédits et son contexte dans <code>docs/usage-log.md</code>. Ces mesures servent au module 8 (objectif −30 %) et à la rétrospective finale.</p>
+                    <div class="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-900">
+                        <strong>⏱️ Format 2 jours :</strong> le <strong>parcours essentiel</strong> compte <strong>29 labs</strong> et mène jusqu'au POC publié sur GitHub Pages. Les 4 labs marqués <span class="inline-flex items-center bg-amber-100 border border-amber-300 text-amber-800 text-xs px-2 py-0.5 rounded-md font-bold">🎁 Bonus</span> approfondissent un sujet : à faire en autonomie, ou si le temps le permet.
+                    </div>
+                </div>
+
+                <!-- Pédagogie -->
+                <div class="bg-white border border-stone-200 rounded-2xl p-6 md:p-8 shadow-sm">
+                    <h2 class="text-2xl font-extrabold text-slate-900 mb-2">🧠 Ici, pas de prompt prêt à copier</h2>
+                    <p class="text-slate-600 mb-5">Savoir écrire le bon prompt, c'est LA compétence. Chaque lab vous donne une <strong>amorce</strong> à compléter, des <strong>indices</strong> à débloquer un par un, et des <strong>critères de réussite</strong> pour vous auto-évaluer.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6" id="defi-legend"></div>
+                    <div class="bg-stone-50 border border-stone-200 rounded-xl p-5">
+                        <h3 class="font-bold text-slate-800 mb-2">Les 5 ingrédients d'un bon prompt Copilot</h3>
+                        <ol class="text-sm text-slate-600 space-y-1 list-decimal list-inside">
+                            <li><strong>Rôle</strong> : « Agis comme… » ou, mieux, le bon agent sélectionné.</li>
+                            <li><strong>Contexte ciblé</strong> : 2 ou 3 fichiers nommés avec <code>#</code>, pas tout le projet.</li>
+                            <li><strong>Une seule tâche</strong>, bornée (« uniquement… », « n'écris pas… »).</li>
+                            <li><strong>Contraintes &amp; format de sortie</strong> : où écrire, quel format, quelle longueur.</li>
+                            <li><strong>Critère de fin</strong> : la commande qui prouve que c'est terminé (<code>npm test</code>…).</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Dépôt final & prérequis -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
+                        <h2 class="text-lg font-extrabold text-slate-900 mb-3">🗂️ Le dépôt que vous allez construire</h2>
+                        <pre class="bg-slate-900 text-stone-100 p-4 rounded-xl text-xs overflow-x-auto font-mono leading-relaxed">frigomalin/
+├─ PRODUCT.md
+├─ .copilotignore
+├─ .mcp.json          (serveurs MCP)
+├─ design/stitch/     (web, mobile)
+├─ docs/adr/  docs/usage-log.md
+├─ .github/
+│  ├─ copilot-instructions.md
+│  ├─ instructions/*.instructions.md
+│  ├─ prompts/*.prompt.md
+│  ├─ skills/*/SKILL.md
+│  ├─ agents/*.agent.md
+│  ├─ hooks/quality.json
+│  └─ workflows/deploy-pages.yml
+└─ src/ domain · data · ui</pre>
+                        <p class="text-sm text-slate-600 mt-3"><strong>📍 Règle d'or :</strong> tout ce que vous créez vit <strong>dans le dépôt</strong> (versionné et partagé avec l'équipe), jamais dans votre profil VS Code. Chaque lab précise <strong>« 📁 Où créer le fichier ? »</strong>.</p>
+                    </div>
+                    <div class="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
+                        <h2 class="text-lg font-extrabold text-slate-900 mb-3">🧰 Prérequis (sans Docker)</h2>
+                        <ul class="text-sm text-slate-600 space-y-2">
+                            <li>✅ <strong>VS Code</strong> + <strong>GitHub Copilot</strong> (licence payante recommandée : crédits IA et serveurs MCP)</li>
+                            <li>✅ <strong>Node.js 22 LTS</strong> et <strong>Git</strong></li>
+                            <li>✅ Un <strong>compte GitHub</strong> (dépôt public ou Pages activé) et un <strong>compte Google</strong> pour Stitch</li>
+                            <li>✅ Un téléphone pour tester la PWA et le scan de code-barres</li>
+                            <li>✅ Licence Copilot Business/Enterprise : politique <strong>« MCP servers in Copilot »</strong> activée par l'administrateur (désactivée par défaut) ; dossier du projet approuvé dans VS Code (<em>Workspace Trust</em>)</li>
+                            <li class="text-slate-500">💳 Copilot est facturé à l'usage : prévoir un budget de crédits par apprenant (le module 8 apprend à le réduire).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button onclick="goToFirstLab()" class="bg-fm-600 hover:bg-fm-700 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2">
+                        🚀 Démarrer le Module 1
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="module-cards"></div>
+            </div>
+
+            <!-- Vue module (labs) -->
+            <div id="module-view" class="max-w-4xl mx-auto hidden"></div>
+        </div>
+    </main>
+
+    <!-- Fenêtre d'accès formateur -->
+    <div id="trainer-modal" class="hidden fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4" onclick="if(event.target === this) closeTrainerModal()">
+        <div id="trainer-card" class="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-xs">
+            <h3 class="text-lg font-extrabold text-slate-900 mb-1">🎓 Accès formateur</h3>
+            <p class="text-sm text-slate-500 mb-4">Affiche les prompts complets et les corrigés.</p>
+            <input id="trainer-code" type="password" inputmode="numeric" autocomplete="off" placeholder="Code" class="w-full border border-stone-300 rounded-lg px-3 py-2 mb-2 focus:outline-none focus:ring-2 focus:ring-fm-300" onkeydown="if(event.key === 'Enter') submitTrainerCode(); if(event.key === 'Escape') closeTrainerModal();">
+            <p id="trainer-error" class="hidden text-xs text-red-600 font-semibold mb-2">Code incorrect.</p>
+            <div class="flex justify-end gap-2 mt-2">
+                <button onclick="closeTrainerModal()" class="text-sm px-3 py-2 rounded-lg text-slate-600 hover:bg-stone-100">Annuler</button>
+                <button onclick="submitTrainerCode()" class="text-sm px-4 py-2 rounded-lg bg-fm-600 hover:bg-fm-700 text-white font-bold">Valider</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl transition-all duration-300 translate-y-20 opacity-0 z-50 flex items-center gap-2">
+        <span>✅</span> Copié dans le presse-papiers
+    </div>
+
+    <script>
+        // --- Data Storage ---
+        // Outil unique du parcours : GitHub Copilot (et Google Stitch pour les maquettes)
+        const OUTILS = {
+            chat: ["Copilot Chat (VS Code)"],
+            agent: ["GitHub Copilot — mode Agent"],
+            stitch: ["Google Stitch", "GitHub Copilot"],
+            web: ["Copilot sur github.com"]
+        };
+
+        // Types de défi : l'apprenant construit lui-même son prompt (jamais de prompt complet visible)
+        const DEFIS = {
+            trous: { label: "🧩 Prompt à trous", badge: "bg-sky-50 text-sky-800 border-sky-200", aide: "Complétez chaque [___] : chaque trou est une décision à prendre." },
+            construire: { label: "🧪 Prompt à construire", badge: "bg-emerald-50 text-emerald-800 border-emerald-200", aide: "Assemblez les ingrédients fournis : rôle, contexte ciblé, tâche, format, critère de fin." },
+            ameliorer: { label: "🔧 Prompt à améliorer", badge: "bg-orange-50 text-orange-800 border-orange-200", aide: "Ce prompt fonctionne mal : identifiez ses défauts, puis réécrivez-le." },
+            inverse: { label: "🔁 Rétro-prompt", badge: "bg-violet-50 text-violet-800 border-violet-200", aide: "Partez du résultat attendu et retrouvez le prompt qui le produit." },
+            squelette: { label: "🦴 Fichier à compléter", badge: "bg-slate-50 text-slate-800 border-slate-300", aide: "Complétez le fichier de configuration Copilot : chaque champ compte." }
+        };
+
+        // Code d'accès formateur — verrou incitatif (lisible dans le source, comme le verrou sécurité du hub)
+        const TRAINER_CODE = "0999";
+
+        const courseData = [
+            {
+                id: "mod1", icon: "💡", target: "Biz",
+                title: "Module 1 : De l'idée au produit",
+                subtitle: "(PO · Copilot Chat en mode Ask & Plan · MCP GitHub)",
+                intro: "Tout commence par un problème, pas par du code. Le Product Owner utilise Copilot comme sparring partner : il challenge l'idée, cadre le MVP et remplit le backlog GitHub sans quitter VS Code. Ces fichiers deviendront le contexte permanent de tous les agents.",
+                labs: [
+                    {
+                        id: "fm1_1", title: "Lab 1.1 : Problème, personas & PRODUCT.md",
+                        emplacement: "<code>PRODUCT.md</code> à la racine du dépôt FrigoMalin (le dossier ouvert dans VS Code).",
+                        targetBadge: "Product Owners", tools: OUTILS.chat,
+                        features: ["Agent Ask", "Fichier de contexte produit"],
+                        objective: "Rédiger un <code>PRODUCT.md</code> (2 pages maximum) qui décrit le problème, les personas et la proposition de valeur de FrigoMalin.",
+                        astuce: "<code>PRODUCT.md</code> sera lu par Copilot chaque fois qu'un agent aura besoin du « pourquoi ». Court et factuel = moins de tokens et moins d'hallucinations. Le guide « context engineering » de VS Code recommande précisément ce fichier.",
+                        defi: "ameliorer",
+                        consigne: "Ce prompt produit un texte marketing générique. Réécrivez-le pour obtenir un <code>PRODUCT.md</code> exploitable par des développeurs et par Copilot.",
+                        amorce: `Écris la description de mon application anti-gaspillage FrigoMalin.`,
+                        indices: [
+                            "Donnez un rôle à Copilot et demandez-lui d'abord de VOUS poser des questions avant d'écrire (agent Ask).",
+                            "Imposez la structure : problème chiffré, 2 ou 3 personas, parcours clés, hors périmètre, glossaire.",
+                            "Fixez une taille maximale (2 pages) et un ton factuel : ce fichier sert de contexte, pas de plaquette commerciale."
+                        ],
+                        reussite: [
+                            "Le problème est chiffré (ou marqué « à vérifier »)",
+                            "Chaque persona a un objectif et une frustration concrète",
+                            "Une section « Hors périmètre » existe (pas de backend, pas de comptes)"
+                        ],
+                        solution: `Agis comme un Product Owner senior spécialisé dans les applications grand public anti-gaspillage.
+
+Contexte : je lance FrigoMalin, une application web (PWA) 100 % navigateur, publiée sur GitHub Pages, qui aide un foyer à suivre le contenu de son frigo et de ses placards, à consommer avant la date limite et à mesurer le gaspillage évité. Contraintes : pas de backend, pas de comptes utilisateurs, données stockées localement.
+
+Avant d'écrire, pose-moi au maximum 5 questions pour lever les ambiguïtés. Ensuite, rédige PRODUCT.md (2 pages maximum, Markdown) avec :
+1. Problème (3 lignes, avec un ordre de grandeur chiffré et sourcé, ou marqué « à vérifier »)
+2. Personas (3 maximum) : objectif, frustration, moment d'usage
+3. Proposition de valeur (1 phrase) et 3 parcours clés
+4. Hors périmètre du POC
+5. Glossaire (DLC, DDM, stock, recette, gaspillage évité)
+
+Ton factuel, aucune formule marketing. Ce fichier servira de contexte permanent aux agents de développement.`,
+                        correction: [
+                            "Demander des questions préalables (agent Ask) évite que Copilot invente le contexte.",
+                            "Les chiffres doivent être sourcés ou marqués « à vérifier » : réflexe anti-hallucination.",
+                            "Le glossaire DLC/DDM est clé : il sera réutilisé tel quel par les agents (langage commun).",
+                            "Piège fréquent : un PRODUCT.md de 6 pages. Chaque ligne coûte des tokens à chaque requête qui le charge."
+                        ]
+                    },
+                    {
+                        id: "fm1_2", title: "Lab 1.2 : Périmètre du MVP & critères de succès",
+                        emplacement: "<code>docs/mvp.md</code> (créer le dossier <code>docs/</code> à la racine du dépôt).",
+                        targetBadge: "Product Owners", tools: OUTILS.chat,
+                        features: ["Agent Plan", "Priorisation MoSCoW"],
+                        objective: "Prioriser les fonctionnalités (MoSCoW) et définir des critères de succès mesurables pour le POC.",
+                        astuce: "L'agent Plan explore et propose sans modifier de fichier : parfait pour arbitrer avant d'engager du code. Un périmètre serré, c'est aussi un contexte plus petit pour tous les agents à venir.",
+                        defi: "trous",
+                        consigne: "Complétez les trous, puis lancez le prompt avec l'agent <strong>Plan</strong> en joignant <code>PRODUCT.md</code>.",
+                        amorce: `Agis comme [___ rôle ___].
+À partir de #PRODUCT.md, propose le périmètre du POC FrigoMalin avec la méthode [___ méthode de priorisation ___].
+
+Contraintes : [___ 3 contraintes techniques non négociables ___].
+Pour chaque fonctionnalité « Must », donne [___ ce qui permettra de savoir qu'elle est réussie ___].
+
+Format de sortie : [___ format ___], enregistré dans docs/mvp.md.`,
+                        indices: [
+                            "Les contraintes non négociables viennent de l'hébergement : GitHub Pages ne sert que des fichiers statiques.",
+                            "Un critère de succès est mesurable : « scanner un produit en moins de 5 s », pas « scan rapide ».",
+                            "Un tableau Markdown (fonctionnalité | priorité | justification | critère) se relit vite et se réutilise bien."
+                        ],
+                        reussite: [
+                            "5 à 7 « Must » maximum",
+                            "Chaque « Must » a un critère mesurable",
+                            "Le partage entre membres du foyer est en « Won't » (il exige un backend)"
+                        ],
+                        solution: `Agis comme un Product Owner expérimenté qui prépare un POC en 5 jours avec une équipe de développeurs.
+À partir de #PRODUCT.md, propose le périmètre du POC FrigoMalin avec la méthode MoSCoW.
+
+Contraintes : application 100 % statique hébergée sur GitHub Pages (aucun backend), données dans le navigateur (IndexedDB), utilisable hors ligne sur mobile.
+Pour chaque fonctionnalité « Must », donne un critère de succès mesurable et vérifiable par un test.
+
+Format de sortie : tableau Markdown | Fonctionnalité | MoSCoW | Justification | Critère de succès |, suivi de 3 risques produit, enregistré dans docs/mvp.md.`,
+                        correction: [
+                            "Must attendus : inventaire + dates, alerte d'expiration, « Que cuisiner ? », liste de courses, tableau d'impact, hors ligne.",
+                            "Won't attendus : partage entre membres du foyer, comptes, notifications push serveur (tous exigent un backend).",
+                            "Les critères doivent pouvoir devenir des scénarios Gherkin au lab 1.3 ; sinon, les reformuler.",
+                            "L'agent Plan n'écrit rien lui-même : c'est l'agent Agent (ou l'humain) qui crée docs/mvp.md."
+                        ]
+                    },
+                    {
+                        id: "fm1_3", title: "Lab 1.3 : Le backlog dans GitHub Issues via MCP",
+                        bonus: true,
+                        emplacement: "<code>.mcp.json</code> à la <strong>racine du dépôt</strong>, à côté de <code>PRODUCT.md</code>, et versionné avec Git : toute l'équipe partage la même configuration. Ce n'est <strong>pas</strong> le <code>mcp.json</code> de votre profil VS Code (<code>%APPDATA%\\Code\\User\\mcp.json</code> sous Windows), qui est personnel et rempli par la galerie MCP. Variante propre à VS Code : <code>.vscode/mcp.json</code>, avec la clé <code>servers</code>.",
+                        targetBadge: "Product Owners", tools: OUTILS.agent,
+                        features: ["Serveur MCP GitHub", ".mcp.json", "Mode Agent"],
+                        objective: "Créer les epics et user stories du MVP directement dans GitHub Issues, avec critères d'acceptation Gherkin, depuis VS Code.",
+                        astuce: "Le serveur MCP GitHub donne à Copilot des outils pour agir sur votre dépôt (issues, étiquettes, PR). Le backlog vit là où vit le code : vos agents pourront le lire à chaque feature.",
+                        defi: "squelette",
+                        consigne: "Complétez <code>.mcp.json</code> pour déclarer le serveur MCP GitHub, puis écrivez vous-même le prompt qui crée les issues.",
+                        amorce: `// .mcp.json (à la racine du dépôt, format portable)
+{
+  "[___ clé racine ___]": {
+    "github": {
+      "type": "[___ ___]",
+      "url": "[___ URL du serveur MCP GitHub distant ___]"
+    }
+  }
+}
+
+// Votre prompt (mode Agent), à écrire :
+// - quel fichier source ?
+// - quelles étiquettes ?
+// - quel format pour les critères d'acceptation ?
+// - que faire AVANT de créer 20 issues d'un coup ?`,
+                        indices: [
+                            "Le format portable <code>.mcp.json</code> utilise la clé <code>mcpServers</code> (le format propre à VS Code, <code>.vscode/mcp.json</code>, utilise <code>servers</code>).",
+                            "Demandez un aperçu en Markdown et une validation avant la création : une création en masse ratée coûte cher à nettoyer.",
+                            "Une story = « En tant que… je veux… afin de… » + 2 à 4 scénarios Gherkin (Étant donné / Quand / Alors).",
+                            "Le serveur n'apparaît pas ? Rien à installer (il est hébergé par GitHub) : vérifiez que le fichier est bien à la racine du dossier ouvert, que ce dossier est approuvé (<em>Workspace Trust</em>) et, sur une licence Business/Enterprise, que la politique « MCP servers in Copilot » est activée. À la première utilisation, acceptez la connexion OAuth à GitHub."
+                        ],
+                        reussite: [
+                            "Le serveur GitHub apparaît dans la liste des outils (bouton Configure Tools)",
+                            "Chaque story est rattachée à un epic et porte une étiquette",
+                            "Chaque story a au moins un scénario d'erreur"
+                        ],
+                        solution: `// .mcp.json
+{
+  "mcpServers": {
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
+    }
+  }
+}
+
+--- Prompt (mode Agent) ---
+Agis comme un Product Owner rigoureux.
+À partir de #docs/mvp.md, prépare le backlog du POC FrigoMalin :
+1. Une issue « Epic » par fonctionnalité Must (étiquette epic).
+2. Pour chaque epic, 2 à 4 user stories au format « En tant que… je veux… afin de… » (étiquette story + étiquette de l'epic).
+3. Dans chaque story, 2 à 4 critères d'acceptation en Gherkin (Étant donné / Quand / Alors), dont au moins un cas d'erreur.
+
+Étape 1 : affiche l'aperçu complet en Markdown et attends ma validation.
+Étape 2 : après validation seulement, crée les étiquettes manquantes puis les issues avec les outils GitHub.`,
+                        correction: [
+                            "Le serveur distant s'authentifie avec votre compte GitHub (OAuth) : aucun jeton à écrire dans le fichier.",
+                            "Serveur déjà installé depuis la galerie MCP de VS Code ? Il est dans le <code>mcp.json</code> du profil utilisateur, au format <code>servers</code> (nom <code>io.github.github/github-mcp-server</code>, champs <code>gallery</code>/<code>version</code>) : valable, mais personnel et non versionné. Garder UNE seule déclaration active, sinon les outils GitHub sont exposés en double (tokens gaspillés).",
+                            "La validation intermédiaire est le point clé : elle évite 30 issues à supprimer à la main.",
+                            "Exemple de scénario d'erreur : « Étant donné un code-barres inconnu, Quand je scanne, Alors je peux saisir le produit manuellement ».",
+                            "Variante sans MCP : Copilot sur github.com sait aussi rédiger des issues."
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "mod2", icon: "🏛️", target: "Mixte",
+                title: "Module 2 : Architecture 100 % navigateur",
+                subtitle: "(Architecte · premier agent personnalisé · ADR)",
+                intro: "GitHub Pages ne sert que des fichiers statiques : toute l'application tourne dans le navigateur. L'architecte fixe les contraintes, trace le schéma et documente ses décisions (ADR) avec un premier agent personnalisé, volontairement limité à la lecture.",
+                labs: [
+                    {
+                        id: "fm2_1", title: "Lab 2.1 : Un agent architecte en lecture seule",
+                        emplacement: "<code>.github/agents/architect.agent.md</code> (créer les dossiers <code>.github/agents/</code> à la racine du dépôt).",
+                        targetBadge: "Architectes / Tech Leads", tools: OUTILS.agent,
+                        features: ["Agent personnalisé", "*.agent.md", "Diagramme Mermaid"],
+                        objective: "Créer <code>.github/agents/architect.agent.md</code>, puis lui faire produire le schéma C4 (niveaux 1 et 2) de FrigoMalin en Mermaid.",
+                        astuce: "Un agent qui ne peut pas éditer ne peut pas « se lancer dans le code » : il reste dans son rôle. Restreindre les outils, c'est aussi réduire les définitions d'outils envoyées au modèle à chaque requête.",
+                        defi: "squelette",
+                        consigne: "Complétez l'en-tête et le corps de l'agent, sélectionnez-le dans la liste des agents, puis demandez-lui le schéma C4 en une phrase.",
+                        amorce: `---
+name: architect
+description: [___ quand utiliser cet agent ? ___]
+tools: [___ uniquement des outils de lecture et de recherche ___]
+---
+Tu es [___ ___].
+Contraintes d'architecture à respecter : [___ au moins 4 ___]
+Tu ne modifies jamais [___ ___].
+Tes livrables : [___ format(s) ___]`,
+                        indices: [
+                            "La <code>description</code> est lue par Copilot pour décider quand proposer l'agent (et plus tard pour l'appeler en sous-agent) : écrivez-la comme un « quand m'utiliser ».",
+                            "Outils de lecture : <code>read</code>, <code>search</code>, et <code>web</code> pour consulter la documentation. Le bouton Configure Tools affiche les noms exacts.",
+                            "Contraintes : statique, IndexedDB, hors ligne, chemin de base <code>/frigomalin/</code>, API Open Food Facts appelée depuis le navigateur."
+                        ],
+                        reussite: [
+                            "L'agent apparaît dans la liste déroulante des agents",
+                            "Il refuse de modifier un fichier si on le lui demande",
+                            "Le diagramme Mermaid s'affiche dans l'aperçu Markdown"
+                        ],
+                        solution: `---
+name: architect
+description: Architecte de FrigoMalin. À utiliser pour les choix techniques, les ADR et les schémas, jamais pour écrire du code applicatif.
+tools: ['read', 'search', 'web']
+---
+Tu es l'architecte logiciel de FrigoMalin (voir PRODUCT.md et docs/mvp.md).
+Contraintes d'architecture à respecter :
+- application 100 % statique publiée sur GitHub Pages (aucun backend, aucun secret côté client) ;
+- persistance dans le navigateur (IndexedDB), export/import JSON ;
+- fonctionnement hors ligne (PWA, service worker) ;
+- application servie sous le chemin /frigomalin/ ;
+- seule API externe : Open Food Facts, appelée depuis le navigateur, avec repli en saisie manuelle.
+Tu ne modifies jamais de fichier : tu proposes, l'humain décide.
+Tes livrables : schémas Mermaid (C4 niveaux 1 et 2), ADR au format MADR, listes de risques.
+
+--- Prompt (agent architect sélectionné) ---
+Produis le schéma C4 niveaux 1 et 2 de FrigoMalin en Mermaid, avec une ligne d'explication par conteneur.`,
+                        correction: [
+                            "Sans <code>edit</code> dans <code>tools</code>, l'agent ne peut pas modifier le code : c'est la garantie de rôle.",
+                            "Conteneurs attendus au niveau 2 : interface (SPA), domaine (TypeScript pur), stockage IndexedDB, service worker, API Open Food Facts (externe).",
+                            "La description est déterminante pour la sélection automatique et pour l'appel en sous-agent (module 7).",
+                            "Les noms d'outils varient selon les versions de VS Code : toujours vérifier avec Configure Tools."
+                        ]
+                    },
+                    {
+                        id: "fm2_2", title: "Lab 2.2 : Trois décisions d'architecture (ADR)",
+                        emplacement: "<code>docs/adr/0001-stockage.md</code>, <code>docs/adr/0002-framework.md</code>, <code>docs/adr/0003-routage.md</code>.",
+                        targetBadge: "Architectes / Tech Leads", tools: OUTILS.agent,
+                        features: ["Agent personnalisé", "Contexte explicite (#)"],
+                        objective: "Documenter 3 ADR : IndexedDB ou localStorage, choix du framework, routage par hash ou repli <code>404.html</code>.",
+                        astuce: "Un ADR explique le « pourquoi » d'un choix. Dans six mois, c'est ce que Copilot (et vos collègues) liront avant de proposer de « tout migrer vers localStorage ».",
+                        defi: "construire",
+                        consigne: "Construisez le prompt à partir des ingrédients. Un prompt pour les 3 ADR, ou un prompt réutilisable pour un ADR à la fois : à vous de choisir et de justifier.",
+                        amorce: `Ingrédients disponibles :
+• l'agent architect (lab 2.1)
+• #PRODUCT.md, #docs/mvp.md
+• le format MADR : contexte · options · décision · conséquences
+• un critère de comparaison chiffré par option
+• le dossier docs/adr/ (numérotation 0001-…)
+
+Votre prompt :
+_______________________________________________`,
+                        indices: [
+                            "Demandez au moins 2 options réellement viables par décision, sinon l'ADR n'est qu'une justification a posteriori.",
+                            "Critères chiffrables : limite de stockage, taille ajoutée au bundle, compatibilité avec GitHub Pages (aucune réécriture d'URL côté serveur).",
+                            "Un seul ADR par réponse = des réponses courtes, une relecture facile et un contexte qui ne gonfle pas."
+                        ],
+                        reussite: [
+                            "3 fichiers <code>docs/adr/000X-*.md</code>",
+                            "Chaque ADR compare au moins 2 options avec avantages et inconvénients",
+                            "Les conséquences négatives sont explicites"
+                        ],
+                        solution: `(Agent architect sélectionné)
+Rédige l'ADR 0001 au format MADR pour FrigoMalin : « Où stocker les données du foyer ? ».
+Contexte : #PRODUCT.md et #docs/mvp.md.
+Options à comparer : localStorage, IndexedDB via Dexie.js, IndexedDB via idb.
+Pour chaque option : limite de stockage, requêtes possibles (index, tri par date), taille ajoutée au bundle, facilité de test.
+Termine par la décision, ses conséquences positives et négatives, et les conditions qui nous feraient revenir sur ce choix.
+Ne rédige que cet ADR ; je te demanderai les suivants (0002 framework, 0003 routage) un par un.`,
+                        correction: [
+                            "Décisions attendues : IndexedDB (Dexie) ; framework au choix mais justifié ; routage par hash OU repli 404.html (GitHub Pages ne réécrit pas les URL).",
+                            "Un ADR par requête garde des réponses courtes et relisibles, et évite de saturer le contexte.",
+                            "Conséquence négative attendue pour 0001 : les données restent sur un seul appareil (d'où le partage en V2).",
+                            "Un prompt « réutilisable » est un bon candidat pour devenir un skill (module 4)."
+                        ]
+                    },
+                    {
+                        id: "fm2_3", title: "Lab 2.3 : Modèle de données & types TypeScript",
+                        emplacement: "<code>src/domain/types.ts</code>, <code>src/data/db.ts</code>, <code>src/data/seed.ts</code> (créés par l'agent).",
+                        targetBadge: "Développeurs", tools: OUTILS.agent,
+                        features: ["Mode Agent", "Types comme contexte"],
+                        objective: "Produire les types du domaine, le schéma de base Dexie et un générateur de données de départ réalistes.",
+                        astuce: "Des types stricts sont le meilleur contexte possible : Copilot les lit et produit du code cohérent sans que vous répétiez le modèle de données dans chaque prompt.",
+                        defi: "inverse",
+                        consigne: "Voici un extrait du résultat attendu. Écrivez le prompt qui le produit (types + base + 40 produits de test).",
+                        amorce: `// Résultat attendu (extrait) : src/domain/types.ts
+export type DateKind = 'DLC' | 'DDM';
+export interface StockItem {
+  id: string;
+  name: string;
+  barcode?: string;
+  quantity: number;
+  unit: 'pièce' | 'g' | 'kg' | 'ml' | 'L';
+  expiresOn: string;       // ISO 8601 (AAAA-MM-JJ)
+  dateKind: DateKind;
+  location: 'frigo' | 'congélateur' | 'placard';
+  addedOn: string;
+  status: 'en-stock' | 'consommé' | 'jeté';
+}
+// … + src/data/db.ts (Dexie, index sur expiresOn et status)
+// … + src/data/seed.ts (40 produits de test)
+
+Votre prompt :
+_______________________________________________`,
+                        indices: [
+                            "Précisez l'emplacement de chaque fichier : Copilot doit créer 3 fichiers, pas un seul bloc.",
+                            "Le jeu de données doit couvrir les cas limites : périmé hier, expire aujourd'hui, DDM dépassée (encore consommable).",
+                            "Demandez des dates RELATIVES (calculées à partir d'aujourd'hui) : un jeu de données figé sera « périmé » la semaine suivante."
+                        ],
+                        reussite: [
+                            "<code>npm run build</code> compile sans erreur de type",
+                            "Les données contiennent des produits périmés, du jour et à venir",
+                            "Aucun type <code>any</code>"
+                        ],
+                        solution: `Agis comme un développeur TypeScript senior.
+À partir de #PRODUCT.md (glossaire) et de l'ADR #docs/adr/0001-stockage.md :
+1. Crée src/domain/types.ts : StockItem (id, name, barcode?, quantity, unit, expiresOn ISO, dateKind 'DLC'|'DDM', location, addedOn, status 'en-stock'|'consommé'|'jeté'), Recipe (id, title, ingredients[], minutes), ImpactEntry (itemId, kg, euros, date). Types stricts, aucun any, unions littérales plutôt que string.
+2. Crée src/data/db.ts : base Dexie « frigomalin », version 1, index sur expiresOn, status et barcode.
+3. Crée src/data/seed.ts : une fonction qui génère 40 produits réalistes avec des dates RELATIVES à aujourd'hui, dont 3 périmés (DLC dépassée), 3 qui expirent aujourd'hui, 2 DDM dépassées, le reste réparti sur 30 jours.
+Ne crée aucun composant d'interface.`,
+                        correction: [
+                            "Point clé : les dates relatives (sinon les tests et la démo cassent au bout d'une semaine).",
+                            "DLC dépassée = à jeter ; DDM dépassée = encore consommable. Cette distinction métier doit apparaître dans le code.",
+                            "« Ne crée aucun composant d'interface » borne la tâche : l'agent ne déborde pas.",
+                            "Une fonction de génération plutôt qu'un JSON figé : plus court à lire pour l'agent, toujours à jour."
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "mod3", icon: "⚙️", target: "Tech",
+                title: "Module 3 : Workspace & context engineering",
+                subtitle: "(Instructions · exclusions · .copilotignore)",
+                intro: "Avant d'écrire une ligne de code métier, on prépare ce que Copilot verra à chaque requête : ce qu'il doit savoir (instructions), ce qu'il n'a pas besoin de voir (exclusions) et ce qu'il ne doit jamais voir (données sensibles). C'est le socle de l'optimisation du contexte.",
+                labs: [
+                    {
+                        id: "fm3_1", title: "Lab 3.1 : Créer le projet et exclure ce qui pollue le contexte",
+                        emplacement: "À la racine du dépôt : <code>.gitignore</code> et <code>vite.config.ts</code> ; réglages de l'espace de travail dans <code>.vscode/settings.json</code>.",
+                        targetBadge: "Développeurs", tools: OUTILS.agent,
+                        features: ["Mode Agent", ".gitignore", "files.exclude / search.exclude"],
+                        objective: "Créer le projet Vite + TypeScript en mode Agent, puis exclure les dossiers générés de l'index et des recherches de Copilot.",
+                        astuce: "<code>dist/</code>, <code>coverage/</code> ou un gros fichier de données peuvent être lus par l'agent lors d'une recherche : ce sont des tokens payés pour rien. <code>.gitignore</code> les retire de l'index, <code>search.exclude</code> des recherches de l'agent.",
+                        defi: "trous",
+                        consigne: "Complétez le prompt. Vérifiez ensuite que l'agent n'est pas resté bloqué sur une commande interactive.",
+                        amorce: `Crée le projet FrigoMalin dans le dossier courant avec [___ outil de création ___] et le modèle [___ framework + TypeScript ___].
+Ajoute [___ outils de qualité ___] et les scripts npm : [___ liste ___].
+Configure Vite pour GitHub Pages : [___ réglage ___].
+Mets à jour .gitignore et .vscode/settings.json pour exclure [___ dossiers ___] de [___ ___].
+Utilise uniquement des commandes [___ ___].`,
+                        indices: [
+                            "Les assistants de création posent des questions interactives : demandez les options en ligne de commande (ex. <code>--template react-ts</code>).",
+                            "Le réglage Vite indispensable pour Pages : <code>base: '/frigomalin/'</code>.",
+                            "Exclusions : <code>dist</code>, <code>coverage</code>, <code>playwright-report</code>, <code>node_modules</code> (via <code>files.exclude</code> et <code>search.exclude</code>)."
+                        ],
+                        reussite: [
+                            "<code>npm run dev</code> affiche la page",
+                            "Les scripts <code>lint</code>, <code>test</code> et <code>build</code> existent",
+                            "Une recherche de l'agent ne renvoie aucun fichier de <code>dist/</code>"
+                        ],
+                        solution: `Crée le projet FrigoMalin dans le dossier courant avec Vite et le modèle react-ts (ou vue-ts / svelte-ts selon notre ADR 0002).
+Ajoute ESLint, Prettier, Vitest et Testing Library, et les scripts npm : dev, build, preview, lint, lint:fix, test, test:e2e.
+Configure Vite pour GitHub Pages : base: '/frigomalin/'.
+Mets à jour .gitignore (dist, coverage, playwright-report, test-results) et .vscode/settings.json (files.exclude et search.exclude pour les mêmes dossiers + node_modules).
+Utilise uniquement des commandes non interactives (options en ligne de commande, --yes) et montre-moi chaque commande avant de l'exécuter.`,
+                        correction: [
+                            "Piège n°1 : l'assistant de création attend une réponse au clavier et l'agent reste bloqué. D'où les options non interactives.",
+                            "Sans <code>base</code>, le site publié charge ses scripts à la racine du domaine : page blanche garantie sur GitHub Pages.",
+                            "<code>files.exclude</code> masque aussi dans l'explorateur ; <code>search.exclude</code> garde les fichiers visibles mais hors recherche.",
+                            "Démarrer le carnet de consommation dès maintenant : noter le coût de cette session (survol de la réponse)."
+                        ]
+                    },
+                    {
+                        id: "fm3_2", title: "Lab 3.2 : .copilotignore & ce que Copilot ne doit jamais voir",
+                        emplacement: "<code>.copilotignore</code> à la racine du dépôt (au même niveau que <code>.gitignore</code>).",
+                        targetBadge: "Développeurs / Tech Leads", tools: OUTILS.agent,
+                        features: [".copilotignore", "Exclusion de contenu", "Défense en profondeur"],
+                        objective: "Créer un fichier <code>.copilotignore</code> pour les fichiers sensibles, et comprendre ce qu'il protège réellement… et ce qu'il ne protège pas.",
+                        astuce: "Même sans backend, un dépôt contient des choses sensibles : un <code>.env.local</code> avec une clé de test, des exports JSON de vrais foyers pour déboguer. La règle : ce qui ne doit pas sortir ne doit pas être lisible par l'agent.",
+                        defi: "squelette",
+                        consigne: "Complétez le fichier, puis <strong>testez-le</strong> : ouvrez un fichier exclu et demandez à Copilot de le résumer, avec l'agent Ask puis en mode Agent. Notez les différences.",
+                        amorce: `# .copilotignore (syntaxe .gitignore)
+# 1. Secrets et configuration locale
+[___ ___]
+
+# 2. Données réelles d'utilisateurs (exports de test)
+[___ ___]
+
+# 3. Fichiers volumineux sans valeur pour l'IA
+[___ ___]
+
+# ⚠️ Question à trancher en équipe : ce fichier suffit-il ?`,
+                        indices: [
+                            "La négation <code>!fichier</code> n'est pas prise en charge : on ne peut pas « ré-inclure » un fichier exclu.",
+                            "Sur les plans Business et Enterprise, l'exclusion de contenu officielle se configure dans les paramètres du dépôt ou de l'organisation. La documentation GitHub précise qu'elle n'est pas appliquée en mode Agent.",
+                            "Défense en profondeur : aucun secret committé (.gitignore), consigne dans <code>copilot-instructions.md</code>, revue humaine, et un contrôle actif si nécessaire."
+                        ],
+                        reussite: [
+                            "Le fichier couvre secrets, données réelles et gros fichiers",
+                            "Le test avec l'agent Ask et en mode Agent a été fait et noté",
+                            "L'équipe sait citer au moins 2 autres protections"
+                        ],
+                        solution: `# .copilotignore (syntaxe .gitignore, pas de négation « ! »)
+# 1. Secrets et configuration locale
+.env
+.env.*
+*.pem
+*.key
+
+# 2. Données réelles d'utilisateurs (exports de test)
+exports/
+**/*-reel.json
+data/private/
+
+# 3. Fichiers volumineux sans valeur pour l'IA
+*.min.js
+package-lock.json
+design/stitch/**/*.html
+
+--- Conclusion attendue ---
+.copilotignore n'est pas documenté officiellement par GitHub : c'est une fonctionnalité discrète et une convention d'équipe, dont l'effet varie selon le mode. Il ne remplace pas :
+1. l'exclusion de contenu officielle (paramètres du dépôt ou de l'organisation, plans Business/Enterprise), elle-même non appliquée en mode Agent ;
+2. .gitignore (le secret n'est jamais committé) ;
+3. une règle explicite dans copilot-instructions.md : « Ne lis jamais les fichiers .env* ni le dossier exports/ » ;
+4. la revue humaine (et, si besoin, un hook de contrôle).`,
+                        correction: [
+                            "Message clé : aucune exclusion n'est une garantie absolue en mode Agent. On superpose les protections (défense en profondeur).",
+                            "Le vrai réflexe : ne pas avoir de secret dans un projet 100 % front. Rien de ce qui est publié sur GitHub Pages n'est secret.",
+                            "Exclure <code>package-lock.json</code> et le HTML exporté de Stitch économise beaucoup de tokens si l'agent les parcourt « pour comprendre ».",
+                            "Vérifier dans les journaux de debug de l'agent (module 8) quels fichiers ont réellement été lus."
+                        ]
+                    },
+                    {
+                        id: "fm3_3", title: "Lab 3.3 : copilot-instructions.md, l'essentiel et rien de plus",
+                        emplacement: "<code>.github/copilot-instructions.md</code> (dans le dossier <code>.github/</code>, pas à la racine).",
+                        targetBadge: "Tech Leads / Développeurs", tools: OUTILS.agent,
+                        features: ["copilot-instructions.md", "Instructions globales"],
+                        objective: "Écrire un <code>.github/copilot-instructions.md</code> de moins de 60 lignes, chargé à chaque requête.",
+                        astuce: "Ce fichier est envoyé avec <em>chaque</em> requête : 200 lignes inutiles, ce sont 200 lignes payées des centaines de fois. Il ne contient que ce qu'un nouvel arrivant doit savoir le premier jour.",
+                        defi: "ameliorer",
+                        consigne: "Ce premier jet (typique d'un fichier généré automatiquement) est trop long et flou. Réécrivez-le, ou écrivez le prompt qui le fait réécrire par Copilot.",
+                        amorce: `# Instructions
+Tu es un assistant très compétent et bienveillant. Écris toujours du code propre, lisible,
+maintenable, performant et sécurisé. Respecte les bonnes pratiques. Utilise TypeScript.
+Commente bien le code. Fais attention aux erreurs. Pense à l'accessibilité.
+Le projet est une application qui s'appelle FrigoMalin et qui aide les gens à ne pas gaspiller
+la nourriture, c'est très important pour la planète car le gaspillage alimentaire représente...
+[… 150 lignes de ce style …]`,
+                        indices: [
+                            "Supprimez tout ce que le modèle fait déjà par défaut (« code propre », « sois compétent ») : ça ne change rien et ça coûte.",
+                            "Gardez ce qui est propre au projet : commandes, structure des dossiers, conventions non évidentes, interdits, et les <strong>principes non négociables</strong> (hors ligne d'abord, tests d'abord, accessibilité AA, budget de performance).",
+                            "Renvoyez vers les fichiers au lieu de les recopier : « Produit : voir PRODUCT.md »."
+                        ],
+                        reussite: [
+                            "Moins de 60 lignes",
+                            "Les commandes (dev, test, lint, build) et la structure des dossiers y figurent",
+                            "Au moins 3 interdits propres au projet",
+                            "Les principes non négociables (hors ligne, tests d'abord, accessibilité, budget) sont écrits, vérifiables"
+                        ],
+                        solution: `# FrigoMalin — instructions pour Copilot
+Produit : voir PRODUCT.md. Décisions : docs/adr/. Backlog : GitHub Issues (critères Gherkin).
+
+## Stack
+Vite + TypeScript strict + React · Dexie (IndexedDB) · Vitest + Testing Library · Playwright.
+Application 100 % statique publiée sur GitHub Pages sous /frigomalin/.
+
+## Commandes
+npm run dev · npm test · npm run lint · npm run build · npm run test:e2e
+
+## Structure
+src/domain/  logique métier pure (aucun import React ni Dexie)
+src/data/    accès IndexedDB (Dexie) et données de départ
+src/ui/      composants (un dossier par composant)
+tests/e2e/   Playwright
+
+## Principes non négociables
+1. Zéro backend, zéro secret : tout s'exécute dans le navigateur (IndexedDB).
+2. Hors ligne d'abord : chaque fonctionnalité essentielle marche sans réseau.
+3. Tests d'abord : toute règle métier a son test Vitest ; chaque parcours clé, son test Playwright.
+4. Accessibilité AA, mobile d'abord (360 px).
+5. Budget : JavaScript initial < 200 Ko gzip ; Lighthouse ≥ 90.
+
+## Règles du projet
+- Dates au format ISO AAAA-MM-JJ ; comparer uniquement via src/domain/dates.ts.
+- DLC dépassée = à jeter ; DDM dépassée = encore consommable (voir glossaire).
+- Aucun appel réseau sauf Open Food Facts (src/data/off.ts), toujours avec repli hors ligne.
+- Textes d'interface en français.
+
+## Interdits
+- Pas de backend, pas de secret, pas de clé d'API dans le code.
+- Ne jamais lire .env* ni exports/.
+- Pas de nouvelle dépendance sans le signaler dans la réponse.`,
+                        correction: [
+                            "Critère : chaque ligne doit changer le comportement du modèle. Sinon, on la supprime.",
+                            "Les renvois (PRODUCT.md, docs/adr/) évitent de dupliquer : ces contenus ne sont chargés que si l'agent en a besoin.",
+                            "La règle DLC/DDM est l'exemple parfait de connaissance « non évidente » qui a sa place ici.",
+                            "Les 5 principes non négociables servent ensuite partout : plans des agents, audit de sécurité, pipeline de publication (module 10). Chacun doit pouvoir être vérifié, sinon il est inutile.",
+                            "Variante acceptée : AGENTS.md (format portable lu par plusieurs agents). Ne pas maintenir deux fichiers qui se contredisent."
+                        ]
+                    },
+                    {
+                        id: "fm3_4", title: "Lab 3.4 : Instructions ciblées (applyTo) & carnet de consommation",
+                        emplacement: "<code>.github/instructions/tests.instructions.md</code>, <code>ui.instructions.md</code> et <code>domain.instructions.md</code> ; le carnet dans <code>docs/usage-log.md</code>.",
+                        targetBadge: "Développeurs", tools: OUTILS.agent,
+                        features: ["*.instructions.md", "applyTo", "Carnet de consommation"],
+                        objective: "Découper les règles par type de fichier (tests, UI, domaine) pour qu'elles ne soient chargées qu'au besoin, et démarrer le carnet de consommation.",
+                        astuce: "Les règles de test n'ont rien à faire dans le contexte quand on modifie du CSS. Avec <code>applyTo</code>, un fichier d'instructions n'est ajouté que si les fichiers concernés sont en jeu.",
+                        defi: "squelette",
+                        consigne: "Complétez les trois fichiers (en-tête + 3 à 5 règles chacun), puis créez <code>docs/usage-log.md</code> avec vos colonnes de mesure.",
+                        amorce: `--- .github/instructions/tests.instructions.md ---
+---
+applyTo: "[___ motif des fichiers de test ___]"
+description: [___ ___]
+---
+[___ 3 à 5 règles ___]
+
+--- .github/instructions/ui.instructions.md ---
+---
+applyTo: "[___ ___]"
+---
+[___ ___]
+
+--- .github/instructions/domain.instructions.md ---
+[___ à vous ___]
+
+--- docs/usage-log.md ---
+| Date | Lab | Agent/Modèle | [___ quelles mesures ? ___] |`,
+                        indices: [
+                            "Motifs possibles : <code>**/*.test.ts</code>, <code>src/ui/**</code>, <code>src/domain/**</code>.",
+                            "Une règle de test précieuse pour ce projet : « figer la date du jour avec <code>vi.setSystemTime</code> », sinon les tests sur les dates sont instables.",
+                            "Mesures utiles : crédits consommés (survol de la réponse), nombre de tours, tokens de contexte, résultat (OK / à reprendre)."
+                        ],
+                        reussite: [
+                            "3 fichiers avec un <code>applyTo</code> précis",
+                            "Aucune règle dupliquée avec <code>copilot-instructions.md</code>",
+                            "Le carnet a au moins une ligne remplie (lab 3.1)"
+                        ],
+                        solution: `--- .github/instructions/tests.instructions.md ---
+---
+applyTo: "**/*.test.ts,**/*.test.tsx"
+description: Règles d'écriture des tests Vitest de FrigoMalin
+---
+- Figer la date avec vi.useFakeTimers() + vi.setSystemTime() dans tout test qui dépend d'aujourd'hui.
+- Un describe par règle métier, des noms de test en français (« signale un produit périmé hier »).
+- Pas de mock de src/domain : la logique métier est pure, on la teste directement.
+- IndexedDB : utiliser fake-indexeddb, jamais la vraie base du navigateur.
+
+--- .github/instructions/ui.instructions.md ---
+---
+applyTo: "src/ui/**"
+description: Règles des composants d'interface
+---
+- Couleurs, espacements et rayons : uniquement les variables de src/ui/tokens.css (créé au lab 4.1).
+- Mobile d'abord : mise en page conçue pour 360 px, puis élargie.
+- Accessibilité AA : libellé sur chaque champ, focus visible, contraste vérifié.
+- Aucune logique métier dans un composant : appeler src/domain.
+
+--- .github/instructions/domain.instructions.md ---
+---
+applyTo: "src/domain/**"
+description: Règles de la couche domaine
+---
+- Fonctions pures, sans import de React, Dexie ni API du navigateur.
+- Toute règle métier a un test dans le même dossier.
+- Dates : recevoir « aujourd'hui » en paramètre, ne jamais appeler new Date() dans une règle.
+
+--- docs/usage-log.md ---
+| Date | Lab | Agent / modèle | Tours | Crédits | Contexte (tokens) | Résultat | Remarque |`,
+                        correction: [
+                            "Point clé : « recevoir aujourd'hui en paramètre » rend le domaine testable ET évite des bugs de fuseau horaire.",
+                            "Vérifier dans les références d'une réponse que seul le bon fichier d'instructions a été chargé.",
+                            "Le carnet sera exploité aux modules 8 et 11 : sans mesures dès maintenant, pas de comparaison possible.",
+                            "Erreur fréquente : un <code>applyTo</code> sur <code>**</code> qui recharge tout, tout le temps."
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "mod4", icon: "🎨", target: "Tech",
+                title: "Module 4 : Maquettes, prompt files & skills",
+                subtitle: "(Google Stitch · industrialiser les tâches répétitives)",
+                intro: "On donne un visage à FrigoMalin avec Google Stitch (Web et Mobile), puis on transforme les tâches répétitives (créer un composant, appeler une API) en commandes et en skills réutilisables. Un skill n'est chargé dans le contexte que lorsqu'il sert : c'est une brique clé de l'optimisation.",
+                labs: [
+                    {
+                        id: "fm4_1", title: "Lab 4.1 : Google Stitch : UI/UX Web + Mobile, puis exploitation dans VS Code",
+                        emplacement: "Exports Stitch dans <code>design/stitch/mobile/</code> et <code>design/stitch/web/</code> ; jetons de design dans <code>src/ui/tokens.css</code>.",
+                        targetBadge: "Développeurs + PO", tools: OUTILS.stitch,
+                        features: ["Google Stitch", "Images dans le chat", "Jetons de design"],
+                        objective: "Générer les écrans clés de FrigoMalin en version Mobile et Web avec Google Stitch, puis les transformer en jetons de design et en composants dans VS Code, sans copier-coller le HTML brut.",
+                        astuce: "Stitch produit des maquettes et du code HTML/Tailwind en quelques minutes. Ce code est une <strong>référence visuelle</strong>, pas du code de production : c'est Copilot, guidé par vos instructions et vos jetons de design, qui produit des composants accessibles et conformes à votre architecture.",
+                        defi: "construire",
+                        consigne: "Deux temps. <strong>(A) Dans Stitch</strong> : construisez votre prompt de design (écrans Inventaire, Ajout/scan, « Que cuisiner ? », Impact), en mode Mobile puis Web. <strong>(B) Dans VS Code</strong> : exportez, puis construisez les prompts qui en tirent des jetons de design, puis un premier composant.",
+                        amorce: `(A) Prompt Stitch : ingrédients à assembler
+• l'application et son public : ___
+• les 4 écrans et leur contenu : ___
+• le style (ambiance, couleurs, typographie) : ___
+• les contraintes : accessibilité AA, mobile 360 px, états vides et d'erreur
+• générer d'abord en Mobile, puis décliner en Web (même charte)
+
+(B) Exploitation dans VS Code
+1. Exporter : code HTML/Tailwind + captures PNG → design/stitch/mobile/ et design/stitch/web/
+2. Prompt « jetons de design » : ___ (captures jointes au chat)
+3. Prompt « composant » : ___ (quelles instructions ? quel fichier de référence ?)
+4. Option : serveur MCP de Stitch déclaré dans .mcp.json`,
+                        indices: [
+                            "Dans Stitch, un écran à la fois, et itérez par petites demandes (« augmente le contraste des badges ») plutôt que de tout régénérer.",
+                            "Les captures jointes au chat sont analysées par Copilot (vision) : c'est souvent plus fiable que 800 lignes de HTML exporté, et bien moins coûteux en tokens.",
+                            "Extraire d'abord les jetons (couleurs, espacements, rayons, typographie) dans <code>src/ui/tokens.css</code>, puis générer les composants à partir d'eux. Ne jamais coller le HTML de Stitch tel quel dans <code>src/</code>."
+                        ],
+                        reussite: [
+                            "4 écrans en version Mobile et Web dans <code>design/stitch/</code>",
+                            "<code>src/ui/tokens.css</code> existe et aucune couleur n'est codée en dur dans les composants",
+                            "Le premier composant (carte produit) respecte la maquette et passe un contrôle d'accessibilité"
+                        ],
+                        solution: `(A) Prompt Stitch (mode Mobile)
+Application mobile « FrigoMalin » : aider un foyer à consommer ses produits avant la date limite et à éviter le gaspillage alimentaire. Public : familles et étudiants, usage rapide dans la cuisine.
+Écrans :
+1. Inventaire : liste triée par urgence avec des badges « Périmé » (rouge), « Aujourd'hui » (orange), « Bientôt » (jaune), filtres par emplacement (frigo, congélateur, placard), bouton flottant « + ».
+2. Ajout : bouton « Scanner un code-barres » en haut, puis formulaire (nom, quantité, unité, date, DLC/DDM, emplacement).
+3. Que cuisiner ? : cartes recettes avec un score « utilise 3 produits qui expirent ».
+4. Impact : kg et euros sauvés ce mois-ci, graphique simple, historique consommé/jeté.
+Style : frais et rassurant, vert sauge et crème, coins arrondis, grandes zones tactiles, typographie lisible.
+Contraintes : contraste AA, états vides et d'erreur (« Aucun produit : scannez votre premier article »), barre de navigation en bas.
+→ Puis : « Décline ces 4 écrans en version Web (desktop) avec la même charte : navigation latérale, liste et détail côte à côte. »
+
+(B) Dans VS Code
+1. Export : code + PNG dans design/stitch/mobile/ et design/stitch/web/.
+2. [Captures jointes] Analyse ces maquettes et extrais les jetons de design dans src/ui/tokens.css (variables CSS sémantiques : --color-danger, --color-warning…, espacements, rayons, typographie). Vérifie le contraste AA de chaque paire texte/fond et corrige si nécessaire. N'écris aucun composant.
+3. Crée le composant StockItemCard d'après #design/stitch/mobile/inventaire.png, en respectant ui.instructions.md et tokens.css : HTML sémantique, niveau d'urgence reçu en propriété (calculé par src/domain, jamais dans le composant), mobile d'abord puis variante ≥ 1024 px d'après la maquette Web. Ne reprends pas le HTML exporté de Stitch.
+4. Option : déclarer le serveur MCP de Stitch dans .mcp.json (voir la documentation de Stitch) pour que l'agent lise les écrans directement.`,
+                        correction: [
+                            "Point clé : Stitch = référence visuelle ; le code de production vient de Copilot, guidé par les instructions et les jetons.",
+                            "Des jetons sémantiques (--color-danger plutôt que --red-500) rendent le thème modifiable sans toucher aux composants.",
+                            "Une seule base de code responsive : la maquette Mobile guide les petits écrans, la maquette Web les écrans ≥ 1024 px (c'est une PWA, pas deux applications).",
+                            "Le HTML exporté reste dans design/, exclu de la recherche (search.exclude, .copilotignore) : sinon l'agent s'en inspire et ignore vos conventions.",
+                            "Mettre à jour ui.instructions.md (lab 3.4) pour pointer vers tokens.css."
+                        ]
+                    },
+                    {
+                        id: "fm4_2", title: "Lab 4.2 : Prompt files : /new-component et /new-store",
+                        bonus: true,
+                        emplacement: "<code>.github/prompts/new-component.prompt.md</code> et <code>.github/prompts/new-store.prompt.md</code>.",
+                        targetBadge: "Développeurs", tools: OUTILS.agent,
+                        features: ["*.prompt.md", "Variables ${input}", "Commandes /"],
+                        objective: "Créer deux commandes réutilisables pour générer un composant et un store de données selon les conventions du projet.",
+                        astuce: "Un prompt file transforme un bon prompt en commande d'équipe (<code>/new-component</code>). Attention : VS Code migre progressivement les prompt files vers les skills (ils ne sont plus chargés dans les sessions Agent Host). On les apprend, puis on migre au lab suivant.",
+                        defi: "squelette",
+                        consigne: "Complétez l'en-tête et le corps de <code>.github/prompts/new-component.prompt.md</code>. Écrivez <code>new-store.prompt.md</code> entièrement vous-même.",
+                        amorce: `---
+description: [___ ___]
+agent: [___ quel agent ? ___]
+argument-hint: [___ ___]
+---
+Crée le composant \${input:nom:NomDuComposant} dans [___ ___].
+Il doit respecter [___ quels fichiers d'instructions ? ___].
+Fichiers à produire : [___ ___].
+Critère de fin : [___ ___].`,
+                        indices: [
+                            "<code>agent: agent</code> pour que la commande puisse créer des fichiers.",
+                            "Référencez vos fichiers d'instructions avec un lien Markdown relatif : ils seront ajoutés au contexte.",
+                            "Fichiers attendus : composant, test et index d'export ; critère de fin : <code>npm test</code> et <code>npm run lint</code> passent."
+                        ],
+                        reussite: [
+                            "<code>/new-component</code> apparaît dans le chat",
+                            "La commande produit composant + test au bon endroit",
+                            "<code>new-store.prompt.md</code> fonctionne pour un store « recettes »"
+                        ],
+                        solution: `---
+description: Crée un composant d'interface FrigoMalin avec son test, selon les conventions du projet
+agent: agent
+argument-hint: NomDuComposant et son rôle en une phrase
+---
+Crée le composant \${input:nom:NomDuComposant} dans src/ui/\${input:nom}/.
+Rôle : \${input:role:ce que fait le composant}.
+Il doit respecter [ui.instructions.md](../instructions/ui.instructions.md) et [tests.instructions.md](../instructions/tests.instructions.md), et utiliser src/ui/tokens.css.
+Fichiers à produire : \${input:nom}.tsx, \${input:nom}.test.tsx, index.ts.
+Aucune logique métier dans le composant : si une règle manque, crée-la dans src/domain avec son test.
+Critère de fin : npm test et npm run lint passent ; affiche la liste des fichiers créés.`,
+                        correction: [
+                            "Les variables ${input:…} rendent la commande réutilisable sans réécrire le prompt.",
+                            "Les liens Markdown vers les instructions sont plus fiables qu'une simple mention du nom de fichier.",
+                            "À retenir : les prompt files sont dépréciés pour les sessions Agent Host et migrent vers les skills. D'où le lab 4.3.",
+                            "Un bon prompt file est court : il s'appuie sur les instructions au lieu de les répéter."
+                        ]
+                    },
+                    {
+                        id: "fm4_3", title: "Lab 4.3 : Skill create-component",
+                        emplacement: "Un dossier par skill : <code>.github/skills/create-component/SKILL.md</code>, avec ses ressources (<code>template/</code>, <code>check.mjs</code>) dans ce même dossier.",
+                        targetBadge: "Développeurs / Tech Leads", tools: OUTILS.agent,
+                        features: ["Agent Skills", "SKILL.md", "Chargement progressif"],
+                        objective: "Créer le skill <code>.github/skills/create-component/</code>, avec des gabarits et un script de vérification (si vous avez fait le lab 4.2, c'est la migration de <code>/new-component</code>).",
+                        astuce: "Seuls le nom et la description d'un skill sont lus en permanence. Le corps et les fichiers joints ne sont chargés que lorsque la tâche le demande : on peut avoir 20 skills sans alourdir chaque requête.",
+                        defi: "squelette",
+                        consigne: "Complétez <code>SKILL.md</code>. Soignez surtout la <code>description</code> : c'est elle qui déclenche (ou non) le skill.",
+                        amorce: `.github/skills/create-component/
+├─ SKILL.md
+├─ template/Component.tsx.txt
+├─ template/Component.test.tsx.txt
+└─ check.mjs          # vérifie : fichiers présents, aucune couleur en dur
+
+--- SKILL.md ---
+---
+name: [___ ___]
+description: [___ QUOI + QUAND (1024 caractères max) ___]
+---
+# [___ ___]
+1. [___ étapes ___]
+2. Utiliser les gabarits de [___ ___]
+3. Lancer [___ ___] et corriger jusqu'à succès`,
+                        indices: [
+                            "Une bonne description contient les mots que vous taperiez : « Utiliser pour créer ou ajouter un composant React dans src/ui ».",
+                            "Le script <code>check.mjs</code> peut chercher des motifs interdits (couleurs hexadécimales, <code>rgb()</code> en dur) dans le composant généré.",
+                            "Testez la sélection automatique : demandez « ajoute un composant BadgeUrgence » sans taper la commande. Le skill doit se charger seul."
+                        ],
+                        reussite: [
+                            "Le skill se déclenche sans être appelé explicitement",
+                            "Les gabarits sont bien utilisés",
+                            "Le script de vérification passe"
+                        ],
+                        solution: `---
+name: create-component
+description: Crée un composant d'interface FrigoMalin (React + TypeScript) dans src/ui avec son test, à partir des gabarits du projet. Utiliser dès qu'on demande de créer, ajouter ou générer un composant, un écran ou un élément d'interface.
+---
+# Créer un composant FrigoMalin
+1. Déduire le nom (PascalCase) et le rôle ; demander si c'est ambigu.
+2. Copier template/Component.tsx.txt et template/Component.test.tsx.txt dans src/ui/<Nom>/ en remplaçant __NOM__.
+3. Styles : uniquement les variables de src/ui/tokens.css.
+4. Logique métier : dans src/domain (avec test), jamais dans le composant.
+5. Lancer node .github/skills/create-component/check.mjs <Nom> puis npm test -- <Nom> ; corriger jusqu'à succès.
+6. Répondre avec la liste des fichiers créés, sans recopier leur contenu.`,
+                        correction: [
+                            "La description doit dire QUOI et QUAND : c'est le seul texte que le modèle voit avant de décider de charger le skill.",
+                            "« Sans recopier leur contenu » : une consigne simple qui économise des tokens de sortie à chaque utilisation.",
+                            "Les gabarits et le script sont des ressources chargées à la demande, pas du texte envoyé à chaque requête.",
+                            "Si vous avez fait le lab 4.2 : supprimer ensuite new-component.prompt.md pour éviter deux sources concurrentes."
+                        ]
+                    },
+                    {
+                        id: "fm4_4", title: "Lab 4.4 : Skill openfoodfacts-api → scan du code-barres",
+                        emplacement: "<code>.github/skills/openfoodfacts-api/SKILL.md</code> et <code>exemples/</code> dans ce même dossier ; le code dans <code>src/data/off.ts</code>.",
+                        targetBadge: "Développeurs", tools: OUTILS.agent,
+                        features: ["Agent Skills", "Ressources de skill", "Documentation externe"],
+                        objective: "Créer un skill qui embarque la documentation utile de l'API Open Food Facts, puis l'utiliser pour implémenter le scan et la fiche produit.",
+                        astuce: "Plutôt que de coller la documentation d'une API dans chaque conversation (des milliers de tokens), on la range une fois dans un skill, réduite à l'essentiel, avec des exemples de réponses réelles. L'agent la charge seulement quand il travaille sur l'API.",
+                        defi: "construire",
+                        consigne: "Construisez le skill (structure + description), puis le prompt d'implémentation. Récupérez vous-même un exemple de réponse réelle de l'API. À faire après le lab 5.1, qui crée l'écran d'ajout.",
+                        amorce: `Ingrédients :
+• URL : https://world.openfoodfacts.org/api/v2/product/{code-barres}.json
+• un exemple de réponse réelle (à récupérer puis à réduire aux champs utiles)
+• les cas : produit trouvé / inconnu / réseau absent / réponse lente
+• la détection de code-barres dans le navigateur (BarcodeDetector ou bibliothèque)
+• le principe « hors ligne d'abord » de copilot-instructions.md
+
+Structure du skill : _______________________
+Prompt d'implémentation : _______________________`,
+                        indices: [
+                            "Réduisez l'exemple JSON aux 5 ou 6 champs utilisés (<code>product_name</code>, <code>brands</code>, <code>quantity</code>, <code>image_front_small_url</code>…) : c'est ce qui rend le skill léger.",
+                            "<code>BarcodeDetector</code> n'existe pas dans tous les navigateurs : prévoyez une bibliothèque de repli et la saisie manuelle.",
+                            "Exigez des tests qui simulent l'API (réponses enregistrées) : jamais d'appel réseau réel dans les tests."
+                        ],
+                        reussite: [
+                            "Scan réussi sur un produit réel (téléphone ou webcam)",
+                            "Produit inconnu ou hors ligne → saisie manuelle proposée",
+                            "Les tests n'appellent jamais le vrai réseau"
+                        ],
+                        solution: `.github/skills/openfoodfacts-api/
+├─ SKILL.md
+└─ exemples/produit-trouve.json, exemples/produit-inconnu.json (réduits aux champs utiles)
+
+---
+name: openfoodfacts-api
+description: Référence de l'API publique Open Food Facts pour FrigoMalin (fiche produit par code-barres). Utiliser pour tout code qui recherche un produit par code-barres ou affiche des informations produit.
+---
+- GET https://world.openfoodfacts.org/api/v2/product/{code}.json?fields=product_name,brands,quantity,image_front_small_url
+- status = 1 : trouvé ; status = 0 : inconnu → saisie manuelle.
+- Délai maximal 4 s (AbortController), puis repli hors ligne.
+- Accès centralisé dans src/data/off.ts ; tests avec les réponses du dossier exemples/.
+
+--- Prompt ---
+Implémente le scan de code-barres de l'écran Ajout : détection via BarcodeDetector si disponible, sinon @zxing/browser ; appel à Open Food Facts via src/data/off.ts ; préremplissage du formulaire ; repli en saisie manuelle si le produit est inconnu, hors ligne ou si le délai est dépassé. Tests Vitest avec les exemples du skill, aucun appel réseau réel.`,
+                        correction: [
+                            "Le paramètre <code>fields=</code> réduit la réponse de l'API… et le contexte quand l'agent la lit : double économie.",
+                            "Les exemples réels évitent que l'agent invente la structure de la réponse (hallucination classique sur les API).",
+                            "Le repli manuel n'est pas optionnel : il découle du principe « hors ligne d'abord » de copilot-instructions.md.",
+                            "Sécurité : les données de l'API sont affichées comme du texte, jamais injectées en HTML (XSS)."
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "mod5", icon: "💻", target: "Tech",
+                title: "Module 5 : Développer au quotidien",
+                subtitle: "(De l'issue au code · TDD · micro-tâches)",
+                intro: "Le quotidien du développeur augmenté : de l'issue GitHub au code avec l'agent Plan puis le mode Agent, le TDD pour la logique métier, et le bon réflexe pour les petites tâches (complétions, suggestions d'édition, chat inline).",
+                labs: [
+                    {
+                        id: "fm5_1", title: "Lab 5.1 : Inventaire : de l'issue au code",
+                        emplacement: "Selon la structure de <code>copilot-instructions.md</code> : règles et tests dans <code>src/domain/</code>, accès Dexie dans <code>src/data/</code>, écran dans <code>src/ui/Inventory/</code>.",
+                        targetBadge: "Développeurs", tools: OUTILS.agent,
+                        features: ["Agent Plan", "Mode Agent", "Implémentation par lots"],
+                        objective: "Implémenter la feature « Inventaire et dates de péremption » à partir de son issue GitHub : plan avec l'agent Plan, puis implémentation par lots en mode Agent, tests d'abord.",
+                        astuce: "Les critères d'acceptation (issues Gherkin du lab 1.3, ou à défaut le tableau de docs/mvp.md) sont votre spécification. L'agent Plan les transforme en tâches, le mode Agent les implémente par petits lots relus et commités. Un diff de 2 000 lignes, personne ne le relit ; des sessions courtes coûtent aussi moins cher.",
+                        defi: "construire",
+                        consigne: "Construisez votre stratégie en deux temps : le prompt de planification (agent Plan), puis les prompts d'implémentation par lots (mode Agent). Précisez quand vous relisez, quand vous committez et quand vous ouvrez une nouvelle session.",
+                        amorce: `Ingrédients :
+• les critères de la feature : issues GitHub du lab 1.3 (bonus) ou, à défaut, la ligne Inventaire de #docs/mvp.md
+• #PRODUCT.md (glossaire DLC/DDM), #docs/adr/0001-stockage.md, #src/domain/types.ts
+• les principes de copilot-instructions.md (tests d'abord, hors ligne, accessibilité)
+• le composant StockItemCard et le skill create-component (module 4)
+• npm test, npm run lint · un commit par lot · Ctrl+N : nouvelle session
+
+1. Prompt de planification (agent Plan) : ___
+2. Lots d'implémentation (mode Agent) : ___`,
+                        indices: [
+                            "Référencez la source des critères plutôt que de la recopier dans le chat (issues lues avec les outils GitHub, ou <code>#docs/mvp.md</code>) : moins de tokens, une seule source de vérité.",
+                            "Lots conseillés : (1) tests + règles du domaine (tri par urgence, DLC/DDM), (2) accès aux données Dexie, (3) écran Inventaire + formulaire d'ajout + test Playwright du parcours.",
+                            "Nouvelle session entre deux lots : le plan et le code suffisent comme contexte. À chaque lot, vérifiez que les tests échouent d'abord, puis passent, pour la bonne raison."
+                        ],
+                        reussite: [
+                            "Chaque scénario Gherkin de l'epic est couvert par un test",
+                            "Au moins 3 commits relus, un par lot",
+                            "<code>npm test</code> et <code>npm run lint</code> passent, et l'inventaire fonctionne dans le navigateur"
+                        ],
+                        solution: `1. Agent Plan
+Lis l'epic « Inventaire et dates de péremption » et ses stories dans les issues GitHub du dépôt (outils GitHub) ; sans backlog, utilise la ligne Inventaire de #docs/mvp.md. En t'appuyant sur #PRODUCT.md, #docs/adr/0001-stockage.md et #src/domain/types.ts, découpe la feature en tâches de 30 minutes maximum, ordonnées : tests du domaine → domaine → accès aux données → interface → test E2E. Pour chaque tâche : fichiers touchés, scénario Gherkin couvert, commande qui prouve qu'elle est terminée. Vérifie le plan contre les principes de copilot-instructions.md et signale tout écart. Ne modifie aucun fichier.
+
+2. Mode Agent, par lots (nouvelle session entre chaque lot)
+Lot 1 : « Réalise uniquement les tâches 1 et 2 du plan : tests puis règles de src/domain (tri par urgence, DLC/DDM). Montre-moi d'abord les tests en échec, puis le code. Termine par npm test. »
+   → je relis le diff, je vérifie les cas limites DLC/DDM, commit « feat(inventaire): domaine ».
+Lot 2 : « Réalise la tâche 3 : accès Dexie dans src/data, avec fake-indexeddb dans les tests. Termine par npm test et npm run lint. »
+   → relecture + commit.
+Lot 3 : « Réalise les tâches 4 et 5 : écran Inventaire et formulaire d'ajout avec le skill create-component et StockItemCard, puis le test Playwright du parcours « ajouter → voir trié ». »
+   → relecture + commit (et, si le backlog existe, fermeture des issues correspondantes).`,
+                        correction: [
+                            "Les critères du PO (issues Gherkin ou docs/mvp.md) jouent le rôle de spécification : la traçabilité issue → plan → commit est conservée sans outil supplémentaire.",
+                            "« Ne modifie aucun fichier » pour l'agent Plan : on valide le plan AVANT d'engager du code.",
+                            "La relecture du diff après chaque lot est non négociable : l'auteur du commit, c'est vous, pas l'agent.",
+                            "Noter le coût de chaque lot dans le carnet : ce sera la référence du module 8."
+                        ]
+                    },
+                    {
+                        id: "fm5_2", title: "Lab 5.2 : « Que cuisiner ? » en TDD",
+                        emplacement: "<code>src/domain/recipes.test.ts</code>, puis <code>src/domain/recipes.ts</code>.",
+                        targetBadge: "Développeurs", tools: OUTILS.agent,
+                        features: ["Mode Agent", "#testFailure", "TDD"],
+                        objective: "Développer l'algorithme de suggestion de recettes (score de correspondance avec les produits qui expirent) en écrivant les tests d'abord.",
+                        astuce: "En TDD avec un agent, les tests sont votre spécification exécutable : l'agent ne peut pas « déclarer victoire » tant qu'ils échouent. C'est le meilleur antidote au code plausible mais faux.",
+                        defi: "trous",
+                        consigne: "Complétez le prompt de l'étape 1 (tests uniquement). Écrivez vous-même celui de l'étape 2.",
+                        amorce: `Étape 1 : tests uniquement
+Dans src/domain/recipes.test.ts, écris les tests de la fonction
+suggestRecipes([___ paramètres ___]) qui renvoie [___ ___].
+Règles du score : [___ au moins 3 règles ___].
+Cas limites à tester : [___ au moins 4 ___].
+N'écris pas [___ ___]. Lance les tests et montre-moi qu'ils [___ ___].
+
+Étape 2 : implémentation, à vous.`,
+                        indices: [
+                            "Passez « aujourd'hui » en paramètre (règle du domaine, lab 3.4) : <code>suggestRecipes(stock, recipes, today)</code>.",
+                            "Idée de score : chaque ingrédient présent rapporte des points, davantage s'il expire bientôt ; un produit à DLC dépassée ne compte pas.",
+                            "Étape 2 : « Implémente le minimum pour faire passer les tests, sans les modifier ». En cas d'échec, ajoutez <code>#testFailure</code> au prompt suivant."
+                        ],
+                        reussite: [
+                            "Les tests échouent d'abord pour la bonne raison",
+                            "L'implémentation ne modifie pas les tests",
+                            "Ordre stable en cas d'égalité de score"
+                        ],
+                        solution: `Étape 1 : tests uniquement
+Dans src/domain/recipes.test.ts, écris les tests de la fonction
+suggestRecipes(stock: StockItem[], recipes: Recipe[], today: string) qui renvoie les 5 meilleures recettes avec leur score et la liste des produits utilisés.
+Règles du score : +1 par ingrédient disponible ; +3 s'il expire dans les 2 jours ; +2 dans les 3 à 5 jours ; un produit à DLC dépassée n'est pas disponible ; une DDM dépassée compte normalement.
+Cas limites à tester : stock vide, aucune recette compatible, égalité de score (départager par le nombre de produits urgents, puis par ordre alphabétique), ingrédient en quantité nulle, produit consommé ou jeté.
+N'écris pas l'implémentation. Lance les tests et montre-moi qu'ils échouent tous pour la bonne raison (fonction absente).
+
+Étape 2
+Implémente suggestRecipes dans src/domain/recipes.ts : le minimum pour faire passer #src/domain/recipes.test.ts, sans modifier les tests. Fonction pure. Lance npm test -- recipes.`,
+                        correction: [
+                            "« Sans modifier les tests » est indispensable : sinon l'agent peut « corriger » un test pour le faire passer.",
+                            "Le départage explicite des égalités évite des tests instables (ordre non déterministe).",
+                            "La distinction DLC/DDM doit apparaître dans les tests : c'est LA règle métier du produit.",
+                            "Noter le coût de ce lab dans le carnet et le comparer au lab 5.3 mené en autonomie."
+                        ]
+                    },
+                    {
+                        id: "fm5_3", title: "Lab 5.3 : Liste de courses en autonomie",
+                        targetBadge: "Développeurs (+ PO en binôme)", tools: OUTILS.agent,
+                        features: ["Agent Plan", "Mode Agent", "Autonomie"],
+                        objective: "Mener seul (ou en binôme dev + PO) le développement complet de la liste de courses : issue → plan → implémentation par lots → vérification.",
+                        astuce: "Sans amorce détaillée, vous réutilisez la méthode du lab 5.1 (Inventaire). La liste de courses a un piège métier intéressant : ne pas proposer d'acheter ce qui est déjà en stock… sauf s'il expire avant la date des courses.",
+                        defi: "construire",
+                        consigne: "Aucune amorce de prompt : seulement les ingrédients métier. À vous d'écrire l'issue, le prompt de plan et les prompts d'implémentation.",
+                        amorce: `Ingrédients métier :
+• ajout manuel + ajout depuis une recette « Que cuisiner ? »
+• anti-doublon avec le stock (sauf produits qui expirent avant les courses)
+• cocher = acheté → proposition d'ajout au stock
+• partage de la liste : ___ (sans backend : à vous de proposer)
+
+Vos étapes :
+1. Issue (avec critères Gherkin) : …
+2. Plan (agent Plan) : …
+3. Implémentation par lots (mode Agent) : …
+4. Vérification : …`,
+                        indices: [
+                            "Partage sans backend : l'API Web Share (partager la liste en texte) suffit pour un POC.",
+                            "Réutilisez vos prompts du lab 5.1 : c'est le moment de repérer ceux qui mériteraient de devenir un skill.",
+                            "Comparez le coût de cette feature avec celle de l'inventaire dans le carnet : il devrait baisser."
+                        ],
+                        reussite: [
+                            "L'issue contient des critères Gherkin, dont le cas « en stock mais expire avant les courses »",
+                            "Ce cas est couvert par un test",
+                            "Le plan est validé avant le code, avec un commit relu par lot"
+                        ],
+                        solution: `1. Issue « Liste de courses » : En tant que membre du foyer, je construis ma liste (ajout manuel ou depuis une recette) afin de ne racheter que ce qui manque.
+   - Étant donné du lait en stock qui expire après la date des courses, Quand j'ajoute « lait », Alors un avertissement « déjà en stock » s'affiche.
+   - Étant donné du lait en stock qui expire AVANT la date des courses, Quand j'ajoute « lait », Alors il est ajouté sans avertissement.
+   - Étant donné un article coché, Quand je valide mes courses, Alors on me propose de l'ajouter au stock avec sa date.
+   Hors périmètre : synchronisation entre appareils.
+2. Agent Plan : « Lis l'issue #<numéro> et découpe-la en tâches de 30 minutes maximum (tests d'abord), en réutilisant la structure de l'Inventaire ; partage via l'API Web Share avec repli « copier le texte ». Ne modifie aucun fichier. »
+3. Mode Agent : lots tests + domaine → données → interface, une session et un commit par lot (comme au lab 5.1).
+4. Vérification : npm test, npm run lint, parcours testé dans le navigateur.`,
+                        correction: [
+                            "Critère d'évaluation principal : l'apprenant a-t-il reproduit la méthode du lab 5.1 sans amorce ?",
+                            "Web Share + repli « copier » respecte « zéro backend » : une contrainte transformée en solution.",
+                            "Le cas « expire avant la date de courses » doit figurer dans les tests : c'est lui qui fait la valeur de la feature.",
+                            "La seconde feature coûte généralement bien moins que la première : le contexte (instructions, skills, agents) est déjà en place."
+                        ]
+                    },
+                    {
+                        id: "fm5_4", title: "Lab 5.4 : Micro-tâches : complétions, suggestions d'édition, chat inline",
+                        targetBadge: "Développeurs", tools: OUTILS.agent,
+                        features: ["Complétions", "Next Edit Suggestions", "Chat inline (Ctrl+I)"],
+                        objective: "Choisir le bon niveau d'assistance pour chaque tâche : outil de l'éditeur, complétion, suggestion d'édition, chat inline ou session agent.",
+                        astuce: "Ouvrir une session agent pour renommer une variable, c'est prendre un taxi pour traverser la rue : lent et coûteux. Le bon réflexe : l'outil le moins lourd qui fait le travail.",
+                        defi: "inverse",
+                        consigne: "Pour chaque tâche, choisissez l'outil le plus adapté, réalisez-la et justifiez en une ligne. Quand un prompt est nécessaire, écrivez le plus court qui fonctionne.",
+                        amorce: `Tâche                                                         | Outil choisi | Prompt (le plus court possible)
+1. Renommer expiresOn en expiryDate dans tout le projet         | ___          | ___
+2. Ajouter un paramètre « locale » à formatDate puis
+   mettre à jour ses 6 appels                                   | ___          | ___
+3. Écrire la JSDoc de suggestRecipes                            | ___          | ___
+4. Convertir une boucle for en reduce dans impact.ts            | ___          | ___
+5. Ajouter un mode sombre à toute l'application                 | ___          | ___`,
+                        indices: [
+                            "Un renommage est une opération de l'éditeur (F2, « Renommer le symbole »), pas une tâche d'IA : zéro token, zéro risque.",
+                            "Les Next Edit Suggestions devinent la suite d'une modification : changez la signature de formatDate et laissez la touche Tab vous guider d'un appel à l'autre.",
+                            "Le mode sombre touche beaucoup de fichiers et demande un plan : c'est la seule vraie tâche pour une session agent."
+                        ],
+                        reussite: [
+                            "Aucune session agent pour les tâches 1 à 4",
+                            "Chaque choix est justifié",
+                            "Les prompts écrits font moins de 15 mots"
+                        ],
+                        solution: `1. Renommage → F2 (Renommer le symbole). Aucun prompt : outil déterministe et gratuit.
+2. Changement de signature → les Next Edit Suggestions proposent la mise à jour de chaque appel (Tab pour accepter et passer au suivant).
+3. JSDoc → complétion : taper /** au-dessus de la fonction. Ou chat inline (Ctrl+I) : « JSDoc avec un exemple ».
+4. Refactor local → chat inline sur la sélection : « en reduce, sans changer le comportement ».
+5. Mode sombre → session agent, en commençant par l'agent Plan : « Plan pour un thème sombre basé sur tokens.css et prefers-color-scheme ; liste les fichiers touchés. »`,
+                        correction: [
+                            "Message clé : on choisit l'outil le moins coûteux qui fait le travail.",
+                            "Le renommage par l'éditeur est exact ; par l'IA, il peut oublier un fichier ou un test.",
+                            "Le chat inline garde un contexte minimal (la sélection) : rapide et bon marché.",
+                            "Pour le mode sombre, le plan d'abord évite une session agent qui part dans tous les sens."
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "mod6", icon: "🤖", target: "Tech",
+                title: "Module 6 : Agents personnalisés",
+                subtitle: "(Une équipe d'agents spécialisés · handoffs · MCP Playwright)",
+                intro: "On passe d'un assistant généraliste à une équipe : un lead qui planifie, un implémenteur qui code, un testeur, un spécialiste du refactoring et un relecteur sécurité. Chacun a ses outils, son modèle et ses consignes. Les handoffs enchaînent les rôles avec une validation humaine à chaque étape.",
+                labs: [
+                    {
+                        id: "fm6_1", title: "Lab 6.1 : L'équipe : feature-lead, implementer, tester, refactorer, security-reviewer",
+                        emplacement: "<code>.github/agents/feature-lead.agent.md</code>, <code>implementer.agent.md</code>, <code>tester.agent.md</code>, <code>refactorer.agent.md</code> et <code>security-reviewer.agent.md</code>.",
+                        targetBadge: "Tech Leads / Développeurs", tools: OUTILS.agent,
+                        features: ["*.agent.md", "tools", "model"],
+                        objective: "Créer 5 agents dans <code>.github/agents/</code> : un lead qui planifie et 4 spécialistes, chacun avec des outils et un modèle adaptés à son rôle.",
+                        astuce: "Le bon modèle au bon endroit : un modèle de raisonnement pour planifier (le lead) et pour l'audit de sécurité, un modèle plus économique pour exécuter une tâche claire. Et des outils limités au strict nécessaire : chaque outil déclaré ajoute sa définition au contexte.",
+                        defi: "construire",
+                        consigne: "Remplissez le tableau de conception AVANT d'écrire les fichiers. Faites-le valider, puis écrivez les 5 fichiers.",
+                        amorce: `Agent              | Rôle (1 phrase) | Outils autorisés | Modèle (type) | Ce qu'il ne fait JAMAIS
+feature-lead       | ___             | ___              | ___           | ___
+implementer        | ___             | ___              | ___           | ___
+tester             | ___             | ___              | ___           | ___
+refactorer         | ___             | ___              | ___           | ___
+security-reviewer  | ___             | ___              | ___           | ___
+
+Puis : .github/agents/<nom>.agent.md (name, description, tools, model + consignes)`,
+                        indices: [
+                            "Le feature-lead planifie lui-même : il lit, cherche et tient la liste des tâches (<code>todo</code>), mais ne modifie jamais le code. Pas besoin d'un agent planificateur séparé.",
+                            "Le refactorer modifie le code SANS changer son comportement : il n'intervient que si les tests sont au vert, et les relance après chaque modification.",
+                            "Le security-reviewer lit et signale, il ne corrige pas : outils de lecture et de recherche uniquement. Donnez-lui une checklist propre à FrigoMalin (XSS via Open Food Facts, import JSON, secrets, CSP, dépendances).",
+                            "Pour <code>model</code>, choisissez parmi les modèles de votre abonnement en comparant le coût affiché au survol dans le sélecteur de modèles."
+                        ],
+                        reussite: [
+                            "5 agents sélectionnables dans la liste",
+                            "Le feature-lead et le security-reviewer ne peuvent modifier aucun fichier",
+                            "Chaque agent a une section « Tu ne fais jamais »"
+                        ],
+                        solution: `Agent              | Rôle                                      | Outils                      | Modèle (exemple) | Jamais
+feature-lead       | planifie la feature, tient le plan        | read, search, web, todo     | raisonnement     | modifier un fichier
+implementer        | réalise une tâche du plan                 | read, search, edit, execute | économique       | changer le périmètre
+tester             | écrit et lance les tests                  | read, search, edit, execute | économique       | modifier du code hors *.test.*
+refactorer         | simplifie le code, comportement inchangé  | read, search, edit, execute | économique       | modifier un test ou le comportement
+security-reviewer  | audite les fichiers modifiés              | read, search                | raisonnement     | corriger lui-même
+
+--- .github/agents/security-reviewer.agent.md ---
+---
+name: security-reviewer
+description: Relecteur sécurité de FrigoMalin. À utiliser après chaque tâche pour auditer les fichiers modifiés (XSS, import JSON, secrets, CSP, dépendances). Ne modifie rien.
+tools: ['read', 'search']
+model: Claude Opus 5.5
+---
+Tu audites UNIQUEMENT les fichiers modifiés par la tâche en cours.
+Checklist FrigoMalin :
+- données externes (Open Food Facts, JSON importé) jamais rendues via innerHTML ou dangerouslySetInnerHTML ;
+- import JSON : schéma validé, taille maximale, champs inconnus rejetés ;
+- aucun secret, jeton ou URL privée dans le code ; CSP intacte dans index.html ;
+- toute nouvelle dépendance est justifiée et sans vulnérabilité connue (npm audit).
+Rends un tableau | Gravité (bloquant/majeur/mineur) | Fichier:ligne | Risque | Correctif proposé |, 10 lignes maximum.
+Tu ne fais jamais : corriger toi-même, commenter le style.
+
+--- .github/agents/refactorer.agent.md ---
+---
+name: refactorer
+description: Refactoring de FrigoMalin à comportement constant. À utiliser quand les tests sont au vert, pour simplifier le code d'une tâche.
+tools: ['read', 'search', 'edit', 'execute']
+model: Claude Sonnet 5.5
+---
+Préalable : lance npm test ; si un test échoue, arrête-toi et rends la main.
+Améliore uniquement les fichiers de la tâche : noms explicites, fonctions courtes, duplication supprimée, logique métier déplacée vers src/domain.
+Après chaque modification : npm test && npm run lint. Résume les changements en 5 lignes.
+Tu ne fais jamais : modifier un test, changer un comportement, ajouter une dépendance, toucher à .github/.
+
+(feature-lead, implementer et tester suivent le même modèle.)`,
+                        correction: [
+                            "Un lead qui planifie lui-même évite un agent et un passage de relais de plus : moins de contexte transféré, moins de tokens.",
+                            "Le refactorer n'a de sens que protégé par les tests : « tests au vert d'abord » et « ne modifie jamais un test » sont ses deux garde-fous.",
+                            "Le security-reviewer en lecture seule garantit la séparation des rôles : celui qui audite n'est pas celui qui corrige.",
+                            "Les noms de modèles sont des exemples : adaptez-les à votre abonnement et à leur coût. « Ne touche jamais à .github/ » : un agent ne doit pas pouvoir réécrire ses propres règles."
+                        ]
+                    },
+                    {
+                        id: "fm6_2", title: "Lab 6.2 : Handoffs : du lead à la revue de sécurité",
+                        emplacement: "Dans l'en-tête (entre les deux lignes <code>---</code>) des 5 fichiers <code>.github/agents/*.agent.md</code> du lab 6.1.",
+                        targetBadge: "Tech Leads / Développeurs", tools: OUTILS.agent,
+                        features: ["handoffs", "Validation humaine"],
+                        objective: "Enchaîner les agents avec des boutons de handoff (feature-lead → implementer → tester → refactorer → security-reviewer), avec une validation humaine à chaque étape.",
+                        astuce: "Un handoff passe la main à l'agent suivant avec le contexte de la conversation et un prompt prérempli. Avec <code>send: false</code>, vous relisez avant d'envoyer : l'humain reste le chef d'orchestre.",
+                        defi: "squelette",
+                        consigne: "Ajoutez le bloc <code>handoffs</code> au feature-lead, puis à chaque agent de la chaîne. Testez sur une petite feature : « bouton Vider les produits périmés ».",
+                        amorce: `--- dans feature-lead.agent.md (en-tête) ---
+handoffs:
+  - label: [___ texte du bouton ___]
+    agent: [___ ___]
+    prompt: [___ prompt prérempli ___]
+    send: [___ true ou false ? pourquoi ? ___]
+
+--- implementer → ? ---
+--- tester → ? (tests au vert : qui passe ensuite ?) ---
+--- refactorer → ? ---
+--- security-reviewer → ? (et si l'audit trouve un point bloquant ?) ---`,
+                        indices: [
+                            "<code>send: false</code> préremplit sans envoyer : c'est votre point de contrôle.",
+                            "Ordre logique : on refactorise quand les tests sont au vert, et on audite la sécurité sur le code final, après refactoring.",
+                            "Le security-reviewer propose deux handoffs : « Corriger » (retour à l'implementer) et « Tâche suivante » (retour au feature-lead, qui tient le plan).",
+                            "Le prompt prérempli doit se suffire à lui-même : « Implémente la tâche 1 du plan ci-dessus » plutôt que « continue »."
+                        ],
+                        reussite: [
+                            "La chaîne complète fonctionne en 5 clics",
+                            "Le security-reviewer peut renvoyer vers l'implementer",
+                            "Au moins un problème a été détecté et corrigé grâce à la boucle"
+                        ],
+                        solution: `--- feature-lead.agent.md ---
+handoffs:
+  - label: ▶ Implémenter la tâche 1
+    agent: implementer
+    prompt: Implémente uniquement la tâche 1 du plan ci-dessus. Arrête-toi quand les tests passent.
+    send: false
+
+--- implementer.agent.md ---
+handoffs:
+  - label: 🧪 Faire tester
+    agent: tester
+    prompt: Écris les tests manquants pour le code modifié ci-dessus (cas limites compris) et lance-les.
+    send: false
+
+--- tester.agent.md ---
+handoffs:
+  - label: 🧹 Refactoriser
+    agent: refactorer
+    prompt: Les tests sont au vert. Simplifie le code de cette tâche sans changer son comportement.
+    send: false
+
+--- refactorer.agent.md ---
+handoffs:
+  - label: 🔒 Audit sécurité
+    agent: security-reviewer
+    prompt: Audite les fichiers modifiés par cette tâche avec ta checklist. Classe par gravité.
+    send: false
+
+--- security-reviewer.agent.md ---
+handoffs:
+  - label: 🔧 Corriger les points bloquants
+    agent: implementer
+    prompt: Corrige uniquement les points « bloquant » de l'audit ci-dessus, puis relance les tests.
+    send: false
+  - label: ✅ Tâche suivante
+    agent: feature-lead
+    prompt: La tâche est terminée et auditée. Mets à jour le plan et propose la tâche suivante.
+    send: false`,
+                        correction: [
+                            "<code>send: false</code> partout pendant l'apprentissage ; <code>true</code> seulement pour des transitions sans risque (ex. tester → refactorer quand tout est vert).",
+                            "Le retour au feature-lead ferme la boucle : c'est lui qui tient le plan, aucun agent planificateur séparé n'est nécessaire.",
+                            "Refactoring AVANT l'audit : la sécurité est vérifiée sur le code qui sera réellement commité.",
+                            "La boucle security-reviewer → implementer est la plus précieuse : un audit à chaque tâche, pas une fois en fin de projet. Comparer dans le carnet : même feature en session unique contre la chaîne de handoffs."
+                        ]
+                    },
+                    {
+                        id: "fm6_3", title: "Lab 6.3 : qa-explorer : un agent qui teste l'application comme un humain",
+                        emplacement: "<code>.mcp.json</code> à la <strong>racine du dépôt</strong>, versionné avec Git (à créer s'il n'existe pas ; s'il existe depuis le lab 1.3, ajouter l'entrée <code>playwright</code> à côté de <code>github</code>). Ce n'est pas le <code>mcp.json</code> de votre profil VS Code. L'agent : <code>.github/agents/qa-explorer.agent.md</code>.",
+                        targetBadge: "Développeurs / QA", tools: OUTILS.agent,
+                        features: ["Serveur MCP Playwright", "Outils MCP dans un agent"],
+                        objective: "Créer un agent qui pilote un vrai navigateur via le serveur MCP Playwright pour explorer FrigoMalin et remonter des bugs visuels et d'accessibilité.",
+                        astuce: "Les tests automatisés vérifient ce qu'on a prévu. Un agent explorateur trouve ce qu'on n'a pas prévu : bouton caché sur mobile, focus perdu, texte tronqué. Il ne remplace pas les tests : il en suggère de nouveaux.",
+                        defi: "squelette",
+                        consigne: "Ajoutez le serveur Playwright à <code>.mcp.json</code>, puis complétez l'agent. Lancez-le pendant que <code>npm run dev</code> tourne.",
+                        amorce: `--- .mcp.json (racine du dépôt), dans la clé [___ clé racine du format portable ___] ---
+"playwright": {
+  "command": "[___ ___]",
+  "args": [___ ___]
+}
+
+--- .github/agents/qa-explorer.agent.md ---
+---
+name: qa-explorer
+description: [___ ___]
+tools: [___ outils du serveur Playwright + ? ___]
+---
+Tu explores http://localhost:5173/frigomalin/ en [___ résolution(s) ___].
+Parcours : [___ ___]
+Format du rapport : [___ ___]
+Tu ne modifies jamais [___ ___].`,
+                        indices: [
+                            "Le format portable <code>.mcp.json</code> utilise la clé racine <code>mcpServers</code> (le format propre à VS Code, <code>.vscode/mcp.json</code>, utilise <code>servers</code>). Serveur absent de la liste des outils ? Vérifiez que le dossier est approuvé (<em>Workspace Trust</em>) et, sur une licence Business/Enterprise, que la politique « MCP servers in Copilot » est activée.",
+                            "Le serveur Playwright se lance avec <code>npx</code> et le paquet <code>@playwright/mcp@latest</code> : rien à installer à l'avance, Node suffit.",
+                            "Dans <code>tools</code>, <code>playwright/*</code> donne accès à tous les outils de ce serveur (vérifiez le nom avec Configure Tools).",
+                            "Un rapport utile : étapes pour reproduire, gravité, et proposition de test Playwright à ajouter."
+                        ],
+                        reussite: [
+                            "L'agent ouvre un navigateur et parcourt l'application",
+                            "Au moins 2 problèmes réels remontés",
+                            "Chaque problème est accompagné d'un test proposé"
+                        ],
+                        solution: `--- .mcp.json ---
+{
+  "mcpServers": {
+    "github": { "type": "http", "url": "https://api.githubcopilot.com/mcp/" },
+    "playwright": { "command": "npx", "args": ["-y", "@playwright/mcp@latest"] }
+  }
+}
+
+--- .github/agents/qa-explorer.agent.md ---
+---
+name: qa-explorer
+description: Testeur exploratoire de FrigoMalin dans un vrai navigateur. À utiliser pour chercher des bugs visuels, d'ergonomie et d'accessibilité.
+tools: ['playwright/*', 'read']
+---
+Tu explores http://localhost:5173/frigomalin/ (le serveur doit tourner : npm run dev) en 360×800 puis en 1280×800.
+Parcours : ajouter 3 produits (dont un périmé), les retrouver triés, marquer consommé, ouvrir « Que cuisiner ? », passer hors ligne et recharger.
+Vérifie aussi : navigation au clavier, focus visible, textes tronqués, contrastes.
+Rapport dans ta réponse (tu n'écris aucun fichier) : tableau | Problème | Étapes | Gravité | Test Playwright proposé |.
+Tu ne modifies jamais le code de l'application.`,
+                        correction: [
+                            "Tester en deux largeurs est indispensable : la maquette Stitch Mobile est la cible principale.",
+                            "Le passage hors ligne vérifie le principe « hors ligne d'abord » de copilot-instructions.md : c'est souvent le premier bug trouvé.",
+                            "Outils limités à <code>playwright/*</code> + lecture : l'agent explore et rapporte, il ne corrige pas.",
+                            "Un agent Playwright consomme beaucoup de tokens (instantanés de page) : parcours ciblés, jamais « explore tout »."
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "mod7", icon: "🧠", target: "Tech",
+                title: "Module 7 : Orchestration & délégation",
+                subtitle: "(Sous-agents · contexte isolé · audits parallèles)",
+                intro: "Un orchestrateur délègue des tâches à des sous-agents qui travaillent chacun dans leur propre contexte : le contexte principal reste petit et les tâches peuvent avancer en parallèle.",
+                labs: [
+                    {
+                        id: "fm7_1", title: "Lab 7.1 : Le feature-lead devient orchestrateur : le mode hors ligne (PWA)",
+                        emplacement: "Le <strong>même</strong> fichier <code>.github/agents/feature-lead.agent.md</code> (lab 6.1), enrichi : on ajoute l'outil <code>agent</code> et la liste <code>agents</code>.",
+                        targetBadge: "Tech Leads", tools: OUTILS.agent,
+                        features: ["Sous-agents", "agents:", "Contexte isolé"],
+                        objective: "Faire évoluer le <code>feature-lead</code> : il planifie toujours lui-même la feature PWA hors ligne, puis délègue chaque tâche à des sous-agents au lieu de passer la main par des boutons.",
+                        astuce: "Chaque sous-agent démarre avec un contexte neuf et ne renvoie qu'un résumé. L'orchestrateur ne « voit » jamais les centaines de lignes lues par ses sous-agents : c'est l'une des techniques les plus efficaces pour garder le contexte principal sous contrôle.",
+                        defi: "squelette",
+                        consigne: "Complétez l'en-tête et la stratégie du feature-lead. Point d'attention : définissez ce que chaque sous-agent doit RENVOYER (format court).",
+                        amorce: `---
+name: feature-lead
+description: [___ ___]
+tools: ['read', 'search', 'todo', [___ quel outil permet de lancer des sous-agents ? ___]]
+agents: [___ quels agents peut-il appeler ? ___]
+---
+Tu planifies et pilotes une feature de bout en bout sans écrire de code toi-même.
+1. [___ planification (par toi-même) ___]
+2. Pour chaque tâche : [___ délégation, dans quel ordre ? ___]
+3. Exige de chaque sous-agent un retour au format : [___ ___]
+4. [___ vérification finale ___]`,
+                        indices: [
+                            "Les sous-agents se lancent avec l'outil <code>agent</code> ; la liste <code>agents</code> restreint ceux qui peuvent être appelés.",
+                            "Même ordre qu'au lab 6.2 (implementer → tester → refactorer → security-reviewer), mais sans clic : c'est le lead qui enchaîne.",
+                            "Format de retour court : « statut, fichiers modifiés, résultat des tests, points ouverts » en 5 lignes maximum. Feature PWA : manifeste, service worker, icônes, bannière « hors ligne »."
+                        ],
+                        reussite: [
+                            "L'orchestrateur ne modifie aucun fichier lui-même",
+                            "Chaque sous-agent renvoie un résumé court",
+                            "L'application s'installe et fonctionne hors ligne"
+                        ],
+                        solution: `---
+name: feature-lead
+description: Lead technique de FrigoMalin. Planifie une feature puis l'exécute en déléguant implémentation, tests, refactoring et audit sécurité à des sous-agents.
+tools: ['read', 'search', 'todo', 'agent']
+agents: ['implementer', 'tester', 'refactorer', 'security-reviewer']
+---
+Tu planifies et pilotes une feature de bout en bout sans écrire de code toi-même.
+1. Découpe toi-même la feature en tâches de 30 minutes maximum (todo) ; présente-moi le plan et attends ma validation.
+2. Pour chaque tâche validée : appelle en sous-agents implementer, puis tester, puis refactorer, en leur transmettant la tâche seule (pas tout le plan).
+3. Exige de chaque sous-agent un retour en 5 lignes maximum : statut, fichiers modifiés, résultat de npm test, points ouverts.
+4. Après chaque tâche : appelle security-reviewer ; un point « bloquant » renvoie la tâche à implementer. À la fin, donne-moi un bilan (tâches, tests, risques restants).
+
+--- Prompt ---
+Feature : FrigoMalin fonctionne hors ligne et s'installe comme une application (manifeste, service worker avec cache de l'application, icônes, bannière « Vous êtes hors ligne »). Respecte les principes de copilot-instructions.md.`,
+                        correction: [
+                            "« La tâche seule, pas tout le plan » : chaque sous-agent reçoit un contexte minimal, donc moins cher et plus fiable.",
+                            "Le lead garde la planification : le plan reste dans SON contexte, les détails d'exécution dans ceux des sous-agents. Le format de retour imposé garde son contexte compact sur toute la feature.",
+                            "La validation du plan par l'humain reste obligatoire, même en orchestration.",
+                            "Comparer dans le carnet : la chaîne de handoffs (lab 6.2) contre l'orchestration (lab 7.1) sur une feature de taille similaire."
+                        ]
+                    },
+                    {
+                        id: "fm7_2", title: "Lab 7.2 : Audits parallèles : accessibilité, performance, sécurité",
+                        emplacement: "Option B : <code>.github/skills/audit/SKILL.md</code>.",
+                        targetBadge: "Tech Leads / Développeurs", tools: OUTILS.agent,
+                        features: ["Sous-agents parallèles", "Skill context: fork"],
+                        objective: "Lancer trois audits indépendants dans des contextes séparés et consolider un seul rapport priorisé.",
+                        astuce: "Trois audits dans la même conversation = trois fois plus de contexte accumulé, et chaque audit « contamine » le suivant. En sous-agents, chacun part de zéro et seul le rapport final remonte.",
+                        defi: "construire",
+                        consigne: "Choisissez votre mécanisme (orchestrateur existant, ou skill <code>audit</code> avec <code>context: fork</code>) et construisez le prompt ou le fichier. Justifiez votre choix.",
+                        amorce: `Ingrédients :
+• 3 audits : accessibilité (AA), performance (bundle, Lighthouse), sécurité front (XSS, CSP, dépendances)
+• option A : un prompt à feature-lead qui lance 3 sous-agents
+• option B : un skill .github/skills/audit/SKILL.md avec context: fork
+• un format de rapport consolidé : ___
+• une règle de priorisation : ___
+
+Votre choix + votre prompt ou fichier :`,
+                        indices: [
+                            "<code>context: fork</code> dans l'en-tête d'un skill le fait s'exécuter dans un sous-agent dédié.",
+                            "Priorisation : bloquant (enfreint un principe de copilot-instructions.md) / majeur / mineur.",
+                            "Demandez des corrections sous forme de tâches, pas de modifications directes : les correctifs passeront par l'implementer."
+                        ],
+                        reussite: [
+                            "Les 3 audits ont tourné dans des contextes séparés",
+                            "Un seul rapport, dédoublonné et priorisé",
+                            "Les points bloquants sont devenus des tâches"
+                        ],
+                        solution: `--- Option B : .github/skills/audit/SKILL.md ---
+---
+name: audit
+description: Audit qualité de FrigoMalin (accessibilité AA, performance, sécurité front). Utiliser avant une release ou sur demande d'audit.
+context: fork
+---
+Mène trois analyses indépendantes, chacune limitée à son sujet :
+1. Accessibilité : composants de src/ui (libellés, focus, contraste avec tokens.css, navigation au clavier).
+2. Performance : npm run build puis taille des fichiers de dist/ comparée au budget fixé dans copilot-instructions.md ; dépendances lourdes.
+3. Sécurité front : rendu HTML non échappé (dangerouslySetInnerHTML, innerHTML), CSP, npm audit, données de l'API affichées.
+Rapport unique : | Gravité (bloquant/majeur/mineur) | Sujet | Fichier | Constat | Tâche proposée |, dédoublonné, trié par gravité, 15 lignes maximum.
+Ne modifie aucun fichier.`,
+                        correction: [
+                            "Les deux options sont valides ; la B est réutilisable (/audit) et ne coûte rien tant qu'on ne l'appelle pas.",
+                            "Le plafond de 15 lignes force la priorisation et garde le retour compact.",
+                            "« Ne modifie aucun fichier » : l'audit trouve, l'implementer corrige, les tests et le security-reviewer vérifient.",
+                            "À relancer en fin de projet (module 11) pour mesurer les progrès."
+                        ]
+                    },
+                ]
+            },
+            {
+                id: "mod8", icon: "⚡", target: "Tech",
+                title: "Module 8 : Optimisation du contexte & des tokens",
+                subtitle: "(Mesurer · alléger le contexte · alléger la facture)",
+                intro: "Copilot est facturé à l'usage : chaque token compte, pour la facture comme pour la qualité (un contexte saturé produit de moins bonnes réponses). On mesure d'abord, on optimise ensuite, et on remesure. Objectif : −30 % sur une tâche de référence, à qualité égale.",
+                labs: [
+                    {
+                        id: "fm8_1", title: "Lab 8.1 : Mesurer : la tâche de référence",
+                        bonus: true,
+                        emplacement: "<code>docs/usage-log.md</code> (le carnet de consommation).",
+                        targetBadge: "Développeurs", tools: OUTILS.agent,
+                        features: ["Journaux de debug de l'agent", "Coût par réponse", "Fenêtre de contexte"],
+                        objective: "Mesurer précisément ce que coûte une tâche type, et identifier ce qui remplit le contexte.",
+                        astuce: "On n'optimise pas ce qu'on ne mesure pas. Le survol d'une réponse affiche son coût, le contrôle de la fenêtre de contexte montre l'usage cumulé, et les journaux de debug de l'agent détaillent les tokens par requête.",
+                        defi: "construire",
+                        consigne: "Définissez une tâche de référence reproductible, exécutez-la « comme d'habitude », et remplissez la fiche de mesure.",
+                        amorce: `Tâche de référence (à définir, reproductible) : ___
+
+Fiche de mesure :
+• Crédits consommés : ___
+• Nombre de tours / de requêtes : ___
+• Contexte maximal atteint (tokens) : ___
+• Les 3 plus gros contributeurs au contexte : ___ (instructions ? fichiers lus ? résultats d'outils ? historique ?)
+• Taux de réutilisation du cache de prompt : ___
+• Qualité du résultat (tests OK ?) : ___`,
+                        indices: [
+                            "Tâche type : « Ajouter un filtre par emplacement à l'inventaire, avec tests ». Assez petite pour être rejouée 2 ou 3 fois.",
+                            "Les journaux de debug de l'agent montrent, pour chaque requête, les messages envoyés, les outils appelés et les tokens.",
+                            "La vue Cache Explorer indique quelle part des tokens d'entrée a été réutilisée depuis le cache."
+                        ],
+                        reussite: [
+                            "Une tâche de référence écrite et versionnée (<code>docs/usage-log.md</code>)",
+                            "Tous les champs de la fiche sont remplis",
+                            "Les 3 plus gros contributeurs au contexte sont identifiés"
+                        ],
+                        solution: `Tâche de référence : « Ajoute un filtre par emplacement (frigo/congélateur/placard) à l'écran Inventaire, avec tests Vitest et un test Playwright. » Même point de départ Git (tag baseline-9), même modèle, session neuve.
+
+Procédure :
+1. git checkout baseline-9 ; nouvelle session ; exécution comme d'habitude (agent par défaut, tous les outils).
+2. Survol de chaque réponse → crédits ; contrôle de la fenêtre de contexte → contexte cumulé.
+3. Journaux de debug de l'agent → pour la plus grosse requête : répartition système / instructions / historique / fichiers / résultats d'outils.
+4. Cache Explorer → taux de réutilisation.
+Résultat typique : les résultats d'outils (fichiers lus en entier, sorties de terminal verbeuses) et l'historique dominent ; les instructions pèsent peu si le module 3 a été bien fait.`,
+                        correction: [
+                            "La reproductibilité (même point de départ Git, session neuve) est ce qui rend la comparaison du lab 8.3 valable.",
+                            "Découverte fréquente : une sortie de test verbeuse coûte plus que toutes les instructions réunies.",
+                            "Les tokens servis depuis le cache coûtent moins cher : ne pas modifier les instructions en cours de session préserve le cache.",
+                            "Les interfaces évoluent : si un indicateur a changé de nom, chercher « usage », « tokens » ou « debug » dans la palette de commandes."
+                        ]
+                    },
+                    {
+                        id: "fm8_2", title: "Lab 8.2 : Alléger le contexte",
+                        targetBadge: "Développeurs", tools: OUTILS.agent,
+                        features: ["/compact", "/fork", "Sessions ciblées", "Mentions #"],
+                        objective: "Appliquer 5 techniques de réduction du contexte et mesurer l'effet de chacune.",
+                        astuce: "Un contexte plus petit, ce n'est pas qu'une économie : le modèle se concentre mieux. Quand la limite approche, VS Code compacte automatiquement l'historique… et des détails importants peuvent disparaître. Mieux vaut garder la main.",
+                        defi: "ameliorer",
+                        consigne: "Cette façon de travailler est typique… et coûteuse. Réécrivez le déroulé en appliquant les bonnes pratiques, puis rejouez la tâche de référence. Lab 8.1 non fait ? Prenez comme tâche « ajouter un filtre par emplacement à l'inventaire, avec tests » et notez d'abord son coût en la menant comme d'habitude (crédits au survol de la réponse, contexte cumulé) : ce sera votre point de comparaison.",
+                        amorce: `Déroulé « habituel » :
+1. Même session de chat depuis ce matin (inventaire, puis bug CSS, puis question sur Git).
+2. « Voici tout le projet #codebase, ajoute un filtre par emplacement. »
+3. L'agent lance « npm test » : 400 lignes de sortie.
+4. Il lit src/data/seed.ts (600 lignes) « pour comprendre ».
+5. On colle la documentation complète de Dexie dans le chat.
+6. Après 25 échanges : « Rappelle-toi ce qu'on a dit au début… »
+
+Votre déroulé optimisé : ___`,
+                        indices: [
+                            "Une tâche = une session (Ctrl+N). Pour explorer une variante sans perdre le fil : <code>/fork</code>.",
+                            "Nommez les 2 ou 3 fichiers utiles avec <code>#</code> au lieu de tout le projet ; laissez l'agent chercher le reste.",
+                            "Sorties de terminal : un rapporteur de test concis et des tests ciblés. Documentation externe : un skill (lab 4.4), pas un copier-coller. Longue session : <code>/compact</code> au bon moment."
+                        ],
+                        reussite: [
+                            "Chaque technique est appliquée et mesurée séparément",
+                            "Le contexte maximal de la tâche de référence baisse nettement",
+                            "La qualité du résultat est inchangée (tests OK)"
+                        ],
+                        solution: `Déroulé optimisé :
+1. Nouvelle session dédiée (Ctrl+N) : une tâche = une session.
+2. « Ajoute un filtre par emplacement à #src/ui/Inventory/Inventory.tsx en t'appuyant sur #src/domain/stock.ts. Tests d'abord. » (fichiers nommés, pas tout le projet)
+3. Règle ajoutée à tests.instructions.md : « lancer uniquement les tests concernés avec --reporter=dot ; n'afficher le détail qu'en cas d'échec ».
+4. seed.ts ajouté à search.exclude (ou résumé dans un commentaire d'en-tête) : l'agent n'a pas à le lire.
+5. Documentation Dexie : un skill « dexie » réduit aux 30 lignes utiles (même modèle que le lab 4.4).
+6. Si la session s'allonge : /compact avant que le compactage automatique ne décide à votre place ; pour tester une autre approche sans polluer la session : /fork.`,
+                        correction: [
+                            "La technique la plus rentable est presque toujours « une tâche = une session ».",
+                            "Les sorties d'outils sont le poste caché n°1 : les rendre concises profite à TOUTES les sessions suivantes.",
+                            "Un /compact manuel au bon moment vaut mieux que le compactage automatique subi.",
+                            "Chaque technique doit être mesurée séparément, sinon on ne sait pas laquelle a compté."
+                        ]
+                    },
+                    {
+                        id: "fm8_3", title: "Lab 8.3 : Alléger la facture : modèles, outils, scripts",
+                        targetBadge: "Développeurs / Tech Leads", tools: OUTILS.agent,
+                        features: ["Modèle Auto", "Modèle par agent", "Configure Tools", "Cache de prompt"],
+                        objective: "Réduire le coût par des choix de modèles et d'outils, puis remesurer la tâche de référence : objectif −30 % à qualité égale.",
+                        astuce: "Tous les travaux ne demandent pas le modèle le plus puissant. La sélection automatique (Auto) oriente chaque requête vers un modèle adapté, les agents personnalisés figent un modèle par rôle, et une boucle répétitive coûte moins cher dans un script que dans une conversation.",
+                        defi: "trous",
+                        consigne: "Complétez votre plan d'économies, appliquez-le, puis remplissez le comparatif.",
+                        amorce: `Plan d'économies :
+1. Planification avec [___ type de modèle ___], exécution avec [___ ___].
+2. Outils : ne garder que [___ ___] pour cette tâche (bouton Configure Tools).
+3. Boucle répétitive (ex. générer 40 fiches recettes) : [___ plutôt que ___].
+4. Préserver le cache : [___ ce qu'il ne faut pas faire en cours de session ___].
+5. [___ votre propre idée ___]
+
+Comparatif           | Avant       | Après | Écart
+Crédits              |             |       |
+Contexte maximal     |             |       |
+Tests OK ?           |             |       |`,
+                        indices: [
+                            "Le sélecteur de modèles affiche le coût de chaque modèle au survol : comparez avant de choisir.",
+                            "Les serveurs MCP inutiles pour la tâche (GitHub, Playwright) peuvent être désactivés pour une tâche de pur code.",
+                            "Pour 40 fiches : faites écrire un script de génération une fois, puis exécutez-le. L'agent ne génère pas 40 fois."
+                        ],
+                        reussite: [
+                            "Le comparatif avant/après est rempli",
+                            "Baisse d'au moins 30 % des crédits, OU justification écrite si elle n'est pas atteinte",
+                            "Qualité identique (mêmes tests au vert)"
+                        ],
+                        solution: `Plan d'économies :
+1. Planification avec un modèle de raisonnement (agent feature-lead) ; exécution avec un modèle économique (implementer) ou Auto.
+2. Outils : read, search, edit, execute uniquement ; serveurs MCP GitHub et Playwright désactivés pour cette tâche.
+3. Boucle répétitive : un script Node (scripts/gen-recipes.mjs) écrit une fois par l'agent, puis exécuté, plutôt que 40 générations dans le chat.
+4. Cache : ne pas modifier copilot-instructions.md ni changer de modèle en pleine session ; enchaîner sans longues pauses.
+5. Exemple d'idée personnelle : réponses sans recopie du code modifié (« liste les fichiers, ne recopie pas leur contenu »).
+
+Résultat attendu : −30 à −60 % de crédits sur la tâche de référence, avec les mêmes tests au vert.`,
+                        correction: [
+                            "Les plus gros gains viennent souvent des étapes 1 (modèle adapté) et 3 (script plutôt que boucle).",
+                            "Un modèle moins cher qui échoue et recommence 3 fois coûte plus qu'un bon modèle qui réussit du premier coup : toujours comparer à qualité égale.",
+                            "Changer de modèle en cours de session casse le cache de prompt : on choisit au début.",
+                            "Consigner le résultat dans le carnet : il sera présenté à la rétrospective (lab 11.2)."
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "mod9", icon: "🛡️", target: "Tech",
+                title: "Module 9 : Garde-fous & qualité",
+                subtitle: "(Un hook · tests · revue de code)",
+                intro: "Les agents vont vite ; les garde-fous garantissent qu'ils vont dans la bonne direction. Un hook automatise un contrôle déterministe, les tests verrouillent le comportement, et la revue de code par Copilot complète la revue humaine sans la remplacer.",
+                labs: [
+                    {
+                        id: "fm9_1", title: "Lab 9.1 : Un hook : lint et formatage après chaque édition",
+                        emplacement: "<code>.github/hooks/quality.json</code> (créer le dossier <code>.github/hooks/</code>).",
+                        targetBadge: "Tech Leads / Développeurs", tools: OUTILS.agent,
+                        features: ["Hooks", ".github/hooks/*.json", "postToolUse"],
+                        objective: "Créer un hook qui lance le lint et le formatage automatiquement chaque fois que l'agent modifie un fichier.",
+                        astuce: "Une consigne (« pense à lancer le lint ») peut être oubliée par le modèle. Un hook, jamais : c'est une commande exécutée par l'outil, pas par l'IA. On met en hook ce qui doit arriver à coup sûr.",
+                        defi: "squelette",
+                        consigne: "Complétez le fichier du hook, puis demandez à l'agent une modification mal formatée pour vérifier qu'il se déclenche.",
+                        amorce: `// .github/hooks/quality.json
+{
+  "version": [___ ___],
+  "hooks": {
+    "[___ événement : APRÈS l'utilisation d'un outil ___]": [
+      {
+        "type": "command",
+        "matcher": "[___ quels outils ? ___]",
+        "bash": "[___ ___]",
+        "powershell": "[___ ___]",
+        "timeoutSec": [___ ___]
+      }
+    ]
+  }
+}`,
+                        indices: [
+                            "Événement : <code>postToolUse</code> ; <code>matcher</code> est une expression régulière sur le nom de l'outil (celui qui modifie les fichiers).",
+                            "Prévoyez les deux commandes : <code>bash</code> (Linux, macOS) et <code>powershell</code> (Windows).",
+                            "Gardez le hook rapide (un <code>timeoutSec</code> court) : il s'exécute à chaque édition."
+                        ],
+                        reussite: [
+                            "Le hook se déclenche après une édition de l'agent",
+                            "Il fonctionne sous Windows et sous Linux",
+                            "Un fichier mal formaté est corrigé sans demande explicite"
+                        ],
+                        solution: `{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      {
+        "type": "command",
+        "matcher": "edit|create",
+        "bash": "npm run lint:fix --silent && npx prettier --write src --log-level warn",
+        "powershell": "npm run lint:fix --silent; npx prettier --write src --log-level warn",
+        "timeoutSec": 60
+      }
+    ]
+  }
+}`,
+                        correction: [
+                            "Consigne = probabiliste (le modèle peut l'oublier) ; hook = déterministe (toujours exécuté).",
+                            "Le nom exact de l'outil d'édition dépend de la version : le vérifier dans les journaux de debug avant d'écrire le <code>matcher</code>.",
+                            "Pour renvoyer au modèle les erreurs restantes, le hook peut écrire un JSON avec <code>additionalContext</code> sur sa sortie standard.",
+                            "Un seul hook bien choisi vaut mieux que dix hooks lents qui ralentissent chaque édition."
+                        ]
+                    },
+                    {
+                        id: "fm9_2", title: "Lab 9.2 : Tests unitaires & E2E par l'agent tester",
+                        targetBadge: "Développeurs / QA", tools: OUTILS.agent,
+                        features: ["Agent tester", "Playwright", "#testFailure"],
+                        objective: "Compléter la couverture : tests unitaires des règles de dates et tests E2E Playwright des 3 parcours critiques.",
+                        astuce: "Les dates sont la source de bugs n°1 de FrigoMalin : fuseau horaire, passage à minuit, changement d'heure. Un test qui passe à 14 h et échoue à 23 h 30 est un grand classique.",
+                        defi: "trous",
+                        consigne: "Complétez le prompt pour l'agent tester.",
+                        amorce: `(Agent tester)
+Écris les tests manquants pour [___ fichier(s) ___].
+Cas limites de dates obligatoires : [___ au moins 4 ___].
+Puis 3 tests Playwright pour les parcours : [___ ___], en [___ résolution(s) ___].
+Règles : [___ comment rendre les tests stables ? ___].
+Termine par [___ ___].`,
+                        indices: [
+                            "Cas limites : 23 h 59 puis 0 h 01, changement d'heure, fuseau Europe/Paris contre UTC, 29 février.",
+                            "Stabilité : date figée (<code>vi.setSystemTime</code>, <code>page.clock</code> côté Playwright), sélecteurs par rôle (<code>getByRole</code>) plutôt que CSS.",
+                            "Parcours critiques : ajouter puis voir trié ; marquer consommé puis impact mis à jour ; hors ligne puis rechargement."
+                        ],
+                        reussite: [
+                            "Les tests de dates passent quelle que soit l'heure de lancement",
+                            "3 tests E2E verts en local",
+                            "Aucun sélecteur CSS fragile"
+                        ],
+                        solution: `(Agent tester)
+Écris les tests manquants pour #src/domain/dates.ts et #src/domain/expiry.ts.
+Cas limites de dates obligatoires : ajout à 23 h 59 et consultation à 0 h 01, changements d'heure de mars et d'octobre, fuseau Europe/Paris contre UTC, 29 février, DDM dépassée contre DLC dépassée.
+Puis 3 tests Playwright dans tests/e2e/ pour les parcours : (1) ajouter un produit puis le retrouver trié par urgence, (2) marquer consommé puis voir le tableau d'impact mis à jour, (3) passer hors ligne puis recharger sans perte de données ; en 360×800 et 1280×800.
+Règles : date figée (vi.setSystemTime, page.clock), sélecteurs getByRole / getByLabel, aucune attente fixe (waitForTimeout interdit), base IndexedDB vidée avant chaque test.
+Termine par npm test et npm run test:e2e, et résume le résultat en 3 lignes.`,
+                        correction: [
+                            "L'interdiction de <code>waitForTimeout</code> supprime la première cause de tests E2E instables.",
+                            "Les sélecteurs par rôle testent aussi l'accessibilité : un bouton sans nom accessible fait échouer le test.",
+                            "Le test « hors ligne puis rechargement » protège le principe « hors ligne d'abord ».",
+                            "Résumé en 3 lignes : moins de tokens de sortie, et l'essentiel reste lisible."
+                        ]
+                    },
+                    {
+                        id: "fm9_3", title: "Lab 9.3 : Revue de code par Copilot & sécurité front",
+                        bonus: true,
+                        emplacement: "<code>.github/instructions/code-review.instructions.md</code>, ou une section de <code>.github/copilot-instructions.md</code>.",
+                        targetBadge: "Développeurs / Tech Leads", tools: OUTILS.web,
+                        features: ["Copilot code review", "Instructions de revue"],
+                        objective: "Demander une revue de PR à Copilot, orientée par vos propres critères, et traiter ses retours (dont la sécurité front).",
+                        astuce: "Même sans backend, un front a sa surface d'attaque : XSS via des données de l'API ou d'un fichier importé, dépendances vulnérables, absence de CSP. La revue Copilot s'appuie sur vos fichiers d'instructions : dites-lui quoi regarder.",
+                        defi: "ameliorer",
+                        consigne: "Ces consignes de revue sont trop vagues pour être utiles. Réécrivez-les (dans un fichier d'instructions dédié ou dans <code>copilot-instructions.md</code>), puis demandez la revue de votre PR à Copilot.",
+                        amorce: `## Revue de code
+- Vérifier la qualité.
+- Vérifier la sécurité.
+- Vérifier les performances.`,
+                        indices: [
+                            "Listez les risques propres à FrigoMalin : import JSON (fichier malveillant), données Open Food Facts affichées, service worker qui garde en cache une ancienne version.",
+                            "Demandez un niveau de gravité par commentaire et aucun commentaire purement cosmétique (Prettier s'en charge).",
+                            "Dans la PR : Reviewers → Copilot. Répondez à ses commentaires comme à un collègue : accepter, contester, justifier."
+                        ],
+                        reussite: [
+                            "La revue Copilot cite au moins un point propre au projet",
+                            "Chaque commentaire est traité (corrigé ou justifié)",
+                            "Un test couvre l'import d'un JSON invalide"
+                        ],
+                        solution: `## Revue de code (FrigoMalin)
+Commenter uniquement ce qui est bloquant ou majeur ; aucune remarque de style (Prettier s'en charge).
+Sécurité front :
+- Aucune donnée externe (Open Food Facts, fichier JSON importé) rendue via innerHTML ou dangerouslySetInnerHTML.
+- Import JSON : validation du schéma, taille maximale, rejet des champs inconnus.
+- Aucune clé, aucun jeton, aucune URL privée dans le code.
+- CSP présente dans index.html (script-src 'self').
+Robustesse :
+- Toute comparaison de dates passe par src/domain/dates.ts.
+- Toute écriture IndexedDB gère l'erreur de quota.
+Performance :
+- Aucune nouvelle dépendance de plus de 20 Ko gzip sans justification.
+- Le service worker invalide son cache à chaque nouvelle version.`,
+                        correction: [
+                            "Des critères précis produisent des commentaires précis ; « vérifier la sécurité » produit des généralités.",
+                            "L'import JSON est le vecteur d'attaque le plus réaliste d'une application sans backend.",
+                            "La revue Copilot complète la revue humaine : elle ne vaut pas approbation.",
+                            "Variante : lancer le skill /audit (lab 7.2) avant d'ouvrir la PR."
+                        ]
+                    }
+                ]
+            },
+            {
+                id: "mod10", icon: "🚀", target: "Tech",
+                title: "Module 10 : CI/CD & GitHub Pages",
+                subtitle: "(GitHub Actions · déploiement)",
+                intro: "Le POC part en ligne. Un workflow GitHub Actions vérifie tout (lint, tests, build, E2E) puis publie sur GitHub Pages : une version qui casse un test n'est jamais publiée.",
+                labs: [
+                    {
+                        id: "fm10_1", title: "Lab 10.1 : Le workflow de déploiement sur GitHub Pages",
+                        emplacement: "<code>.github/workflows/deploy-pages.yml</code> ; puis, sur github.com : <em>Settings → Pages → Source : GitHub Actions</em>.",
+                        targetBadge: "Développeurs / DevOps", tools: OUTILS.agent,
+                        features: ["Agent implementer", "GitHub Actions", "GitHub Pages"],
+                        objective: "Faire générer, puis fiabiliser, le workflow qui teste et publie FrigoMalin sur GitHub Pages.",
+                        astuce: "Trois pièges classiques de GitHub Pages : le chemin de base (<code>/frigomalin/</code>), le rafraîchissement d'une page profonde (404 sans repli) et les permissions du workflow. Un bon prompt les anticipe.",
+                        defi: "inverse",
+                        consigne: "Voici le résultat attendu (la page publiée et le résumé du workflow). Écrivez le prompt qui produit ce workflow du premier coup.",
+                        amorce: `Résultat attendu :
+✅ https://<votre-compte>.github.io/frigomalin/ s'affiche, s'installe et fonctionne hors ligne
+✅ Rafraîchir /frigomalin/recettes ne donne pas d'erreur 404
+✅ Un test en échec bloque la publication
+✅ Une seule publication à la fois
+
+Jobs visibles dans l'onglet Actions : build (lint → tests → build → E2E) → deploy
+
+Votre prompt : ___`,
+                        indices: [
+                            "Actions officielles de Pages : <code>configure-pages</code>, <code>upload-pages-artifact</code>, <code>deploy-pages</code>. Permissions : <code>pages: write</code> et <code>id-token: write</code>.",
+                            "Repli 404 : copier <code>dist/index.html</code> en <code>dist/404.html</code> (ou routage par hash, selon votre ADR 0003).",
+                            "« Une seule publication à la fois » : bloc <code>concurrency</code>. Et n'oubliez pas d'activer Pages (source : GitHub Actions) dans les paramètres du dépôt."
+                        ],
+                        reussite: [
+                            "L'URL publique fonctionne",
+                            "Un test cassé volontairement bloque la publication",
+                            "Le rafraîchissement d'une page profonde fonctionne"
+                        ],
+                        solution: `(Agent implementer)
+Crée .github/workflows/deploy-pages.yml pour publier FrigoMalin sur GitHub Pages :
+- déclencheurs : push sur main et lancement manuel ;
+- permissions minimales : contents: read, pages: write, id-token: write ; concurrency « pages » sans annulation ;
+- job build (ubuntu-latest, Node 22 avec cache npm) : npm ci → npm run lint → npm test -- --run → npm run build → copie de dist/index.html vers dist/404.html → installation de Chromium et npm run test:e2e contre vite preview → upload-pages-artifact (dist) ;
+- job deploy (needs: build, environnement github-pages) : deploy-pages.
+Utilise les versions actuelles des actions officielles (vérifie-les avec l'outil web si besoin). Rappelle-moi ensuite le réglage à activer dans Settings > Pages.
+
+--- Extrait attendu ---
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: \${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4`,
+                        correction: [
+                            "Sans <code>id-token: write</code>, le job deploy échoue : c'est l'erreur n°1.",
+                            "Les E2E doivent tourner contre le build (vite preview) avec le bon chemin de base, sinon ils ne testent pas ce qui sera publié.",
+                            "« Vérifie les versions des actions » évite qu'un modèle propose des versions obsolètes apprises à l'entraînement.",
+                            "Le repli 404.html est inutile avec le routage par hash : rester cohérent avec l'ADR 0003."
+                        ]
+                    },
+                ]
+            },
+            {
+                id: "mod11", icon: "🎬", target: "Biz",
+                title: "Module 11 : Recette, démo & V2",
+                subtitle: "(PO · de la démo à la suite)",
+                intro: "Le POC est en ligne. Le PO le recette sur l'URL publique, l'équipe présente le résultat avec ses chiffres (délais, crédits, qualité), puis prépare la V2 sous forme d'issues prêtes pour les agents.",
+                labs: [
+                    {
+                        id: "fm11_1", title: "Lab 11.1 : Recette PO sur l'URL GitHub Pages",
+                        targetBadge: "Product Owners", tools: OUTILS.agent,
+                        features: ["Agent qa-explorer", "Critères Gherkin"],
+                        objective: "Vérifier chaque critère d'acceptation sur la version publiée et décider : accepté, refusé ou accepté avec réserve.",
+                        astuce: "La recette se fait sur ce que l'utilisateur verra (l'URL publique, sur un vrai téléphone), pas sur le poste du développeur. L'agent qa-explorer peut rejouer les scénarios ; la décision reste celle du PO.",
+                        defi: "trous",
+                        consigne: "Complétez le prompt de recette pour l'agent qa-explorer, puis faites vous-même la recette sur votre téléphone.",
+                        amorce: `(Agent qa-explorer)
+Recette de la version publiée : [___ URL ___].
+Pour chaque issue de l'epic [___ ___], rejoue [___ ___]
+en [___ résolution(s) et conditions ___].
+Rends un tableau : [___ colonnes ___].
+Ne conclus pas [___ qui décide ? ___].`,
+                        indices: [
+                            "Rejouez les critères d'acceptation : scénarios Gherkin des issues (lab 1.3) ou, à défaut, tableau de <code>docs/mvp.md</code> (lab 1.2).",
+                            "Conditions : mobile 360 px, hors ligne, première visite (données vides) et visite suivante.",
+                            "Colonnes utiles : issue | scénario | résultat | preuve | remarque."
+                        ],
+                        reussite: [
+                            "Chaque scénario a un statut et une preuve",
+                            "La recette sur un vrai téléphone a été faite",
+                            "Chaque refus est devenu une issue"
+                        ],
+                        solution: `(Agent qa-explorer)
+Recette de la version publiée : https://<compte>.github.io/frigomalin/.
+Pour chaque issue de l'epic « Inventaire et dates de péremption » (lis-les avec les outils GitHub ; sans backlog, utilise les critères de #docs/mvp.md), rejoue chaque scénario Gherkin
+en 360×800, puis hors ligne, puis en première visite (données vides).
+Rends un tableau : | Issue | Scénario | Résultat (OK/KO) | Preuve (capture) | Remarque |.
+Ne conclus pas sur l'acceptation : la décision appartient au Product Owner.`,
+                        correction: [
+                            "Le PO ne délègue pas la décision : l'agent fournit des preuves, le PO accepte ou refuse.",
+                            "La première visite (données vides) révèle souvent des états vides oubliés dans la maquette.",
+                            "Un refus = une nouvelle issue, avec le scénario en échec comme critère.",
+                            "L'agent a besoin du serveur MCP Playwright, et du serveur GitHub si les critères sont dans les issues (ajouter <code>github/*</code> à ses outils)."
+                        ]
+                    },
+                    {
+                        id: "fm11_2", title: "Lab 11.2 : Release, notes de version & rétrospective chiffrée",
+                        emplacement: "<code>.github/skills/release-notes/SKILL.md</code>.",
+                        targetBadge: "Toute l'équipe", tools: OUTILS.agent,
+                        features: ["Skill release-notes", "Carnet de consommation"],
+                        objective: "Publier la version 1.0 avec des notes de version orientées utilisateurs, et présenter une rétrospective chiffrée de l'usage de Copilot.",
+                        astuce: "Des notes de version générées depuis les commits parlent aux développeurs (« refactor store »). Pour les utilisateurs, il faut traduire en bénéfices. Un skill fixe ce format une fois pour toutes.",
+                        defi: "construire",
+                        consigne: "Créez un skill <code>release-notes</code> (description + format), utilisez-le pour la v1.0, puis préparez 3 diapositives de rétrospective à partir du carnet.",
+                        amorce: `Skill release-notes : ingrédients
+• source : commits et PR depuis le dernier tag
+• 2 publics : utilisateurs (bénéfices) / développeurs (changements techniques)
+• sections : ___
+• ton : ___
+
+Rétrospective en 3 diapositives :
+1. Ce qu'on a livré : ___
+2. Ce que Copilot a coûté et rapporté : ___ (chiffres du carnet)
+3. Ce qu'on garde / ce qu'on change dans notre kit Copilot : ___`,
+                        indices: [
+                            "Le skill peut lancer <code>git log</code> depuis le dernier tag : il lit les commits lui-même, sans copier-coller.",
+                            "Chiffres utiles : crédits totaux, coût moyen par feature, gain du module 8, points bloquants trouvés par le security-reviewer.",
+                            "Le « kit Copilot » = vos instructions, agents, skills et hook : ce qui mérite d'être réutilisé dans le prochain projet."
+                        ],
+                        reussite: [
+                            "Tag v1.0 et release GitHub publiés",
+                            "Notes de version compréhensibles par un non-développeur",
+                            "La rétrospective contient des chiffres réels"
+                        ],
+                        solution: `---
+name: release-notes
+description: Rédige les notes de version de FrigoMalin à partir des commits depuis le dernier tag. Utiliser pour préparer une release.
+---
+1. Lister les commits depuis le dernier tag (git describe --tags --abbrev=0), ou tout l'historique s'il n'y a pas encore de tag.
+2. Rédiger deux sections :
+   - « Nouveautés » pour les utilisateurs : bénéfices, verbes d'action, aucun jargon, 5 points maximum ;
+   - « Changements techniques » pour les développeurs : regroupés par type (feat, fix, perf).
+3. Terminer par « Limites connues ».
+Ton simple et positif, en français. N'invente aucune fonctionnalité absente des commits.
+
+Rétrospective : 1) 6 features Must livrées, URL publique, Lighthouse ≥ 90 ; 2) X crédits au total, −Y % grâce au module 8, Z points bloquants trouvés par le security-reviewer ; 3) on garde : instructions ciblées, skills, handoffs ; on change : sessions trop longues au début.`,
+                        correction: [
+                            "« N'invente aucune fonctionnalité absente des commits » : consigne anti-hallucination indispensable pour des notes de version.",
+                            "Les chiffres réels du carnet sont l'aboutissement du fil rouge : sans eux, pas de rétrospective crédible.",
+                            "Le kit Copilot (.github/) est un livrable à part entière, réutilisable pour le prochain projet.",
+                            "Le skill doit gérer le cas « aucun tag » (première release)."
+                        ]
+                    },
+                    {
+                        id: "fm11_3", title: "Lab 11.3 : Backlog V2 : des issues prêtes pour les agents",
+                        targetBadge: "Product Owners", tools: OUTILS.web,
+                        features: ["Copilot sur github.com", "Issues prêtes pour un agent"],
+                        objective: "Transformer les retours de recette et les « Won't » du MVP en backlog V2, avec des issues assez précises pour être confiées directement à votre feature-lead.",
+                        astuce: "Une issue « prête pour un agent » est aussi une excellente issue pour un humain : périmètre court, critères vérifiables, fichiers concernés. Le PO qui sait écrire ces issues multiplie la capacité de l'équipe.",
+                        defi: "ameliorer",
+                        consigne: "Cette issue est inexploitable par un agent (et par un humain). Réécrivez-la, puis produisez 5 issues V2 du même niveau avec Copilot.",
+                        amorce: `Titre : Partage
+Description : Il faudrait pouvoir partager le frigo avec la famille. Voir si c'est possible.`,
+                        indices: [
+                            "Contrainte forte : toujours pas de backend. Quelles options ? (export/import de fichier, QR code, lien contenant les données…) À trancher dans un ADR, pas dans l'issue.",
+                            "Découpez : une issue « ADR : option de partage » pour l'architecte, puis une issue d'implémentation pour l'option retenue.",
+                            "Chaque issue : contexte (1 phrase), critères Gherkin, fichiers concernés, commande de vérification, hors périmètre."
+                        ],
+                        reussite: [
+                            "Chaque issue tient en un écran",
+                            "Chaque issue a des critères vérifiables et une commande de vérification",
+                            "Le feature-lead planifie au moins une issue V2 sans poser de question supplémentaire"
+                        ],
+                        solution: `Titre : Partager le stock par fichier d'export/import (sans backend)
+Contexte : les membres d'un foyer veulent le même stock sur plusieurs téléphones ; l'ADR 0004 retient l'export/import d'un fichier JSON.
+Critères d'acceptation :
+- Étant donné un stock de 12 produits, Quand j'exporte, Alors je peux partager un fichier frigomalin-AAAA-MM-JJ.json (Web Share ou téléchargement).
+- Étant donné ce fichier, Quand je l'importe sur un autre appareil, Alors je choisis « fusionner » ou « remplacer », et aucun doublon n'est créé en fusion.
+- Étant donné un fichier invalide ou trop volumineux (> 1 Mo), Quand je l'importe, Alors un message clair s'affiche et le stock reste inchangé.
+Fichiers concernés : src/domain/sync.ts (+ tests), src/ui/Settings/.
+Vérification : npm test -- sync && npm run test:e2e -- partage
+Hors périmètre : synchronisation automatique, comptes.`,
+                        correction: [
+                            "La décision d'architecture (quelle option de partage) est sortie de l'issue : elle relève d'un ADR.",
+                            "Le critère « fichier invalide » relie la V2 à la revue de sécurité du lab 9.3 (import JSON = vecteur d'attaque).",
+                            "La commande de vérification permet à l'agent de savoir seul s'il a terminé.",
+                            "La boucle est bouclée : l'issue V2 repart dans le même cycle (plan puis implémentation, lab 5.1) ou est confiée directement au feature-lead orchestrateur (lab 7.1)."
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        // --- State Management ---
+        const PROGRESS_KEY = 'frigoMalinProgress_v1';
+        const TRAINER_KEY = 'frigoMalinTrainer_v1'; // sessionStorage : le mode formateur ne survit pas à la fermeture du navigateur
+
+        function readProgress() {
+            try {
+                const value = JSON.parse(localStorage.getItem(PROGRESS_KEY));
+                return Array.isArray(value) ? value : [];
+            } catch {
+                return [];
+            }
+        }
+
+        function readTrainerMode() {
+            try {
+                return sessionStorage.getItem(TRAINER_KEY) === '1';
+            } catch {
+                return false;
+            }
+        }
+
+        let state = {
+            currentModuleIndex: null,
+            completedLabs: readProgress(),
+            trainerMode: readTrainerMode(),
+            hintsShown: {}
+        };
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDefiLegend();
+            renderSidebar();
+            renderModuleCards();
+            updateProgressUI();
+            applyTrainerUI();
+        });
+
+        // --- Helpers ---
+        function escapeHtml(text) {
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function findLab(labId) {
+            for (const mod of courseData) {
+                const lab = mod.labs.find(l => l.id === labId);
+                if (lab) return lab;
+            }
+            return null;
+        }
+
+        // Styles par cible (classes complètes et statiques pour Tailwind)
+        const themeStyles = {
+            fm: { label: 'Tech', borderLight: 'border-fm-200', borderHover: 'hover:border-fm-400', textPrimary: 'text-fm-700', bgActive: 'bg-fm-50 border-fm-200 text-fm-900 shadow-sm', subActive: 'text-fm-700', borderMedium: 'border-fm-400', bgMedium: 'bg-fm-600' },
+            biz: { label: 'Product Owner', borderLight: 'border-biz-200', borderHover: 'hover:border-biz-400', textPrimary: 'text-biz-700', bgActive: 'bg-biz-50 border-biz-200 text-biz-900 shadow-sm', subActive: 'text-biz-700', borderMedium: 'border-biz-400', bgMedium: 'bg-biz-600' },
+            mix: { label: 'PO + Tech', borderLight: 'border-mix-200', borderHover: 'hover:border-mix-400', textPrimary: 'text-mix-700', bgActive: 'bg-mix-50 border-mix-200 text-mix-900 shadow-sm', subActive: 'text-mix-700', borderMedium: 'border-mix-400', bgMedium: 'bg-mix-600' }
+        };
+
+        function themeFor(mod) {
+            if (mod.target === 'Biz') return themeStyles.biz;
+            if (mod.target === 'Mixte') return themeStyles.mix;
+            return themeStyles.fm;
+        }
+
+        // --- Core Functions ---
+
+        function renderDefiLegend() {
+            const container = document.getElementById('defi-legend');
+            if (!container) return;
+            container.innerHTML = Object.values(DEFIS).map(d => `
+                <div class="flex items-start gap-3 bg-white border border-stone-200 rounded-xl p-3">
+                    <span class="inline-flex flex-shrink-0 items-center text-xs px-2.5 py-1 rounded-md font-bold border ${d.badge}">${d.label}</span>
+                    <span class="text-sm text-slate-600">${d.aide}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderSidebar() {
+            const nav = document.getElementById('module-nav');
+            nav.innerHTML = '';
+
+            const homeBtn = document.createElement('button');
+            homeBtn.className = `w-full text-left px-4 py-3 rounded-xl transition-all duration-200 flex items-center gap-3 font-medium hover:bg-stone-100 text-slate-700 mb-2`;
+            homeBtn.innerHTML = `<span>🏠</span> <span class="truncate">Accueil Projet</span>`;
+            homeBtn.onclick = () => showIntro();
+            nav.appendChild(homeBtn);
+
+            courseData.forEach((mod, index) => {
+                const btn = document.createElement('button');
+                const isSelected = state.currentModuleIndex === index;
+                const theme = themeFor(mod);
+
+                btn.className = `w-full text-left px-3 py-3 rounded-xl transition-all duration-200 flex items-center gap-3 border
+                    ${isSelected ? theme.bgActive : 'border-transparent hover:bg-stone-100 text-slate-600'}`;
+
+                const modLabs = mod.labs.map(l => l.id);
+                const completedInMod = modLabs.filter(id => state.completedLabs.includes(id)).length;
+                const isModComplete = completedInMod === modLabs.length && modLabs.length > 0;
+                const isBonusModule = mod.labs.every(l => l.bonus);
+
+                btn.innerHTML = `
+                    <span class="text-xl flex-shrink-0">${mod.icon}</span>
+                    <div class="flex-1 min-w-0">
+                        <div class="truncate text-sm font-bold">${mod.title.split(' : ')[0]}${isBonusModule ? ' <span class="ml-1 align-middle bg-amber-100 text-amber-800 text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">Bonus</span>' : ''}</div>
+                        <div class="truncate text-xs ${isSelected ? theme.subActive : 'text-slate-500'}">${mod.title.split(' : ')[1] || ''}</div>
+                    </div>
+                    ${isModComplete
+                        ? '<i class="fa-solid fa-circle-check text-fm-600 text-sm" title="Module terminé"></i>'
+                        : (completedInMod > 0 ? `<span class="text-xs font-bold text-slate-400 tabular-nums">${completedInMod}/${modLabs.length}</span>` : '')}
+                `;
+                btn.onclick = () => loadModule(index);
+                nav.appendChild(btn);
+            });
+        }
+
+        function describeLabCounts(mod) {
+            const bonus = mod.labs.filter(l => l.bonus).length;
+            const essentiels = mod.labs.length - bonus;
+            if (essentiels === 0) return `🎁 ${bonus} lab(s) bonus`;
+            return bonus > 0 ? `${essentiels} lab(s) essentiel(s) · 🎁 ${bonus} bonus` : `${essentiels} lab(s) essentiel(s)`;
+        }
+
+        function renderModuleCards() {
+            const container = document.getElementById('module-cards');
+            if (!container) return;
+            container.innerHTML = '';
+            courseData.forEach((mod, index) => {
+                const theme = themeFor(mod);
+                const card = document.createElement('button');
+                card.className = `text-left bg-white border ${theme.borderLight} ${theme.borderHover} rounded-xl p-5 shadow-sm hover:shadow-md transition-all`;
+                card.onclick = () => loadModule(index);
+                card.innerHTML = `
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">${mod.icon}</span>
+                        <span class="text-xs font-bold uppercase tracking-wider ${theme.textPrimary}">${theme.label}</span>
+                    </div>
+                    <div class="font-bold text-slate-800">${mod.title}</div>
+                    <div class="text-sm text-slate-500 mt-1">${describeLabCounts(mod)}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function showIntro() {
+            state.currentModuleIndex = null;
+            document.getElementById('intro-view').classList.remove('hidden');
+            document.getElementById('module-view').classList.add('hidden');
+            renderSidebar();
+            closeSidebarOnMobile();
+        }
+
+        function goToFirstLab() {
+            if (courseData.length > 0) {
+                loadModule(0);
+            }
+        }
+
+        function renderHints(lab) {
+            const shown = state.hintsShown[lab.id] || 0;
+            const total = lab.indices.length;
+            const items = lab.indices.slice(0, shown).map((h, i) => `
+                <li class="flex gap-2 text-sm text-slate-700 bg-white border border-amber-200 rounded-lg p-3">
+                    <span class="font-bold text-amber-600 flex-shrink-0">${i + 1}.</span><span>${h}</span>
+                </li>
+            `).join('');
+            const btn = shown < total
+                ? `<button onclick="revealHint('${lab.id}')" class="text-sm font-bold text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-3 py-1.5 rounded-lg transition-colors">💡 ${shown === 0 ? 'Afficher un indice' : 'Indice suivant'} (${shown}/${total})</button>`
+                : `<span class="text-xs font-semibold text-slate-400">Tous les indices sont affichés (${total}/${total})</span>`;
+            return `
+                <div>
+                    ${items ? `<ol class="space-y-2 mb-3">${items}</ol>` : ''}
+                    ${btn}
+                </div>
+            `;
+        }
+
+        function renderTrainerSection(lab) {
+            if (!state.trainerMode) return '';
+            return `
+                <div class="p-6 md:p-8 border-t-2 border-dashed border-fm-300 bg-fm-50">
+                    <div class="flex justify-between items-center mb-3 gap-3">
+                        <span class="text-xs font-bold text-fm-900 uppercase tracking-widest">🎓 Corrigé formateur : prompt idéal</span>
+                        <button onclick="copyToClipboard(this, '${lab.id}', 'solution')" class="text-sm text-fm-700 font-bold flex items-center gap-1 bg-white px-3 py-1 rounded-md border border-fm-200 shadow-sm flex-shrink-0">
+                            <span>📋</span> Copier
+                        </button>
+                    </div>
+                    <pre class="bg-slate-900 text-stone-100 p-5 rounded-xl text-sm overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed shadow-inner border border-slate-800">${escapeHtml(lab.solution)}</pre>
+                    <h4 class="text-xs font-bold text-fm-900 uppercase tracking-widest mt-5 mb-2">Points clés &amp; pièges</h4>
+                    <ul class="space-y-1.5">
+                        ${lab.correction.map(c => `<li class="text-sm text-slate-700 flex gap-2"><span class="text-fm-600 flex-shrink-0">▸</span><span>${c}</span></li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        function loadModule(index) {
+            state.currentModuleIndex = index;
+            const mod = courseData[index];
+            const view = document.getElementById('module-view');
+            const intro = document.getElementById('intro-view');
+
+            intro.classList.add('hidden');
+            view.classList.remove('hidden');
+            view.innerHTML = '';
+
+            const theme = themeFor(mod);
+
+            const header = document.createElement('div');
+            header.className = `bg-white border ${theme.borderLight} p-6 md:p-8 rounded-2xl mb-8 shadow-sm`;
+            header.innerHTML = `
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="text-3xl">${mod.icon}</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">${mod.title}</h2>
+                </div>
+                ${mod.subtitle ? `<p class="${theme.textPrimary} font-bold mb-4 uppercase tracking-wide text-sm">${mod.subtitle}</p>` : ''}
+                <p class="text-slate-600 leading-relaxed text-lg">${mod.intro}</p>
+            `;
+            view.appendChild(header);
+
+            mod.labs.forEach((lab) => {
+                const isCompleted = state.completedLabs.includes(lab.id);
+                const defi = DEFIS[lab.defi];
+                const labCard = document.createElement('div');
+                labCard.className = `bg-white border rounded-2xl overflow-hidden transition-all duration-300 mb-6 ${isCompleted ? `${theme.borderMedium} shadow-md` : 'border-stone-200 shadow-sm'}`;
+
+                labCard.innerHTML = `
+                    <div class="p-6 md:p-8 border-b border-stone-100 flex flex-col md:flex-row justify-between items-start gap-4">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                ${lab.bonus ? `<span class="inline-flex items-center bg-amber-100 border border-amber-300 text-amber-800 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider" title="Lab secondaire : à faire en autonomie ou si le temps le permet">🎁 Bonus</span>` : ''}
+                                <span class="inline-flex items-center bg-stone-100 text-stone-700 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider">🎯 ${lab.targetBadge}</span>
+                                ${lab.tools.map(t => `<span class="inline-flex items-center bg-slate-800 text-slate-100 text-xs px-2.5 py-1 rounded-md font-bold tracking-wider">🛠 ${t}</span>`).join('')}
+                            </div>
+                            <h3 class="text-xl font-extrabold text-slate-900 mb-2">${lab.title}</h3>
+                            <p class="text-slate-600 mb-3 font-medium">${lab.objective}</p>
+                            <div class="flex flex-wrap gap-1.5 mb-4">
+                                ${lab.features.map(f => `<span class="inline-flex items-center bg-fm-50 border border-fm-200 text-fm-900 text-xs px-2 py-0.5 rounded-full font-semibold">⚙️ ${f}</span>`).join('')}
+                            </div>
+
+                            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 shadow-sm">
+                                <span class="text-amber-500 text-xl flex-shrink-0">💡</span>
+                                <div>
+                                    <h4 class="text-sm font-bold text-amber-900 mb-1">Impact Tech / Produit</h4>
+                                    <p class="text-sm text-amber-800 leading-relaxed">${lab.astuce}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="toggleLab('${lab.id}')" title="Marquer le lab comme terminé" class="flex-shrink-0 w-12 h-12 rounded-full border-2 flex items-center justify-center transition-colors text-lg
+                            ${isCompleted ? `${theme.bgMedium} ${theme.borderMedium} text-white` : 'border-stone-300 text-transparent hover:border-stone-400'}">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                    </div>
+                    <div class="p-6 md:p-8 bg-stone-50 space-y-5">
+                        <div>
+                            <div class="flex justify-between items-center mb-3 gap-3">
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Votre défi</span>
+                                    <span class="inline-flex items-center text-xs px-2.5 py-1 rounded-md font-bold border ${defi.badge}">${defi.label}</span>
+                                </div>
+                                <button onclick="copyToClipboard(this, '${lab.id}', 'amorce')" class="text-sm ${theme.textPrimary} font-bold flex items-center gap-1 transition-colors bg-white px-3 py-1 rounded-md border border-stone-200 shadow-sm flex-shrink-0">
+                                    <span>📋</span> Copier l'amorce
+                                </button>
+                            </div>
+                            ${lab.emplacement ? `
+                            <div class="flex gap-2 items-start bg-white border border-slate-200 rounded-lg px-3 py-2 mb-3 text-sm text-slate-700">
+                                <span class="flex-shrink-0">📁</span>
+                                <span><strong>Où créer le fichier ?</strong> ${lab.emplacement}</span>
+                            </div>` : ''}
+                            <p class="text-sm text-slate-700 mb-3">${lab.consigne}</p>
+                            <pre class="bg-slate-900 text-stone-100 p-5 rounded-xl text-sm overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed shadow-inner border border-slate-800">${escapeHtml(lab.amorce)}</pre>
+                        </div>
+                        <div id="hints-${lab.id}">${renderHints(lab)}</div>
+                        <div class="bg-white border border-emerald-200 rounded-xl p-4">
+                            <h4 class="text-sm font-bold text-emerald-900 mb-2">✅ Votre prompt est réussi si…</h4>
+                            <ul class="space-y-1">
+                                ${lab.reussite.map(r => `<li class="text-sm text-slate-700 flex gap-2"><span class="text-emerald-600 flex-shrink-0">☐</span><span>${r}</span></li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    ${renderTrainerSection(lab)}
+                `;
+                view.appendChild(labCard);
+            });
+
+            renderSidebar();
+            closeSidebarOnMobile();
+            document.getElementById('main-content').scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function revealHint(labId) {
+            const lab = findLab(labId);
+            if (!lab) return;
+            state.hintsShown[labId] = Math.min((state.hintsShown[labId] || 0) + 1, lab.indices.length);
+            document.getElementById(`hints-${labId}`).innerHTML = renderHints(lab);
+        }
+
+        function toggleLab(labId) {
+            const idx = state.completedLabs.indexOf(labId);
+            if (idx > -1) {
+                state.completedLabs.splice(idx, 1);
+            } else {
+                state.completedLabs.push(labId);
+            }
+
+            localStorage.setItem(PROGRESS_KEY, JSON.stringify(state.completedLabs));
+            updateProgressUI();
+            if (state.currentModuleIndex !== null) reloadModuleKeepingScroll();
+        }
+
+        function reloadModuleKeepingScroll() {
+            const main = document.getElementById('main-content');
+            const scroll = main.scrollTop;
+            loadModule(state.currentModuleIndex);
+            main.scrollTo({ top: scroll });
+        }
+
+        function copyToClipboard(btnElement, labId, field) {
+            const lab = findLab(labId);
+            const textToCopy = lab ? lab[field] : "";
+            if (!textToCopy) return;
+
+            // execCommand volontaire : compatible file:// (navigator.clipboard indisponible)
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    const toast = document.getElementById('toast');
+                    toast.classList.remove('translate-y-20', 'opacity-0');
+
+                    const originalHtml = btnElement.innerHTML;
+                    btnElement.innerHTML = `<span>✅</span> Copié`;
+                    btnElement.classList.add('text-green-700', 'border-green-300', 'bg-green-50');
+
+                    setTimeout(() => {
+                        toast.classList.add('translate-y-20', 'opacity-0');
+                        btnElement.innerHTML = originalHtml;
+                        btnElement.classList.remove('text-green-700', 'border-green-300', 'bg-green-50');
+                    }, 2000);
+                }
+            } catch (err) {
+                console.error('Oops, impossible de copier', err);
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        // --- Accès formateur ---
+        function openTrainerModal() {
+            document.getElementById('trainer-modal').classList.remove('hidden');
+            document.getElementById('trainer-error').classList.add('hidden');
+            const input = document.getElementById('trainer-code');
+            input.value = '';
+            setTimeout(() => input.focus(), 0);
+        }
+
+        function closeTrainerModal() {
+            document.getElementById('trainer-modal').classList.add('hidden');
+        }
+
+        function submitTrainerCode() {
+            const input = document.getElementById('trainer-code');
+            if (input.value.trim() === TRAINER_CODE) {
+                state.trainerMode = true;
+                try { sessionStorage.setItem(TRAINER_KEY, '1'); } catch {}
+                closeTrainerModal();
+                applyTrainerUI();
+                if (state.currentModuleIndex !== null) reloadModuleKeepingScroll();
+            } else {
+                document.getElementById('trainer-error').classList.remove('hidden');
+                const card = document.getElementById('trainer-card');
+                card.classList.remove('shake');
+                void card.offsetWidth;
+                card.classList.add('shake');
+                input.select();
+            }
+        }
+
+        function exitTrainerMode() {
+            state.trainerMode = false;
+            try { sessionStorage.removeItem(TRAINER_KEY); } catch {}
+            applyTrainerUI();
+            if (state.currentModuleIndex !== null) reloadModuleKeepingScroll();
+        }
+
+        function applyTrainerUI() {
+            // Le bouton d'accès disparaît une fois le code saisi
+            document.querySelectorAll('.trainer-btn').forEach(btn => {
+                btn.style.display = state.trainerMode ? 'none' : '';
+            });
+            document.getElementById('trainer-banner').classList.toggle('hidden', !state.trainerMode);
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        }
+
+        // Ferme (sans basculer) la sidebar off-canvas : un module ouvert depuis le contenu ne doit pas l'ouvrir
+        function closeSidebarOnMobile() {
+            if (window.innerWidth < 768) document.getElementById('sidebar').classList.add('-translate-x-full');
+        }
+
+        // Barre de progression CSS (remplace le donut Chart.js) : elle suit le parcours essentiel, les bonus sont comptés à part
+        function updateProgressUI() {
+            const allLabs = courseData.flatMap(m => m.labs);
+            const essentialIds = allLabs.filter(l => !l.bonus).map(l => l.id);
+            const bonusIds = allLabs.filter(l => l.bonus).map(l => l.id);
+            const done = state.completedLabs.filter(id => essentialIds.includes(id)).length;
+            const bonusDone = state.completedLabs.filter(id => bonusIds.includes(id)).length;
+            const percent = essentialIds.length === 0 ? 0 : Math.round((done / essentialIds.length) * 100);
+
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+            document.getElementById('progress-track').setAttribute('aria-valuenow', percent);
+            document.getElementById('progress-percent').innerText = `${percent} %`;
+            const bonusText = bonusDone > 0 ? ` · 🎁 ${bonusDone} bonus` : '';
+            document.getElementById('progress-text').innerText = done === essentialIds.length
+                ? `🎉 Parcours essentiel terminé${bonusText}`
+                : `${done} / ${essentialIds.length} labs essentiels${bonusText}`;
+            renderSidebar();
+        }
+    </script>
+</body>
+</html>
