@@ -43,12 +43,17 @@ Navigation : `index.html` est le seul hub ; chaque page a un lien retour vers lu
 | `zeroGaspiPoProgress_v1` | product-owner-ia.html | objet : modules complétés + réponses quiz (`QUIZ_VERSION`) |
 | `oddoBhfProgress_v1` | oddo-bhf.html | tableau des ids de labs complétés (préfixe `wl`, ex. `"wl1_1"`) |
 | `frigoMalinProgress_v1` | frigomalin.html | tableau des ids de labs complétés (préfixe `fm`, ex. `"fm1_1"`) |
+| `hubAccess_v1` | index.html | tableau des parcours déverrouillés par code d'accès (ex. `["ecotrack","frigomalin"]`) |
 
 - **Verrou sécurité** : géré **uniquement dans le hub** (`index.html`) — pas de bouton dupliqué sur `ecotrack.html`/`zerogaspillage.html`. Le hub lit les clés de progression et déverrouille la carte Sécurité si L'UN des deux projets principaux atteint 50 %, via la constante `TOTALS = { ecotrack: 20, zerogaspillage: 42, pm: 10, po: 10, wealthlens: 27, frigomalin: 33 }` — **à synchroniser si on ajoute/retire des labs ou modules**. Seuls `ecotrack` et `zerogaspillage` comptent pour le déverrouillage sécurité ; `pm`, `po`, `wealthlens` (Oddo BHF) et `frigomalin` alimentent uniquement leur propre barre de progression sur le hub. Le verrou est incitatif : `quiz-security.html` reste accessible par URL directe (assumé).
+- **Codes d'accès des parcours** (hub uniquement) : chaque carte de parcours (`data-access`) demande un code avant d'ouvrir la page ; une fois saisi, l'accès est mémorisé dans `hubAccess_v1`. Règle : rang alphabétique de l'initiale de chaque mot à majuscule du nom du projet — EcoTrack `520`, ZeroGaspillage `267`, Gestionnaires de Projet `716`, Product Owner `1615`, NextPortfolio `1416`, FrigoMalin `613` (constante `ACCESS` dans `index.html`, à compléter pour tout nouveau parcours). Verrou **incitatif** : codes lisibles dans le source, pages accessibles par URL directe (assumé).
 
 ## Conventions de contenu
 
-- Tout en français, ton pédagogique, emojis dans les titres et badges.
+- Tout en français, ton pédagogique. **Aucun emoji sur le site** : icônes SVG monochromes **Lucide** (licence ISC) embarquées dans chaque page (table `ICONS` dans un `<script>` dédié, placé juste avant le script principal ; seules les icônes utilisées par la page y figurent). La couleur suit le texte (`currentColor`). Les champs `icon` des données (`courseData`, `modulesData`…) contiennent un **nom d'icône** Lucide, pas un emoji.
+  - Pages historiques (hub, EcoTrack, ZeroGaspillage, PM, PO, NextPortfolio, quiz, démos) : marqueur **sans guillemets** `<i data-icon=nom class=ico></i>`, utilisable tel quel dans le HTML statique et dans n'importe quelle chaîne JS (simple, double ou template). Un `MutationObserver` remplace les marqueurs, y compris ceux injectés dynamiquement ; la classe `.ico` donne une taille de 1em (l'icône s'adapte à la taille du texte). Ces pages gardent Font Awesome pour leurs icônes `fa-*` existantes.
+  - `frigomalin.html` : fonction `icon(nom, classes)` dans les templates + marqueurs `<span data-icon="nom" class="...">` hydratés au chargement ; plus de Font Awesome.
+  - Nouvelle icône = copier ses tracés depuis lucide.dev dans le `ICONS` de la page. Le contenu copié par les apprenants (prompts) ne contient ni emoji ni marqueur : du texte seulement.
 - Un lab = objectif + astuce (encadré ambre « Impact Métier / Tech ») + prompt prêt à copier, structuré « Agis comme [rôle]… » + contexte projet + tâche + format de sortie attendu.
 - Cibles des modules : `"Tech"`, `"Biz"` (et `"Mixte"` sur ZeroGaspillage et FrigoMalin).
 - Fichiers de config d'agents nommés `*.agent.md`, compétences `*.skill.md` (conventions citées dans les prompts). Exception : `frigomalin.html` suit les formats officiels actuels de Copilot (`.github/skills/<nom>/SKILL.md`, `.github/hooks/*.json`, `.mcp.json`) — les revérifier avant chaque session, Copilot évolue vite.
@@ -56,14 +61,14 @@ Navigation : `index.html` est le seul hub ; chaque page a un lien retour vers lu
 ## Vérification (pas de tests automatisés)
 
 - Servir localement : `python -m http.server 8000` (équivalent GitHub Pages) ; tester aussi en `file://` (double-clic) car les apprenants ouvrent souvent les fichiers directement.
-- Scénarios : navigation hub ↔ toutes les pages sans 404 ; cocher un lab → recharger → progression persistée ; donut Chart.js à jour ; déverrouillage sécurité à 50 % (sur le hub) ; deck IA complet (compteur, dots, « Terminer » → hub) ; responsive mobile (sidebar off-canvas via `toggleSidebar()`).
+- Scénarios : navigation hub ↔ toutes les pages sans 404 ; cocher un lab → recharger → progression persistée ; barre de progression à jour ; déverrouillage sécurité à 50 % (sur le hub) ; codes d'accès des parcours sur le hub (mauvais code → erreur, bon code → page ouverte et accès mémorisé) ; deck IA complet (compteur, dots, « Terminer » → hub) ; responsive mobile (sidebar off-canvas via `toggleSidebar()`).
 - Seeder la progression en console, ex. : `localStorage.setItem('ecoTrackProgress_v2', JSON.stringify(["lab1_1","lab2_1","lab2_2","lab2_3","lab3_1","lab3_2","lab3_3","lab4_1","lab5_1","lab5_2"]))` (10/20 = 50 %).
 - **CI/CD** : `.github/workflows/ci-cd.yml` valide (`node .github/scripts/validate-site.js` — syntaxe JS inline + liens internes) avant tout déploiement GitHub Pages. Lancer ce script avant de pousser ; un lien cassé ou un script invalide bloque le déploiement.
 
 ## Pièges connus
 
 - La copie de prompt utilise `document.execCommand('copy')` **volontairement** (compat `file://` où `navigator.clipboard` est indisponible) — ne pas « moderniser ».
-- Chart.js n'est chargé que sur les pages parcours (donut de progression), pas sur le hub ni le quiz. Exception : `frigomalin.html` n'utilise pas Chart.js (barre de progression CSS compacte + compteur `x/y` par module dans la sidebar).
+- **Plus de Chart.js** : toutes les pages parcours affichent une barre de progression CSS compacte dans la sidebar (`#progress-track` / `#progress-bar` / `#progress-percent` / `#progress-text`, mise à jour dans `updateProgressUI()`), aux couleurs du parcours. Sur `frigomalin.html`, la barre suit le parcours essentiel (labs non bonus).
 - Le quiz sécurité n'a **pas de persistance** localStorage (état en mémoire, voulu simple).
 - Les dossiers `data/`, `js/`, `modules/`, `styles/` sont des emplacements réservés aux livrables des apprenants (vides, non versionnés par git).
 - `gestionnaires-projet-ia.html` : `QUIZ_UNLOCK_THRESHOLD = 5` (déverrouillage à 5 modules) alors que le texte à l'écran annonce les 10 — écart connu.

@@ -486,9 +486,9 @@
                         <div class="glass-panel p-6 bg-orange-50 border border-orange-200">
                             <h4 class="font-bold text-sm mb-2 text-orange-900"><i class="fa-solid fa-list-check mr-1"></i> Checklist anti-hallucination</h4>
                             <ul class="text-sm text-orange-800 space-y-1">
-                                <li>✔ Vérifier chiffres, dates, références</li>
-                                <li>✔ Exiger des citations de sources</li>
-                                <li>✔ Borner : « réponds uniquement à partir du contexte, sinon dis "je ne sais pas" »</li>
+                                <li><i data-icon=check class=ico></i> Vérifier chiffres, dates, références</li>
+                                <li><i data-icon=check class=ico></i> Exiger des citations de sources</li>
+                                <li><i data-icon=check class=ico></i> Borner : « réponds uniquement à partir du contexte, sinon dis "je ne sais pas" »</li>
                             </ul>
                         </div>
                     </div>
@@ -505,16 +505,16 @@
                 <!-- Pipeline -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
                     <div class="rag-step glass-panel p-4 text-center transition-all duration-300 opacity-40" id="rag-step-0">
-                        <div class="text-3xl mb-1">❓</div><div class="font-bold text-sm">1. Question</div>
+                        <div class="text-3xl mb-1"><i data-icon=circle-help class=ico></i></div><div class="font-bold text-sm">1. Question</div>
                     </div>
                     <div class="rag-step glass-panel p-4 text-center transition-all duration-300 opacity-40" id="rag-step-1">
-                        <div class="text-3xl mb-1">🔎</div><div class="font-bold text-sm">2. Recherche vectorielle</div>
+                        <div class="text-3xl mb-1"><i data-icon=search class=ico></i></div><div class="font-bold text-sm">2. Recherche vectorielle</div>
                     </div>
                     <div class="rag-step glass-panel p-4 text-center transition-all duration-300 opacity-40" id="rag-step-2">
-                        <div class="text-3xl mb-1">📎</div><div class="font-bold text-sm">3. Injection du contexte</div>
+                        <div class="text-3xl mb-1"><i data-icon=paperclip class=ico></i></div><div class="font-bold text-sm">3. Injection du contexte</div>
                     </div>
                     <div class="rag-step glass-panel p-4 text-center transition-all duration-300 opacity-40" id="rag-step-3">
-                        <div class="text-3xl mb-1">✅</div><div class="font-bold text-sm">4. Réponse citée</div>
+                        <div class="text-3xl mb-1"><i data-icon=circle-check class=ico></i></div><div class="font-bold text-sm">4. Réponse citée</div>
                     </div>
                 </div>
 
@@ -560,15 +560,15 @@
 
                     <div class="lg:col-span-2 flex flex-col gap-4">
                         <div class="glass-panel p-5 border-l-4 border-l-violet-400">
-                            <h4 class="font-bold mb-1">🧠 Le LLM décide</h4>
+                            <h4 class="font-bold mb-1"><i data-icon=brain class=ico></i> Le LLM décide</h4>
                             <p class="text-sm text-slate-600">Il analyse l'objectif et choisit QUEL outil appeler, avec quels paramètres : c'est le « function calling ».</p>
                         </div>
                         <div class="glass-panel p-5 border-l-4 border-l-blue-400">
-                            <h4 class="font-bold mb-1">🔧 L'outil exécute</h4>
+                            <h4 class="font-bold mb-1"><i data-icon=wrench class=ico></i> L'outil exécute</h4>
                             <p class="text-sm text-slate-600">L'appel n'est que du JSON : c'est VOTRE code (API, base de données) qui exécute réellement l'action.</p>
                         </div>
                         <div class="glass-panel p-5 border-l-4 border-l-emerald-400">
-                            <h4 class="font-bold mb-1">🔁 La boucle continue</h4>
+                            <h4 class="font-bold mb-1"><i data-icon=repeat class=ico></i> La boucle continue</h4>
                             <p class="text-sm text-slate-600">Le résultat est renvoyé au LLM, qui décide de la suite... jusqu'à atteindre l'objectif.</p>
                         </div>
                         <div class="glass-panel p-4 bg-orange-50 border border-orange-200">
@@ -617,7 +617,7 @@
 
                 <div class="glass-panel p-4 bg-emerald-50 border border-emerald-200">
                     <p class="text-emerald-800 text-sm font-semibold">
-                        <i class="fa-solid fa-unlock mr-2"></i>🧰 Ces outils sont des exemples populaires : tous les labs de la formation fonctionnent avec n'importe lequel d'entre eux. Choisissez celui que votre entreprise autorise et que vous maîtrisez.
+                        <i class="fa-solid fa-unlock mr-2"></i>Ces outils sont des exemples populaires : tous les labs de la formation fonctionnent avec n'importe lequel d'entre eux. Choisissez celui que votre entreprise autorise et que vous maîtrisez.
                     </p>
                 </div>
             </div>
@@ -647,11 +647,11 @@
 
                     <div class="lg:col-span-2 flex flex-col gap-4">
                         <div class="glass-panel p-5 border-l-4 border-l-emerald-400">
-                            <h4 class="font-bold mb-1">🔀 Workflow ≠ Agent</h4>
+                            <h4 class="font-bold mb-1"><i data-icon=workflow class=ico></i> Workflow ≠ Agent</h4>
                             <p class="text-sm text-slate-600">Le workflow suit un <strong>chemin fixe</strong> que VOUS avez dessiné ; l'agent (slide 8) choisit lui-même ses étapes. Commencez toujours par un workflow : plus simple, prévisible et moins cher.</p>
                         </div>
                         <div class="glass-panel p-5 border-l-4 border-l-blue-400">
-                            <h4 class="font-bold mb-1">🧩 La recette universelle</h4>
+                            <h4 class="font-bold mb-1"><i data-icon=puzzle class=ico></i> La recette universelle</h4>
                             <p class="text-sm text-slate-600">Entrée (déclencheur) → nœud IA (prompt + sortie structurée JSON) → transformation → sortie (ticket, email, rapport). Toute tâche répétitive à base de texte est candidate.</p>
                         </div>
                         <div class="glass-panel p-4 bg-orange-50 border border-orange-200">
@@ -683,6 +683,49 @@
             Suivant <i class="fa-solid fa-arrow-right ml-2"></i>
         </button>
     </footer>
+
+    <script>
+        // Icônes SVG monochromes embarquées (Lucide, licence ISC — https://lucide.dev) : remplacent les emojis.
+        // Marqueur : <i data-icon=nom class=ico></i> (statique ou injecté dynamiquement) ; taille 1em, couleur du texte.
+        const ICONS = {
+            "bot": '<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>',
+            "brain": '<path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/>',
+            "check": '<path d="M20 6 9 17l-5-5"/>',
+            "circle-check": '<circle cx="12" cy="12" r="10"/><path d="m16 9-5.5 5.5L8 12"/>',
+            "circle-help": '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+            "clipboard-list": '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
+            "download": '<path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>',
+            "file-text": '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+            "flask-conical": '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>',
+            "keyboard": '<path d="M10 8h.01"/><path d="M12 12h.01"/><path d="M14 8h.01"/><path d="M16 12h.01"/><path d="M18 8h.01"/><path d="M6 8h.01"/><path d="M7 16h10"/><path d="M8 12h.01"/><rect width="20" height="16" x="2" y="4" rx="2"/>',
+            "lightbulb": '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+            "message-square": '<path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/>',
+            "palette": '<path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>',
+            "paperclip": '<path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"/>',
+            "puzzle": '<path d="M15.39 4.39a1 1 0 0 0 1.68-.474 2.5 2.5 0 1 1 3.014 3.015 1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474 2.5 2.5 0 1 0-3.014 3.015 1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474 2.5 2.5 0 1 1-3.014-3.015 1 1 0 0 0 .474-1.68l-1.683-1.682a2.414 2.414 0 0 1 0-3.414L4.39 8.61a1 1 0 0 1 1.68.474 2.5 2.5 0 1 0 3.014-3.015 1 1 0 0 1-.474-1.68l1.683-1.682a2.414 2.414 0 0 1 3.414 0z"/>',
+            "refresh-cw": '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+            "repeat": '<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',
+            "rocket": '<path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"/><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"/>',
+            "search": '<path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/>',
+            "star": '<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/>',
+            "ticket": '<path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/>',
+            "triangle-alert": '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>',
+            "upload": '<path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>',
+            "user": '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+            "users": '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/>',
+            "workflow": '<rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/>',
+            "wrench": '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/>',
+            "x": '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>'
+        };
+        document.head.insertAdjacentHTML('beforeend', '<style>.ico{display:inline-block;width:1em;height:1em;vertical-align:-0.15em;flex-shrink:0} :is(.flex,.inline-flex)>.ico{margin-right:.375em}</style>');
+        function hydrateIcons(rootEl) {
+            rootEl.querySelectorAll('[data-icon]').forEach(el => {
+                el.outerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${el.className}" aria-hidden="true" focusable="false">${ICONS[el.dataset.icon] || ''}</svg>`;
+            });
+        }
+        hydrateIcons(document);
+        new MutationObserver(() => hydrateIcons(document.body)).observe(document.body, { childList: true, subtree: true });
+    </script>
 
     <script>
         // --- LOGIQUE DE NAVIGATION DES SLIDES ---
@@ -1139,8 +1182,8 @@
 
         const halluTemplates = {
             plain: `La loi Garot du 11 février 2016 compte 47 articles. Son article 12 impose aux supermarchés de plus de 200 m² de donner leurs invendus à des associations.`,
-            verified: `La loi Garot du 11 février 2016 compte <span class="bg-red-100 text-red-700 px-1 rounded font-bold">47 articles ✗</span>. Son <span class="bg-red-100 text-red-700 px-1 rounded font-bold">article 12 ✗</span> impose aux supermarchés de plus de <span class="bg-red-100 text-red-700 px-1 rounded font-bold">200 m² ✗</span> de donner leurs invendus à des associations.`,
-            grounded: `D'après la source fournie <span class="bg-emerald-100 text-emerald-700 px-1 rounded font-bold">[1]</span>, la loi Garot comprend <span class="bg-emerald-100 text-emerald-700 px-1 rounded font-bold">4 articles ✓</span>. Elle oblige les supermarchés de plus de <span class="bg-emerald-100 text-emerald-700 px-1 rounded font-bold">400 m² ✓</span> à proposer une convention de don à des associations <span class="bg-emerald-100 text-emerald-700 px-1 rounded font-bold">[1]</span>.`
+            verified: `La loi Garot du 11 février 2016 compte <span class="bg-red-100 text-red-700 px-1 rounded font-bold">47 articles <i data-icon=x class=ico></i></span>. Son <span class="bg-red-100 text-red-700 px-1 rounded font-bold">article 12 <i data-icon=x class=ico></i></span> impose aux supermarchés de plus de <span class="bg-red-100 text-red-700 px-1 rounded font-bold">200 m² <i data-icon=x class=ico></i></span> de donner leurs invendus à des associations.`,
+            grounded: `D'après la source fournie <span class="bg-emerald-100 text-emerald-700 px-1 rounded font-bold">[1]</span>, la loi Garot comprend <span class="bg-emerald-100 text-emerald-700 px-1 rounded font-bold">4 articles <i data-icon=check class=ico></i></span>. Elle oblige les supermarchés de plus de <span class="bg-emerald-100 text-emerald-700 px-1 rounded font-bold">400 m² <i data-icon=check class=ico></i></span> à proposer une convention de don à des associations <span class="bg-emerald-100 text-emerald-700 px-1 rounded font-bold">[1]</span>.`
         };
 
         function renderHallucination() {
@@ -1276,14 +1319,14 @@
             { type: 'think', content: "Le panier n°42 (Boulangerie Marius, 2,90 €, à 800 m) est le moins cher. Je lance la réservation." },
             { type: 'tool_call', content: '{ "tool": "reserver_panier", "args": { "panier_id": 42 } }' },
             { type: 'tool_result', content: '{ "statut": "confirmee", "code_retrait": "ZG-7F2K", "retrait_avant": "19h30" }' },
-            { type: 'answer', content: "✅ C'est réservé ! Panier Surprise de la Boulangerie Marius à 2,90 € (à 800 m). Code de retrait : ZG-7F2K, à récupérer avant 19h30." }
+            { type: 'answer', content: "C'est réservé ! Panier Surprise de la Boulangerie Marius à 2,90 € (à 800 m). Code de retrait : ZG-7F2K, à récupérer avant 19h30." }
         ];
 
         const agentBubbleStyles = {
-            think: { label: '🧠 Réflexion du LLM', cls: 'bg-violet-900/40 border-violet-500/40 text-violet-100' },
-            tool_call: { label: '📤 Appel d\'outil (JSON)', cls: 'bg-blue-900/40 border-blue-500/40 text-blue-100 font-mono text-xs whitespace-pre-wrap' },
-            tool_result: { label: '📥 Résultat de l\'outil', cls: 'bg-slate-700/60 border-slate-500/40 text-slate-200 font-mono text-xs whitespace-pre-wrap' },
-            answer: { label: '💬 Réponse finale à l\'utilisateur', cls: 'bg-emerald-900/40 border-emerald-500/40 text-emerald-100 font-bold' }
+            think: { label: '<i data-icon=brain class=ico></i> Réflexion du LLM', cls: 'bg-violet-900/40 border-violet-500/40 text-violet-100' },
+            tool_call: { label: '<i data-icon=upload class=ico></i> Appel d\'outil (JSON)', cls: 'bg-blue-900/40 border-blue-500/40 text-blue-100 font-mono text-xs whitespace-pre-wrap' },
+            tool_result: { label: '<i data-icon=download class=ico></i> Résultat de l\'outil', cls: 'bg-slate-700/60 border-slate-500/40 text-slate-200 font-mono text-xs whitespace-pre-wrap' },
+            answer: { label: '<i data-icon=message-square class=ico></i> Réponse finale à l\'utilisateur', cls: 'bg-emerald-900/40 border-emerald-500/40 text-emerald-100 font-bold' }
         };
 
         let agentTimeouts = [];
@@ -1319,14 +1362,14 @@
 
         // --- LOGIQUE SLIDE 10 : IA DANS LE SDLC ---
         const sdlcStages = [
-            { label: "💡 Idéation", gains: "Brainstorming structuré, personas, analyses de marché en minutes au lieu de jours.", limites: "Aucune connaissance de VOTRE terrain : les chiffres générés doivent être re-sourcés.", roles: "PO / PM : facilitateur d'atelier augmenté — l'arbitrage reste humain." },
-            { label: "📋 Spécifications", gains: "User stories, critères Gherkin et PRD générés, cohérents et exhaustifs.", limites: "L'IA spécifie ce qu'on lui dit, pas ce qu'on veut : l'ambiguïté du besoin reste à lever par l'humain.", roles: "BA / PO : passe de rédacteur à relecteur-arbitre." },
-            { label: "🎨 Design UX", gains: "Wireframes et design systems générés en minutes (Stitch, v0.dev...).", limites: "Tendance au générique : l'identité visuelle et l'accessibilité exigent un œil humain.", roles: "Designer : curation et cohérence plutôt que production brute." },
-            { label: "⌨️ Code", gains: "Boilerplate, refactoring, explication de code legacy : gains majeurs sur les tâches répétitives.", limites: "Hallucinations d'API, race conditions subtiles, dette invisible si le code n'est pas relu.", roles: "Dev : moins de frappe, plus d'architecture et de revue critique." },
-            { label: "🧪 Tests", gains: "Génération de cas limites, tests unitaires exhaustifs, données de test réalistes.", limites: "L'IA teste ce que le code FAIT, pas ce qu'il DEVRAIT faire : les règles métier restent à fournir.", roles: "QA : conçoit la stratégie de test — l'IA produit le volume." },
-            { label: "🔄 CI/CD", gains: "Pipelines YAML, Dockerfiles et scripts générés, commentés et cohérents.", limites: "Secrets et permissions : une configuration générée trop permissive peut exposer l'infra.", roles: "DevOps : gardien des accès, de la simplicité et des coûts." },
-            { label: "🚀 Production", gains: "Synthèse d'incidents, runbooks, analyse de logs en langage naturel.", limites: "Sans outillage (RAG, agents), l'IA n'a pas accès à l'état temps réel de vos systèmes.", roles: "SRE : l'IA prépare le diagnostic, l'humain décide et agit." },
-            { label: "🔁 Maintenance", gains: "Tri automatique des feedbacks, classification des bugs, documentation maintenue à jour.", limites: "Prioriser reste un arbitrage business que l'IA ne peut qu'éclairer, jamais trancher.", roles: "Toute l'équipe : la boucle de feedback s'accélère." }
+            { label: "<i data-icon=lightbulb class=ico></i> Idéation", gains: "Brainstorming structuré, personas, analyses de marché en minutes au lieu de jours.", limites: "Aucune connaissance de VOTRE terrain : les chiffres générés doivent être re-sourcés.", roles: "PO / PM : facilitateur d'atelier augmenté — l'arbitrage reste humain." },
+            { label: "<i data-icon=clipboard-list class=ico></i> Spécifications", gains: "User stories, critères Gherkin et PRD générés, cohérents et exhaustifs.", limites: "L'IA spécifie ce qu'on lui dit, pas ce qu'on veut : l'ambiguïté du besoin reste à lever par l'humain.", roles: "BA / PO : passe de rédacteur à relecteur-arbitre." },
+            { label: "<i data-icon=palette class=ico></i> Design UX", gains: "Wireframes et design systems générés en minutes (Stitch, v0.dev...).", limites: "Tendance au générique : l'identité visuelle et l'accessibilité exigent un œil humain.", roles: "Designer : curation et cohérence plutôt que production brute." },
+            { label: "<i data-icon=keyboard class=ico></i> Code", gains: "Boilerplate, refactoring, explication de code legacy : gains majeurs sur les tâches répétitives.", limites: "Hallucinations d'API, race conditions subtiles, dette invisible si le code n'est pas relu.", roles: "Dev : moins de frappe, plus d'architecture et de revue critique." },
+            { label: "<i data-icon=flask-conical class=ico></i> Tests", gains: "Génération de cas limites, tests unitaires exhaustifs, données de test réalistes.", limites: "L'IA teste ce que le code FAIT, pas ce qu'il DEVRAIT faire : les règles métier restent à fournir.", roles: "QA : conçoit la stratégie de test — l'IA produit le volume." },
+            { label: "<i data-icon=refresh-cw class=ico></i> CI/CD", gains: "Pipelines YAML, Dockerfiles et scripts générés, commentés et cohérents.", limites: "Secrets et permissions : une configuration générée trop permissive peut exposer l'infra.", roles: "DevOps : gardien des accès, de la simplicité et des coûts." },
+            { label: "<i data-icon=rocket class=ico></i> Production", gains: "Synthèse d'incidents, runbooks, analyse de logs en langage naturel.", limites: "Sans outillage (RAG, agents), l'IA n'a pas accès à l'état temps réel de vos systèmes.", roles: "SRE : l'IA prépare le diagnostic, l'humain décide et agit." },
+            { label: "<i data-icon=repeat class=ico></i> Maintenance", gains: "Tri automatique des feedbacks, classification des bugs, documentation maintenue à jour.", limites: "Prioriser reste un arbitrage business que l'IA ne peut qu'éclairer, jamais trancher.", roles: "Toute l'équipe : la boucle de feedback s'accélère." }
         ];
 
         let currentSdlcStage = 3;
@@ -1343,41 +1386,41 @@
             `).join('');
             const s = sdlcStages[currentSdlcStage];
             document.getElementById('sdlc-detail').innerHTML = `
-                <div class="glass-panel p-5 border-l-4 border-l-emerald-400"><h4 class="font-bold mb-1 text-emerald-700">✅ Gains réels</h4><p class="text-sm text-slate-600">${s.gains}</p></div>
-                <div class="glass-panel p-5 border-l-4 border-l-orange-400"><h4 class="font-bold mb-1 text-orange-700">⚠️ Limites</h4><p class="text-sm text-slate-600">${s.limites}</p></div>
-                <div class="glass-panel p-5 border-l-4 border-l-violet-400"><h4 class="font-bold mb-1 text-violet-700">👥 Impact sur les rôles</h4><p class="text-sm text-slate-600">${s.roles}</p></div>
+                <div class="glass-panel p-5 border-l-4 border-l-emerald-400"><h4 class="font-bold mb-1 text-emerald-700"><i data-icon=circle-check class=ico></i> Gains réels</h4><p class="text-sm text-slate-600">${s.gains}</p></div>
+                <div class="glass-panel p-5 border-l-4 border-l-orange-400"><h4 class="font-bold mb-1 text-orange-700"><i data-icon=triangle-alert class=ico></i> Limites</h4><p class="text-sm text-slate-600">${s.limites}</p></div>
+                <div class="glass-panel p-5 border-l-4 border-l-violet-400"><h4 class="font-bold mb-1 text-violet-700"><i data-icon=users class=ico></i> Impact sur les rôles</h4><p class="text-sm text-slate-600">${s.roles}</p></div>
             `;
         }
 
 
         // --- LOGIQUE SLIDE 11 : PANORAMA DES OUTILS ---
         const toolFamilies = [
-            { icon: "💬", label: "Assistants (chat)", desc: "Analyse, rédaction, raisonnement — le couteau suisse du quotidien. Sans installation : un navigateur suffit.", tools: [
+            { icon: "message-square", label: "Assistants (chat)", desc: "Analyse, rédaction, raisonnement — le couteau suisse du quotidien. Sans installation : un navigateur suffit.", tools: [
                 { name: "ChatGPT", force: "le généraliste le plus répandu, GPTs personnalisés" },
                 { name: "Gemini", force: "intégré à l'écosystème Google, très grand contexte" },
                 { name: "Claude", force: "raisonnement, code et documents longs" },
                 { name: "Grok", force: "informations en temps réel via X" },
                 { name: "Mistral (Le Chat)", force: "acteur européen, rapide" }
             ]},
-            { icon: "⌨️", label: "Agents & IDE", desc: "Dans l'éditeur : autocomplétion, refactoring, agents autonomes qui modifient le code.", tools: [
+            { icon: "keyboard", label: "Agents & IDE", desc: "Dans l'éditeur : autocomplétion, refactoring, agents autonomes qui modifient le code.", tools: [
                 { name: "GitHub Copilot", force: "intégration native VS Code / GitHub" },
                 { name: "Claude Code", force: "agent autonome (terminal, VS Code)" },
                 { name: "Codex", force: "agent OpenAI, délégation de tâches" },
                 { name: "Cursor", force: "IDE entièrement conçu autour de l'IA" },
                 { name: "AntiGravity", force: "IDE agentique de Google" }
             ]},
-            { icon: "📄", label: "Bureautique", desc: "Docs, tableurs, présentations et mails augmentés — pour les profils Biz et PM.", tools: [
+            { icon: "file-text", label: "Bureautique", desc: "Docs, tableurs, présentations et mails augmentés — pour les profils Biz et PM.", tools: [
                 { name: "M365 Copilot", force: "Word, Excel, PowerPoint, Teams, Outlook" },
                 { name: "Gemini Workspace", force: "Docs, Sheets, Gmail" },
                 { name: "Claude / ChatGPT", force: "upload et analyse de documents" }
             ]},
-            { icon: "🎨", label: "Génération d'UI", desc: "Du prompt à l'interface fonctionnelle, avant d'écrire le code.", tools: [
+            { icon: "palette", label: "Génération d'UI", desc: "Du prompt à l'interface fonctionnelle, avant d'écrire le code.", tools: [
                 { name: "Stitch", force: "maquettes et écrans (Google)" },
                 { name: "v0.dev", force: "composants React/Tailwind (Vercel)" },
                 { name: "Lovable", force: "applications complètes full-stack" },
                 { name: "Bolt.new", force: "prototypage web dans le navigateur" }
             ]},
-            { icon: "🔀", label: "Automation no-code", desc: "Orchestrer l'IA dans des workflows automatisés, sans coder (voir slide suivante).", tools: [
+            { icon: "workflow", label: "Automation no-code", desc: "Orchestrer l'IA dans des workflows automatisés, sans coder (voir slide suivante).", tools: [
                 { name: "n8n", force: "open-source, auto-hébergeable" },
                 { name: "Make", force: "visuel, riche en connecteurs" },
                 { name: "Zapier", force: "le plus simple pour démarrer" },
@@ -1395,7 +1438,7 @@
         function renderToolFamilies() {
             const tabs = document.getElementById('tool-family-tabs');
             tabs.innerHTML = toolFamilies.map((f, i) => `
-                <button onclick="selectToolFamily(${i})" class="px-4 py-2 rounded-xl border-2 text-sm font-bold transition-colors ${i === currentToolFamily ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-slate-200 bg-white text-slate-500 hover:border-blue-300'}">${f.icon} ${f.label}</button>
+                <button onclick="selectToolFamily(${i})" class="px-4 py-2 rounded-xl border-2 text-sm font-bold transition-colors ${i === currentToolFamily ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-slate-200 bg-white text-slate-500 hover:border-blue-300'}"><i data-icon=${f.icon} class=ico></i> ${f.label}</button>
             `).join('');
             const f = toolFamilies[currentToolFamily];
             document.getElementById('tool-family-desc').innerText = f.desc;
@@ -1410,11 +1453,11 @@
 
         // --- LOGIQUE SLIDE 12 : ORCHESTRATION & WORKFLOWS ---
         const workflowSteps = [
-            { icon: "⭐", title: "Déclencheur", desc: "Nouvel avis client 1★", output: `Avis reçu : "Impossible de récupérer mon panier, le code ne marchait pas. Très déçu !!"` },
-            { icon: "🤖", title: "IA : Classification", desc: "Prompt + sortie JSON", output: `{ "categorie": "bug", "face": "consommateur", "sentiment": -2, "urgence": 4, "resume": "Code de retrait non reconnu" }` },
-            { icon: "🎫", title: "Créer un ticket", desc: "GitHub / Jira", output: `Ticket #481 créé — "Code de retrait non reconnu" (priorité haute) → assigné à l'équipe backend` },
-            { icon: "🤖", title: "IA : Brouillon d'email", desc: "Réponse personnalisée", output: `"Bonjour, nous sommes sincèrement désolés pour ce souci de code de retrait. Votre panier vous est intégralement remboursé..."` },
-            { icon: "👤", title: "Validation humaine", desc: "Approbation avant envoi", output: `⏸ En attente d'approbation du support — rien ne part sans validation humaine.` }
+            { icon: "star", title: "Déclencheur", desc: "Nouvel avis client 1/5", output: `Avis reçu : "Impossible de récupérer mon panier, le code ne marchait pas. Très déçu !!"` },
+            { icon: "bot", title: "IA : Classification", desc: "Prompt + sortie JSON", output: `{ "categorie": "bug", "face": "consommateur", "sentiment": -2, "urgence": 4, "resume": "Code de retrait non reconnu" }` },
+            { icon: "ticket", title: "Créer un ticket", desc: "GitHub / Jira", output: `Ticket #481 créé — "Code de retrait non reconnu" (priorité haute) → assigné à l'équipe backend` },
+            { icon: "bot", title: "IA : Brouillon d'email", desc: "Réponse personnalisée", output: `"Bonjour, nous sommes sincèrement désolés pour ce souci de code de retrait. Votre panier vous est intégralement remboursé..."` },
+            { icon: "user", title: "Validation humaine", desc: "Approbation avant envoi", output: `En attente d'approbation du support — rien ne part sans validation humaine.` }
         ];
 
         let workflowTimeouts = [];
@@ -1422,7 +1465,7 @@
         function renderWorkflowNodes(activeIndex) {
             document.getElementById('workflow-nodes').innerHTML = workflowSteps.map((s, i) => `
                 <div class="glass-panel p-3 text-center transition-all duration-300 ${i <= activeIndex ? 'ring-2 ring-emerald-400' : 'opacity-40'}">
-                    <div class="text-2xl mb-1">${s.icon}</div>
+                    <div class="text-2xl mb-1"><i data-icon=${s.icon} class=ico></i></div>
                     <div class="font-bold text-xs">${s.title}</div>
                     <div class="text-[10px] text-slate-400">${s.desc}</div>
                 </div>
@@ -1444,7 +1487,7 @@
                     renderWorkflowNodes(i);
                     const entry = document.createElement('div');
                     entry.className = 'p-2.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-200';
-                    entry.innerHTML = `<div class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold mb-1">${step.icon} ${step.title}</div><span class="${i === 1 || i === 3 ? 'font-mono text-xs' : 'text-sm'}">${step.output}</span>`;
+                    entry.innerHTML = `<div class="text-[10px] uppercase tracking-widest text-emerald-400 font-bold mb-1"><i data-icon=${step.icon} class=ico></i> ${step.title}</div><span class="${i === 1 || i === 3 ? 'font-mono text-xs' : 'text-sm'}">${step.output}</span>`;
                     log.appendChild(entry);
                     log.scrollTop = log.scrollHeight;
 

@@ -6,7 +6,6 @@
     <title>FrigoMalin — Parcours GitHub Copilot · Cahier de TP IA</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -66,18 +65,18 @@
     <aside class="w-full md:w-80 bg-white border-r border-stone-200 flex flex-col h-full flex-shrink-0 transition-transform duration-300 absolute md:relative z-20 transform -translate-x-full md:translate-x-0" id="sidebar">
         <div class="p-6 border-b border-stone-200 relative">
             <a href="index.html" class="text-xs font-bold text-slate-500 hover:text-fm-700 transition-colors uppercase tracking-wider inline-flex items-center gap-1 mb-2">
-                <i class="fa-solid fa-arrow-left"></i> Accueil formation
+                <span data-icon="arrow-left" class="w-3.5 h-3.5"></span> Accueil formation
             </a>
             <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
-                <span>🥕</span> FrigoMalin <span class="text-fm-600">Copilot</span>
+                <span data-icon="carrot" class="w-6 h-6 text-fm-600"></span> FrigoMalin <span class="text-fm-600">Copilot</span>
             </h1>
             <p class="text-sm text-slate-500 mt-2">De l'idée au POC publié sur GitHub Pages</p>
 
             <!-- Accès formateur (discret) -->
             <button class="trainer-btn hidden md:inline-flex absolute top-4 right-4 w-7 h-7 items-center justify-center rounded-full text-stone-300 hover:text-stone-500 hover:bg-stone-100 transition-colors text-xs" title="Accès formateur" aria-label="Accès formateur" onclick="openTrainerModal()">
-                <i class="fa-solid fa-key"></i>
+                <span data-icon="key-round" class="w-3.5 h-3.5"></span>
             </button>
-            <button id="mobile-close" class="md:hidden absolute top-4 right-4 text-slate-500 text-2xl" onclick="toggleSidebar()">×</button>
+            <button id="mobile-close" class="md:hidden absolute top-4 right-4 text-slate-500" aria-label="Fermer le menu" onclick="toggleSidebar()"><span data-icon="x" class="w-6 h-6"></span></button>
         </div>
 
         <div class="px-6 py-4 border-b border-stone-200">
@@ -97,25 +96,25 @@
         <div class="p-4 border-t border-stone-200 text-xs text-center bg-stone-50">
             <div class="font-bold text-slate-700 text-sm">Houssem Eddine Lassoued</div>
             <a href="https://www.linkedin.com/in/houssemeddinelassoued/" target="_blank" class="text-fm-700 font-bold mb-2 uppercase tracking-wide hover:text-fm-900 transition-colors inline-block">
-                <i class="fa-brands fa-linkedin mr-1"></i> LinkedIn
+                <span class="inline-flex items-center gap-1.5"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor" class="w-3.5 h-3.5" aria-hidden="true"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg> LinkedIn</span>
             </a>
         </div>
     </aside>
 
     <main class="flex-1 flex flex-col h-full relative overflow-hidden">
         <header class="md:hidden bg-white border-b border-stone-200 p-4 flex justify-between items-center z-10 shadow-sm">
-            <h2 class="text-lg font-bold text-fm-700">🥕 FrigoMalin Copilot</h2>
+            <h2 class="text-lg font-bold text-fm-700 inline-flex items-center gap-2"><span data-icon="carrot" class="w-5 h-5"></span> FrigoMalin Copilot</h2>
             <div class="flex items-center gap-3">
                 <button class="trainer-btn w-7 h-7 inline-flex items-center justify-center rounded-full text-stone-300 hover:text-stone-500 text-xs" title="Accès formateur" aria-label="Accès formateur" onclick="openTrainerModal()">
-                    <i class="fa-solid fa-key"></i>
+                    <span data-icon="key-round" class="w-3.5 h-3.5"></span>
                 </button>
-                <button class="text-2xl text-slate-600" onclick="toggleSidebar()">☰</button>
+                <button class="text-slate-600" aria-label="Ouvrir le menu" onclick="toggleSidebar()"><span data-icon="menu" class="w-6 h-6"></span></button>
             </div>
         </header>
 
         <!-- Bandeau mode formateur -->
         <div id="trainer-banner" class="hidden bg-fm-900 text-fm-50 px-4 py-2 text-sm flex items-center justify-between gap-3">
-            <span><strong>🎓 Mode formateur actif</strong> : prompts complets et corrigés affichés sous chaque lab.</span>
+            <span class="inline-flex items-center gap-2"><span data-icon="graduation-cap" class="w-4 h-4"></span><span><strong>Mode formateur actif</strong> : prompts complets et corrigés affichés sous chaque lab.</span></span>
             <button onclick="exitTrainerMode()" class="text-xs font-bold underline underline-offset-2 hover:text-white flex-shrink-0">Masquer les corrigés</button>
         </div>
 
@@ -123,56 +122,55 @@
             <!-- Vue introduction -->
             <div id="intro-view" class="max-w-4xl mx-auto space-y-8">
                 <div class="bg-gradient-to-br from-fm-50 to-biz-50 border border-stone-200 rounded-2xl p-6 md:p-8 shadow-sm">
-                    <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-2 tracking-tight">🥕 FrigoMalin &amp; GitHub Copilot</h1>
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-2 tracking-tight flex items-center gap-3"><span data-icon="carrot" class="w-10 h-10 md:w-12 md:h-12 text-fm-600"></span> FrigoMalin &amp; GitHub Copilot</h1>
                     <p class="text-lg text-slate-600 mb-8 leading-relaxed">De l'idée au <strong>POC publié sur GitHub Pages</strong>, en maîtrisant <strong>toutes les fonctionnalités de GitHub Copilot</strong> : instructions, prompt files, skills, agents personnalisés, orchestration, optimisation du contexte et des tokens.</p>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                         <div class="bg-white border border-fm-200 rounded-xl p-5 shadow-sm">
-                            <h3 class="font-bold text-fm-700 mb-2 flex items-center gap-2"><span>💻</span> Développeurs · ~80 %</h3>
+                            <h3 class="font-bold text-fm-700 mb-2 flex items-center gap-2"><span data-icon="code" class="w-5 h-5"></span> Développeurs · ~80 %</h3>
                             <p class="text-sm text-slate-600">Workspace &amp; contexte, maquettes Stitch, skills, agents, orchestration, optimisation, tests, CI/CD. Stack de référence : Vite + TypeScript (React, Vue ou Svelte au choix), IndexedDB, Vitest, Playwright.</p>
                         </div>
                         <div class="bg-white border border-biz-200 rounded-xl p-5 shadow-sm">
-                            <h3 class="font-bold text-biz-700 mb-2 flex items-center gap-2"><span>🧭</span> Product Owners &amp; Architecture · ~20 %</h3>
+                            <h3 class="font-bold text-biz-700 mb-2 flex items-center gap-2"><span data-icon="compass" class="w-5 h-5"></span> Product Owners &amp; Architecture · ~20 %</h3>
                             <p class="text-sm text-slate-600">PRODUCT.md, périmètre du MVP, backlog GitHub Issues via MCP (les critères Gherkin servent de spécification), ADR, recette sur l'URL publique, backlog V2 prêt pour les agents.</p>
                         </div>
                     </div>
 
                     <div class="bg-amber-50 border border-amber-300 rounded-xl p-6 mb-6">
-                        <p class="text-sm text-amber-900"><strong>🎯 Le produit :</strong> <strong>FrigoMalin</strong>, l'application anti-gaspillage du foyer (cousine de ZeroGaspillage). Inventaire du frigo et des placards avec <strong>scan de code-barres</strong> (Open Food Facts), dates DLC/DDM, <strong>« Que cuisiner ? »</strong> avec ce qui expire, liste de courses anti-doublon, tableau « kg et € sauvés », <strong>PWA installable et hors ligne</strong>. 100 % navigateur : <strong>aucun backend, aucun Docker</strong>, publiée sur GitHub Pages.</p>
+                        <p class="text-sm text-amber-900"><span class="inline-flex items-center gap-1.5 font-bold"><span data-icon="target" class="w-4 h-4"></span> Le produit :</span> <strong>FrigoMalin</strong>, l'application anti-gaspillage du foyer. Inventaire du frigo et des placards avec <strong>scan de code-barres</strong> (Open Food Facts), dates DLC/DDM, <strong>« Que cuisiner ? »</strong> avec ce qui expire, liste de courses anti-doublon, tableau « kg et € sauvés », <strong>PWA installable et hors ligne</strong>. 100 % navigateur : <strong>aucun backend, aucun Docker</strong>, publiée sur GitHub Pages.</p>
                     </div>
 
                     <div class="bg-white border border-stone-200 rounded-xl p-5">
-                        <p class="text-sm text-slate-600"><strong>🛠 Outil unique : GitHub Copilot</strong> (VS Code et github.com), complété par <strong>Google Stitch</strong> pour les maquettes. Contrairement aux autres parcours, l'outil n'est pas « au choix » : maîtriser Copilot est l'objet même de la formation. <span class="text-slate-500">📅 Fonctionnalités vérifiées en octobre 2026 ; Copilot évolue vite, vérifiez la documentation officielle avant chaque session.</span></p>
+                        <p class="text-sm text-slate-600"><span class="inline-flex items-center gap-1.5 font-bold"><span data-icon="wrench" class="w-4 h-4"></span> Outil unique : GitHub Copilot</span> (VS Code et github.com), complété par <strong>Google Stitch</strong> pour les maquettes. Contrairement aux autres parcours, l'outil n'est pas « au choix » : maîtriser Copilot est l'objet même de la formation. <span class="text-slate-500"><span class="inline-flex items-center gap-1 align-middle"><span data-icon="calendar" class="w-3.5 h-3.5"></span></span> Fonctionnalités vérifiées en octobre 2026 ; Copilot évolue vite, vérifiez la documentation officielle avant chaque session.</span></p>
                     </div>
                 </div>
 
                 <!-- Le parcours idéal -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-6 md:p-8 shadow-sm">
-                    <h2 class="text-2xl font-extrabold text-slate-900 mb-4">🧭 Le parcours : de l'idée à l'URL publique</h2>
+                    <h2 class="text-2xl font-extrabold text-slate-900 mb-4 flex items-center gap-2"><span data-icon="route" class="w-6 h-6 text-fm-600"></span> Le parcours : de l'idée à l'URL publique</h2>
                     <div class="flex flex-wrap items-center gap-2 text-sm">
-                        <span class="bg-biz-50 border border-biz-200 text-biz-900 px-3 py-1.5 rounded-lg font-semibold">💡 Idée &amp; PRODUCT.md</span><span class="text-stone-400">→</span>
-                        <span class="bg-mix-50 border border-mix-200 text-mix-900 px-3 py-1.5 rounded-lg font-semibold">🏛️ Architecture &amp; ADR</span><span class="text-stone-400">→</span>
-                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">⚙️ Contexte Copilot</span><span class="text-stone-400">→</span>
-                        <span class="bg-mix-50 border border-mix-200 text-mix-900 px-3 py-1.5 rounded-lg font-semibold">📐 Spec → Plan → Code</span><span class="text-stone-400">→</span>
-                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">🎨 Stitch &amp; skills</span><span class="text-stone-400">→</span>
-                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">💻 Features</span><span class="text-stone-400">→</span>
-                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">🤖 Agents</span><span class="text-stone-400">→</span>
-                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">🧠 Orchestration</span><span class="text-stone-400">→</span>
-                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">⚡ Optimisation</span><span class="text-stone-400">→</span>
-                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">🛡️ Garde-fous</span><span class="text-stone-400">→</span>
-                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold">🚀 CI/CD</span><span class="text-stone-400">→</span>
-                        <span class="bg-slate-900 text-white px-3 py-1.5 rounded-lg font-bold">🌍 GitHub Pages</span><span class="text-stone-400">→</span>
-                        <span class="bg-biz-50 border border-biz-200 text-biz-900 px-3 py-1.5 rounded-lg font-semibold">🎬 Recette &amp; V2</span>
+                        <span class="bg-biz-50 border border-biz-200 text-biz-900 px-3 py-1.5 rounded-lg font-semibold inline-flex items-center gap-1.5"><span data-icon="lightbulb" class="w-4 h-4"></span> Idée &amp; PRODUCT.md</span><span class="text-stone-400">→</span>
+                        <span class="bg-mix-50 border border-mix-200 text-mix-900 px-3 py-1.5 rounded-lg font-semibold inline-flex items-center gap-1.5"><span data-icon="landmark" class="w-4 h-4"></span> Architecture &amp; ADR</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold inline-flex items-center gap-1.5"><span data-icon="settings" class="w-4 h-4"></span> Contexte Copilot</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold inline-flex items-center gap-1.5"><span data-icon="palette" class="w-4 h-4"></span> Stitch &amp; skills</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold inline-flex items-center gap-1.5"><span data-icon="code" class="w-4 h-4"></span> Features</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold inline-flex items-center gap-1.5"><span data-icon="bot" class="w-4 h-4"></span> Agents</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold inline-flex items-center gap-1.5"><span data-icon="network" class="w-4 h-4"></span> Orchestration</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold inline-flex items-center gap-1.5"><span data-icon="gauge" class="w-4 h-4"></span> Optimisation</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold inline-flex items-center gap-1.5"><span data-icon="shield-check" class="w-4 h-4"></span> Garde-fous</span><span class="text-stone-400">→</span>
+                        <span class="bg-fm-50 border border-fm-200 text-fm-900 px-3 py-1.5 rounded-lg font-semibold inline-flex items-center gap-1.5"><span data-icon="rocket" class="w-4 h-4"></span> CI/CD</span><span class="text-stone-400">→</span>
+                        <span class="bg-slate-900 text-white px-3 py-1.5 rounded-lg font-bold inline-flex items-center gap-1.5"><span data-icon="globe" class="w-4 h-4"></span> GitHub Pages</span><span class="text-stone-400">→</span>
+                        <span class="bg-biz-50 border border-biz-200 text-biz-900 px-3 py-1.5 rounded-lg font-semibold inline-flex items-center gap-1.5"><span data-icon="clipboard-check" class="w-4 h-4"></span> Recette &amp; V2</span>
                     </div>
                     <p class="text-sm text-slate-500 mt-4"><strong>Fil rouge « consommation » :</strong> dès le module 3, chaque lab note ses crédits et son contexte dans <code>docs/usage-log.md</code>. Ces mesures servent au module 8 (objectif −30 %) et à la rétrospective finale.</p>
                     <div class="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-900">
-                        <strong>⏱️ Format 2 jours :</strong> le <strong>parcours essentiel</strong> compte <strong>29 labs</strong> et mène jusqu'au POC publié sur GitHub Pages. Les 4 labs marqués <span class="inline-flex items-center bg-amber-100 border border-amber-300 text-amber-800 text-xs px-2 py-0.5 rounded-md font-bold">🎁 Bonus</span> approfondissent un sujet : à faire en autonomie, ou si le temps le permet.
+                        <span class="inline-flex items-center gap-1.5 font-bold align-middle"><span data-icon="timer" class="w-4 h-4"></span> Format 2 jours :</span> le <strong>parcours essentiel</strong> compte <strong>29 labs</strong> et mène jusqu'au POC publié sur GitHub Pages. Les 4 labs marqués <span class="inline-flex items-center bg-amber-100 border border-amber-300 text-amber-800 text-xs px-2 py-0.5 rounded-md font-bold gap-1"><span data-icon="gift" class="w-3 h-3"></span> Bonus</span> approfondissent un sujet : à faire en autonomie, ou si le temps le permet.
                     </div>
                 </div>
 
                 <!-- Pédagogie -->
                 <div class="bg-white border border-stone-200 rounded-2xl p-6 md:p-8 shadow-sm">
-                    <h2 class="text-2xl font-extrabold text-slate-900 mb-2">🧠 Ici, pas de prompt prêt à copier</h2>
+                    <h2 class="text-2xl font-extrabold text-slate-900 mb-2 flex items-center gap-2"><span data-icon="brain" class="w-6 h-6 text-fm-600"></span> Ici, pas de prompt prêt à copier</h2>
                     <p class="text-slate-600 mb-5">Savoir écrire le bon prompt, c'est LA compétence. Chaque lab vous donne une <strong>amorce</strong> à compléter, des <strong>indices</strong> à débloquer un par un, et des <strong>critères de réussite</strong> pour vous auto-évaluer.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6" id="defi-legend"></div>
                     <div class="bg-stone-50 border border-stone-200 rounded-xl p-5">
@@ -190,7 +188,7 @@
                 <!-- Dépôt final & prérequis -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
-                        <h2 class="text-lg font-extrabold text-slate-900 mb-3">🗂️ Le dépôt que vous allez construire</h2>
+                        <h2 class="text-lg font-extrabold text-slate-900 mb-3 flex items-center gap-2"><span data-icon="folder-tree" class="w-5 h-5 text-fm-600"></span> Le dépôt que vous allez construire</h2>
                         <pre class="bg-slate-900 text-stone-100 p-4 rounded-xl text-xs overflow-x-auto font-mono leading-relaxed">frigomalin/
 ├─ PRODUCT.md
 ├─ .copilotignore
@@ -206,24 +204,24 @@
 │  ├─ hooks/quality.json
 │  └─ workflows/deploy-pages.yml
 └─ src/ domain · data · ui</pre>
-                        <p class="text-sm text-slate-600 mt-3"><strong>📍 Règle d'or :</strong> tout ce que vous créez vit <strong>dans le dépôt</strong> (versionné et partagé avec l'équipe), jamais dans votre profil VS Code. Chaque lab précise <strong>« 📁 Où créer le fichier ? »</strong>.</p>
+                        <p class="text-sm text-slate-600 mt-3"><span class="inline-flex items-center gap-1 font-bold align-middle"><span data-icon="map-pin" class="w-4 h-4 text-fm-600"></span> Règle d'or :</span> tout ce que vous créez vit <strong>dans le dépôt</strong> (versionné et partagé avec l'équipe), jamais dans votre profil VS Code. Chaque lab précise <strong>« Où créer le fichier ? »</strong>.</p>
                     </div>
                     <div class="bg-white border border-stone-200 rounded-2xl p-6 shadow-sm">
-                        <h2 class="text-lg font-extrabold text-slate-900 mb-3">🧰 Prérequis (sans Docker)</h2>
+                        <h2 class="text-lg font-extrabold text-slate-900 mb-3 flex items-center gap-2"><span data-icon="list-checks" class="w-5 h-5 text-fm-600"></span> Prérequis</h2>
                         <ul class="text-sm text-slate-600 space-y-2">
-                            <li>✅ <strong>VS Code</strong> + <strong>GitHub Copilot</strong> (licence payante recommandée : crédits IA et serveurs MCP)</li>
-                            <li>✅ <strong>Node.js 22 LTS</strong> et <strong>Git</strong></li>
-                            <li>✅ Un <strong>compte GitHub</strong> (dépôt public ou Pages activé) et un <strong>compte Google</strong> pour Stitch</li>
-                            <li>✅ Un téléphone pour tester la PWA et le scan de code-barres</li>
-                            <li>✅ Licence Copilot Business/Enterprise : politique <strong>« MCP servers in Copilot »</strong> activée par l'administrateur (désactivée par défaut) ; dossier du projet approuvé dans VS Code (<em>Workspace Trust</em>)</li>
-                            <li class="text-slate-500">💳 Copilot est facturé à l'usage : prévoir un budget de crédits par apprenant (le module 8 apprend à le réduire).</li>
+                            <li class="flex gap-2"><span data-icon="check" class="w-4 h-4 mt-0.5 text-emerald-600"></span><span><strong>VS Code</strong> + <strong>GitHub Copilot</strong> (licence payante recommandée : crédits IA et serveurs MCP)</span></li>
+                            <li class="flex gap-2"><span data-icon="check" class="w-4 h-4 mt-0.5 text-emerald-600"></span><span><strong>Node.js 22 LTS</strong> et <strong>Git</strong></span></li>
+                            <li class="flex gap-2"><span data-icon="check" class="w-4 h-4 mt-0.5 text-emerald-600"></span><span>Un <strong>compte GitHub</strong> (dépôt public ou Pages activé) et un <strong>compte Google</strong> pour Stitch</span></li>
+                            <li class="flex gap-2"><span data-icon="check" class="w-4 h-4 mt-0.5 text-emerald-600"></span><span>Un téléphone pour tester la PWA et le scan de code-barres</span></li>
+                            <li class="flex gap-2"><span data-icon="check" class="w-4 h-4 mt-0.5 text-emerald-600"></span><span>Licence Copilot Business/Enterprise : politique <strong>« MCP servers in Copilot »</strong> activée par l'administrateur (désactivée par défaut) ; dossier du projet approuvé dans VS Code (<em>Workspace Trust</em>)</span></li>
+                            <li class="text-slate-500 flex gap-2"><span data-icon="credit-card" class="w-4 h-4 mt-0.5"></span><span>Copilot est facturé à l'usage : prévoir un budget de crédits par apprenant (le module 8 apprend à le réduire).</span></li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="text-center">
                     <button onclick="goToFirstLab()" class="bg-fm-600 hover:bg-fm-700 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2">
-                        🚀 Démarrer le Module 1
+                        <span data-icon="play" class="w-5 h-5"></span> Démarrer le Module 1
                     </button>
                 </div>
 
@@ -238,7 +236,7 @@
     <!-- Fenêtre d'accès formateur -->
     <div id="trainer-modal" class="hidden fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4" onclick="if(event.target === this) closeTrainerModal()">
         <div id="trainer-card" class="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-xs">
-            <h3 class="text-lg font-extrabold text-slate-900 mb-1">🎓 Accès formateur</h3>
+            <h3 class="text-lg font-extrabold text-slate-900 mb-1 flex items-center gap-2"><span data-icon="graduation-cap" class="w-5 h-5 text-fm-600"></span> Accès formateur</h3>
             <p class="text-sm text-slate-500 mb-4">Affiche les prompts complets et les corrigés.</p>
             <input id="trainer-code" type="password" inputmode="numeric" autocomplete="off" placeholder="Code" class="w-full border border-stone-300 rounded-lg px-3 py-2 mb-2 focus:outline-none focus:ring-2 focus:ring-fm-300" onkeydown="if(event.key === 'Enter') submitTrainerCode(); if(event.key === 'Escape') closeTrainerModal();">
             <p id="trainer-error" class="hidden text-xs text-red-600 font-semibold mb-2">Code incorrect.</p>
@@ -251,8 +249,70 @@
 
     <!-- Toast -->
     <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl transition-all duration-300 translate-y-20 opacity-0 z-50 flex items-center gap-2">
-        <span>✅</span> Copié dans le presse-papiers
+        <span data-icon="check" class="w-4 h-4 text-emerald-400"></span> Copié dans le presse-papiers
     </div>
+
+    <script>
+        // Icônes SVG monochromes embarquées (Lucide, licence ISC — https://lucide.dev). Aucune dépendance réseau.
+        const ICONS = {
+            "arrow-left": '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+            "bot": '<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>',
+            "brain": '<path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/>',
+            "calendar": '<path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/>',
+            "carrot": '<path d="M15 16a1 1 0 0 0-7-7q-4 4-5.987 12.385a.5.5 0 0 0 .602.602Q11 20 15 16l-3-3"/><path d="M15 9q4 4 7 0-3-4-7 0 4-4 0-7-4 3 0 7"/><path d="m8 15-2.58-2.58"/>',
+            "check": '<path d="M20 6 9 17l-5-5"/>',
+            "chevron-right": '<path d="m9 18 6-6-6-6"/>',
+            "circle-check": '<circle cx="12" cy="12" r="10"/><path d="m16 9-5.5 5.5L8 12"/>',
+            "clipboard-check": '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+            "code": '<path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/>',
+            "compass": '<circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/>',
+            "copy": '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+            "credit-card": '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/><path d="M6 14h2"/>',
+            "file-code": '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/>',
+            "flask-conical": '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>',
+            "folder-open": '<path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>',
+            "folder-tree": '<path d="M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"/><path d="M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"/><path d="M3 5a2 2 0 0 0 2 2h3"/><path d="M3 3v13a2 2 0 0 0 2 2h3"/>',
+            "gauge": '<path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/>',
+            "gift": '<path d="M12 7v14"/><path d="M20 11v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8"/><path d="M7.5 7a1 1 0 0 1 0-5A4.8 8 0 0 1 12 7a4.8 8 0 0 1 4.5-5 1 1 0 0 1 0 5"/><rect x="3" y="7" width="18" height="4" rx="1"/>',
+            "globe": '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
+            "graduation-cap": '<path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/>',
+            "house": '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+            "key-round": '<path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/>',
+            "landmark": '<path d="M10 18v-7"/><path d="M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 22h18"/><path d="M6 18v-7"/>',
+            "lightbulb": '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+            "linkedin": 'Not found: /lucide-static@1.49.0/icons/linkedin.sv',
+            "list-checks": '<path d="M13 5h8"/><path d="M13 12h8"/><path d="M13 19h8"/><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/>',
+            "map-pin": '<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
+            "menu": '<path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/>',
+            "network": '<rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/>',
+            "palette": '<path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>',
+            "pencil-line": '<path d="M13 21h8"/><path d="m15 5 4 4"/><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>',
+            "play": '<path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"/>',
+            "puzzle": '<path d="M15.39 4.39a1 1 0 0 0 1.68-.474 2.5 2.5 0 1 1 3.014 3.015 1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474 2.5 2.5 0 1 0-3.014 3.015 1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474 2.5 2.5 0 1 1-3.014-3.015 1 1 0 0 0 .474-1.68l-1.683-1.682a2.414 2.414 0 0 1 0-3.414L4.39 8.61a1 1 0 0 1 1.68.474 2.5 2.5 0 1 0 3.014-3.015 1 1 0 0 1-.474-1.68l1.683-1.682a2.414 2.414 0 0 1 3.414 0z"/>',
+            "rocket": '<path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"/><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"/>',
+            "rotate-ccw": '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
+            "route": '<circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/>',
+            "settings": '<path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/>',
+            "shield-check": '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+            "square": '<rect width="18" height="18" x="3" y="3" rx="2"/>',
+            "tag": '<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/>',
+            "target": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+            "timer": '<line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/>',
+            "trophy": '<path d="M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2"/><path d="M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2"/><path d="M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3"/><path d="M4 22h16"/><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/><path d="M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3"/>',
+            "wrench": '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/>',
+            "x": '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>'
+        };
+
+        // Rend une icône SVG ; la couleur suit le texte (currentColor)
+        function icon(name, cls = 'w-4 h-4') {
+            return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-shrink-0 ${cls}" aria-hidden="true" focusable="false">${ICONS[name] || ''}</svg>`;
+        }
+
+        // Remplace les marqueurs statiques <span data-icon="nom" class="..."> par leur SVG
+        function hydrateIcons(root) {
+            root.querySelectorAll('[data-icon]').forEach(el => { el.outerHTML = icon(el.dataset.icon, el.className); });
+        }
+    </script>
 
     <script>
         // --- Data Storage ---
@@ -266,11 +326,11 @@
 
         // Types de défi : l'apprenant construit lui-même son prompt (jamais de prompt complet visible)
         const DEFIS = {
-            trous: { label: "🧩 Prompt à trous", badge: "bg-sky-50 text-sky-800 border-sky-200", aide: "Complétez chaque [___] : chaque trou est une décision à prendre." },
-            construire: { label: "🧪 Prompt à construire", badge: "bg-emerald-50 text-emerald-800 border-emerald-200", aide: "Assemblez les ingrédients fournis : rôle, contexte ciblé, tâche, format, critère de fin." },
-            ameliorer: { label: "🔧 Prompt à améliorer", badge: "bg-orange-50 text-orange-800 border-orange-200", aide: "Ce prompt fonctionne mal : identifiez ses défauts, puis réécrivez-le." },
-            inverse: { label: "🔁 Rétro-prompt", badge: "bg-violet-50 text-violet-800 border-violet-200", aide: "Partez du résultat attendu et retrouvez le prompt qui le produit." },
-            squelette: { label: "🦴 Fichier à compléter", badge: "bg-slate-50 text-slate-800 border-slate-300", aide: "Complétez le fichier de configuration Copilot : chaque champ compte." }
+            trous: { icon: "puzzle", label: "Prompt à trous", badge: "bg-sky-50 text-sky-800 border-sky-200", aide: "Complétez chaque [___] : chaque trou est une décision à prendre." },
+            construire: { icon: "flask-conical", label: "Prompt à construire", badge: "bg-emerald-50 text-emerald-800 border-emerald-200", aide: "Assemblez les ingrédients fournis : rôle, contexte ciblé, tâche, format, critère de fin." },
+            ameliorer: { icon: "pencil-line", label: "Prompt à améliorer", badge: "bg-orange-50 text-orange-800 border-orange-200", aide: "Ce prompt fonctionne mal : identifiez ses défauts, puis réécrivez-le." },
+            inverse: { icon: "rotate-ccw", label: "Rétro-prompt", badge: "bg-violet-50 text-violet-800 border-violet-200", aide: "Partez du résultat attendu et retrouvez le prompt qui le produit." },
+            squelette: { icon: "file-code", label: "Fichier à compléter", badge: "bg-slate-50 text-slate-800 border-slate-300", aide: "Complétez le fichier de configuration Copilot : chaque champ compte." }
         };
 
         // Code d'accès formateur — verrou incitatif (lisible dans le source, comme le verrou sécurité du hub)
@@ -278,7 +338,7 @@
 
         const courseData = [
             {
-                id: "mod1", icon: "💡", target: "Biz",
+                id: "mod1", icon: "lightbulb", target: "Biz",
                 title: "Module 1 : De l'idée au produit",
                 subtitle: "(PO · Copilot Chat en mode Ask & Plan · MCP GitHub)",
                 intro: "Tout commence par un problème, pas par du code. Le Product Owner utilise Copilot comme sparring partner : il challenge l'idée, cadre le MVP et remplit le backlog GitHub sans quitter VS Code. Ces fichiers deviendront le contexte permanent de tous les agents.",
@@ -428,7 +488,7 @@ Agis comme un Product Owner rigoureux.
                 ]
             },
             {
-                id: "mod2", icon: "🏛️", target: "Mixte",
+                id: "mod2", icon: "landmark", target: "Mixte",
                 title: "Module 2 : Architecture 100 % navigateur",
                 subtitle: "(Architecte · premier agent personnalisé · ADR)",
                 intro: "GitHub Pages ne sert que des fichiers statiques : toute l'application tourne dans le navigateur. L'architecte fixe les contraintes, trace le schéma et documente ses décisions (ADR) avec un premier agent personnalisé, volontairement limité à la lecture.",
@@ -581,7 +641,7 @@ Ne crée aucun composant d'interface.`,
                 ]
             },
             {
-                id: "mod3", icon: "⚙️", target: "Tech",
+                id: "mod3", icon: "settings", target: "Tech",
                 title: "Module 3 : Workspace & context engineering",
                 subtitle: "(Instructions · exclusions · .copilotignore)",
                 intro: "Avant d'écrire une ligne de code métier, on prépare ce que Copilot verra à chaque requête : ce qu'il doit savoir (instructions), ce qu'il n'a pas besoin de voir (exclusions) et ce qu'il ne doit jamais voir (données sensibles). C'est le socle de l'optimisation du contexte.",
@@ -641,7 +701,7 @@ Utilise uniquement des commandes non interactives (options en ligne de commande,
 # 3. Fichiers volumineux sans valeur pour l'IA
 [___ ___]
 
-# ⚠️ Question à trancher en équipe : ce fichier suffit-il ?`,
+# À trancher en équipe : ce fichier suffit-il ?`,
                         indices: [
                             "La négation <code>!fichier</code> n'est pas prise en charge : on ne peut pas « ré-inclure » un fichier exclu.",
                             "Sur les plans Business et Enterprise, l'exclusion de contenu officielle se configure dans les paramètres du dépôt ou de l'organisation. La documentation GitHub précise qu'elle n'est pas appliquée en mode Agent.",
@@ -828,7 +888,7 @@ description: Règles de la couche domaine
                 ]
             },
             {
-                id: "mod4", icon: "🎨", target: "Tech",
+                id: "mod4", icon: "palette", target: "Tech",
                 title: "Module 4 : Maquettes, prompt files & skills",
                 subtitle: "(Google Stitch · industrialiser les tâches répétitives)",
                 intro: "On donne un visage à FrigoMalin avec Google Stitch (Web et Mobile), puis on transforme les tâches répétitives (créer un composant, appeler une API) en commandes et en skills réutilisables. Un skill n'est chargé dans le contexte que lorsqu'il sert : c'est une brique clé de l'optimisation.",
@@ -1040,7 +1100,7 @@ Implémente le scan de code-barres de l'écran Ajout : détection via BarcodeDet
                 ]
             },
             {
-                id: "mod5", icon: "💻", target: "Tech",
+                id: "mod5", icon: "code", target: "Tech",
                 title: "Module 5 : Développer au quotidien",
                 subtitle: "(De l'issue au code · TDD · micro-tâches)",
                 intro: "Le quotidien du développeur augmenté : de l'issue GitHub au code avec l'agent Plan puis le mode Agent, le TDD pour la logique métier, et le bon réflexe pour les petites tâches (complétions, suggestions d'édition, chat inline).",
@@ -1217,7 +1277,7 @@ Vos étapes :
                 ]
             },
             {
-                id: "mod6", icon: "🤖", target: "Tech",
+                id: "mod6", icon: "bot", target: "Tech",
                 title: "Module 6 : Agents personnalisés",
                 subtitle: "(Une équipe d'agents spécialisés · handoffs · MCP Playwright)",
                 intro: "On passe d'un assistant généraliste à une équipe : un lead qui planifie, un implémenteur qui code, un testeur, un spécialiste du refactoring et un relecteur sécurité. Chacun a ses outils, son modèle et ses consignes. Les handoffs enchaînent les rôles avec une validation humaine à chaque étape.",
@@ -1326,39 +1386,39 @@ handoffs:
                         ],
                         solution: `--- feature-lead.agent.md ---
 handoffs:
-  - label: ▶ Implémenter la tâche 1
+  - label: Implémenter la tâche 1
     agent: implementer
     prompt: Implémente uniquement la tâche 1 du plan ci-dessus. Arrête-toi quand les tests passent.
     send: false
 
 --- implementer.agent.md ---
 handoffs:
-  - label: 🧪 Faire tester
+  - label: Faire tester
     agent: tester
     prompt: Écris les tests manquants pour le code modifié ci-dessus (cas limites compris) et lance-les.
     send: false
 
 --- tester.agent.md ---
 handoffs:
-  - label: 🧹 Refactoriser
+  - label: Refactoriser
     agent: refactorer
     prompt: Les tests sont au vert. Simplifie le code de cette tâche sans changer son comportement.
     send: false
 
 --- refactorer.agent.md ---
 handoffs:
-  - label: 🔒 Audit sécurité
+  - label: Audit sécurité
     agent: security-reviewer
     prompt: Audite les fichiers modifiés par cette tâche avec ta checklist. Classe par gravité.
     send: false
 
 --- security-reviewer.agent.md ---
 handoffs:
-  - label: 🔧 Corriger les points bloquants
+  - label: Corriger les points bloquants
     agent: implementer
     prompt: Corrige uniquement les points « bloquant » de l'audit ci-dessus, puis relance les tests.
     send: false
-  - label: ✅ Tâche suivante
+  - label: Tâche suivante
     agent: feature-lead
     prompt: La tâche est terminée et auditée. Mets à jour le plan et propose la tâche suivante.
     send: false`,
@@ -1434,7 +1494,7 @@ Tu ne modifies jamais le code de l'application.`,
                 ]
             },
             {
-                id: "mod7", icon: "🧠", target: "Tech",
+                id: "mod7", icon: "network", target: "Tech",
                 title: "Module 7 : Orchestration & délégation",
                 subtitle: "(Sous-agents · contexte isolé · audits parallèles)",
                 intro: "Un orchestrateur délègue des tâches à des sous-agents qui travaillent chacun dans leur propre contexte : le contexte principal reste petit et les tâches peuvent avancer en parallèle.",
@@ -1539,7 +1599,7 @@ Ne modifie aucun fichier.`,
                 ]
             },
             {
-                id: "mod8", icon: "⚡", target: "Tech",
+                id: "mod8", icon: "gauge", target: "Tech",
                 title: "Module 8 : Optimisation du contexte & des tokens",
                 subtitle: "(Mesurer · alléger le contexte · alléger la facture)",
                 intro: "Copilot est facturé à l'usage : chaque token compte, pour la facture comme pour la qualité (un contexte saturé produit de moins bonnes réponses). On mesure d'abord, on optimise ensuite, et on remesure. Objectif : −30 % sur une tâche de référence, à qualité égale.",
@@ -1676,7 +1736,7 @@ Résultat attendu : −30 à −60 % de crédits sur la tâche de référence, a
                 ]
             },
             {
-                id: "mod9", icon: "🛡️", target: "Tech",
+                id: "mod9", icon: "shield-check", target: "Tech",
                 title: "Module 9 : Garde-fous & qualité",
                 subtitle: "(Un hook · tests · revue de code)",
                 intro: "Les agents vont vite ; les garde-fous garantissent qu'ils vont dans la bonne direction. Un hook automatise un contrôle déterministe, les tests verrouillent le comportement, et la revue de code par Copilot complète la revue humaine sans la remplacer.",
@@ -1820,7 +1880,7 @@ Performance :
                 ]
             },
             {
-                id: "mod10", icon: "🚀", target: "Tech",
+                id: "mod10", icon: "rocket", target: "Tech",
                 title: "Module 10 : CI/CD & GitHub Pages",
                 subtitle: "(GitHub Actions · déploiement)",
                 intro: "Le POC part en ligne. Un workflow GitHub Actions vérifie tout (lint, tests, build, E2E) puis publie sur GitHub Pages : une version qui casse un test n'est jamais publiée.",
@@ -1835,10 +1895,10 @@ Performance :
                         defi: "inverse",
                         consigne: "Voici le résultat attendu (la page publiée et le résumé du workflow). Écrivez le prompt qui produit ce workflow du premier coup.",
                         amorce: `Résultat attendu :
-✅ https://<votre-compte>.github.io/frigomalin/ s'affiche, s'installe et fonctionne hors ligne
-✅ Rafraîchir /frigomalin/recettes ne donne pas d'erreur 404
-✅ Un test en échec bloque la publication
-✅ Une seule publication à la fois
+- https://<votre-compte>.github.io/frigomalin/ s'affiche, s'installe et fonctionne hors ligne
+- Rafraîchir /frigomalin/recettes ne donne pas d'erreur 404
+- Un test en échec bloque la publication
+- Une seule publication à la fois
 
 Jobs visibles dans l'onglet Actions : build (lint → tests → build → E2E) → deploy
 
@@ -1881,7 +1941,7 @@ Utilise les versions actuelles des actions officielles (vérifie-les avec l'outi
                 ]
             },
             {
-                id: "mod11", icon: "🎬", target: "Biz",
+                id: "mod11", icon: "clipboard-check", target: "Biz",
                 title: "Module 11 : Recette, démo & V2",
                 subtitle: "(PO · de la démo à la suite)",
                 intro: "Le POC est en ligne. Le PO le recette sur l'URL publique, l'équipe présente le résultat avec ses chiffres (délais, crédits, qualité), puis prépare la V2 sous forme d'issues prêtes pour les agents.",
@@ -2041,6 +2101,7 @@ Hors périmètre : synchronisation automatique, comptes.`,
 
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
+            hydrateIcons(document);
             renderDefiLegend();
             renderSidebar();
             renderModuleCards();
@@ -2067,9 +2128,9 @@ Hors périmètre : synchronisation automatique, comptes.`,
 
         // Styles par cible (classes complètes et statiques pour Tailwind)
         const themeStyles = {
-            fm: { label: 'Tech', borderLight: 'border-fm-200', borderHover: 'hover:border-fm-400', textPrimary: 'text-fm-700', bgActive: 'bg-fm-50 border-fm-200 text-fm-900 shadow-sm', subActive: 'text-fm-700', borderMedium: 'border-fm-400', bgMedium: 'bg-fm-600' },
-            biz: { label: 'Product Owner', borderLight: 'border-biz-200', borderHover: 'hover:border-biz-400', textPrimary: 'text-biz-700', bgActive: 'bg-biz-50 border-biz-200 text-biz-900 shadow-sm', subActive: 'text-biz-700', borderMedium: 'border-biz-400', bgMedium: 'bg-biz-600' },
-            mix: { label: 'PO + Tech', borderLight: 'border-mix-200', borderHover: 'hover:border-mix-400', textPrimary: 'text-mix-700', bgActive: 'bg-mix-50 border-mix-200 text-mix-900 shadow-sm', subActive: 'text-mix-700', borderMedium: 'border-mix-400', bgMedium: 'bg-mix-600' }
+            fm: { tile: 'bg-fm-50 text-fm-700', label: 'Tech', borderLight: 'border-fm-200', borderHover: 'hover:border-fm-400', textPrimary: 'text-fm-700', bgActive: 'bg-fm-50 border-fm-200 text-fm-900 shadow-sm', subActive: 'text-fm-700', borderMedium: 'border-fm-400', bgMedium: 'bg-fm-600' },
+            biz: { tile: 'bg-biz-50 text-biz-700', label: 'Product Owner', borderLight: 'border-biz-200', borderHover: 'hover:border-biz-400', textPrimary: 'text-biz-700', bgActive: 'bg-biz-50 border-biz-200 text-biz-900 shadow-sm', subActive: 'text-biz-700', borderMedium: 'border-biz-400', bgMedium: 'bg-biz-600' },
+            mix: { tile: 'bg-mix-50 text-mix-700', label: 'PO + Tech', borderLight: 'border-mix-200', borderHover: 'hover:border-mix-400', textPrimary: 'text-mix-700', bgActive: 'bg-mix-50 border-mix-200 text-mix-900 shadow-sm', subActive: 'text-mix-700', borderMedium: 'border-mix-400', bgMedium: 'bg-mix-600' }
         };
 
         function themeFor(mod) {
@@ -2085,7 +2146,7 @@ Hors périmètre : synchronisation automatique, comptes.`,
             if (!container) return;
             container.innerHTML = Object.values(DEFIS).map(d => `
                 <div class="flex items-start gap-3 bg-white border border-stone-200 rounded-xl p-3">
-                    <span class="inline-flex flex-shrink-0 items-center text-xs px-2.5 py-1 rounded-md font-bold border ${d.badge}">${d.label}</span>
+                    <span class="inline-flex flex-shrink-0 items-center gap-1.5 text-xs px-2.5 py-1 rounded-md font-bold border ${d.badge}">${icon(d.icon, 'w-3.5 h-3.5')} ${d.label}</span>
                     <span class="text-sm text-slate-600">${d.aide}</span>
                 </div>
             `).join('');
@@ -2097,7 +2158,7 @@ Hors périmètre : synchronisation automatique, comptes.`,
 
             const homeBtn = document.createElement('button');
             homeBtn.className = `w-full text-left px-4 py-3 rounded-xl transition-all duration-200 flex items-center gap-3 font-medium hover:bg-stone-100 text-slate-700 mb-2`;
-            homeBtn.innerHTML = `<span>🏠</span> <span class="truncate">Accueil Projet</span>`;
+            homeBtn.innerHTML = `${icon('house', 'w-5 h-5 text-slate-500')} <span class="truncate">Accueil Projet</span>`;
             homeBtn.onclick = () => showIntro();
             nav.appendChild(homeBtn);
 
@@ -2115,13 +2176,13 @@ Hors périmètre : synchronisation automatique, comptes.`,
                 const isBonusModule = mod.labs.every(l => l.bonus);
 
                 btn.innerHTML = `
-                    <span class="text-xl flex-shrink-0">${mod.icon}</span>
+                    <span class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${theme.tile}">${icon(mod.icon, 'w-5 h-5')}</span>
                     <div class="flex-1 min-w-0">
                         <div class="truncate text-sm font-bold">${mod.title.split(' : ')[0]}${isBonusModule ? ' <span class="ml-1 align-middle bg-amber-100 text-amber-800 text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">Bonus</span>' : ''}</div>
                         <div class="truncate text-xs ${isSelected ? theme.subActive : 'text-slate-500'}">${mod.title.split(' : ')[1] || ''}</div>
                     </div>
                     ${isModComplete
-                        ? '<i class="fa-solid fa-circle-check text-fm-600 text-sm" title="Module terminé"></i>'
+                        ? `<span title="Module terminé" class="text-fm-600">${icon('circle-check', 'w-4 h-4')}</span>`
                         : (completedInMod > 0 ? `<span class="text-xs font-bold text-slate-400 tabular-nums">${completedInMod}/${modLabs.length}</span>` : '')}
                 `;
                 btn.onclick = () => loadModule(index);
@@ -2132,8 +2193,8 @@ Hors périmètre : synchronisation automatique, comptes.`,
         function describeLabCounts(mod) {
             const bonus = mod.labs.filter(l => l.bonus).length;
             const essentiels = mod.labs.length - bonus;
-            if (essentiels === 0) return `🎁 ${bonus} lab(s) bonus`;
-            return bonus > 0 ? `${essentiels} lab(s) essentiel(s) · 🎁 ${bonus} bonus` : `${essentiels} lab(s) essentiel(s)`;
+            if (essentiels === 0) return `<span class="inline-flex items-center gap-1">${icon('gift', 'w-3.5 h-3.5')} ${bonus} lab(s) bonus</span>`;
+            return bonus > 0 ? `${essentiels} lab(s) essentiel(s) · <span class="inline-flex items-center gap-1 align-middle">${icon('gift', 'w-3.5 h-3.5')} ${bonus} bonus</span>` : `${essentiels} lab(s) essentiel(s)`;
         }
 
         function renderModuleCards() {
@@ -2147,7 +2208,7 @@ Hors périmètre : synchronisation automatique, comptes.`,
                 card.onclick = () => loadModule(index);
                 card.innerHTML = `
                     <div class="flex items-center gap-3 mb-2">
-                        <span class="text-2xl">${mod.icon}</span>
+                        <span class="w-10 h-10 rounded-lg flex items-center justify-center ${theme.tile}">${icon(mod.icon, 'w-5 h-5')}</span>
                         <span class="text-xs font-bold uppercase tracking-wider ${theme.textPrimary}">${theme.label}</span>
                     </div>
                     <div class="font-bold text-slate-800">${mod.title}</div>
@@ -2180,7 +2241,7 @@ Hors périmètre : synchronisation automatique, comptes.`,
                 </li>
             `).join('');
             const btn = shown < total
-                ? `<button onclick="revealHint('${lab.id}')" class="text-sm font-bold text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-3 py-1.5 rounded-lg transition-colors">💡 ${shown === 0 ? 'Afficher un indice' : 'Indice suivant'} (${shown}/${total})</button>`
+                ? `<button onclick="revealHint('${lab.id}')" class="text-sm font-bold text-amber-700 hover:text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-3 py-1.5 rounded-lg transition-colors inline-flex items-center gap-1.5">${icon('lightbulb', 'w-4 h-4')} ${shown === 0 ? 'Afficher un indice' : 'Indice suivant'} (${shown}/${total})</button>`
                 : `<span class="text-xs font-semibold text-slate-400">Tous les indices sont affichés (${total}/${total})</span>`;
             return `
                 <div>
@@ -2195,15 +2256,15 @@ Hors périmètre : synchronisation automatique, comptes.`,
             return `
                 <div class="p-6 md:p-8 border-t-2 border-dashed border-fm-300 bg-fm-50">
                     <div class="flex justify-between items-center mb-3 gap-3">
-                        <span class="text-xs font-bold text-fm-900 uppercase tracking-widest">🎓 Corrigé formateur : prompt idéal</span>
+                        <span class="text-xs font-bold text-fm-900 uppercase tracking-widest inline-flex items-center gap-1.5">${icon('graduation-cap', 'w-4 h-4')} Corrigé formateur : prompt idéal</span>
                         <button onclick="copyToClipboard(this, '${lab.id}', 'solution')" class="text-sm text-fm-700 font-bold flex items-center gap-1 bg-white px-3 py-1 rounded-md border border-fm-200 shadow-sm flex-shrink-0">
-                            <span>📋</span> Copier
+                            ${icon('copy', 'w-4 h-4')} Copier
                         </button>
                     </div>
                     <pre class="bg-slate-900 text-stone-100 p-5 rounded-xl text-sm overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed shadow-inner border border-slate-800">${escapeHtml(lab.solution)}</pre>
                     <h4 class="text-xs font-bold text-fm-900 uppercase tracking-widest mt-5 mb-2">Points clés &amp; pièges</h4>
                     <ul class="space-y-1.5">
-                        ${lab.correction.map(c => `<li class="text-sm text-slate-700 flex gap-2"><span class="text-fm-600 flex-shrink-0">▸</span><span>${c}</span></li>`).join('')}
+                        ${lab.correction.map(c => `<li class="text-sm text-slate-700 flex gap-2"><span class="text-fm-600 flex-shrink-0 mt-0.5">${icon('chevron-right', 'w-4 h-4')}</span><span>${c}</span></li>`).join('')}
                     </ul>
                 </div>
             `;
@@ -2225,7 +2286,7 @@ Hors périmètre : synchronisation automatique, comptes.`,
             header.className = `bg-white border ${theme.borderLight} p-6 md:p-8 rounded-2xl mb-8 shadow-sm`;
             header.innerHTML = `
                 <div class="flex items-center gap-3 mb-3">
-                    <span class="text-3xl">${mod.icon}</span>
+                    <span class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${theme.tile}">${icon(mod.icon, 'w-6 h-6')}</span>
                     <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">${mod.title}</h2>
                 </div>
                 ${mod.subtitle ? `<p class="${theme.textPrimary} font-bold mb-4 uppercase tracking-wide text-sm">${mod.subtitle}</p>` : ''}
@@ -2243,18 +2304,18 @@ Hors périmètre : synchronisation automatique, comptes.`,
                     <div class="p-6 md:p-8 border-b border-stone-100 flex flex-col md:flex-row justify-between items-start gap-4">
                         <div class="flex-1 min-w-0">
                             <div class="flex flex-wrap gap-2 mb-3">
-                                ${lab.bonus ? `<span class="inline-flex items-center bg-amber-100 border border-amber-300 text-amber-800 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider" title="Lab secondaire : à faire en autonomie ou si le temps le permet">🎁 Bonus</span>` : ''}
-                                <span class="inline-flex items-center bg-stone-100 text-stone-700 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider">🎯 ${lab.targetBadge}</span>
-                                ${lab.tools.map(t => `<span class="inline-flex items-center bg-slate-800 text-slate-100 text-xs px-2.5 py-1 rounded-md font-bold tracking-wider">🛠 ${t}</span>`).join('')}
+                                ${lab.bonus ? `<span class="inline-flex items-center bg-amber-100 border border-amber-300 text-amber-800 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider gap-1.5" title="Lab secondaire : à faire en autonomie ou si le temps le permet">${icon('gift', 'w-3.5 h-3.5')} Bonus</span>` : ''}
+                                <span class="inline-flex items-center bg-stone-100 text-stone-700 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider gap-1.5">${icon('target', 'w-3.5 h-3.5')} ${lab.targetBadge}</span>
+                                ${lab.tools.map(t => `<span class="inline-flex items-center bg-slate-800 text-slate-100 text-xs px-2.5 py-1 rounded-md font-bold tracking-wider gap-1.5">${icon('wrench', 'w-3.5 h-3.5')} ${t}</span>`).join('')}
                             </div>
                             <h3 class="text-xl font-extrabold text-slate-900 mb-2">${lab.title}</h3>
                             <p class="text-slate-600 mb-3 font-medium">${lab.objective}</p>
                             <div class="flex flex-wrap gap-1.5 mb-4">
-                                ${lab.features.map(f => `<span class="inline-flex items-center bg-fm-50 border border-fm-200 text-fm-900 text-xs px-2 py-0.5 rounded-full font-semibold">⚙️ ${f}</span>`).join('')}
+                                ${lab.features.map(f => `<span class="inline-flex items-center bg-fm-50 border border-fm-200 text-fm-900 text-xs px-2 py-0.5 rounded-full font-semibold gap-1">${icon('tag', 'w-3 h-3')} ${f}</span>`).join('')}
                             </div>
 
                             <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 shadow-sm">
-                                <span class="text-amber-500 text-xl flex-shrink-0">💡</span>
+                                <span class="text-amber-500 flex-shrink-0">${icon('lightbulb', 'w-5 h-5')}</span>
                                 <div>
                                     <h4 class="text-sm font-bold text-amber-900 mb-1">Impact Tech / Produit</h4>
                                     <p class="text-sm text-amber-800 leading-relaxed">${lab.astuce}</p>
@@ -2263,7 +2324,7 @@ Hors périmètre : synchronisation automatique, comptes.`,
                         </div>
                         <button onclick="toggleLab('${lab.id}')" title="Marquer le lab comme terminé" class="flex-shrink-0 w-12 h-12 rounded-full border-2 flex items-center justify-center transition-colors text-lg
                             ${isCompleted ? `${theme.bgMedium} ${theme.borderMedium} text-white` : 'border-stone-300 text-transparent hover:border-stone-400'}">
-                            <i class="fa-solid fa-check"></i>
+                            ${icon('check', 'w-5 h-5')}
                         </button>
                     </div>
                     <div class="p-6 md:p-8 bg-stone-50 space-y-5">
@@ -2271,15 +2332,15 @@ Hors périmètre : synchronisation automatique, comptes.`,
                             <div class="flex justify-between items-center mb-3 gap-3">
                                 <div class="flex flex-wrap items-center gap-2">
                                     <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Votre défi</span>
-                                    <span class="inline-flex items-center text-xs px-2.5 py-1 rounded-md font-bold border ${defi.badge}">${defi.label}</span>
+                                    <span class="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md font-bold border ${defi.badge}">${icon(defi.icon, 'w-3.5 h-3.5')} ${defi.label}</span>
                                 </div>
                                 <button onclick="copyToClipboard(this, '${lab.id}', 'amorce')" class="text-sm ${theme.textPrimary} font-bold flex items-center gap-1 transition-colors bg-white px-3 py-1 rounded-md border border-stone-200 shadow-sm flex-shrink-0">
-                                    <span>📋</span> Copier l'amorce
+                                    ${icon('copy', 'w-4 h-4')} Copier l'amorce
                                 </button>
                             </div>
                             ${lab.emplacement ? `
                             <div class="flex gap-2 items-start bg-white border border-slate-200 rounded-lg px-3 py-2 mb-3 text-sm text-slate-700">
-                                <span class="flex-shrink-0">📁</span>
+                                <span class="flex-shrink-0 text-slate-500 mt-0.5">${icon('folder-open', 'w-4 h-4')}</span>
                                 <span><strong>Où créer le fichier ?</strong> ${lab.emplacement}</span>
                             </div>` : ''}
                             <p class="text-sm text-slate-700 mb-3">${lab.consigne}</p>
@@ -2287,9 +2348,9 @@ Hors périmètre : synchronisation automatique, comptes.`,
                         </div>
                         <div id="hints-${lab.id}">${renderHints(lab)}</div>
                         <div class="bg-white border border-emerald-200 rounded-xl p-4">
-                            <h4 class="text-sm font-bold text-emerald-900 mb-2">✅ Votre prompt est réussi si…</h4>
+                            <h4 class="text-sm font-bold text-emerald-900 mb-2 flex items-center gap-1.5">${icon('circle-check', 'w-4 h-4 text-emerald-600')} Votre prompt est réussi si…</h4>
                             <ul class="space-y-1">
-                                ${lab.reussite.map(r => `<li class="text-sm text-slate-700 flex gap-2"><span class="text-emerald-600 flex-shrink-0">☐</span><span>${r}</span></li>`).join('')}
+                                ${lab.reussite.map(r => `<li class="text-sm text-slate-700 flex gap-2"><span class="text-emerald-600 flex-shrink-0 mt-0.5">${icon('square', 'w-4 h-4')}</span><span>${r}</span></li>`).join('')}
                             </ul>
                         </div>
                     </div>
@@ -2353,7 +2414,7 @@ Hors périmètre : synchronisation automatique, comptes.`,
                     toast.classList.remove('translate-y-20', 'opacity-0');
 
                     const originalHtml = btnElement.innerHTML;
-                    btnElement.innerHTML = `<span>✅</span> Copié`;
+                    btnElement.innerHTML = `${icon('check', 'w-4 h-4')} Copié`;
                     btnElement.classList.add('text-green-700', 'border-green-300', 'bg-green-50');
 
                     setTimeout(() => {
@@ -2436,9 +2497,9 @@ Hors périmètre : synchronisation automatique, comptes.`,
             document.getElementById('progress-bar').style.width = `${percent}%`;
             document.getElementById('progress-track').setAttribute('aria-valuenow', percent);
             document.getElementById('progress-percent').innerText = `${percent} %`;
-            const bonusText = bonusDone > 0 ? ` · 🎁 ${bonusDone} bonus` : '';
-            document.getElementById('progress-text').innerText = done === essentialIds.length
-                ? `🎉 Parcours essentiel terminé${bonusText}`
+            const bonusText = bonusDone > 0 ? ` · <span class="inline-flex items-center gap-1 align-middle">${icon('gift', 'w-3 h-3')} ${bonusDone} bonus</span>` : '';
+            document.getElementById('progress-text').innerHTML = done === essentialIds.length
+                ? `<span class="inline-flex items-center gap-1 align-middle text-fm-700 font-bold">${icon('trophy', 'w-3.5 h-3.5')} Parcours essentiel terminé</span>${bonusText}`
                 : `${done} / ${essentialIds.length} labs essentiels${bonusText}`;
             renderSidebar();
         }

@@ -6,7 +6,6 @@
     <title>Parcours NextPortfolio — Oddo BHF Tunisie · Cahier de TP IA (.NET avancé)</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <script>
@@ -43,15 +42,6 @@
     </script>
 
     <style>
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 160px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 160px;
-            max-height: 160px;
-        }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f5f5f4; }
         ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
@@ -70,19 +60,22 @@
                 <i class="fa-solid fa-arrow-left"></i> Accueil formation
             </a>
             <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
-                <span>🏦</span> NextPortfolio <span class="text-gold-600">IA</span>
+                <span><i data-icon=landmark class=ico></i></span> NextPortfolio <span class="text-gold-600">IA</span>
             </h1>
             <p class="text-sm text-slate-500 mt-2">Banque Privée · Oddo BHF Tunisie · Nearshore .NET</p>
 
             <button id="mobile-close" class="md:hidden absolute top-4 right-4 text-slate-500 text-2xl" onclick="toggleSidebar()">×</button>
         </div>
 
-        <div class="p-4 border-b border-stone-200 bg-stone-50/50">
-            <h3 class="text-sm font-bold text-slate-600 mb-2 text-center uppercase tracking-wider">Progression</h3>
-            <div class="chart-container">
-                <canvas id="progressChart"></canvas>
+        <div class="px-6 py-4 border-b border-stone-200">
+            <div class="flex items-baseline justify-between mb-2">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Progression</span>
+                <span id="progress-percent" class="text-sm font-extrabold text-odc-700 tabular-nums">0 %</span>
             </div>
-            <p id="progress-text" class="text-center text-xs font-bold text-slate-500 mt-2">0 Labs complétés</p>
+            <div id="progress-track" class="h-2 w-full bg-stone-100 rounded-full overflow-hidden" role="progressbar" aria-label="Progression du parcours" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-odc-400 to-odc-700 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <p id="progress-text" class="text-xs text-slate-500 mt-2">0 labs complétés</p>
         </div>
 
         <nav class="flex-1 overflow-y-auto p-4 space-y-2" id="module-nav">
@@ -98,44 +91,44 @@
 
     <main class="flex-1 flex flex-col h-full relative overflow-hidden">
         <header class="md:hidden bg-white border-b border-stone-200 p-4 flex justify-between items-center z-10 shadow-sm">
-            <h2 class="text-lg font-bold text-odc-700">🏦 NextPortfolio IA</h2>
-            <button class="text-2xl text-slate-600" onclick="toggleSidebar()">☰</button>
+            <h2 class="text-lg font-bold text-odc-700"><i data-icon=landmark class=ico></i> NextPortfolio IA</h2>
+            <button class="text-2xl text-slate-600" onclick="toggleSidebar()"><i data-icon=menu class=ico></i></button>
         </header>
 
         <div class="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12" id="main-content">
             <!-- Vue introduction (modules) -->
             <div id="intro-view" class="max-w-4xl mx-auto space-y-8 animate-fade-in">
                 <div class="bg-gradient-to-br from-odc-50 to-gold-50 border border-stone-200 rounded-2xl p-8 shadow-sm">
-                    <h1 class="text-5xl font-extrabold text-slate-900 mb-2 tracking-tight">🏦 NextPortfolio & IA</h1>
+                    <h1 class="text-5xl font-extrabold text-slate-900 mb-2 tracking-tight"><i data-icon=landmark class=ico></i> NextPortfolio & IA</h1>
                     <p class="text-lg text-slate-600 mb-8 leading-relaxed">Le cursus intensif <strong>100 % hands-on dans l'IDE</strong> pour révolutionner le cycle de vie logiciel (SDLC) d'une plateforme de <strong>banque privée</strong>, appliqué à un environnement <strong>.NET nearshore</strong> chez Oddo BHF Tunisie.</p>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                         <div class="bg-white border border-odc-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
                             <h3 class="font-bold text-odc-700 mb-2 flex items-center gap-2">
-                                <span>🔵</span> Pôle Tech .NET
+                                <span><i data-icon=laptop class=ico></i></span> Pôle Tech .NET
                             </h3>
                             <p class="text-sm text-slate-600">Devs, Tech Leads, Architectes — C# 12, .NET 8, ASP.NET Core, microservices, EF Core, xUnit/NUnit, Semantic Kernel, Docker, GitHub Actions.</p>
                         </div>
                         <div class="bg-white border border-gold-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
                             <h3 class="font-bold text-gold-700 mb-2 flex items-center gap-2">
-                                <span>🟡</span> Pôle Conformité &amp; Restitution
+                                <span><i data-icon=scale class=ico></i></span> Pôle Conformité &amp; Restitution
                             </h3>
                             <p class="text-sm text-slate-600">BA, Analystes Conformité, PO — KYC / LCB-FT, MiFID II, RGPD, Gherkin, reporting patrimonial, restitution COMEX.</p>
                         </div>
                     </div>
 
                     <div class="bg-amber-50 border border-amber-300 rounded-xl p-6 mb-8">
-                        <p class="text-sm text-amber-900"><strong>🎯 Objectif :</strong> Construire le MVP de <strong>NextPortfolio</strong>, un portail de banque privée (agrégation multi-comptes, onboarding <strong>KYC / LCB-FT</strong>, valorisation &amp; reporting patrimonial, dashboard interactif) — avec une architecture <strong>microservices .NET</strong> et l'IA générative de bout en bout.</p>
+                        <p class="text-sm text-amber-900"><strong><i data-icon=target class=ico></i> Objectif :</strong> Construire le MVP de <strong>NextPortfolio</strong>, un portail de banque privée (agrégation multi-comptes, onboarding <strong>KYC / LCB-FT</strong>, valorisation &amp; reporting patrimonial, dashboard interactif) — avec une architecture <strong>microservices .NET</strong> et l'IA générative de bout en bout.</p>
                     </div>
 
                     <div class="bg-white border border-stone-200 rounded-xl p-5 mb-2">
-                        <p class="text-sm text-slate-600"><strong>� Outil principal : GitHub Copilot</strong> (mode agent dans l'IDE) — c'est l'outil fil rouge de la formation, en particulier pour créer et orchestrer les <strong>agents personnalisés</strong>. Les autres sont cités <strong>à titre indicatif</strong> : 💬 ChatGPT, Gemini, Claude, Grok, Mistral · ⌨️ Claude Code, Codex, Cursor, AntiGravity · 📄 M365 Copilot (volet conformité/restitution) · 🎨 Stitch, v0.dev. La stack .NET est un cadre — les principes restent transférables.</p>
+                        <p class="text-sm text-slate-600"><strong>� Outil principal : GitHub Copilot</strong> (mode agent dans l'IDE) — c'est l'outil fil rouge de la formation, en particulier pour créer et orchestrer les <strong>agents personnalisés</strong>. Les autres sont cités <strong>à titre indicatif</strong> : <i data-icon=message-square class=ico></i> ChatGPT, Gemini, Claude, Grok, Mistral · <i data-icon=keyboard class=ico></i> Claude Code, Codex, Cursor, AntiGravity · <i data-icon=file-text class=ico></i> M365 Copilot (volet conformité/restitution) · <i data-icon=palette class=ico></i> Stitch, v0.dev. La stack .NET est un cadre — les principes restent transférables.</p>
                     </div>
                 </div>
 
                 <div class="text-center">
                     <button onclick="goToFirstLab()" class="bg-odc-500 hover:bg-odc-600 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 inline-flex items-center gap-2">
-                        🚀 Démarrer le Module 1
+                        <i data-icon=rocket class=ico></i> Démarrer le Module 1
                     </button>
                 </div>
 
@@ -149,8 +142,50 @@
 
     <!-- Toast -->
     <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl transition-all duration-300 translate-y-20 opacity-0 z-50 flex items-center gap-2">
-        <span>✅</span> Prompt copié dans le presse-papiers
+        <span><i data-icon=clipboard-check class=ico></i></span> Prompt copié dans le presse-papiers
     </div>
+
+    <script>
+        // Icônes SVG monochromes embarquées (Lucide, licence ISC — https://lucide.dev) : remplacent les emojis.
+        // Marqueur : <i data-icon=nom class=ico></i> (statique ou injecté dynamiquement) ; taille 1em, couleur du texte.
+        const ICONS = {
+            "bot": '<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>',
+            "brain": '<path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/>',
+            "brush-cleaning": '<path d="m16 22-1-4"/><path d="M19 14a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2h-3a1 1 0 0 1-1-1V4a2 2 0 0 0-4 0v5a1 1 0 0 1-1 1H6a2 2 0 0 0-2 2v1a1 1 0 0 0 1 1"/><path d="M19 14H5l-1.973 6.767A1 1 0 0 0 4 22h16a1 1 0 0 0 .973-1.233z"/><path d="m8 22 1-4"/>',
+            "chart-column": '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+            "check": '<path d="M20 6 9 17l-5-5"/>',
+            "clipboard-check": '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+            "clipboard-list": '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
+            "code": '<path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/>',
+            "compass": '<circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/>',
+            "copy": '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+            "drafting-compass": '<path d="m12.99 6.74 1.93 3.44"/><path d="M19.136 12a10 10 0 0 1-14.271 0"/><path d="m21 21-2.16-3.84"/><path d="m3 21 8.02-14.26"/><circle cx="12" cy="5" r="2"/>',
+            "file-text": '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+            "flask-conical": '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>',
+            "house": '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+            "keyboard": '<path d="M10 8h.01"/><path d="M12 12h.01"/><path d="M14 8h.01"/><path d="M16 12h.01"/><path d="M18 8h.01"/><path d="M6 8h.01"/><path d="M7 16h10"/><path d="M8 12h.01"/><rect width="20" height="16" x="2" y="4" rx="2"/>',
+            "landmark": '<path d="M10 18v-7"/><path d="M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M3 22h18"/><path d="M6 18v-7"/>',
+            "laptop": '<path d="M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z"/><path d="M20.054 15.987H3.946"/>',
+            "lightbulb": '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+            "menu": '<path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/>',
+            "message-square": '<path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/>',
+            "palette": '<path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>',
+            "rocket": '<path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"/><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"/>',
+            "scale": '<path d="M12 3v18"/><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"/><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"/><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"/><path d="M7 21h10"/>',
+            "settings": '<path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/>',
+            "shield-check": '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+            "target": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+            "wrench": '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/>'
+        };
+        document.head.insertAdjacentHTML('beforeend', '<style>.ico{display:inline-block;width:1em;height:1em;vertical-align:-0.15em;flex-shrink:0} :is(.flex,.inline-flex)>.ico{margin-right:.375em}</style>');
+        function hydrateIcons(rootEl) {
+            rootEl.querySelectorAll('[data-icon]').forEach(el => {
+                el.outerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${el.className}" aria-hidden="true" focusable="false">${ICONS[el.dataset.icon] || ''}</svg>`;
+            });
+        }
+        hydrateIcons(document);
+        new MutationObserver(() => hydrateIcons(document.body)).observe(document.body, { childList: true, subtree: true });
+    </script>
 
     <script>
         // --- Data Storage ---
@@ -163,7 +198,7 @@
 
         const courseData = [
             {
-                id: "mod1", icon: "🔵", target: "Tech",
+                id: "mod1", icon: "drafting-compass", target: "Tech",
                 title: "Module 1 : Conception & Architecture",
                 subtitle: "(Shift Left · Microservices .NET)",
                 intro: "Avant d'écrire du code, l'IA accélère la modélisation du domaine bancaire (comptes, clients KYC, portefeuilles, positions) et la décomposition en microservices .NET (bounded contexts, ADR, diagrammes C4).",
@@ -185,7 +220,7 @@
                 ]
             },
             {
-                id: "mod2", icon: "🧭", target: "Tech",
+                id: "mod2", icon: "compass", target: "Tech",
                 title: "Module 2 : Contexte & Workspace",
                 subtitle: "(Maîtriser l'IDE agentique)",
                 intro: "Un prompt sans contexte hallucine. Ce module apprend à ancrer les réponses de l'IA dans l'architecture .NET existante via les variables de contexte (@workspace, #file, #selection) et un fichier d'instructions de dépôt.",
@@ -207,7 +242,7 @@
                 ]
             },
             {
-                id: "mod3", icon: "📋", target: "Biz",
+                id: "mod3", icon: "clipboard-list", target: "Biz",
                 title: "Module 3 : Spécifications & Conformité",
                 subtitle: "(Le pont Métier / Réglementaire)",
                 intro: "Les Business Analysts et Analystes Conformité utilisent l'IA pour traduire une exigence réglementaire floue (KYC, LCB-FT, MiFID II) en spécifications testables (BDD/Gherkin) et pour outiller leur veille via un agent métier sécurisé.",
@@ -229,7 +264,7 @@
                 ]
             },
             {
-                id: "mod4", icon: "🟢", target: "Tech",
+                id: "mod4", icon: "code", target: "Tech",
                 title: "Module 4 : Développement & Logique Métier",
                 subtitle: "(Le cœur du réacteur C#)",
                 intro: "Le cœur du parcours, 100 % hands-on dans l'IDE avec <strong>GitHub Copilot en mode agent</strong> : configurer l'agent .NET pour le Clean Code, implémenter le moteur de valorisation, exposer des opérations métier via <strong>CQRS/MediatR</strong> et validation, sécuriser l'accès aux données (<strong>EF Core avancé</strong>) et fiabiliser les appels inter-services (<strong>résilience</strong>).",
@@ -272,7 +307,7 @@
                 ]
             },
             {
-                id: "mod5", icon: "🧹", target: "Tech",
+                id: "mod5", icon: "brush-cleaning", target: "Tech",
                 title: "Module 5 : Refactoring, Migration & Code Review",
                 subtitle: "(Dette technique & PR)",
                 intro: "Stratégies de refactoring sur du code C# legacy (application de design patterns, migration de versions de framework) puis automatisation du premier niveau de revue de code (style, performance, anti-patterns) et nettoyage de code obsolète.",
@@ -294,7 +329,7 @@
                 ]
             },
             {
-                id: "mod6", icon: "🤖", target: "Tech",
+                id: "mod6", icon: "bot", target: "Tech",
                 title: "Module 6 : Agents Spécialisés",
                 subtitle: "(Les Experts Individuels)",
                 intro: "Au lieu d'un simple chat, vous créez des experts individuels dédiés à des tâches précises (Testeur, Refactor, Contrat d'API, Sécurité), chacun avec des instructions strictes et des outils autorisés. Ces agents sont créés dans <strong>GitHub Copilot</strong> (fichiers d'agents personnalisés du dépôt, invocables en mode agent).",
@@ -316,7 +351,7 @@
                 ]
             },
             {
-                id: "mod7", icon: "🧠", target: "Tech",
+                id: "mod7", icon: "brain", target: "Tech",
                 title: "Module 7 : Orchestration Multi-Agents",
                 subtitle: "(Master Agent & Semantic Kernel)",
                 intro: "L'étape supérieure : l'orchestration. Un Master Agent pilote lui-même les sous-agents pour un audit complet. Puis on industrialise ce pattern en .NET avec Microsoft Semantic Kernel (plugins, planner).",
@@ -338,7 +373,7 @@
                 ]
             },
             {
-                id: "mod8", icon: "🧪", target: "Tech",
+                id: "mod8", icon: "flask-conical", target: "Tech",
                 title: "Module 8 : Tests Robustes",
                 subtitle: "(QA : unitaire & intégration)",
                 intro: "Création autonome de stratégies de tests basées sur l'analyse comportementale du code .NET : tests unitaires (xUnit/NUnit, Moq) sur les cas limites financiers, puis tests d'intégration sur l'API KYC avec des conteneurs éphémères.",
@@ -360,7 +395,7 @@
                 ]
             },
             {
-                id: "mod9", icon: "🛡️", target: "Tech",
+                id: "mod9", icon: "shield-check", target: "Tech",
                 title: "Module 9 : Sécurité by Design",
                 subtitle: "(AppSec · OWASP Top 10)",
                 intro: "Auditer et corriger le code directement dans l'IDE : identifier, bloquer et corriger les vulnérabilités OWASP Top 10, puis sécuriser l'authentification/autorisation et la protection des données KYC (RGPD).",
@@ -382,7 +417,7 @@
                 ]
             },
             {
-                id: "mod10", icon: "🎨", target: "Tech",
+                id: "mod10", icon: "palette", target: "Tech",
                 title: "Module 10 : Frontend, Skills & Hooks",
                 subtitle: "(Accélération UI & personnalisation)",
                 intro: "Prototyper rapidement le dashboard patrimonial interactif, puis standardiser la génération de code via un fichier Skill et étendre les capacités des agents avec des Hooks.",
@@ -404,7 +439,7 @@
                 ]
             },
             {
-                id: "mod11", icon: "⚙️", target: "Tech",
+                id: "mod11", icon: "settings", target: "Tech",
                 title: "Module 11 : DevOps & Déploiement",
                 subtitle: "(CI/CD · Docker · Observabilité)",
                 intro: "Automatiser la chaîne de livraison des microservices .NET : pipeline CI/CD, conteneurisation Docker multi-services et observabilité (logs structurés, traçabilité).",
@@ -425,7 +460,7 @@
                 ]
             },
             {
-                id: "mod12", icon: "📊", target: "Biz",
+                id: "mod12", icon: "chart-column", target: "Biz",
                 title: "Module 12 : Documentation & Reporting",
                 subtitle: "(Restitution technique & patrimoniale)",
                 intro: "Automatiser la documentation technique (README, OpenAPI, commentaires structurés) et la restitution métier : générer des rapports d'analyse et un reporting patrimonial parlant pour le client et le COMEX.",
@@ -453,13 +488,11 @@
             currentModuleIndex: null,
             completedLabs: JSON.parse(localStorage.getItem('oddoBhfProgress_v1')) || []
         };
-        let chartInstance = null;
 
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             renderSidebar();
             renderModuleCards();
-            initChart();
             updateProgressUI();
         });
 
@@ -471,7 +504,7 @@
 
             const homeBtn = document.createElement('button');
             homeBtn.className = `w-full text-left px-4 py-3 rounded-xl transition-all duration-200 flex items-center gap-3 font-medium hover:bg-stone-100 text-slate-700 mb-2`;
-            homeBtn.innerHTML = `<span>🏠</span> <span class="truncate">Accueil Projet</span>`;
+            homeBtn.innerHTML = `<span><i data-icon=house class=ico></i></span> <span class="truncate">Accueil Projet</span>`;
             homeBtn.onclick = () => showIntro();
             nav.appendChild(homeBtn);
 
@@ -492,12 +525,12 @@
                 const isModComplete = completedInMod === modLabs.length && modLabs.length > 0;
 
                 btn.innerHTML = `
-                    <span class="text-xl flex-shrink-0">${mod.icon}</span> 
+                    <span class="text-xl flex-shrink-0"><i data-icon=${mod.icon} class=ico></i></span> 
                     <div class="flex-1 min-w-0">
                         <div class="truncate text-sm font-bold">${mod.title.split(' : ')[0]}</div>
                         <div class="truncate text-xs ${isSelected && mod.target === 'Biz' ? 'text-gold-700' : 'text-slate-500'}">${mod.title.split(' : ')[1] || ''}</div>
                     </div>
-                    ${isModComplete ? '<span class="text-odc-500 text-sm">✔</span>' : ''}
+                    ${isModComplete ? '<span class="text-odc-500 text-sm"><i data-icon=check class=ico></i></span>' : ''}
                 `;
                 btn.onclick = () => loadModule(index);
                 nav.appendChild(btn);
@@ -515,7 +548,7 @@
                 card.onclick = () => loadModule(index);
                 card.innerHTML = `
                     <div class="flex items-center gap-3 mb-2">
-                        <span class="text-2xl">${mod.icon}</span>
+                        <span class="text-2xl"><i data-icon=${mod.icon} class=ico></i></span>
                         <span class="text-xs font-bold uppercase tracking-wider ${isBiz ? 'text-gold-700' : 'text-odc-700'}">${isBiz ? 'Conformité / Restitution' : 'Tech .NET'}</span>
                     </div>
                     <div class="font-bold text-slate-800">${mod.title}</div>
@@ -562,7 +595,7 @@
             header.className = `bg-white border ${theme.borderLight} p-8 rounded-2xl mb-8 shadow-sm`;
             header.innerHTML = `
                 <div class="flex items-center gap-3 mb-3">
-                    <span class="text-3xl">${mod.icon}</span>
+                    <span class="text-3xl"><i data-icon=${mod.icon} class=ico></i></span>
                     <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">${mod.title}</h2>
                 </div>
                 ${mod.subtitle ? `<p class="${theme.textPrimary} font-bold mb-4 uppercase tracking-wide text-sm">${mod.subtitle}</p>` : ''}
@@ -582,8 +615,8 @@
                     <div class="p-6 md:p-8 border-b border-stone-100 flex flex-col md:flex-row justify-between items-start gap-4">
                         <div class="flex-1">
                             <div class="flex flex-wrap gap-2 mb-3">
-                                <span class="inline-flex items-center bg-stone-100 text-stone-700 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider">🎯 ${lab.targetBadge}</span>
-                                <span class="inline-flex items-center bg-slate-800 text-slate-100 text-xs px-2.5 py-1 rounded-md font-bold tracking-wider">🛠 Au choix</span>
+                                <span class="inline-flex items-center bg-stone-100 text-stone-700 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider"><i data-icon=target class=ico></i> ${lab.targetBadge}</span>
+                                <span class="inline-flex items-center bg-slate-800 text-slate-100 text-xs px-2.5 py-1 rounded-md font-bold tracking-wider"><i data-icon=wrench class=ico></i> Au choix</span>
                                 ${(lab.tools || [lab.toolBadge]).map(t => `<span class="inline-flex items-center bg-white border border-slate-300 text-slate-700 text-xs px-2.5 py-1 rounded-md font-semibold">${t}</span>`).join('')}
                             </div>
                             <h3 class="text-xl font-extrabold text-slate-900 mb-2">${lab.title}</h3>
@@ -591,7 +624,7 @@
 
                             ${lab.astuce ? `
                             <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 shadow-sm">
-                                <span class="text-amber-500 text-xl flex-shrink-0">💡</span>
+                                <span class="text-amber-500 text-xl flex-shrink-0"><i data-icon=lightbulb class=ico></i></span>
                                 <div>
                                     <h4 class="text-sm font-bold text-amber-900 mb-1">Impact Métier / Tech</h4>
                                     <p class="text-sm text-amber-800 leading-relaxed">${lab.astuce}</p>
@@ -602,14 +635,14 @@
                         </div>
                         <button onclick="toggleLab('${lab.id}')" class="flex-shrink-0 w-12 h-12 rounded-full border-2 flex items-center justify-center transition-colors text-lg
                             ${isCompleted ? `${theme.bgMedium} ${theme.borderMedium} text-white` : 'border-stone-300 text-transparent hover:border-stone-400'}">
-                            ✔
+                            <i data-icon=check class=ico></i>
                         </button>
                     </div>
                     <div class="p-6 md:p-8 bg-stone-50">
                         <div class="flex justify-between items-center mb-3">    
                             <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Prompt à copier</span>
                             <button onclick="copyToClipboard(this, '${lab.id}')" class="text-sm ${theme.textPrimary} hover:font-bold font-bold flex items-center gap-1 transition-colors bg-white px-3 py-1 rounded-md border border-stone-200 shadow-sm">
-                                <span>📋</span> Copier
+                                <span><i data-icon=copy class=ico></i></span> Copier
                             </button>
                         </div>
                         <pre class="bg-slate-900 text-stone-100 p-5 rounded-xl text-sm overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed shadow-inner border border-slate-800">${lab.prompt}</pre>
@@ -662,7 +695,7 @@
                     toast.classList.remove('translate-y-20', 'opacity-0');
 
                     const originalHtml = btnElement.innerHTML;
-                    btnElement.innerHTML = `<span>✅</span> Copié`;
+                    btnElement.innerHTML = `<span><i data-icon=check class=ico></i></span> Copié`;
                     btnElement.classList.add('text-green-700', 'border-green-300', 'bg-green-50');
 
                     setTimeout(() => {
@@ -682,63 +715,17 @@
             document.getElementById('sidebar').classList.toggle('-translate-x-full');
         }
 
-        function initChart() {
-            const ctx = document.getElementById('progressChart').getContext('2d');
-            chartInstance = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Complété', 'À faire'],
-                    datasets: [{
-                        data: [0, 100],
-                        backgroundColor: ['#1e3a5f', '#e5e7eb'],
-                        borderWidth: 0,
-                        hoverOffset: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '75%',
-                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
-                    animation: { animateScale: true }
-                },
-                plugins: [{
-                    id: 'textCenter',
-                    beforeDraw: function(chart) {
-                        var width = chart.width, height = chart.height, ctx = chart.ctx;
-                        ctx.restore();
-                        var fontSize = (height / 90).toFixed(2);
-                        ctx.font = "bold " + fontSize + "em sans-serif";
-                        ctx.textBaseline = "middle";
-                        ctx.fillStyle = "#1e293b";
-
-                        var percentage = chart.data.datasets[0].data[0] + chart.data.datasets[0].data[1] === 0 ? 0 :
-                            Math.round((chart.data.datasets[0].data[0] / (chart.data.datasets[0].data[0] + chart.data.datasets[0].data[1])) * 100);
-
-                        var text = percentage + "%",
-                            textX = Math.round((width - ctx.measureText(text).width) / 2),
-                            textY = height / 2;
-
-                        ctx.fillText(text, textX, textY);
-                        ctx.save();
-                    }
-                }]
-            });
-        }
-
         function updateProgressUI() {
             let totalLabs = 0;
             courseData.forEach(m => totalLabs += m.labs.length);
             const completed = state.completedLabs.length;
-            const remaining = totalLabs - completed;
+            const percent = totalLabs === 0 ? 0 : Math.min(100, Math.round((completed / totalLabs) * 100));
 
-            document.getElementById('progress-text').innerText = `${completed} / ${totalLabs} Labs complétés`;
-
-            if(chartInstance) {
-                chartInstance.data.datasets[0].data = [completed, remaining];
-                chartInstance.data.datasets[0].backgroundColor = completed === totalLabs ? ['#12243b', '#e5e7eb'] : ['#1e3a5f', '#e5e7eb'];
-                chartInstance.update();
-            }
+            // Barre de progression CSS (remplace l'ancien donut Chart.js)
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+            document.getElementById('progress-track').setAttribute('aria-valuenow', percent);
+            document.getElementById('progress-percent').innerText = `${percent} %`;
+            document.getElementById('progress-text').innerText = `${completed} / ${totalLabs} labs complétés`;
             renderSidebar();
         }
     </script>

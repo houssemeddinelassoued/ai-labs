@@ -6,7 +6,6 @@
     <title>Parcours EcoTrack — Cahier de TP IA (Dev & Analyse)</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <script>
@@ -34,15 +33,6 @@
     </script>
     
     <style>
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 160px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 160px;
-            max-height: 160px;
-        }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f5f5f4; }
         ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
@@ -61,19 +51,22 @@
                 <i class="fa-solid fa-arrow-left"></i> Accueil formation
             </a>
             <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
-                <span>🌱</span> EcoTrack <span class="text-eco-600">IA</span>
+                <span><i data-icon=sprout class=ico></i></span> EcoTrack <span class="text-eco-600">IA</span>
             </h1>
             <p class="text-sm text-slate-500 mt-2">Tech Leads, Devs & Analystes BI</p>
             
             <button id="mobile-close" class="md:hidden absolute top-4 right-4 text-slate-500 text-2xl" onclick="toggleSidebar()">×</button>
         </div>
 
-        <div class="p-4 border-b border-stone-200 bg-stone-50/50">
-            <h3 class="text-sm font-bold text-slate-600 mb-2 text-center uppercase tracking-wider">Progression</h3>
-            <div class="chart-container">
-                <canvas id="progressChart"></canvas>
+        <div class="px-6 py-4 border-b border-stone-200">
+            <div class="flex items-baseline justify-between mb-2">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Progression</span>
+                <span id="progress-percent" class="text-sm font-extrabold text-eco-700 tabular-nums">0 %</span>
             </div>
-            <p id="progress-text" class="text-center text-xs font-bold text-slate-500 mt-2">0 Labs complétés</p>
+            <div id="progress-track" class="h-2 w-full bg-stone-100 rounded-full overflow-hidden" role="progressbar" aria-label="Progression du parcours" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-eco-500 to-eco-700 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <p id="progress-text" class="text-xs text-slate-500 mt-2">0 labs complétés</p>
         </div>
 
         <nav class="flex-1 overflow-y-auto p-4 space-y-2" id="module-nav">
@@ -89,45 +82,45 @@
 
     <main class="flex-1 flex flex-col h-full relative overflow-hidden">
         <header class="md:hidden bg-white border-b border-stone-200 p-4 flex justify-between items-center z-10 shadow-sm">
-            <h2 class="text-lg font-bold text-eco-700">🌱 EcoTrack IA</h2>
-            <button class="text-2xl text-slate-600" onclick="toggleSidebar()">☰</button>
+            <h2 class="text-lg font-bold text-eco-700"><i data-icon=sprout class=ico></i> EcoTrack IA</h2>
+            <button class="text-2xl text-slate-600" onclick="toggleSidebar()"><i data-icon=menu class=ico></i></button>
         </header>
 
         <div class="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12" id="main-content">
             <!-- Vue introduction (modules) -->
             <div id="intro-view" class="max-w-4xl mx-auto space-y-8 animate-fade-in">
                 <div class="bg-gradient-to-br from-eco-50 to-blue-50 border border-stone-200 rounded-2xl p-8 shadow-sm">
-                    <h1 class="text-5xl font-extrabold text-slate-900 mb-2 tracking-tight">🌱 EcoTrack & IA</h1>
+                    <h1 class="text-5xl font-extrabold text-slate-900 mb-2 tracking-tight"><i data-icon=sprout class=ico></i> EcoTrack & IA</h1>
                     <p class="text-lg text-slate-600 mb-8 leading-relaxed">Le cursus intensif pour transformer le cycle de vie logiciel avec l'Intelligence Artificielle Générative dans l'écosystème Microsoft.</p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                         <div class="bg-white border border-eco-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
                             <h3 class="font-bold text-eco-700 mb-2 flex items-center gap-2">
-                                <span>🔴</span> Pôle Tech
+                                <span><i data-icon=laptop class=ico></i></span> Pôle Tech
                             </h3>
                             <p class="text-sm text-slate-600">Développeurs, Architectes, DevOps — C# 12, .NET 8, SQL Server, Docker, GitHub Actions.</p>
                         </div>
                         <div class="bg-white border border-blue-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
                             <h3 class="font-bold text-blue-700 mb-2 flex items-center gap-2">
-                                <span>🔵</span> Pôle Biz & Data
+                                <span><i data-icon=chart-column class=ico></i></span> Pôle Biz & Data
                             </h3>
                             <p class="text-sm text-slate-600">BA, PO, BI Experts — Gherkin, T-SQL, DAX, SSRS, SSAS, M365 Copilot.</p>
                         </div>
                     </div>
 
                     <div class="bg-amber-50 border border-amber-300 rounded-xl p-6 mb-8">
-                        <p class="text-sm text-amber-900"><strong>🎯 Objectif :</strong> Construire le MVP d'EcoTrack, une plateforme SaaS B2B pour mesurer et réduire l'empreinte carbone informatique conforme au CSRD.</p>
+                        <p class="text-sm text-amber-900"><strong><i data-icon=target class=ico></i> Objectif :</strong> Construire le MVP d'EcoTrack, une plateforme SaaS B2B pour mesurer et réduire l'empreinte carbone informatique conforme au CSRD.</p>
                     </div>
 
                     <div class="bg-white border border-stone-200 rounded-xl p-5 mb-8">
-                        <p class="text-sm text-slate-600"><strong>🧰 Outils IA libres :</strong> chaque lab affiche plusieurs outils au choix — 💬 ChatGPT, Gemini, Claude, Grok, Mistral · ⌨️ GitHub Copilot, Claude Code, Codex, Cursor, AntiGravity · 📄 M365 Copilot, Gemini Workspace · 🎨 Stitch, v0.dev... Ce sont des exemples populaires, jamais des exigences.</p>
+                        <p class="text-sm text-slate-600"><strong><i data-icon=wrench class=ico></i> Outils IA libres :</strong> chaque lab affiche plusieurs outils au choix — <i data-icon=message-square class=ico></i> ChatGPT, Gemini, Claude, Grok, Mistral · <i data-icon=keyboard class=ico></i> GitHub Copilot, Claude Code, Codex, Cursor, AntiGravity · <i data-icon=file-text class=ico></i> M365 Copilot, Gemini Workspace · <i data-icon=palette class=ico></i> Stitch, v0.dev... Ce sont des exemples populaires, jamais des exigences.</p>
                     </div>
 
                     <div class="bg-white border border-orange-200 rounded-xl p-6 mb-8 shadow-sm">
                         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                             <div>
                                 <h3 class="font-bold text-orange-700 mb-2 flex items-center gap-2">
-                                    <span>🟠</span> Parcours pour les Gestionnaires de Projet
+                                    <span><i data-icon=folder-kanban class=ico></i></span> Parcours pour les Gestionnaires de Projet
                                 </h3>
                                 <p class="text-sm text-slate-600 leading-relaxed">Chefs de projet, PMO et Delivery Managers disposent maintenant d'une page complementaire dediee a l'IA appliquee au pilotage du projet EchoTrack, avec 10 modules orientes cadrage, planning, risques, budget et gouvernance.</p>
                             </div>
@@ -156,12 +149,12 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="bg-stone-50 p-6 rounded-xl border border-stone-200">
-                            <h3 class="font-bold text-slate-800 mb-3 text-lg flex items-center gap-2"><span>💻</span> Pour les Développeurs & BI</h3>
+                            <h3 class="font-bold text-slate-800 mb-3 text-lg flex items-center gap-2"><span><i data-icon=laptop class=ico></i></span> Pour les Développeurs & BI</h3>
                             <p class="text-sm text-slate-600 mb-3">Utilisation de <strong>GitHub Copilot (Visual Studio/VS Code)</strong> et IA Cloud pour l'architecture .NET, l'optimisation T-SQL, l'Orchestration d'Agents autonomes, le TDD, et les rapports SSRS.</p>
                             <span class="text-xs font-bold bg-stone-200 text-stone-700 px-2 py-1 rounded">Modules 1, 3, 4, 5, 6, 7, 8, 10</span>
                         </div>
                         <div class="bg-biz-100/50 p-6 rounded-xl border border-biz-100">
-                            <h3 class="font-bold text-biz-800 mb-3 text-lg flex items-center gap-2"><span>📊</span> Pour les Analystes (BA/BI)</h3>
+                            <h3 class="font-bold text-biz-800 mb-3 text-lg flex items-center gap-2"><span><i data-icon=chart-column class=ico></i></span> Pour les Analystes (BA/BI)</h3>
                             <p class="text-sm text-slate-600 mb-3">Utilisation de <strong>Copilot M365 (Word/Excel/Agent Builder)</strong> ou IA Cloud pour structurer les User Stories, le BDD (Gherkin), créer des assistants spécialisés, et la conception des Data Warehouses.</p>
                             <span class="text-xs font-bold bg-biz-100 text-biz-800 px-2 py-1 rounded">Modules 2, 9</span>
                         </div>
@@ -175,8 +168,47 @@
     </main>
 
     <div id="toast" class="fixed bottom-4 right-4 bg-slate-900 text-white px-6 py-3 rounded-lg shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-2 font-medium">
-        <span>📋</span> Prompt copié !
+        <span><i data-icon=clipboard-check class=ico></i></span> Prompt copié !
     </div>
+
+    <script>
+        // Icônes SVG monochromes embarquées (Lucide, licence ISC — https://lucide.dev) : remplacent les emojis.
+        // Marqueur : <i data-icon=nom class=ico></i> (statique ou injecté dynamiquement) ; taille 1em, couleur du texte.
+        const ICONS = {
+            "book-open": '<path d="M12 5v16"/><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"/>',
+            "bot": '<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>',
+            "brain": '<path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/>',
+            "chart-column": '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+            "check": '<path d="M20 6 9 17l-5-5"/>',
+            "clipboard-check": '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+            "code": '<path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/>',
+            "copy": '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+            "drafting-compass": '<path d="m12.99 6.74 1.93 3.44"/><path d="M19.136 12a10 10 0 0 1-14.271 0"/><path d="m21 21-2.16-3.84"/><path d="m3 21 8.02-14.26"/><circle cx="12" cy="5" r="2"/>',
+            "file-text": '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+            "folder-kanban": '<path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"/><path d="M8 10v4"/><path d="M12 10v2"/><path d="M16 10v6"/>',
+            "handshake": '<path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/>',
+            "house": '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+            "keyboard": '<path d="M10 8h.01"/><path d="M12 12h.01"/><path d="M14 8h.01"/><path d="M16 12h.01"/><path d="M18 8h.01"/><path d="M6 8h.01"/><path d="M7 16h10"/><path d="M8 12h.01"/><rect width="20" height="16" x="2" y="4" rx="2"/>',
+            "laptop": '<path d="M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z"/><path d="M20.054 15.987H3.946"/>',
+            "lightbulb": '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+            "menu": '<path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/>',
+            "message-square": '<path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/>',
+            "palette": '<path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>',
+            "settings": '<path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/>',
+            "shield-check": '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+            "sprout": '<path d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3"/><path d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4"/><path d="M5 21h14"/>',
+            "target": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+            "wrench": '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/>'
+        };
+        document.head.insertAdjacentHTML('beforeend', '<style>.ico{display:inline-block;width:1em;height:1em;vertical-align:-0.15em;flex-shrink:0} :is(.flex,.inline-flex)>.ico{margin-right:.375em}</style>');
+        function hydrateIcons(rootEl) {
+            rootEl.querySelectorAll('[data-icon]').forEach(el => {
+                el.outerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${el.className}" aria-hidden="true" focusable="false">${ICONS[el.dataset.icon] || ''}</svg>`;
+            });
+        }
+        hydrateIcons(document);
+        new MutationObserver(() => hydrateIcons(document.body)).observe(document.body, { childList: true, subtree: true });
+    </script>
 
     <script>
         // --- Data Storage ---
@@ -189,7 +221,7 @@
 
         const courseData = [
             {
-                id: "mod1", icon: "🟢", target: "Tech",
+                id: "mod1", icon: "drafting-compass", target: "Tech",
                 title: "Module 1 : Conception & Architecture",
                 subtitle: "(Shift Left)",
                 intro: "L'IA Cloud accélère les phases de conception qui précèdent l'écriture du code (Modélisation DB SQL Server, Choix d'Architecture .NET).",
@@ -204,7 +236,7 @@
                 ]
             },
             {
-                id: "mod2", icon: "🤝", target: "Biz",
+                id: "mod2", icon: "handshake", target: "Biz",
                 title: "Module 2 : Spécifications & Analyse Métier",
                 subtitle: "(Le pont Métier/Dev)",
                 intro: "Ce module montre comment les Business Analysts (BA) et Product Owners utilisent l'IA pour traduire un besoin métier flou en spécifications techniques (BDD/Gherkin) et concevoir leurs propres agents personnalisés via M365.",
@@ -233,7 +265,7 @@
                 ]
             },
             {
-                id: "mod3", icon: "🟡", target: "Tech",
+                id: "mod3", icon: "code", target: "Tech",
                 title: "Module 3 : Développement & Agents Simples",
                 subtitle: "(Le cœur du réacteur C# & SQL)",
                 intro: "Configuration de l'Agent IA de base dans Visual Studio / VS Code, développement de la logique C# et refactoring de code SQL legacy.",
@@ -261,7 +293,7 @@
                 ]
             },
             {
-                id: "mod4", icon: "🤖", target: "Tech",
+                id: "mod4", icon: "bot", target: "Tech",
                 title: "Module 4 : Création d'Agents Spécialisés",
                 subtitle: "(Les Experts Individuels)",
                 intro: "Bienvenue dans le développement assisté avancé. Au lieu d'utiliser un simple chat, vous allez créer des experts individuels dédiés à des tâches précises (Testeur, Nettoyeur, Architecte, Ingénieur Sécurité). Ces agents possèderont des instructions strictes pour vous assister sur leur domaine d'expertise spécifique.",
@@ -276,7 +308,7 @@
                 ]
             },
             {
-                id: "mod5", icon: "🧠", target: "Tech",
+                id: "mod5", icon: "brain", target: "Tech",
                 title: "Module 5 : Orchestration Multi-Agents",
                 subtitle: "(Le Master Agent)",
                 intro: "Voici l'étape supérieure : l'Orchestration. Plutôt que d'invoquer vous-même chaque expert, vous allez créer un <strong>Master Agent</strong>. C'est le Chef d'Orchestre. Il analyse votre code et décide de piloter lui-même les sous-agents (Test, Sécurité, Refactor) pour un audit complet.",
@@ -298,7 +330,7 @@
                 ]
             },
             {
-                id: "mod6", icon: "🎨", target: "Tech",
+                id: "mod6", icon: "palette", target: "Tech",
                 title: "Module 6 : Frontend & Visualisation",
                 subtitle: "(Accélération UI & Skills)",
                 intro: "Création rapide d'une interface de tableau de bord professionnelle en modélisant l'UI avec l'IA et en standardisant la génération de code via un fichier Skill.",
@@ -320,7 +352,7 @@
                 ]
             },
             {
-                id: "mod7", icon: "🛡️", target: "Tech",
+                id: "mod7", icon: "shield-check", target: "Tech",
                 title: "Module 7 : Sécurité Ciblée (AppSec)",
                 subtitle: "(Au-delà des Agents)",
                 intro: "Si vous n'utilisez pas l'Orchestration Automatique, voici comment prompter l'IA ponctuellement pour auditer le code T-SQL et bloquer les failles.",
@@ -341,7 +373,7 @@
                 ]
             },
             {
-                id: "mod8", icon: "⚙️", target: "Tech",
+                id: "mod8", icon: "settings", target: "Tech",
                 title: "Module 8 : DevOps & Déploiement",
                 subtitle: "(CI/CD & Infra Skills)",
                 intro: "Automatisation de la stack Microsoft avec CI/CD, déploiement de bases de données, et standardisation de l'infrastructure locale (Docker/PostgreSQL) via des fichiers Skills.",
@@ -375,7 +407,7 @@ Action : En appliquant strictement cette Skill, génère le fichier "docker-comp
                 ]
             },
             {
-                id: "mod9", icon: "📊", target: "Biz",
+                id: "mod9", icon: "chart-column", target: "Biz",
                 title: "Module 9 : BI, Data & Reporting",
                 subtitle: "(SSRS, OLAP & DAX)",
                 intro: "Ce module montre comment les développeurs BI et Analystes utilisent l'IA pour générer des Datasets SSRS, concevoir des requêtes multidimensionnelles (DAX/MDX) et faire parler la donnée.",
@@ -404,7 +436,7 @@ Action : En appliquant strictement cette Skill, génère le fichier "docker-comp
                 ]
             },
             {
-                id: "mod10", icon: "⚫", target: "Tech",
+                id: "mod10", icon: "book-open", target: "Tech",
                 title: "Module 10 : Documentation",
                 subtitle: "",
                 intro: "Générer un README parfait basé sur l'arborescence du projet C#.",
@@ -424,12 +456,10 @@ Action : En appliquant strictement cette Skill, génère le fichier "docker-comp
             currentModuleIndex: null,
             completedLabs: JSON.parse(localStorage.getItem('ecoTrackProgress_v2')) || []
         };
-        let chartInstance = null;
 
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             renderSidebar();
-            initChart();
             updateProgressUI();
         });
 
@@ -441,7 +471,7 @@ Action : En appliquant strictement cette Skill, génère le fichier "docker-comp
             
             const homeBtn = document.createElement('button');
             homeBtn.className = `w-full text-left px-4 py-3 rounded-xl transition-all duration-200 flex items-center gap-3 font-medium hover:bg-stone-100 text-slate-700 mb-2`;
-            homeBtn.innerHTML = `<span>🏠</span> <span class="truncate">Accueil Projet</span>`;
+            homeBtn.innerHTML = `<span><i data-icon=house class=ico></i></span> <span class="truncate">Accueil Projet</span>`;
             homeBtn.onclick = () => showIntro();
             nav.appendChild(homeBtn);
 
@@ -462,12 +492,12 @@ Action : En appliquant strictement cette Skill, génère le fichier "docker-comp
                 const isModComplete = completedInMod === modLabs.length && modLabs.length > 0;
                 
                 btn.innerHTML = `
-                    <span class="text-xl flex-shrink-0">${mod.icon}</span> 
+                    <span class="text-xl flex-shrink-0"><i data-icon=${mod.icon} class=ico></i></span> 
                     <div class="flex-1 min-w-0">
                         <div class="truncate text-sm font-bold">${mod.title.split(' : ')[0]}</div>
                         <div class="truncate text-xs ${isSelected && mod.target === 'Biz' ? 'text-biz-700' : 'text-slate-500'}">${mod.title.split(' : ')[1] || ''}</div>
                     </div>
-                    ${isModComplete ? '<span class="text-eco-500 text-sm">✔</span>' : ''}
+                    ${isModComplete ? '<span class="text-eco-500 text-sm"><i data-icon=check class=ico></i></span>' : ''}
                 `;
                 btn.onclick = () => loadModule(index);
                 nav.appendChild(btn);
@@ -511,7 +541,7 @@ Action : En appliquant strictement cette Skill, génère le fichier "docker-comp
             header.className = `bg-white border ${theme.borderLight} p-8 rounded-2xl mb-8 shadow-sm`;
             header.innerHTML = `
                 <div class="flex items-center gap-3 mb-3">
-                    <span class="text-3xl">${mod.icon}</span>
+                    <span class="text-3xl"><i data-icon=${mod.icon} class=ico></i></span>
                     <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">${mod.title}</h2>
                 </div>
                 ${mod.subtitle ? `<p class="${theme.textPrimary} font-bold mb-4 uppercase tracking-wide text-sm">${mod.subtitle}</p>` : ''}
@@ -531,8 +561,8 @@ Action : En appliquant strictement cette Skill, génère le fichier "docker-comp
                     <div class="p-6 md:p-8 border-b border-stone-100 flex flex-col md:flex-row justify-between items-start gap-4">
                         <div class="flex-1">
                             <div class="flex flex-wrap gap-2 mb-3">
-                                <span class="inline-flex items-center bg-stone-100 text-stone-700 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider">🎯 ${lab.targetBadge}</span>
-                                <span class="inline-flex items-center bg-slate-800 text-slate-100 text-xs px-2.5 py-1 rounded-md font-bold tracking-wider">🛠 Au choix</span>
+                                <span class="inline-flex items-center bg-stone-100 text-stone-700 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider"><i data-icon=target class=ico></i> ${lab.targetBadge}</span>
+                                <span class="inline-flex items-center bg-slate-800 text-slate-100 text-xs px-2.5 py-1 rounded-md font-bold tracking-wider"><i data-icon=wrench class=ico></i> Au choix</span>
                                 ${(lab.tools || [lab.toolBadge]).map(t => `<span class="inline-flex items-center bg-white border border-slate-300 text-slate-700 text-xs px-2.5 py-1 rounded-md font-semibold">${t}</span>`).join('')}
                             </div>
                             <h3 class="text-xl font-extrabold text-slate-900 mb-2">${lab.title}</h3>
@@ -540,7 +570,7 @@ Action : En appliquant strictement cette Skill, génère le fichier "docker-comp
 
                             ${lab.astuce ? `
                             <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 shadow-sm">
-                                <span class="text-amber-500 text-xl flex-shrink-0">💡</span>
+                                <span class="text-amber-500 text-xl flex-shrink-0"><i data-icon=lightbulb class=ico></i></span>
                                 <div>
                                     <h4 class="text-sm font-bold text-amber-900 mb-1">Impact Métier / Tech</h4>
                                     <p class="text-sm text-amber-800 leading-relaxed">${lab.astuce}</p>
@@ -551,14 +581,14 @@ Action : En appliquant strictement cette Skill, génère le fichier "docker-comp
                         </div>
                         <button onclick="toggleLab('${lab.id}')" class="flex-shrink-0 w-12 h-12 rounded-full border-2 flex items-center justify-center transition-colors text-lg
                             ${isCompleted ? `${theme.bgMedium} ${theme.borderMedium} text-white` : 'border-stone-300 text-transparent hover:border-stone-400'}">
-                            ✔
+                            <i data-icon=check class=ico></i>
                         </button>
                     </div>
                     <div class="p-6 md:p-8 bg-stone-50">
                         <div class="flex justify-between items-center mb-3">    
                             <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Prompt à copier</span>
                             <button onclick="copyToClipboard(this, '${lab.id}')" class="text-sm ${theme.textPrimary} hover:font-bold font-bold flex items-center gap-1 transition-colors bg-white px-3 py-1 rounded-md border border-stone-200 shadow-sm">
-                                <span>📋</span> Copier
+                                <span><i data-icon=copy class=ico></i></span> Copier
                             </button>
                         </div>
                         <pre class="bg-slate-900 text-stone-100 p-5 rounded-xl text-sm overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed shadow-inner border border-slate-800">${lab.prompt}</pre>
@@ -611,7 +641,7 @@ Action : En appliquant strictement cette Skill, génère le fichier "docker-comp
                     toast.classList.remove('translate-y-20', 'opacity-0');
                     
                     const originalHtml = btnElement.innerHTML;
-                    btnElement.innerHTML = `<span>✅</span> Copié`;
+                    btnElement.innerHTML = `<span><i data-icon=check class=ico></i></span> Copié`;
                     btnElement.classList.add('text-green-700', 'border-green-300', 'bg-green-50');
                     
                     setTimeout(() => {
@@ -631,63 +661,17 @@ Action : En appliquant strictement cette Skill, génère le fichier "docker-comp
             document.getElementById('sidebar').classList.toggle('-translate-x-full');
         }
 
-        function initChart() {
-            const ctx = document.getElementById('progressChart').getContext('2d');
-            chartInstance = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Complété', 'À faire'],
-                    datasets: [{
-                        data: [0, 100],
-                        backgroundColor: ['#10b981', '#e5e7eb'], 
-                        borderWidth: 0,
-                        hoverOffset: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false, 
-                    cutout: '75%',
-                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
-                    animation: { animateScale: true }
-                },
-                plugins: [{
-                    id: 'textCenter',
-                    beforeDraw: function(chart) {
-                        var width = chart.width, height = chart.height, ctx = chart.ctx;
-                        ctx.restore();
-                        var fontSize = (height / 90).toFixed(2);
-                        ctx.font = "bold " + fontSize + "em sans-serif";
-                        ctx.textBaseline = "middle";
-                        ctx.fillStyle = "#1e293b"; 
-
-                        var percentage = chart.data.datasets[0].data[0] + chart.data.datasets[0].data[1] === 0 ? 0 : 
-                            Math.round((chart.data.datasets[0].data[0] / (chart.data.datasets[0].data[0] + chart.data.datasets[0].data[1])) * 100);
-                        
-                        var text = percentage + "%",
-                            textX = Math.round((width - ctx.measureText(text).width) / 2),
-                            textY = height / 2;
-
-                        ctx.fillText(text, textX, textY);
-                        ctx.save();
-                    }
-                }]
-            });
-        }
-
         function updateProgressUI() {
             let totalLabs = 0;
             courseData.forEach(m => totalLabs += m.labs.length);
             const completed = state.completedLabs.length;
-            const remaining = totalLabs - completed;
+            const percent = totalLabs === 0 ? 0 : Math.min(100, Math.round((completed / totalLabs) * 100));
 
-            document.getElementById('progress-text').innerText = `${completed} / ${totalLabs} Labs complétés`;
-
-            if(chartInstance) {
-                chartInstance.data.datasets[0].data = [completed, remaining];
-                chartInstance.data.datasets[0].backgroundColor = completed === totalLabs ? ['#047857', '#e5e7eb'] : ['#10b981', '#e5e7eb'];
-                chartInstance.update();
-            }
+            // Barre de progression CSS (remplace l'ancien donut Chart.js)
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+            document.getElementById('progress-track').setAttribute('aria-valuenow', percent);
+            document.getElementById('progress-percent').innerText = `${percent} %`;
+            document.getElementById('progress-text').innerText = `${completed} / ${totalLabs} labs complétés`;
             renderSidebar();
         }
     </script>

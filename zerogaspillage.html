@@ -6,7 +6,6 @@
     <title>Parcours ZeroGaspillage — Cahier de TP IA (De l'idée au lancement)</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <script>
@@ -55,15 +54,6 @@
     </script>
 
     <style>
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 160px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 160px;
-            max-height: 160px;
-        }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f5f5f4; }
         ::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 4px; }
@@ -82,19 +72,22 @@
                 <i class="fa-solid fa-arrow-left"></i> Accueil formation
             </a>
             <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
-                <span>🥐</span> ZeroGaspillage <span class="text-zg-600">IA</span>
+                <span><i data-icon=croissant class=ico></i></span> ZeroGaspillage <span class="text-zg-600">IA</span>
             </h1>
             <p class="text-sm text-slate-500 mt-2">De l'idéation au lancement — le SDLC complet</p>
 
             <button id="mobile-close" class="md:hidden absolute top-4 right-4 text-slate-500 text-2xl" onclick="toggleSidebar()">×</button>
         </div>
 
-        <div class="p-4 border-b border-stone-200 bg-stone-50/50">
-            <h3 class="text-sm font-bold text-slate-600 mb-2 text-center uppercase tracking-wider">Progression</h3>
-            <div class="chart-container">
-                <canvas id="progressChart"></canvas>
+        <div class="px-6 py-4 border-b border-stone-200">
+            <div class="flex items-baseline justify-between mb-2">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Progression</span>
+                <span id="progress-percent" class="text-sm font-extrabold text-zg-700 tabular-nums">0 %</span>
             </div>
-            <p id="progress-text" class="text-center text-xs font-bold text-slate-500 mt-2">0 Labs complétés</p>
+            <div id="progress-track" class="h-2 w-full bg-stone-100 rounded-full overflow-hidden" role="progressbar" aria-label="Progression du parcours" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-zg-400 to-zg-700 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <p id="progress-text" class="text-xs text-slate-500 mt-2">0 labs complétés</p>
         </div>
 
         <nav class="flex-1 overflow-y-auto p-4 space-y-2" id="module-nav">
@@ -110,65 +103,65 @@
 
     <main class="flex-1 flex flex-col h-full relative overflow-hidden">
         <header class="md:hidden bg-white border-b border-stone-200 p-4 flex justify-between items-center z-10 shadow-sm">
-            <h2 class="text-lg font-bold text-zg-700">🥐 ZeroGaspillage IA</h2>
-            <button class="text-2xl text-slate-600" onclick="toggleSidebar()">☰</button>
+            <h2 class="text-lg font-bold text-zg-700"><i data-icon=croissant class=ico></i> ZeroGaspillage IA</h2>
+            <button class="text-2xl text-slate-600" onclick="toggleSidebar()"><i data-icon=menu class=ico></i></button>
         </header>
 
         <div class="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12" id="main-content">
             <!-- Vue introduction (modules) -->
             <div id="intro-view" class="max-w-4xl mx-auto space-y-8 animate-fade-in">
                 <div class="bg-gradient-to-br from-zg-50 to-mix-50 border border-stone-200 rounded-2xl p-8 shadow-sm">
-                    <h1 class="text-5xl font-extrabold text-slate-900 mb-2 tracking-tight">🥐 ZeroGaspillage & IA</h1>
+                    <h1 class="text-5xl font-extrabold text-slate-900 mb-2 tracking-tight"><i data-icon=croissant class=ico></i> ZeroGaspillage & IA</h1>
                     <p class="text-lg text-slate-600 mb-8 leading-relaxed">Le parcours qui déroule <strong>tout le cycle de vie logiciel</strong> — de l'idéation au lancement puis à la V2 — en construisant une startup anti-gaspillage alimentaire avec l'IA générative à chaque étape.</p>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                         <div class="bg-white border border-zg-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
                             <h3 class="font-bold text-zg-700 mb-2 flex items-center gap-2">
-                                <span>🟠</span> Pôle Tech
+                                <span><i data-icon=laptop class=ico></i></span> Pôle Tech
                             </h3>
                             <p class="text-sm text-slate-600">Devs, Architectes, DevOps — Python 3.12, FastAPI, PostgreSQL, React 18 + TypeScript, Docker, GitHub Actions.</p>
                         </div>
                         <div class="bg-white border border-biz-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
                             <h3 class="font-bold text-biz-700 mb-2 flex items-center gap-2">
-                                <span>🔵</span> Pôle Biz & Produit
+                                <span><i data-icon=chart-column class=ico></i></span> Pôle Biz & Produit
                             </h3>
                             <p class="text-sm text-slate-600">PO, BA, Marketing — étude de marché, business model, priorisation, growth — M365 Copilot & IA Cloud.</p>
                         </div>
                         <div class="bg-white border border-mix-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
                             <h3 class="font-bold text-mix-700 mb-2 flex items-center gap-2">
-                                <span>🟢</span> Modules Mixtes
+                                <span><i data-icon=users class=ico></i></span> Modules Mixtes
                             </h3>
                             <p class="text-sm text-slate-600">Ateliers communs Tech + Biz : idéation, specs, UX, sécurité & RGPD, itération produit.</p>
                         </div>
                     </div>
 
                     <div class="bg-amber-50 border border-amber-300 rounded-xl p-6 mb-8">
-                        <p class="text-sm text-amber-900"><strong>🎯 Objectif :</strong> Dérouler les 15 étapes du cycle de vie logiciel pour construire le MVP de ZeroGaspillage, la marketplace qui transforme les invendus des commerces de proximité en « Paniers Surprise » à prix réduit.</p>
+                        <p class="text-sm text-amber-900"><strong><i data-icon=target class=ico></i> Objectif :</strong> Dérouler les 15 étapes du cycle de vie logiciel pour construire le MVP de ZeroGaspillage, la marketplace qui transforme les invendus des commerces de proximité en « Paniers Surprise » à prix réduit.</p>
                     </div>
 
                     <div class="bg-white border-2 border-mix-200 rounded-xl p-6 mb-8">
-                        <h3 class="font-bold text-mix-700 mb-2 flex items-center gap-2"><span>🧰</span> Stack & outils : le choix vous appartient</h3>
+                        <h3 class="font-bold text-mix-700 mb-2 flex items-center gap-2"><span><i data-icon=wrench class=ico></i></span> Stack & outils : le choix vous appartient</h3>
                         <p class="text-sm text-slate-600 leading-relaxed mb-3">FastAPI / React / PostgreSQL ne sont qu'une <strong>stack de référence pour les exemples</strong>. Réalisez chaque lab avec <strong>votre propre stack</strong> (Java/Spring, .NET, Node/Express, PHP/Laravel, Ruby on Rails...) : chaque prompt technique inclut un rappel pour transposer l'exemple. Même liberté pour les outils IA — chaque lab affiche plusieurs choix populaires, jamais une exigence :</p>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs text-slate-600">
-                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong>💬 Assistants :</strong> ChatGPT, Gemini, Claude, Grok, Mistral</div>
-                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong>⌨️ Agents & IDE :</strong> GitHub Copilot, Claude Code, Codex, Cursor, AntiGravity</div>
-                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong>📄 Bureautique :</strong> M365 Copilot, Gemini Workspace</div>
-                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong>🎨 Génération d'UI :</strong> Stitch, v0.dev, Lovable, Bolt.new</div>
-                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong>🔀 No-code :</strong> n8n, Make, Zapier, Power Automate</div>
+                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong><i data-icon=message-square class=ico></i> Assistants :</strong> ChatGPT, Gemini, Claude, Grok, Mistral</div>
+                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong><i data-icon=keyboard class=ico></i> Agents & IDE :</strong> GitHub Copilot, Claude Code, Codex, Cursor, AntiGravity</div>
+                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong><i data-icon=file-text class=ico></i> Bureautique :</strong> M365 Copilot, Gemini Workspace</div>
+                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong><i data-icon=palette class=ico></i> Génération d'UI :</strong> Stitch, v0.dev, Lovable, Bolt.new</div>
+                            <div class="bg-stone-50 border border-stone-200 rounded-lg p-2"><strong><i data-icon=workflow class=ico></i> No-code :</strong> n8n, Make, Zapier, Power Automate</div>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                         <div class="bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
-                            <h3 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><span>🧭</span> Explorer & Cadrer</h3>
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><span><i data-icon=compass class=ico></i></span> Explorer & Cadrer</h3>
                             <p class="text-sm text-slate-600">Modules 1 à 5 : idéation, étude de marché, business model, spécifications, UX/UI.</p>
                         </div>
                         <div class="bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
-                            <h3 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><span>🏗️</span> Construire</h3>
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><span><i data-icon=hammer class=ico></i></span> Construire</h3>
                             <p class="text-sm text-slate-600">Modules 6 à 10 : architecture, données, backend, frontend, tests.</p>
                         </div>
                         <div class="bg-white border border-stone-200 rounded-xl p-5 shadow-sm">
-                            <h3 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><span>🚀</span> Sécuriser & Lancer</h3>
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center gap-2"><span><i data-icon=rocket class=ico></i></span> Sécuriser & Lancer</h3>
                             <p class="text-sm text-slate-600">Modules 11 à 15 : sécurité & RGPD, CI/CD, production, growth, itération.</p>
                         </div>
                     </div>
@@ -192,12 +185,12 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="bg-stone-50 p-6 rounded-xl border border-stone-200">
-                            <h3 class="font-bold text-slate-800 mb-3 text-lg flex items-center gap-2"><span>💻</span> Pour les Développeurs & DevOps</h3>
+                            <h3 class="font-bold text-slate-800 mb-3 text-lg flex items-center gap-2"><span><i data-icon=laptop class=ico></i></span> Pour les Développeurs & DevOps</h3>
                             <p class="text-sm text-slate-600 mb-3">Utilisation de <strong>GitHub Copilot</strong> et IA Cloud pour l'architecture, PostgreSQL/SQLAlchemy, FastAPI, React/TypeScript, les tests pytest/Playwright, la CI/CD et l'observabilité.</p>
                             <span class="text-xs font-bold bg-stone-200 text-stone-700 px-2 py-1 rounded">Modules 6, 7, 8, 9, 10, 12, 13</span>
                         </div>
                         <div class="bg-biz-100/50 p-6 rounded-xl border border-biz-100">
-                            <h3 class="font-bold text-biz-800 mb-3 text-lg flex items-center gap-2"><span>📊</span> Pour les profils Biz, Produit & Mixtes</h3>
+                            <h3 class="font-bold text-biz-800 mb-3 text-lg flex items-center gap-2"><span><i data-icon=chart-column class=ico></i></span> Pour les profils Biz, Produit & Mixtes</h3>
                             <p class="text-sm text-slate-600 mb-3">Utilisation de <strong>Copilot M365 (Word/Excel)</strong>, IA Cloud et outils de génération UI (v0.dev, Stitch) pour la discovery, le business model, les specs, l'UX, le RGPD et le growth.</p>
                             <span class="text-xs font-bold bg-biz-100 text-biz-800 px-2 py-1 rounded">Modules 1, 2, 3, 4, 5, 11, 14, 15</span>
                         </div>
@@ -211,8 +204,55 @@
     </main>
 
     <div id="toast" class="fixed bottom-4 right-4 bg-slate-900 text-white px-6 py-3 rounded-lg shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center gap-2 font-medium">
-        <span>📋</span> Prompt copié !
+        <span><i data-icon=clipboard-check class=ico></i></span> Prompt copié !
     </div>
+
+    <script>
+        // Icônes SVG monochromes embarquées (Lucide, licence ISC — https://lucide.dev) : remplacent les emojis.
+        // Marqueur : <i data-icon=nom class=ico></i> (statique ou injecté dynamiquement) ; taille 1em, couleur du texte.
+        const ICONS = {
+            "chart-column": '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+            "check": '<path d="M20 6 9 17l-5-5"/>',
+            "clipboard-check": '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+            "clipboard-list": '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
+            "coins": '<path d="M13.744 17.736a6 6 0 1 1-7.48-7.48"/><path d="M15 6h1v4"/><path d="m6.134 14.768.866-.5 2 3.464"/><circle cx="16" cy="8" r="6"/>',
+            "compass": '<circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/>',
+            "copy": '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+            "croissant": '<path d="M10.2 18H4.774a1.5 1.5 0 0 1-1.352-.97 11 11 0 0 1 .132-6.487"/><path d="M18 10.2V4.774a1.5 1.5 0 0 0-.97-1.352 11 11 0 0 0-6.486.132"/><path d="M18 5a4 3 0 0 1 4 3 2 2 0 0 1-2 2 10 10 0 0 0-5.139 1.42"/><path d="M5 18a3 4 0 0 0 3 4 2 2 0 0 0 2-2 10 10 0 0 1 1.42-5.14"/><path d="M8.709 2.554a10 10 0 0 0-6.155 6.155 1.5 1.5 0 0 0 .676 1.626l9.807 5.42a2 2 0 0 0 2.718-2.718l-5.42-9.807a1.5 1.5 0 0 0-1.626-.676"/>',
+            "database": '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
+            "drafting-compass": '<path d="m12.99 6.74 1.93 3.44"/><path d="M19.136 12a10 10 0 0 1-14.271 0"/><path d="m21 21-2.16-3.84"/><path d="m3 21 8.02-14.26"/><circle cx="12" cy="5" r="2"/>',
+            "file-text": '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+            "flask-conical": '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>',
+            "hammer": '<path d="m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/>',
+            "house": '<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+            "keyboard": '<path d="M10 8h.01"/><path d="M12 12h.01"/><path d="M14 8h.01"/><path d="M16 12h.01"/><path d="M18 8h.01"/><path d="M6 8h.01"/><path d="M7 16h10"/><path d="M8 12h.01"/><rect width="20" height="16" x="2" y="4" rx="2"/>',
+            "laptop": '<path d="M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .212.897l1.068 2.127a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45l1.068-2.127A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z"/><path d="M20.054 15.987H3.946"/>',
+            "lightbulb": '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+            "megaphone": '<path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/>',
+            "menu": '<path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/>',
+            "message-square": '<path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/>',
+            "monitor": '<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>',
+            "palette": '<path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>',
+            "refresh-cw": '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+            "repeat": '<path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/>',
+            "rocket": '<path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"/><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"/>',
+            "search": '<path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/>',
+            "settings": '<path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/>',
+            "shield-check": '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+            "target": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+            "users": '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/>',
+            "workflow": '<rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/>',
+            "wrench": '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/>'
+        };
+        document.head.insertAdjacentHTML('beforeend', '<style>.ico{display:inline-block;width:1em;height:1em;vertical-align:-0.15em;flex-shrink:0} :is(.flex,.inline-flex)>.ico{margin-right:.375em}</style>');
+        function hydrateIcons(rootEl) {
+            rootEl.querySelectorAll('[data-icon]').forEach(el => {
+                el.outerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${el.className}" aria-hidden="true" focusable="false">${ICONS[el.dataset.icon] || ''}</svg>`;
+            });
+        }
+        hydrateIcons(document);
+        new MutationObserver(() => hydrateIcons(document.body)).observe(document.body, { childList: true, subtree: true });
+    </script>
 
     <script>
         // --- Data Storage ---
@@ -226,7 +266,7 @@
 
         const courseData = [
             {
-                id: "zg_mod1", icon: "💡", target: "Mixte",
+                id: "zg_mod1", icon: "lightbulb", target: "Mixte",
                 title: "Module 1 : Idéation & Cadrage du Problème",
                 subtitle: "(Design Thinking augmenté)",
                 intro: "Avant la première ligne de code : cadrer le bon problème. L'IA devient facilitateur d'atelier — elle structure la divergence (générer beaucoup d'idées) puis la convergence (choisir et justifier).",
@@ -248,7 +288,7 @@
                 ]
             },
             {
-                id: "zg_mod2", icon: "🔍", target: "Biz",
+                id: "zg_mod2", icon: "search", target: "Biz",
                 title: "Module 2 : Étude de Marché & Validation",
                 subtitle: "(Avant d'écrire une ligne de code)",
                 intro: "Valider qu'un marché existe avant de construire. Analyse concurrentielle, entretiens terrain et smoke test : l'IA accélère la discovery sans jamais remplacer le contact réel avec les utilisateurs.",
@@ -277,7 +317,7 @@
                 ]
             },
             {
-                id: "zg_mod3", icon: "💰", target: "Biz",
+                id: "zg_mod3", icon: "coins", target: "Biz",
                 title: "Module 3 : Business Model & Pricing",
                 subtitle: "(Lean Startup)",
                 intro: "Transformer l'idée validée en modèle économique viable : canvas, hypothèses risquées et simulation financière assistés par l'IA.",
@@ -299,7 +339,7 @@
                 ]
             },
             {
-                id: "zg_mod4", icon: "📋", target: "Mixte",
+                id: "zg_mod4", icon: "clipboard-list", target: "Mixte",
                 title: "Module 4 : Spécifications, User Stories & Backlog",
                 subtitle: "(Du besoin au backlog)",
                 intro: "Traduire la vision en spécifications exécutables : PRD, user stories, Gherkin, priorisation, puis simulation du premier sprint — le pont entre le métier et l'équipe de développement.",
@@ -335,7 +375,7 @@
                 ]
             },
             {
-                id: "zg_mod5", icon: "🎨", target: "Mixte",
+                id: "zg_mod5", icon: "palette", target: "Mixte",
                 title: "Module 5 : UX/UI Design",
                 subtitle: "(Du parcours au Design System)",
                 intro: "Concevoir l'expérience avant l'interface : parcours, wireframes et design system figé dans un fichier Skill réutilisable par toutes les IA du projet.",
@@ -357,7 +397,7 @@
                 ]
             },
             {
-                id: "zg_mod6", icon: "🏗️", target: "Tech",
+                id: "zg_mod6", icon: "drafting-compass", target: "Tech",
                 title: "Module 6 : Architecture Technique & ADR",
                 subtitle: "(Décider et documenter)",
                 intro: "Poser les fondations techniques : comparer les architectures, décider (ADR), documenter (C4) et contractualiser (OpenAPI) — l'IA argumente, l'équipe décide.",
@@ -386,7 +426,7 @@
                 ]
             },
             {
-                id: "zg_mod7", icon: "🗄️", target: "Tech",
+                id: "zg_mod7", icon: "database", target: "Tech",
                 title: "Module 7 : Modèle de Données",
                 subtitle: "(PostgreSQL & concurrence)",
                 intro: "Modéliser les données du domaine dans PostgreSQL : du MCD aux migrations Alembic, avec LE piège du métier — la concurrence sur le dernier panier.",
@@ -408,7 +448,7 @@
                 ]
             },
             {
-                id: "zg_mod8", icon: "⚙️", target: "Tech",
+                id: "zg_mod8", icon: "settings", target: "Tech",
                 title: "Module 8 : Développement Backend",
                 subtitle: "(FastAPI & Copilot)",
                 intro: "Développer le backend avec un agent IA : conventions figées dans copilot-instructions.md, bibliothèque de prompts partagée par l'équipe, endpoints métier atomiques et moteur de suggestion anti-gaspi.",
@@ -444,7 +484,7 @@
                 ]
             },
             {
-                id: "zg_mod9", icon: "🖥️", target: "Tech",
+                id: "zg_mod9", icon: "monitor", target: "Tech",
                 title: "Module 9 : Développement Frontend",
                 subtitle: "(React + TypeScript)",
                 intro: "Construire le frontend React : du premier jet v0.dev au composant typé aligné sur le design system, jusqu'à l'optimistic UI de la réservation.",
@@ -461,12 +501,12 @@
                         targetBadge: "Devs React", tools: OUTILS.ide,
                         objective: "Brancher le front sur l'API : hooks de données, mutation de réservation optimiste avec rollback, erreurs en français.",
                         astuce: "L'optimistic UI est le détail qui rend l'app « instantanée » — mais exigez le scénario de rollback : c'est lui que l'IA oublie une fois sur deux.",
-                        prompt: `Agis comme un développeur React senior. Implémente le flux de réservation côté front (React 18 + TypeScript + TanStack Query).\n\n1. Hook usePaniers(lat, lng, rayon) : fetch GET /paniers, rafraîchissement automatique toutes les 60s, gestion des états loading / error / empty.\n2. Hook useReserverPanier() : mutation POST /reservations avec optimistic update (le stock affiché décrémente immédiatement), rollback + toast d'erreur si 409 (stock épuisé) ou 410 (heure limite dépassée).\n3. Composant ReservationConfirmation : code de retrait, compte à rebours, bouton annuler (avec confirmation).\n4. Intercepteur d'authentification JWT (refresh token).\n\nContrainte : messages d'erreur en français, orientés utilisateur ("Ce panier vient d'être réservé par quelqu'un d'autre 😔"), jamais de code d'erreur brut à l'écran.`
+                        prompt: `Agis comme un développeur React senior. Implémente le flux de réservation côté front (React 18 + TypeScript + TanStack Query).\n\n1. Hook usePaniers(lat, lng, rayon) : fetch GET /paniers, rafraîchissement automatique toutes les 60s, gestion des états loading / error / empty.\n2. Hook useReserverPanier() : mutation POST /reservations avec optimistic update (le stock affiché décrémente immédiatement), rollback + toast d'erreur si 409 (stock épuisé) ou 410 (heure limite dépassée).\n3. Composant ReservationConfirmation : code de retrait, compte à rebours, bouton annuler (avec confirmation).\n4. Intercepteur d'authentification JWT (refresh token).\n\nContrainte : messages d'erreur en français, orientés utilisateur ("Ce panier vient d'être réservé par quelqu'un d'autre"), jamais de code d'erreur brut à l'écran.`
                     }
                 ]
             },
             {
-                id: "zg_mod10", icon: "🧪", target: "Tech",
+                id: "zg_mod10", icon: "flask-conical", target: "Tech",
                 title: "Module 10 : Tests & Qualité",
                 subtitle: "(La preuve par les tests)",
                 intro: "Prouver que ça marche : tests unitaires des règles métier, agent QA réutilisable, parcours E2E Playwright qui devient le gate de la CI — et le réflexe du debug assisté sur du code existant.",
@@ -483,7 +523,7 @@
                         targetBadge: "QA / Tech Leads", tools: OUTILS.chat, noStackNote: true,
                         objective: "Créer le profil d'agent IA strict dédié à la revue des tests, réutilisable sur tout le projet.",
                         astuce: "Même pattern que les 4 agents EcoTrack : un rôle étroit + une grille + un format de sortie = un agent fiable. La largesse du rôle est l'ennemie de la qualité.",
-                        prompt: `Crée le fichier "qa-python.agent.md" : le profil d'un agent IA strict, spécialisé revue de tests Python, réutilisable sur tout le projet.\n\nStructure :\n1. Rôle : "Tu es un ingénieur QA senior Python. Tu ne réponds QUE sur la qualité des tests."\n2. Contexte permanent : stack (pytest, FastAPI, SQLAlchemy async), conventions du repo (.github/copilot-instructions.md).\n3. Grille d'analyse systématique : couverture des règles métier du PRD, cas limites temporels, concurrence, indépendance des tests, fixtures propres, assertions précises (pas de assert True).\n4. Format de sortie imposé : tableau Verdict (✅/⚠️/❌) par fichier + liste des tests manquants classés par risque.\n5. Interdictions : ne jamais réécrire le code de production, ne jamais approuver sans exécuter mentalement chaque test.`
+                        prompt: `Crée le fichier "qa-python.agent.md" : le profil d'un agent IA strict, spécialisé revue de tests Python, réutilisable sur tout le projet.\n\nStructure :\n1. Rôle : "Tu es un ingénieur QA senior Python. Tu ne réponds QUE sur la qualité des tests."\n2. Contexte permanent : stack (pytest, FastAPI, SQLAlchemy async), conventions du repo (.github/copilot-instructions.md).\n3. Grille d'analyse systématique : couverture des règles métier du PRD, cas limites temporels, concurrence, indépendance des tests, fixtures propres, assertions précises (pas de assert True).\n4. Format de sortie imposé : tableau Verdict (OK / À revoir / KO) par fichier + liste des tests manquants classés par risque.\n5. Interdictions : ne jamais réécrire le code de production, ne jamais approuver sans exécuter mentalement chaque test.`
                     },
                     {
                         id: "zg_lab10_3", title: "Lab 10.3 : Parcours E2E Playwright",
@@ -502,7 +542,7 @@
                 ]
             },
             {
-                id: "zg_mod11", icon: "🛡️", target: "Mixte",
+                id: "zg_mod11", icon: "shield-check", target: "Mixte",
                 title: "Module 11 : Sécurité & Conformité RGPD",
                 subtitle: "(OWASP & RGPD)",
                 intro: "Sécuriser et encadrer : audit OWASP API Top 10 orienté failles métier, RGPD appliqué aux données sensibles (géolocalisation, habitudes alimentaires) et charte d'usage IA de l'équipe.",
@@ -531,7 +571,7 @@
                 ]
             },
             {
-                id: "zg_mod12", icon: "🔄", target: "Tech",
+                id: "zg_mod12", icon: "refresh-cw", target: "Tech",
                 title: "Module 12 : CI/CD & Industrialisation",
                 subtitle: "(Chaque merge est vérifié)",
                 intro: "Industrialiser : pipeline GitHub Actions bi-stack et conteneurisation figée dans un Skill Docker — chaque merge est vérifié, chaque poste de dev est identique.",
@@ -553,7 +593,7 @@
                 ]
             },
             {
-                id: "zg_mod13", icon: "🚀", target: "Tech",
+                id: "zg_mod13", icon: "rocket", target: "Tech",
                 title: "Module 13 : Déploiement & Observabilité",
                 subtitle: "(Production & SRE)",
                 intro: "Mettre en production et garder les yeux ouverts : déploiement PaaS, logs structurés, métriques métier, alertes et runbook d'incident testé.",
@@ -582,7 +622,7 @@
                 ]
             },
             {
-                id: "zg_mod14", icon: "📣", target: "Biz",
+                id: "zg_mod14", icon: "megaphone", target: "Biz",
                 title: "Module 14 : Lancement & Growth",
                 subtitle: "(Go-to-market & data)",
                 intro: "Lancer et croître : go-to-market hyper-local (l'offre d'abord), North Star Metric et premiers A/B tests sur l'algorithme de suggestion.",
@@ -604,7 +644,7 @@
                 ]
             },
             {
-                id: "zg_mod15", icon: "🔁", target: "Mixte",
+                id: "zg_mod15", icon: "repeat", target: "Mixte",
                 title: "Module 15 : Maintenance, Feedback & Itération",
                 subtitle: "(Boucler la boucle)",
                 intro: "Le cycle ne se termine pas, il itère : industrialiser le feedback, l'automatiser dans un workflow no-code, rembourser la dette technique et construire la roadmap V2 à partir des données réelles.",
@@ -653,12 +693,10 @@
             currentModuleIndex: null,
             completedLabs: JSON.parse(localStorage.getItem('zeroGaspiProgress_v1')) || []
         };
-        let chartInstance = null;
 
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             renderSidebar();
-            initChart();
             updateProgressUI();
         });
 
@@ -670,7 +708,7 @@
 
             const homeBtn = document.createElement('button');
             homeBtn.className = `w-full text-left px-4 py-3 rounded-xl transition-all duration-200 flex items-center gap-3 font-medium hover:bg-stone-100 text-slate-700 mb-2`;
-            homeBtn.innerHTML = `<span>🏠</span> <span class="truncate">Accueil Projet</span>`;
+            homeBtn.innerHTML = `<span><i data-icon=house class=ico></i></span> <span class="truncate">Accueil Projet</span>`;
             homeBtn.onclick = () => showIntro();
             nav.appendChild(homeBtn);
 
@@ -697,12 +735,12 @@
                 else if (isSelected && mod.target === 'Mixte') subtitleClass = 'text-mix-700';
 
                 btn.innerHTML = `
-                    <span class="text-xl flex-shrink-0">${mod.icon}</span>
+                    <span class="text-xl flex-shrink-0"><i data-icon=${mod.icon} class=ico></i></span>
                     <div class="flex-1 min-w-0">
                         <div class="truncate text-sm font-bold">${mod.title.split(' : ')[0]}</div>
                         <div class="truncate text-xs ${subtitleClass}">${mod.title.split(' : ')[1] || ''}</div>
                     </div>
-                    ${isModComplete ? '<span class="text-zg-500 text-sm">✔</span>' : ''}
+                    ${isModComplete ? '<span class="text-zg-500 text-sm"><i data-icon=check class=ico></i></span>' : ''}
                 `;
                 btn.onclick = () => loadModule(index);
                 nav.appendChild(btn);
@@ -746,7 +784,7 @@
             header.className = `bg-white border ${theme.borderLight} p-8 rounded-2xl mb-8 shadow-sm`;
             header.innerHTML = `
                 <div class="flex items-center gap-3 mb-3">
-                    <span class="text-3xl">${mod.icon}</span>
+                    <span class="text-3xl"><i data-icon=${mod.icon} class=ico></i></span>
                     <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">${mod.title}</h2>
                 </div>
                 ${mod.subtitle ? `<p class="${theme.textPrimary} font-bold mb-4 uppercase tracking-wide text-sm">${mod.subtitle}</p>` : ''}
@@ -763,8 +801,8 @@
                     <div class="p-6 md:p-8 border-b border-stone-100 flex flex-col md:flex-row justify-between items-start gap-4">
                         <div class="flex-1">
                             <div class="flex flex-wrap gap-2 mb-3">
-                                <span class="inline-flex items-center bg-stone-100 text-stone-700 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider">🎯 ${lab.targetBadge}</span>
-                                <span class="inline-flex items-center bg-slate-800 text-slate-100 text-xs px-2.5 py-1 rounded-md font-bold tracking-wider">🛠 Au choix</span>
+                                <span class="inline-flex items-center bg-stone-100 text-stone-700 text-xs px-2.5 py-1 rounded-md font-bold uppercase tracking-wider"><i data-icon=target class=ico></i> ${lab.targetBadge}</span>
+                                <span class="inline-flex items-center bg-slate-800 text-slate-100 text-xs px-2.5 py-1 rounded-md font-bold tracking-wider"><i data-icon=wrench class=ico></i> Au choix</span>
                                 ${(lab.tools || [lab.toolBadge]).map(t => `<span class="inline-flex items-center bg-white border border-slate-300 text-slate-700 text-xs px-2.5 py-1 rounded-md font-semibold">${t}</span>`).join('')}
                             </div>
                             <h3 class="text-xl font-extrabold text-slate-900 mb-2">${lab.title}</h3>
@@ -772,7 +810,7 @@
 
                             ${lab.astuce ? `
                             <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3 shadow-sm">
-                                <span class="text-amber-500 text-xl flex-shrink-0">💡</span>
+                                <span class="text-amber-500 text-xl flex-shrink-0"><i data-icon=lightbulb class=ico></i></span>
                                 <div>
                                     <h4 class="text-sm font-bold text-amber-900 mb-1">Impact Métier / Tech</h4>
                                     <p class="text-sm text-amber-800 leading-relaxed">${lab.astuce}</p>
@@ -783,14 +821,14 @@
                         </div>
                         <button onclick="toggleLab('${lab.id}')" class="flex-shrink-0 w-12 h-12 rounded-full border-2 flex items-center justify-center transition-colors text-lg
                             ${isCompleted ? `${theme.bgMedium} ${theme.borderMedium} text-white` : 'border-stone-300 text-transparent hover:border-stone-400'}">
-                            ✔
+                            <i data-icon=check class=ico></i>
                         </button>
                     </div>
                     <div class="p-6 md:p-8 bg-stone-50">
                         <div class="flex justify-between items-center mb-3">
                             <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Prompt à copier</span>
                             <button onclick="copyToClipboard(this, '${lab.id}')" class="text-sm ${theme.textPrimary} hover:font-bold font-bold flex items-center gap-1 transition-colors bg-white px-3 py-1 rounded-md border border-stone-200 shadow-sm">
-                                <span>📋</span> Copier
+                                <span><i data-icon=copy class=ico></i></span> Copier
                             </button>
                         </div>
                         <pre class="bg-slate-900 text-stone-100 p-5 rounded-xl text-sm overflow-x-auto whitespace-pre-wrap font-mono leading-relaxed shadow-inner border border-slate-800">${lab.prompt}</pre>
@@ -843,7 +881,7 @@
                     toast.classList.remove('translate-y-20', 'opacity-0');
 
                     const originalHtml = btnElement.innerHTML;
-                    btnElement.innerHTML = `<span>✅</span> Copié`;
+                    btnElement.innerHTML = `<span><i data-icon=check class=ico></i></span> Copié`;
                     btnElement.classList.add('text-green-700', 'border-green-300', 'bg-green-50');
 
                     setTimeout(() => {
@@ -863,63 +901,17 @@
             document.getElementById('sidebar').classList.toggle('-translate-x-full');
         }
 
-        function initChart() {
-            const ctx = document.getElementById('progressChart').getContext('2d');
-            chartInstance = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Complété', 'À faire'],
-                    datasets: [{
-                        data: [0, 100],
-                        backgroundColor: ['#f59e0b', '#e5e7eb'],
-                        borderWidth: 0,
-                        hoverOffset: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '75%',
-                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
-                    animation: { animateScale: true }
-                },
-                plugins: [{
-                    id: 'textCenter',
-                    beforeDraw: function(chart) {
-                        var width = chart.width, height = chart.height, ctx = chart.ctx;
-                        ctx.restore();
-                        var fontSize = (height / 90).toFixed(2);
-                        ctx.font = "bold " + fontSize + "em sans-serif";
-                        ctx.textBaseline = "middle";
-                        ctx.fillStyle = "#1e293b";
-
-                        var percentage = chart.data.datasets[0].data[0] + chart.data.datasets[0].data[1] === 0 ? 0 :
-                            Math.round((chart.data.datasets[0].data[0] / (chart.data.datasets[0].data[0] + chart.data.datasets[0].data[1])) * 100);
-
-                        var text = percentage + "%",
-                            textX = Math.round((width - ctx.measureText(text).width) / 2),
-                            textY = height / 2;
-
-                        ctx.fillText(text, textX, textY);
-                        ctx.save();
-                    }
-                }]
-            });
-        }
-
         function updateProgressUI() {
             let totalLabs = 0;
             courseData.forEach(m => totalLabs += m.labs.length);
             const completed = state.completedLabs.length;
-            const remaining = totalLabs - completed;
+            const percent = totalLabs === 0 ? 0 : Math.min(100, Math.round((completed / totalLabs) * 100));
 
-            document.getElementById('progress-text').innerText = `${completed} / ${totalLabs} Labs complétés`;
-
-            if(chartInstance) {
-                chartInstance.data.datasets[0].data = [completed, remaining];
-                chartInstance.data.datasets[0].backgroundColor = completed === totalLabs ? ['#b45309', '#e5e7eb'] : ['#f59e0b', '#e5e7eb'];
-                chartInstance.update();
-            }
+            // Barre de progression CSS (remplace l'ancien donut Chart.js)
+            document.getElementById('progress-bar').style.width = `${percent}%`;
+            document.getElementById('progress-track').setAttribute('aria-valuenow', percent);
+            document.getElementById('progress-percent').innerText = `${percent} %`;
+            document.getElementById('progress-text').innerText = `${completed} / ${totalLabs} labs complétés`;
             renderSidebar();
         }
     </script>

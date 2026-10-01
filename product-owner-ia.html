@@ -78,7 +78,7 @@
             <div class="flex flex-col gap-6">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <a href="index.html" class="inline-flex items-center gap-3 text-slate-900 font-bold text-lg">
-                        <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-50 text-white shadow-lg shadow-slate-900/15">🥐</span>
+                        <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-50 text-amber-600 text-2xl shadow-lg shadow-slate-900/15"><i data-icon=croissant class=ico></i></span>
                         <span>Accueil formation</span>
                     </a>
                     <a href="zerogaspillage.html" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-stone-300 bg-white/90 text-slate-700 font-semibold hover:border-biz-200 hover:text-biz-700 transition-colors shadow-sm">
@@ -252,6 +252,33 @@
     </div>
 
     <script>
+        // Icônes SVG monochromes embarquées (Lucide, licence ISC — https://lucide.dev) : remplacent les emojis.
+        // Marqueur : <i data-icon=nom class=ico></i> (statique ou injecté dynamiquement) ; taille 1em, couleur du texte.
+        const ICONS = {
+            "brain": '<path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/>',
+            "chart-column": '<path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/>',
+            "croissant": '<path d="M10.2 18H4.774a1.5 1.5 0 0 1-1.352-.97 11 11 0 0 1 .132-6.487"/><path d="M18 10.2V4.774a1.5 1.5 0 0 0-.97-1.352 11 11 0 0 0-6.486.132"/><path d="M18 5a4 3 0 0 1 4 3 2 2 0 0 1-2 2 10 10 0 0 0-5.139 1.42"/><path d="M5 18a3 4 0 0 0 3 4 2 2 0 0 0 2-2 10 10 0 0 1 1.42-5.14"/><path d="M8.709 2.554a10 10 0 0 0-6.155 6.155 1.5 1.5 0 0 0 .676 1.626l9.807 5.42a2 2 0 0 0 2.718-2.718l-5.42-9.807a1.5 1.5 0 0 0-1.626-.676"/>',
+            "link": '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
+            "lock": '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+            "pen-line": '<path d="M13 21h8"/><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/>',
+            "pencil-ruler": '<path d="M13 7 8.7 2.7a2.41 2.41 0 0 0-3.4 0L2.7 5.3a2.41 2.41 0 0 0 0 3.4L7 13"/><path d="m8 6 2-2"/><path d="m18 16 2-2"/><path d="m17 11 4.3 4.3c.94.94.94 2.46 0 3.4l-2.6 2.6c-.94.94-2.46.94-3.4 0L11 17"/><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/>',
+            "scale": '<path d="M12 3v18"/><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"/><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"/><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"/><path d="M7 21h10"/>',
+            "search": '<path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/>',
+            "shield-check": '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+            "target": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+            "trending-up": '<path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/>'
+        };
+        document.head.insertAdjacentHTML('beforeend', '<style>.ico{display:inline-block;width:1em;height:1em;vertical-align:-0.15em;flex-shrink:0} :is(.flex,.inline-flex)>.ico{margin-right:.375em}</style>');
+        function hydrateIcons(rootEl) {
+            rootEl.querySelectorAll('[data-icon]').forEach(el => {
+                el.outerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${el.className}" aria-hidden="true" focusable="false">${ICONS[el.dataset.icon] || ''}</svg>`;
+            });
+        }
+        hydrateIcons(document);
+        new MutationObserver(() => hydrateIcons(document.body)).observe(document.body, { childList: true, subtree: true });
+    </script>
+
+    <script>
         const STORAGE_KEY = 'zeroGaspiPoProgress_v1';
         const QUIZ_VERSION = 1;
         const QUIZ_UNLOCK_THRESHOLD = 10;
@@ -259,7 +286,7 @@
         const modulesData = [
             {
                 id: 'module-1',
-                icon: '🧠',
+                icon: 'brain',
                 title: 'Comprendre l\'IA : définitions et familles de modèles',
                 summary: 'Se doter d\'un vocabulaire IA commun avec les équipes data/tech, pour cadrer sans jargon mal maîtrisé ni promesses irréalistes.',
                 objective: 'Distinguer les grandes familles de modèles IA et leurs cas d\'usage produit typiques sur ZeroGaspillage.',
@@ -277,7 +304,7 @@ Termine par un tableau récapitulatif « besoin produit → famille de modèle p
             },
             {
                 id: 'module-2',
-                icon: '⚖️',
+                icon: 'scale',
                 title: 'Capacités vs limites : données, biais, sécurité, gouvernance',
                 summary: 'Évaluer objectivement ce que l\'IA peut garantir ou non, pour ne pas engager le produit sur des promesses intenables.',
                 objective: 'Construire une vigilance systématique avant tout cadrage de fonctionnalité IA.',
@@ -297,7 +324,7 @@ Termine par une checklist de vigilance en 8 points qu'un PO doit valider avant d
             },
             {
                 id: 'module-3',
-                icon: '🔍',
+                icon: 'search',
                 title: 'Repérer les signaux d\'opportunité IA dans le produit',
                 summary: 'Apprendre à lire les signaux produit (frictions récurrentes, volumes, tickets support, churn) qui trahissent une vraie opportunité IA.',
                 objective: 'Distinguer un signal d\'opportunité IA exploitable d\'un simple effet de mode.',
@@ -320,7 +347,7 @@ Termine par un classement des 3 signaux les plus prometteurs pour une opportunit
             },
             {
                 id: 'module-4',
-                icon: '🎯',
+                icon: 'target',
                 title: 'Évaluer la valeur et la faisabilité d\'une opportunité IA',
                 summary: 'Passer d\'un signal à une opportunité argumentée grâce à une grille valeur / faisabilité / risque adaptée à l\'IA.',
                 objective: 'Prioriser objectivement les opportunités IA candidates avant de les cadrer.',
@@ -342,7 +369,7 @@ Termine par une recommandation des 2 opportunités à cadrer en priorité et exp
             },
             {
                 id: 'module-5',
-                icon: '🔗',
+                icon: 'link',
                 title: 'Comprendre le workflow IA de bout en bout',
                 summary: 'Visualiser le pipeline données → modèle → intégration → UX pour dialoguer avec data/tech sans coder et anticiper les dépendances planning.',
                 objective: 'Identifier les étapes et dépendances d\'un projet IA avant de l\'intégrer dans un planning produit.',
@@ -362,7 +389,7 @@ Pour chaque étape, indique le rôle du PO, le rôle de l'équipe technique, et 
             },
             {
                 id: 'module-6',
-                icon: '📐',
+                icon: 'pencil-ruler',
                 title: 'Cadrer une fonctionnalité IA : critères d\'acceptation adaptés',
                 summary: 'Adapter les critères d\'acceptation classiques aux spécificités de l\'IA : incertitude, cas limites, fallback, explicabilité.',
                 objective: 'Produire un cadrage complet qui anticipe les cas où le modèle se trompe ou hésite.',
@@ -381,7 +408,7 @@ Restitue le résultat sous forme de fiche structurée prête à partager avec l'
             },
             {
                 id: 'module-7',
-                icon: '✍️',
+                icon: 'pen-line',
                 title: 'Rédiger une user story IA complète',
                 summary: 'Reformuler un besoin métier flou en user story IA complète, avec des critères d\'acceptation prêts pour le backlog.',
                 objective: 'Transformer une demande imprécise en user story actionnable par l\'équipe de développement.',
@@ -405,7 +432,7 @@ Restitue le tout dans un format directement copiable dans un outil de backlog (J
             },
             {
                 id: 'module-8',
-                icon: '📊',
+                icon: 'chart-column',
                 title: 'Prioriser un backlog avec des opportunités IA',
                 summary: 'Arbitrer entre initiatives IA et fonctionnalités classiques dans un backlog contraint, sans survaloriser l\'IA par effet de mode.',
                 objective: 'Prioriser un backlog mixte de façon défendable devant les parties prenantes.',
@@ -428,7 +455,7 @@ Présente le résultat sous forme de tableau trié par score, puis explique en 5
             },
             {
                 id: 'module-9',
-                icon: '🛡️',
+                icon: 'shield-check',
                 title: 'Piloter la gouvernance et l\'éthique IA du produit',
                 summary: 'Mettre en place les garde-fous produit (transparence, revue humaine, biais, RGPD) avant qu\'une fonctionnalité IA parte en production.',
                 objective: 'Garantir qu\'aucune fonctionnalité IA ne soit livrée sans garde-fou de gouvernance.',
@@ -448,7 +475,7 @@ Termine par une checklist de mise en production en 6 points, à valider avant ch
             },
             {
                 id: 'module-10',
-                icon: '📈',
+                icon: 'trending-up',
                 title: 'Mesurer, itérer et communiquer sur une fonctionnalité IA',
                 summary: 'Définir les bons KPIs, détecter la dérive du modèle et vulgariser les résultats pour des stakeholders non techniques.',
                 objective: 'Piloter une fonctionnalité IA après son lancement et savoir la présenter simplement.',
@@ -582,7 +609,7 @@ Restitue chaque livrable séparément et clairement identifié.`
                         class="block rounded-2xl border border-transparent px-4 py-3 text-sm font-semibold text-slate-600 transition-all hover:border-biz-100 hover:bg-biz-50 hover:text-biz-700"
                     >
                         <div class="flex items-start gap-3">
-                            <span>${module.icon}</span>
+                            <span><i data-icon=${module.icon} class=ico></i></span>
                             <div class="min-w-0 flex-1">
                                 <span class="block">Module ${index + 1}</span>
                                 <span class="mt-1 block text-xs font-medium text-slate-500">${escapeHtml(module.title)}</span>
@@ -663,7 +690,7 @@ Restitue chaque livrable séparément et clairement identifié.`
                             <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
                                 <div class="max-w-3xl">
                                     <p class="text-xs font-bold uppercase tracking-[0.24em] text-biz-700">Module ${index + 1}</p>
-                                    <h2 class="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-slate-950">${module.icon} ${escapeHtml(module.title)}</h2>
+                                    <h2 class="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-slate-950"><i data-icon=${module.icon} class=ico></i> ${escapeHtml(module.title)}</h2>
                                     <p class="mt-4 text-base md:text-lg leading-relaxed text-slate-600">${escapeHtml(module.summary)}</p>
                                 </div>
                                 <div class="flex flex-col items-start xl:items-end gap-3">
@@ -725,7 +752,7 @@ Restitue chaque livrable séparément et clairement identifié.`
             document.getElementById('overall-progress-bar').style.width = `${overallPct}%`;
             document.getElementById('overall-progress-text').textContent = `${completedModules} / ${totalSteps} modules complétés`;
 
-            document.getElementById('quiz-score-panel').textContent = quizUnlocked ? `${correctAnswers} / ${quizData.length}` : '🔒';
+            document.getElementById('quiz-score-panel').innerHTML = quizUnlocked ? `${correctAnswers} / ${quizData.length}` : '<i data-icon=lock class=ico></i>';
             document.getElementById('quiz-score-bar').style.width = `${quizPct}%`;
             document.getElementById('quiz-score-detail').textContent = quizUnlocked
                 ? (answeredQuestions === quizData.length ? `Quiz terminé. Score final : ${correctAnswers} / ${quizData.length}.` : `Répondez aux ${quizData.length} questions pour mesurer votre maîtrise.`)

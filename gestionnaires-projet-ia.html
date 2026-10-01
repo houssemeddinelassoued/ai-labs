@@ -75,7 +75,7 @@
             <div class="flex flex-col gap-6">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <a href="index.html" class="inline-flex items-center gap-3 text-slate-900 font-bold text-lg">
-                        <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-50 text-white shadow-lg shadow-slate-900/15">🌱</span>
+                        <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-50 text-orange-600 text-2xl shadow-lg shadow-slate-900/15"><i data-icon=sprout class=ico></i></span>
                         <span>Accueil formation</span>
                     </a>
                     <a href="ecotrack.html" class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full border border-stone-300 bg-white/90 text-slate-700 font-semibold hover:border-pm-200 hover:text-pm-700 transition-colors shadow-sm">
@@ -249,6 +249,33 @@
     </div>
 
     <script>
+        // Icônes SVG monochromes embarquées (Lucide, licence ISC — https://lucide.dev) : remplacent les emojis.
+        // Marqueur : <i data-icon=nom class=ico></i> (statique ou injecté dynamiquement) ; taille 1em, couleur du texte.
+        const ICONS = {
+            "compass": '<circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/>',
+            "euro": '<path d="M4 10h12"/><path d="M4 14h9"/><path d="M19 6a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2"/>',
+            "handshake": '<path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/>',
+            "lock": '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+            "map": '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>',
+            "megaphone": '<path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14"/><path d="M8 6v8"/>',
+            "puzzle": '<path d="M15.39 4.39a1 1 0 0 0 1.68-.474 2.5 2.5 0 1 1 3.014 3.015 1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474 2.5 2.5 0 1 0-3.014 3.015 1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474 2.5 2.5 0 1 1-3.014-3.015 1 1 0 0 0 .474-1.68l-1.683-1.682a2.414 2.414 0 0 1 0-3.414L4.39 8.61a1 1 0 0 1 1.68.474 2.5 2.5 0 1 0 3.014-3.015 1 1 0 0 1-.474-1.68l1.683-1.682a2.414 2.414 0 0 1 3.414 0z"/>',
+            "rocket": '<path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"/><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"/>',
+            "ruler": '<path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/>',
+            "sprout": '<path d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3"/><path d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4"/><path d="M5 21h14"/>',
+            "target": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+            "triangle-alert": '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>'
+        };
+        document.head.insertAdjacentHTML('beforeend', '<style>.ico{display:inline-block;width:1em;height:1em;vertical-align:-0.15em;flex-shrink:0} :is(.flex,.inline-flex)>.ico{margin-right:.375em}</style>');
+        function hydrateIcons(rootEl) {
+            rootEl.querySelectorAll('[data-icon]').forEach(el => {
+                el.outerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${el.className}" aria-hidden="true" focusable="false">${ICONS[el.dataset.icon] || ''}</svg>`;
+            });
+        }
+        hydrateIcons(document);
+        new MutationObserver(() => hydrateIcons(document.body)).observe(document.body, { childList: true, subtree: true });
+    </script>
+
+    <script>
         const STORAGE_KEY = 'ecoTrackPmProgress_v2';
         const QUIZ_VERSION = 4;
         const QUIZ_UNLOCK_THRESHOLD = 5;
@@ -256,7 +283,7 @@
         const modulesData = [
             {
                 id: 'module-1',
-                icon: '🧭',
+                icon: 'compass',
                 title: 'Cadrage stratégique & charte projet',
                 summary: 'Transformer la vision d\'EcoTrack en mandat projet clair, avec objectifs, limites, hypothèses et indicateurs de succès.',
                 objective: 'Formaliser un cadre de référence partagé entre sponsor, métier, DSI et équipes delivery.',
@@ -275,7 +302,7 @@ Restitue le résultat dans un format clair, exécutif et directement exploitable
             },
             {
                 id: 'module-2',
-                icon: '🧩',
+                icon: 'puzzle',
                 title: 'Parties prenantes & gouvernance',
                 summary: 'Cartographier les acteurs décisifs et établir une gouvernance qui fluidifie les arbitrages entre produit, data, sécurité et delivery.',
                 objective: 'Éviter les flous de responsabilité et les blocages transverses en amont.',
@@ -290,7 +317,7 @@ Termine par une proposition de cadence de comités et leurs objectifs respectifs
             },
             {
                 id: 'module-3',
-                icon: '🎯',
+                icon: 'target',
                 title: 'Vision produit & priorisation du MVP',
                 summary: 'Traduire les ambitions d\'EcoTrack en capacités concrètes et priorisées pour construire un MVP livrable rapidement.',
                 objective: 'Aligner la priorisation entre valeur business, faisabilité technique et contraintes projet.',
@@ -305,7 +332,7 @@ Propose ensuite une version MVP livrable en 12 semaines et justifie les arbitrag
             },
             {
                 id: 'module-4',
-                icon: '🗺️',
+                icon: 'map',
                 title: 'Roadmap, jalons & chemin critique',
                 summary: 'Passer d\'un backlog priorisé à un plan de delivery lisible, jalonné et partageable.',
                 objective: 'Séquencer le travail en tenant compte des dépendances et des critères de passage.',
@@ -324,7 +351,7 @@ Restitue le tout sous forme de tableau de pilotage et de chronologie synthétiqu
             },
             {
                 id: 'module-5',
-                icon: '📏',
+                icon: 'ruler',
                 title: 'Estimation de charge & capacité',
                 summary: 'Vérifier que le plan est tenable avec les ressources disponibles et les contraintes d\'agenda du projet.',
                 objective: 'Identifier les surcharges, les points de tension et les besoins d\'arbitrage capacitaire.',
@@ -338,7 +365,7 @@ Construis un plan de charge réaliste par semaine, signale les surcharges et pro
             },
             {
                 id: 'module-6',
-                icon: '⚠️',
+                icon: 'triangle-alert',
                 title: 'Risques, dépendances & plans de mitigation',
                 summary: 'Structurer un registre des risques vivant pour piloter les incertitudes projet au lieu de les subir.',
                 objective: 'Rendre visibles les risques techniques, organisationnels, budgétaires et d\'adoption.',
@@ -365,7 +392,7 @@ Termine par une recommandation sur les deux ou trois automatisations les plus ut
             },
             {
                 id: 'module-7',
-                icon: '💶',
+                icon: 'euro',
                 title: 'Budget, ROI & business case',
                 summary: 'Articuler la logique économique du projet et relier les coûts du MVP aux gains attendus pour les clients pilotes.',
                 objective: 'Armer le sponsor avec un argumentaire budgétaire robuste et compréhensible.',
@@ -380,7 +407,7 @@ Pour chaque scénario, donne les coûts, gains attendus, risques, ROI et message
             },
             {
                 id: 'module-8',
-                icon: '📣',
+                icon: 'megaphone',
                 title: 'Pilotage exécution & reporting COPIL',
                 summary: 'Industrialiser la production des statuts projet tout en élevant le niveau de synthèse pour les instances de décision.',
                 objective: 'Gagner du temps de reporting, puis industrialiser la production avec un assistant Copilot ou Gemini dédié.',
@@ -407,7 +434,7 @@ Ajoute enfin une version message Teams de 10 lignes et une version slide executi
             },
             {
                 id: 'module-9',
-                icon: '🤝',
+                icon: 'handshake',
                 title: 'Conduite du changement & adoption',
                 summary: 'Préparer le terrain humain pour que le MVP soit utilisé, compris et soutenu après le pilote.',
                 objective: 'Concevoir un dispositif d\'adoption qui parle aux DSI, à la RSE et aux managers locaux.',
@@ -433,7 +460,7 @@ Ajoute un prompt séparé pour générer une infographie moderne et professionne
             },
             {
                 id: 'module-10',
-                icon: '🚀',
+                icon: 'rocket',
                 title: 'Rétrospective, bilan & feuille de route V2',
                 summary: 'Capitaliser sur le MVP pour alimenter une suite de programme crédible, mesurable et soutenable.',
                 objective: 'Transformer la fin du lot en levier d\'apprentissage et de projection.',
@@ -567,7 +594,7 @@ Prépare une version pour le comité de direction et une version pour l'équipe 
                         class="block rounded-2xl border border-transparent px-4 py-3 text-sm font-semibold text-slate-600 transition-all hover:border-pm-100 hover:bg-pm-50 hover:text-pm-700"
                     >
                         <div class="flex items-start gap-3">
-                            <span>${module.icon}</span>
+                            <span><i data-icon=${module.icon} class=ico></i></span>
                             <div class="min-w-0 flex-1">
                                 <span class="block">Module ${index + 1}</span>
                                 <span class="mt-1 block text-xs font-medium text-slate-500">${escapeHtml(module.title)}</span>
@@ -648,7 +675,7 @@ Prépare une version pour le comité de direction et une version pour l'équipe 
                             <div class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
                                 <div class="max-w-3xl">
                                     <p class="text-xs font-bold uppercase tracking-[0.24em] text-pm-700">Module ${index + 1}</p>
-                                    <h2 class="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-slate-950">${module.icon} ${escapeHtml(module.title)}</h2>
+                                    <h2 class="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-slate-950"><i data-icon=${module.icon} class=ico></i> ${escapeHtml(module.title)}</h2>
                                     <p class="mt-4 text-base md:text-lg leading-relaxed text-slate-600">${escapeHtml(module.summary)}</p>
                                 </div>
                                 <div class="flex flex-col items-start xl:items-end gap-3">
@@ -710,7 +737,7 @@ Prépare une version pour le comité de direction et une version pour l'équipe 
             document.getElementById('overall-progress-bar').style.width = `${overallPct}%`;
             document.getElementById('overall-progress-text').textContent = `${completedModules} / ${totalSteps} modules complétés`;
 
-            document.getElementById('quiz-score-panel').textContent = quizUnlocked ? `${correctAnswers} / ${quizData.length}` : '🔒';
+            document.getElementById('quiz-score-panel').innerHTML = quizUnlocked ? `${correctAnswers} / ${quizData.length}` : '<i data-icon=lock class=ico></i>';
             document.getElementById('quiz-score-bar').style.width = `${quizPct}%`;
             document.getElementById('quiz-score-detail').textContent = quizUnlocked 
                 ? (answeredQuestions === quizData.length ? `Quiz terminé. Score final : ${correctAnswers} / ${quizData.length}.` : `Répondez aux ${quizData.length} questions pour mesurer votre maîtrise.`)

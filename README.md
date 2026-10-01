@@ -220,7 +220,7 @@ Ce projet est hébergé sur GitHub Pages :
 ### 🏗️ Architecture technique du site
 
 - **Statique, sans build** : chaque page HTML est autonome (ouvrable en double-clic)
-- **Tailwind CSS via CDN** (config inline par page) + Font Awesome + Chart.js (donuts de progression)
+- **Tailwind CSS via CDN** (config inline par page) + Font Awesome + icônes SVG Lucide embarquées (aucun emoji) ; barres de progression CSS (sans Chart.js)
 - **JavaScript vanilla** embarqué : contenu pédagogique en tableaux JS (`courseData`), rendu dynamique
 - **Progression persistée en `localStorage`** :
 
@@ -231,6 +231,7 @@ Ce projet est hébergé sur GitHub Pages :
 | `ecoTrackPmProgress_v2` | Modules + quiz du parcours PM |
 | `zeroGaspiPoProgress_v1` | Modules + quiz du parcours Product Owner |
 | `frigoMalinProgress_v1` | Labs FrigoMalin (le mode formateur est en `sessionStorage`) |
+| `hubAccess_v1` | Parcours déverrouillés par code d'accès sur l'accueil (code communiqué par le formateur) |
 
 ## 🔄 CI/CD
 
