@@ -41,6 +41,9 @@
             background: rgba(255, 255, 255, 0.95);
             border: 1px solid rgba(229, 231, 235, 0.8);
         }
+        /* Sélection lisible sur les blocs sombres : fond soutenu + texte blanc */
+        :is(pre, .bg-slate-800, .bg-slate-900, .bg-slate-950, .bg-fm-900)::selection,
+        :is(pre, .bg-slate-800, .bg-slate-900, .bg-slate-950, .bg-fm-900) *::selection { background-color: #047857 !important; color: #fff !important; }
     </style>
 </head>
 <body class="bg-stone-50 text-slate-800 font-sans h-screen flex overflow-hidden selection:bg-eco-200">

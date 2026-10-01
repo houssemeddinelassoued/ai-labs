@@ -69,6 +69,7 @@ Navigation : `index.html` est le seul hub ; chaque page a un lien retour vers lu
 
 - La copie de prompt utilise `document.execCommand('copy')` **volontairement** (compat `file://` où `navigator.clipboard` est indisponible) — ne pas « moderniser ».
 - **Plus de Chart.js** : toutes les pages parcours affichent une barre de progression CSS compacte dans la sidebar (`#progress-track` / `#progress-bar` / `#progress-percent` / `#progress-text`, mise à jour dans `updateProgressUI()`), aux couleurs du parcours. Sur `frigomalin.html`, la barre suit le parcours essentiel (labs non bonus).
+- **Sélection de texte sur fond sombre** : la classe `selection:bg-*` pâle du `<body>` rendrait le texte clair illisible dans les blocs sombres (prompts `<pre>`, badges, toasts). Chaque page concernée a donc dans son `<style>` une règle `:is(pre, .bg-slate-800, .bg-slate-900, .bg-slate-950, …)::selection` (+ `*::selection`) avec `!important` : fond soutenu aux couleurs du parcours, texte blanc. À reproduire sur toute nouvelle page.
 - Le quiz sécurité n'a **pas de persistance** localStorage (état en mémoire, voulu simple).
 - Les dossiers `data/`, `js/`, `modules/`, `styles/` sont des emplacements réservés aux livrables des apprenants (vides, non versionnés par git).
 - `gestionnaires-projet-ia.html` : `QUIZ_UNLOCK_THRESHOLD = 5` (déverrouillage à 5 modules) alors que le texte à l'écran annonce les 10 — écart connu.
