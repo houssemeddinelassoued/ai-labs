@@ -58,6 +58,20 @@
         ::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
         .shake { animation: shake 0.3s ease-in-out 2; }
+        @keyframes orchestration-pulse {
+            0%, 10%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(192, 38, 211, 0); }
+            4% { transform: scale(1.12); box-shadow: 0 0 0 7px rgba(192, 38, 211, 0.16); }
+        }
+        @keyframes orchestration-flow { to { background-position: 200% 0; } }
+        .orchestration-step .orchestration-marker { animation: orchestration-pulse 8s ease-in-out infinite; }
+        .orchestration-step:nth-child(2) .orchestration-marker { animation-delay: 1.6s; }
+        .orchestration-step:nth-child(3) .orchestration-marker { animation-delay: 3.2s; }
+        .orchestration-step:nth-child(4) .orchestration-marker { animation-delay: 4.8s; }
+        .orchestration-step:nth-child(5) .orchestration-marker { animation-delay: 6.4s; }
+        .orchestration-connector { background-size: 200% 100%; animation: orchestration-flow 2s linear infinite; }
+        @media (prefers-reduced-motion: reduce) {
+            .orchestration-step .orchestration-marker, .orchestration-connector { animation: none; }
+        }
         /* Sélection lisible sur les blocs sombres : fond soutenu + texte blanc */
         :is(pre, .bg-slate-800, .bg-slate-900, .bg-slate-950, .bg-fm-900)::selection,
         :is(pre, .bg-slate-800, .bg-slate-900, .bg-slate-950, .bg-fm-900) *::selection { background-color: #a21caf !important; color: #fff !important; }
@@ -2314,6 +2328,75 @@ Hors périmètre : synchronisation automatique, comptes.`,
                 `;
                 view.appendChild(labCard);
             });
+
+            if (mod.id === 'mod6') {
+                const workflow = document.createElement('section');
+                workflow.className = 'bg-white border border-fm-200 rounded-2xl p-6 md:p-8 shadow-sm';
+                workflow.dataset.orchestrationWorkflow = '';
+                workflow.setAttribute('aria-labelledby', 'orchestration-title');
+                workflow.innerHTML = `
+                    <div class="max-w-3xl mb-7">
+                        <p class="text-xs font-extrabold uppercase tracking-wider text-fm-700 mb-2">Vue d'ensemble · Lab 6.4</p>
+                        <h3 id="orchestration-title" class="text-xl md:text-2xl font-extrabold text-slate-900 mb-2">Le feature-lead orchestre, les spécialistes exécutent</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Le lead découpe le travail, attend votre accord, puis délègue chaque tâche. Les agents travaillent dans leur propre contexte et renvoient une synthèse.</p>
+                    </div>
+                    <ol class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-x-5 gap-y-4">
+                        <li class="orchestration-step relative min-w-0">
+                            <div class="h-full border border-fm-200 bg-fm-50 rounded-xl p-4">
+                                <div class="orchestration-marker w-10 h-10 rounded-lg bg-fm-700 text-white flex items-center justify-center mb-3">${icon('bot', 'w-5 h-5')}</div>
+                                <p class="text-xs font-bold text-fm-700 mb-1">1 · PLANIFIER</p>
+                                <h4 class="font-extrabold text-slate-900">Feature-lead</h4>
+                                <p class="text-xs text-slate-600 mt-1">Explore, découpe et tient le plan avec <code>todo</code>.</p>
+                            </div>
+                        </li>
+                        <li class="orchestration-step relative min-w-0">
+                            <div class="h-full border border-emerald-200 bg-emerald-50 rounded-xl p-4">
+                                <div class="orchestration-marker w-10 h-10 rounded-lg bg-emerald-700 text-white flex items-center justify-center mb-3">${icon('code', 'w-5 h-5')}</div>
+                                <p class="text-xs font-bold text-emerald-800 mb-1">2 · IMPLÉMENTER</p>
+                                <h4 class="font-extrabold text-slate-900">Developer</h4>
+                                <p class="text-xs text-slate-600 mt-1">Réalise uniquement la tâche validée.</p>
+                            </div>
+                        </li>
+                        <li class="orchestration-step relative min-w-0">
+                            <div class="h-full border border-sky-200 bg-sky-50 rounded-xl p-4">
+                                <div class="orchestration-marker w-10 h-10 rounded-lg bg-sky-700 text-white flex items-center justify-center mb-3">${icon('list-checks', 'w-5 h-5')}</div>
+                                <p class="text-xs font-bold text-sky-800 mb-1">3 · TESTER</p>
+                                <h4 class="font-extrabold text-slate-900">Tester</h4>
+                                <p class="text-xs text-slate-600 mt-1">Écrit et lance les tests, puis transmet le résultat.</p>
+                            </div>
+                        </li>
+                        <li class="orchestration-step relative min-w-0">
+                            <div class="h-full border border-amber-200 bg-amber-50 rounded-xl p-4">
+                                <div class="orchestration-marker w-10 h-10 rounded-lg bg-amber-700 text-white flex items-center justify-center mb-3">${icon('wrench', 'w-5 h-5')}</div>
+                                <p class="text-xs font-bold text-amber-800 mb-1">4 · SIMPLIFIER</p>
+                                <h4 class="font-extrabold text-slate-900">Refactorer</h4>
+                                <p class="text-xs text-slate-600 mt-1">Intervient après des tests verts, sans changer le comportement.</p>
+                            </div>
+                        </li>
+                        <li class="orchestration-step relative min-w-0">
+                            <div class="h-full border border-rose-200 bg-rose-50 rounded-xl p-4">
+                                <div class="orchestration-marker w-10 h-10 rounded-lg bg-rose-700 text-white flex items-center justify-center mb-3">${icon('shield-check', 'w-5 h-5')}</div>
+                                <p class="text-xs font-bold text-rose-800 mb-1">5 · AUDITER</p>
+                                <h4 class="font-extrabold text-slate-900">Security-reviewer</h4>
+                                <p class="text-xs text-slate-600 mt-1">Lit le résultat et signale les risques, sans modifier le code.</p>
+                            </div>
+                        </li>
+                    </ol>
+                    <div class="orchestration-connector h-1 rounded-full my-5 bg-gradient-to-r from-fm-300 via-emerald-400 via-sky-400 via-amber-400 to-rose-400" aria-hidden="true"></div>
+                    <div class="grid md:grid-cols-2 gap-3">
+                        <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+                            <p class="text-sm font-extrabold text-emerald-900">Audit validé</p>
+                            <p class="text-sm text-emerald-800 mt-1">Le bilan revient au feature-lead, qui met à jour le plan et choisit la prochaine tâche.</p>
+                        </div>
+                        <div class="rounded-xl border border-rose-200 bg-rose-50 p-4">
+                            <p class="text-sm font-extrabold text-rose-900">Point bloquant détecté</p>
+                            <p class="text-sm text-rose-800 mt-1">Retour au developer pour correction, puis reprise des tests et de l’audit.</p>
+                        </div>
+                    </div>
+                    <p class="mt-5 border-l-4 border-fm-500 pl-3 text-xs text-slate-600 leading-relaxed"><strong class="text-slate-800">À distinguer :</strong> un handoff propose le passage à l’agent suivant et vous laisse valider chaque étape ; l’orchestration par sous-agents délègue depuis le feature-lead et lui renvoie des synthèses.</p>
+                `;
+                view.appendChild(workflow);
+            }
 
             renderSidebar();
             closeSidebarOnMobile();
