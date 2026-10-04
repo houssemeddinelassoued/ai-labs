@@ -26,7 +26,7 @@ La formation s'articule autour de **deux projets fil conducteur complémentaires
 | [`zerogaspillage.html`](zerogaspillage.html) | 🥐 **Projet 2 — ZeroGaspillage** : 15 modules / 42 labs (SDLC complet, stack de référence libre) |
 | [`gestionnaires-projet-ia.html`](gestionnaires-projet-ia.html) | 🗂️ **Parcours PM** : 10 modules de pilotage + quiz 8 questions (bonnes pratiques IA) |
 | [`product-owner-ia.html`](product-owner-ia.html) | 🧭 **Parcours Product Owner** : 10 modules (opportunités IA, cadrage, user stories IA, gouvernance) + quiz 8 questions |
-| [`frigomalin.html`](frigomalin.html) | 🥕 **Parcours FrigoMalin — GitHub Copilot** : 11 modules / 33 labs (29 essentiels + 4 bonus), de l'idée au POC publié sur GitHub Pages (80 % dev / 20 % PO & archi), sans prompt à copier + accès formateur |
+| [`frigomalin.html`](frigomalin.html) | 🥕 **Parcours FrigoMalin — GitHub Copilot** : 10 modules / 31 labs (23 essentiels + 8 bonus), de l'idée au POC publié sur GitHub Pages (80 % dev / 20 % PO & archi), sans prompt à copier + accès formateur |
 | [`quiz-security.html`](quiz-security.html) | 🛡️ **Évaluation Sécurité IA** : 28 scénarios d'entreprise (QCM + analyse critique) |
 | [`ia-explained.html`](ia-explained.html) | 🧠 **Aller plus loin** : 12 démos interactives sur le fonctionnement et les usages de l'IA |
 
@@ -149,25 +149,24 @@ Parcours 100 % PO, complémentaire du parcours PM, adossé au projet **ZeroGaspi
 9. 🛡️ **Gouvernance et éthique IA du produit** — transparence, revue humaine, biais, RGPD
 10. 📈 **Mesurer, itérer et communiquer** — KPIs, dérive du modèle, synthèse stakeholders
 
-## 🥕 Parcours FrigoMalin — GitHub Copilot (11 modules)
+## 🥕 Parcours FrigoMalin — GitHub Copilot (10 modules)
 
 Parcours pour **développeurs (langage front au choix) et quelques Product Owners** : construire FrigoMalin, l'application anti-gaspillage du foyer (PWA 100 % navigateur, sans backend ni Docker), de l'idée jusqu'au **POC publié sur GitHub Pages**, en maîtrisant toutes les fonctionnalités de **GitHub Copilot**.
 
 1. 💡 **De l'idée au produit** (PO) — PRODUCT.md, périmètre MVP, backlog GitHub Issues (critères Gherkin) via le serveur MCP GitHub
-2. 🏛️ **Architecture 100 % navigateur** — premier agent personnalisé en lecture seule, schéma C4, ADR
+2. 🏛️ **Architecture 100 % navigateur** — framework recommandé React + TypeScript (alternatives : Vue 3 ou Svelte), premier agent personnalisé en lecture seule, schéma C4, ADR
 3. ⚙️ **Workspace & context engineering** — `copilot-instructions.md` (dont les principes non négociables), instructions ciblées `applyTo`, exclusions, `.copilotignore`
-4. 🎨 **Maquettes, prompt files & skills** — Google Stitch (Web + Mobile) exploité dans VS Code, prompt files, Agent Skills
-5. 💻 **Développer au quotidien** — de l'issue au code (agent Plan → mode Agent par lots), TDD, complétions & chat inline
-6. 🤖 **Agents personnalisés** — équipe feature-lead (planifie) / implementer / tester / refactorer / security-reviewer, handoffs, MCP Playwright
-7. 🧠 **Orchestration & délégation** — le feature-lead devient orchestrateur (sous-agents à contexte isolé), audits parallèles
-8. ⚡ **Optimisation du contexte & des tokens** — mesure, `/compact`, `/fork`, modèles par agent, objectif −30 %
-9. 🛡️ **Garde-fous & qualité** — un hook, tests Vitest/Playwright, revue de code Copilot
-10. 🚀 **CI/CD & GitHub Pages** — workflow de publication (lint, tests, build, E2E) puis déploiement
-11. 🎬 **Recette, démo & V2** (PO) — recette sur l'URL publique, rétrospective chiffrée, issues prêtes pour les agents
+4. 🎨 **Maquettes & skills** — Google Stitch (Web + Mobile) exploité dans VS Code, Agent Skills
+5. 💻 **Développer au quotidien** — de l'issue au code (agent Plan → mode Agent par lots), TDD, QCM « le bon outil au bon moment »
+6. 🤖 **Agents personnalisés & orchestration** — équipe feature-lead (planifie) / developer / tester / refactorer / security-reviewer, handoffs, MCP Playwright, puis le feature-lead orchestre des sous-agents
+7. ⚡ **Optimisation du contexte & des tokens** — Chat Debug View avec un prompt fourni, puis deux QCM (contexte, tokens)
+8. 🛡️ **Garde-fous & qualité** — un hook, tests Vitest/Playwright, revue de code Copilot
+9. 🚀 **CI/CD & GitHub Pages** — workflow de publication (lint, tests, build, E2E) puis déploiement
+10. 🎬 **Recette, démo & V2** (PO, bonus) — recette sur l'URL publique, rétrospective chiffrée, issues prêtes pour les agents
 
-**Labs essentiels et bonus** : **29 labs essentiels** jusqu'au POC publié ; **4 labs 🎁 Bonus** (1.3 backlog via MCP, 4.2 prompt files, 8.1 mesure de référence, 9.3 revue de code) à faire si le temps le permet. La barre de progression de la page suit le parcours essentiel.
+**Labs essentiels et bonus** : **23 labs essentiels** jusqu'au POC publié ; **8 labs 🎁 Bonus** (1.3 backlog via MCP, 5.3 liste de courses, 6.3 qa-explorer, 7.1 Chat Debug View, 8.3 revue de code, tout le module 10) à faire si le temps le permet. La barre de progression de la page suit le parcours essentiel.
 
-**Pédagogie** : aucun prompt complet à copier. Chaque lab propose une amorce à compléter (prompt à trous, à construire, à améliorer, rétro-prompt ou fichier à compléter), des indices progressifs et des critères de réussite. Le **formateur** débloque les prompts idéaux et les corrigés via le bouton clé discret de l'en-tête (code communiqué en session).
+**Pédagogie** : aucun prompt complet à copier (sauf le prompt de test de la Chat Debug View). La plupart des labs proposent une amorce à compléter (prompt à trous, à construire, à améliorer, rétro-prompt ou fichier à compléter), des indices progressifs et des critères de réussite ; trois labs sont des QCM interactifs corrigés immédiatement (5.4, 7.2, 7.3). Le **formateur** débloque les prompts idéaux et les corrigés via le bouton clé discret de l'en-tête (code communiqué en session).
 
 ## 🛡️ Évaluation : Sécurité IA
 
@@ -206,7 +205,7 @@ Ce projet est hébergé sur GitHub Pages :
 ├── zerogaspillage.html           # 🥐 Projet 2 — ZeroGaspillage (15 modules)
 ├── gestionnaires-projet-ia.html  # 🗂️ Parcours Gestionnaires de Projet
 ├── product-owner-ia.html         # 🧭 Parcours Product Owner
-├── frigomalin.html               # 🥕 Parcours FrigoMalin — GitHub Copilot (11 modules)
+├── frigomalin.html               # 🥕 Parcours FrigoMalin — GitHub Copilot (10 modules)
 ├── quiz-security.html            # 🛡️ Évaluation Sécurité IA (28 scénarios)
 ├── ia-explained.html             # 🧠 Démos interactives « Au Cœur de l'IA »
 ├── README.md                     # Cette documentation
