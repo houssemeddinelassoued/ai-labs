@@ -27,6 +27,7 @@ La formation s'articule autour de **deux projets fil conducteur complémentaires
 | [`gestionnaires-projet-ia.html`](gestionnaires-projet-ia.html) | 🗂️ **Parcours PM** : 10 modules de pilotage + quiz 8 questions (bonnes pratiques IA) |
 | [`product-owner-ia.html`](product-owner-ia.html) | 🧭 **Parcours Product Owner** : 10 modules (opportunités IA, cadrage, user stories IA, gouvernance) + quiz 8 questions |
 | [`frigomalin.html`](frigomalin.html) | 🥕 **Parcours FrigoMalin — GitHub Copilot** : 10 modules / 31 labs (23 essentiels + 8 bonus), de l'idée au POC publié sur GitHub Pages (80 % dev / 20 % PO & archi), sans prompt à copier + accès formateur |
+| [`tourneeveto.html`](tourneeveto.html) | 🩺 **Parcours TournéeVéto — GitHub Copilot & .NET** : 10 modules / 32 labs (24 essentiels + 8 bonus), l'application du vétérinaire en visite d'élevage laitier en Blazor WebAssembly publiée sur GitHub Pages, puis en WPF et .NET MAUI (Blazor Hybrid), même pédagogie que FrigoMalin |
 | [`quiz-security.html`](quiz-security.html) | 🛡️ **Évaluation Sécurité IA** : 28 scénarios d'entreprise (QCM + analyse critique) |
 | [`ia-explained.html`](ia-explained.html) | 🧠 **Aller plus loin** : 12 démos interactives sur le fonctionnement et les usages de l'IA |
 
@@ -158,15 +159,32 @@ Parcours pour **développeurs (langage front au choix) et quelques Product Owner
 3. ⚙️ **Workspace & context engineering** — `copilot-instructions.md` (dont les principes non négociables), instructions ciblées `applyTo`, exclusions, `.copilotignore`
 4. 🎨 **Maquettes & skills** — Google Stitch (Web + Mobile) exploité dans VS Code, Agent Skills
 5. 💻 **Développer au quotidien** — de l'issue au code (agent Plan → mode Agent par lots), TDD, QCM « le bon outil au bon moment »
-6. 🤖 **Agents personnalisés & orchestration** — équipe feature-lead (planifie) / developer / tester / refactorer / security-reviewer, handoffs, MCP Playwright, puis le feature-lead orchestre des sous-agents
+6. 🤖 **Agents personnalisés & orchestration** — agents spécialisés (developer / tester / refactorer / security-reviewer), puis leur feature-lead qui planifie, délègue en sous-agents, décide sur leurs comptes rendus et rédige le rapport final (outil edit) ; orchestration automatique (PWA hors ligne), handoffs en option pour garder la main, qa-explorer via MCP Playwright
 7. ⚡ **Optimisation du contexte & des tokens** — Chat Debug View avec un prompt fourni, puis deux QCM (contexte, tokens)
 8. 🛡️ **Garde-fous & qualité** — un hook, tests Vitest/Playwright, revue de code Copilot
 9. 🚀 **CI/CD & GitHub Pages** — workflow de publication (lint, tests, build, E2E) puis déploiement
 10. 🎬 **Recette, démo & V2** (PO, bonus) — recette sur l'URL publique, rétrospective chiffrée, issues prêtes pour les agents
 
-**Labs essentiels et bonus** : **23 labs essentiels** jusqu'au POC publié ; **8 labs 🎁 Bonus** (1.3 backlog via MCP, 5.3 liste de courses, 6.3 qa-explorer, 7.1 Chat Debug View, 8.3 revue de code, tout le module 10) à faire si le temps le permet. La barre de progression de la page suit le parcours essentiel.
+**Labs essentiels et bonus** : **23 labs essentiels** jusqu'au POC publié ; **8 labs 🎁 Bonus** (1.3 backlog via MCP, 5.3 liste de courses, 6.4 qa-explorer, 7.1 Chat Debug View, 8.3 revue de code, tout le module 10) à faire si le temps le permet. La barre de progression de la page suit le parcours essentiel.
 
 **Pédagogie** : aucun prompt complet à copier (sauf le prompt de test de la Chat Debug View). La plupart des labs proposent une amorce à compléter (prompt à trous, à construire, à améliorer, rétro-prompt ou fichier à compléter), des indices progressifs et des critères de réussite ; trois labs sont des QCM interactifs corrigés immédiatement (5.4, 7.2, 7.3). Le **formateur** débloque les prompts idéaux et les corrigés via le bouton clé discret de l'en-tête (code communiqué en session).
+
+## 🩺 Parcours TournéeVéto — GitHub Copilot & .NET (10 modules)
+
+Déclinaison de FrigoMalin pour une **équipe .NET (C#, Blazor, WPF, .NET MAUI)** et quelques Product Owners. Le produit fil conducteur, fictif, est **TournéeVéto** : l'application du médecin vétérinaire en visite d'élevage laitier (tournée du jour, import du troupeau en CSV, grille de régie, bilan de biosécurité noté, rapport de visite imprimable, hors ligne). Le POC reste **100 % navigateur** (Blazor WebAssembly PWA, IndexedDB via JS interop, sans backend) et est publié sur **GitHub Pages** ; les mêmes composants sont ensuite réutilisés dans une application WPF et une application MAUI grâce à **Blazor Hybrid**. Copilot dans **VS Code ou Visual Studio**, au choix : un encadré « Dans Visual Studio » signale chaque différence.
+
+1. 💡 **De l'idée au produit** (PO) — PRODUCT.md avec glossaire métier, MVP, backlog GitHub Issues via MCP
+2. 🏛️ **Architecture 100 % navigateur** — agent architecte, ADR (stockage, structure Domain / Razor Class Library / hôtes, publication sur Pages), domaine C#
+3. ⚙️ **Workspace & context engineering** — solution `dotnet new`, `.copilotignore`, `copilot-instructions.md`, instructions `applyTo` (tests, Razor, domaine)
+4. 🎨 **Maquettes & skills** — Google Stitch (tablette + Web), skills `create-component` (Razor + bUnit) et `indexeddb-interop`
+5. 💻 **Développer au quotidien** — grille de régie de l'issue au code, score de biosécurité en TDD (xUnit), import CSV, QCM micro-tâches
+6. 🤖 **Agents personnalisés & orchestration** — spécialistes, feature-lead, orchestration du rapport de visite, qa-explorer
+7. ⚡ **Optimisation du contexte & des tokens** — Chat Debug View, deux QCM
+8. 🛡️ **Garde-fous & qualité** — hook `dotnet format`, tests xUnit / bUnit / Playwright pour .NET, revue de code
+9. 🚀 **CI/CD & GitHub Pages** — `dotnet publish`, base href, `.nojekyll`, repli 404
+10. 🖥️ **Desktop, mobile, recette & V2** (Mixte) — hôte WPF (essentiel), hôte MAUI avec appareil photo natif, recette PO, backlog V2 (bonus)
+
+**Labs bonus** : 1.3, 5.3, 6.4, 7.1, 8.3, 10.2, 10.3, 10.4. Les règles métier vétérinaires sont **fictives et simplifiées** (à but pédagogique).
 
 ## 🛡️ Évaluation : Sécurité IA
 
@@ -206,6 +224,7 @@ Ce projet est hébergé sur GitHub Pages :
 ├── gestionnaires-projet-ia.html  # 🗂️ Parcours Gestionnaires de Projet
 ├── product-owner-ia.html         # 🧭 Parcours Product Owner
 ├── frigomalin.html               # 🥕 Parcours FrigoMalin — GitHub Copilot (10 modules)
+├── tourneeveto.html              # 🩺 Parcours TournéeVéto — GitHub Copilot & .NET (10 modules)
 ├── quiz-security.html            # 🛡️ Évaluation Sécurité IA (28 scénarios)
 ├── ia-explained.html             # 🧠 Démos interactives « Au Cœur de l'IA »
 ├── README.md                     # Cette documentation
@@ -230,6 +249,7 @@ Ce projet est hébergé sur GitHub Pages :
 | `ecoTrackPmProgress_v2` | Modules + quiz du parcours PM |
 | `zeroGaspiPoProgress_v1` | Modules + quiz du parcours Product Owner |
 | `frigoMalinProgress_v1` | Labs FrigoMalin (le mode formateur est en `sessionStorage`) |
+| `tourneeVetoProgress_v1` | Labs TournéeVéto (le mode formateur est en `sessionStorage`) |
 | `hubAccess_v1` | Parcours déverrouillés par code d'accès sur l'accueil (code communiqué par le formateur) |
 
 ## 🔄 CI/CD
