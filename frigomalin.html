@@ -68,9 +68,11 @@
         .orchestration-step:nth-child(3) .orchestration-marker { animation-delay: 3.2s; }
         .orchestration-step:nth-child(4) .orchestration-marker { animation-delay: 4.8s; }
         .orchestration-step:nth-child(5) .orchestration-marker { animation-delay: 6.4s; }
+        @keyframes orchestration-flow-v { to { background-position: 0 200%; } }
         .orchestration-connector { background-size: 200% 100%; animation: orchestration-flow 2s linear infinite; }
+        .orchestration-connector-v { background-size: 100% 200%; animation: orchestration-flow-v 2s linear infinite; }
         @media (prefers-reduced-motion: reduce) {
-            .orchestration-step .orchestration-marker, .orchestration-connector { animation: none; }
+            .orchestration-step .orchestration-marker, .orchestration-connector, .orchestration-connector-v { animation: none; }
         }
         /* Sélection lisible sur les blocs sombres : fond soutenu + texte blanc */
         :is(pre, .bg-slate-800, .bg-slate-900, .bg-slate-950, .bg-fm-900)::selection,
@@ -184,7 +186,6 @@
                         <span class="bg-slate-900 text-white px-3 py-1.5 rounded-lg font-bold inline-flex items-center gap-1.5"><span data-icon="globe" class="w-4 h-4"></span> GitHub Pages</span><span class="text-stone-400">→</span>
                         <span class="bg-biz-50 border border-biz-200 text-biz-900 px-3 py-1.5 rounded-lg font-semibold inline-flex items-center gap-1.5"><span data-icon="clipboard-check" class="w-4 h-4"></span> Recette &amp; V2</span>
                     </div>
-                    <p class="text-sm text-slate-500 mt-4"><strong>Fil rouge « consommation » :</strong> dès le module 3, chaque lab note ses crédits et son contexte dans <code>docs/usage-log.md</code>. Ces mesures servent au module 7 (Debug View de Copilot) et à la rétrospective finale.</p>
                     <div class="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-900">
                         <span class="inline-flex items-center gap-1.5 font-bold align-middle"><span data-icon="timer" class="w-4 h-4"></span> Format 2 jours :</span> le <strong>parcours essentiel</strong> compte <strong>23 labs</strong> et mène jusqu'au POC publié sur GitHub Pages. Les 8 labs marqués <span class="inline-flex items-center bg-amber-100 border border-amber-300 text-amber-800 text-xs px-2 py-0.5 rounded-md font-bold gap-1"><span data-icon="gift" class="w-3 h-3"></span> Bonus</span> approfondissent un sujet : à faire en autonomie, ou si le temps le permet.
                     </div>
@@ -216,7 +217,7 @@
 ├─ .copilotignore
 ├─ .mcp.json          (serveurs MCP)
 ├─ design/stitch/     (web, mobile)
-├─ docs/adr/  docs/usage-log.md
+├─ docs/adr/  docs/reports/
 ├─ .github/
 │  ├─ copilot-instructions.md
 │  ├─ instructions/*.instructions.md
@@ -291,6 +292,7 @@
             "compass": '<circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/>',
             "copy": '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
             "credit-card": '<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/><path d="M6 14h2"/>',
+            "file-text": '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>',
             "file-code": '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/>',
             "flask-conical": '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>',
             "folder-open": '<path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/>',
@@ -322,6 +324,7 @@
             "target": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
             "timer": '<line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/>',
             "trophy": '<path d="M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2"/><path d="M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2"/><path d="M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3"/><path d="M4 22h16"/><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"/><path d="M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3"/>',
+            "user": '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
             "wrench": '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/>',
             "x": '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>'
         };
@@ -567,7 +570,7 @@ Produis le schéma C4 niveaux 1 et 2 de FrigoMalin en Mermaid, avec une ligne d'
                         correction: [
                             "Sans <code>edit</code> dans <code>tools</code>, l'agent ne peut pas modifier le code : c'est la garantie de rôle.",
                             "Conteneurs attendus au niveau 2 : interface (SPA), domaine (TypeScript pur), stockage IndexedDB, service worker, API Open Food Facts (externe).",
-                            "La description est déterminante pour la sélection automatique et pour l'appel en sous-agent (module 7).",
+                            "La description est déterminante pour la sélection automatique et pour l'appel en sous-agent (module 6).",
                             "Les noms d'outils varient selon les versions de VS Code : toujours vérifier avec Configure Tools."
                         ]
                     },
@@ -704,8 +707,7 @@ Utilise uniquement des commandes non interactives (options en ligne de commande,
                         correction: [
                             "Piège n°1 : l'assistant de création attend une réponse au clavier et l'agent reste bloqué. D'où les options non interactives.",
                             "Sans <code>base</code>, le site publié charge ses scripts à la racine du domaine : page blanche garantie sur GitHub Pages.",
-                            "<code>files.exclude</code> masque aussi dans l'explorateur ; <code>search.exclude</code> garde les fichiers visibles mais hors recherche.",
-                            "Démarrer le carnet de consommation dès maintenant : noter le coût de cette session (survol de la réponse)."
+                            "<code>files.exclude</code> masque aussi dans l'explorateur ; <code>search.exclude</code> garde les fichiers visibles mais hors recherche."
                         ]
                     },
                     {
@@ -837,14 +839,14 @@ tests/e2e/   Playwright
                         ]
                     },
                     {
-                        id: "fm3_4", title: "Lab 3.4 : Instructions ciblées (applyTo) & carnet de consommation",
-                        emplacement: "<code>.github/instructions/tests.instructions.md</code>, <code>ui.instructions.md</code> et <code>domain.instructions.md</code> ; le carnet dans <code>docs/usage-log.md</code>.",
+                        id: "fm3_4", title: "Lab 3.4 : Instructions ciblées (applyTo)",
+                        emplacement: "<code>.github/instructions/tests.instructions.md</code>, <code>ui.instructions.md</code> et <code>domain.instructions.md</code>.",
                         targetBadge: "Développeurs", tools: OUTILS.agent,
-                        features: ["*.instructions.md", "applyTo", "Carnet de consommation"],
-                        objective: "Découper les règles par type de fichier (tests, UI, domaine) pour qu'elles ne soient chargées qu'au besoin, et démarrer le carnet de consommation.",
+                        features: ["*.instructions.md", "applyTo"],
+                        objective: "Découper les règles par type de fichier (tests, UI, domaine) pour qu'elles ne soient chargées qu'au besoin.",
                         astuce: "Les règles de test n'ont rien à faire dans le contexte quand on modifie du CSS. Avec <code>applyTo</code>, un fichier d'instructions n'est ajouté que si les fichiers concernés sont en jeu.",
                         defi: "squelette",
-                        consigne: "Complétez les trois fichiers (en-tête + 3 à 5 règles chacun), puis créez <code>docs/usage-log.md</code> avec vos colonnes de mesure.",
+                        consigne: "Complétez les trois fichiers (en-tête + 3 à 5 règles chacun).",
                         amorce: `--- .github/instructions/tests.instructions.md ---
 ---
 applyTo: "[___ motif des fichiers de test ___]"
@@ -859,19 +861,14 @@ applyTo: "[___ ___]"
 [___ ___]
 
 --- .github/instructions/domain.instructions.md ---
-[___ à vous ___]
-
---- docs/usage-log.md ---
-| Date | Lab | Agent/Modèle | [___ quelles mesures ? ___] |`,
+[___ à vous ___]`,
                         indices: [
                             "Motifs possibles : <code>**/*.test.ts</code>, <code>src/ui/**</code>, <code>src/domain/**</code>.",
-                            "Une règle de test précieuse pour ce projet : « figer la date du jour avec <code>vi.setSystemTime</code> », sinon les tests sur les dates sont instables.",
-                            "Mesures utiles : crédits consommés (survol de la réponse), nombre de tours, tokens de contexte, résultat (OK / à reprendre)."
+                            "Une règle de test précieuse pour ce projet : « figer la date du jour avec <code>vi.setSystemTime</code> », sinon les tests sur les dates sont instables."
                         ],
                         reussite: [
                             "3 fichiers avec un <code>applyTo</code> précis",
-                            "Aucune règle dupliquée avec <code>copilot-instructions.md</code>",
-                            "Le carnet a au moins une ligne remplie (lab 3.1)"
+                            "Aucune règle dupliquée avec <code>copilot-instructions.md</code>"
                         ],
                         solution: `--- .github/instructions/tests.instructions.md ---
 ---
@@ -900,14 +897,10 @@ description: Règles de la couche domaine
 ---
 - Fonctions pures, sans import de React, Dexie ni API du navigateur.
 - Toute règle métier a un test dans le même dossier.
-- Dates : recevoir « aujourd'hui » en paramètre, ne jamais appeler new Date() dans une règle.
-
---- docs/usage-log.md ---
-| Date | Lab | Agent / modèle | Tours | Crédits | Contexte (tokens) | Résultat | Remarque |`,
+- Dates : recevoir « aujourd'hui » en paramètre, ne jamais appeler new Date() dans une règle.`,
                         correction: [
                             "Point clé : « recevoir aujourd'hui en paramètre » rend le domaine testable ET évite des bugs de fuseau horaire.",
                             "Vérifier dans les références d'une réponse que seul le bon fichier d'instructions a été chargé.",
-                            "Le carnet sera exploité aux modules 7 et 10 : sans mesures dès maintenant, pas de comparaison possible.",
                             "Erreur fréquente : un <code>applyTo</code> sur <code>**</code> qui recharge tout, tout le temps."
                         ]
                     }
@@ -1125,8 +1118,7 @@ Lot 3 : « Réalise les tâches 4 et 5 : écran Inventaire et formulaire d'ajout
                         correction: [
                             "Les critères du PO (issues Gherkin ou docs/mvp.md) jouent le rôle de spécification : la traçabilité issue → plan → commit est conservée sans outil supplémentaire.",
                             "« Ne modifie aucun fichier » pour l'agent Plan : on valide le plan AVANT d'engager du code.",
-                            "La relecture du diff après chaque lot est non négociable : l'auteur du commit, c'est vous, pas l'agent.",
-                            "Noter le coût de chaque lot dans le carnet : vous le relirez dans la Debug View au module 7."
+                            "La relecture du diff après chaque lot est non négociable : l'auteur du commit, c'est vous, pas l'agent."
                         ]
                     },
                     {
@@ -1168,8 +1160,7 @@ Implémente suggestRecipes dans src/domain/recipes.ts : le minimum pour faire pa
                         correction: [
                             "« Sans modifier les tests » est indispensable : sinon l'agent peut « corriger » un test pour le faire passer.",
                             "Le départage explicite des égalités évite des tests instables (ordre non déterministe).",
-                            "La distinction DLC/DDM doit apparaître dans les tests : c'est LA règle métier du produit.",
-                            "Noter le coût de ce lab dans le carnet et le comparer au lab 5.3 mené en autonomie."
+                            "La distinction DLC/DDM doit apparaître dans les tests : c'est LA règle métier du produit."
                         ]
                     },
                     {
@@ -1194,8 +1185,7 @@ Vos étapes :
 4. Vérification : …`,
                         indices: [
                             "Partage sans backend : l'API Web Share (partager la liste en texte) suffit pour un POC.",
-                            "Réutilisez vos prompts du lab 5.1 : c'est le moment de repérer ceux qui mériteraient de devenir un skill.",
-                            "Comparez le coût de cette feature avec celle de l'inventaire dans le carnet : il devrait baisser."
+                            "Réutilisez vos prompts du lab 5.1 : c'est le moment de repérer ceux qui mériteraient de devenir un skill."
                         ],
                         reussite: [
                             "L'issue contient des critères Gherkin, dont le cas « en stock mais expire avant les courses »",
@@ -1243,43 +1233,50 @@ Vos étapes :
             {
                 id: "mod6", icon: "bot", target: "Tech",
                 title: "Module 6 : Agents personnalisés & orchestration",
-                subtitle: "(Une équipe d'agents spécialisés · handoffs · sous-agents)",
-                intro: "On passe d'un assistant généraliste à une équipe : un lead qui planifie, un developer qui code, un testeur, un spécialiste du refactoring et un relecteur sécurité. Chacun a ses outils, son modèle et ses consignes. Les handoffs enchaînent les rôles avec une validation humaine à chaque étape ; puis le feature-lead devient orchestrateur et délègue à des sous-agents qui travaillent chacun dans leur propre contexte.",
+                subtitle: "(Agents spécialisés · un lead qui pilote · orchestration automatique)",
+                intro: "On passe d'un assistant généraliste à une équipe. D'abord des spécialistes (developer, tester, refactorer, security-reviewer), chacun avec ses outils, son modèle et ses consignes. Puis leur lead, le feature-lead : il planifie, délègue chaque tâche au bon spécialiste, décide de la suite à partir de leurs comptes rendus et rédige le rapport final. Enfin, on lui confie une vraie feature en orchestration automatique. Les handoffs restent une option, pour qui veut valider lui-même chaque passage de relais.",
                 labs: [
                     {
-                        id: "fm6_1", title: "Lab 6.1 : L'équipe : feature-lead, developer, tester, refactorer, security-reviewer",
-                        emplacement: "<code>.github/agents/feature-lead.agent.md</code>, <code>developer.agent.md</code>, <code>tester.agent.md</code>, <code>refactorer.agent.md</code> et <code>security-reviewer.agent.md</code>.",
+                        id: "fm6_1", title: "Lab 6.1 : Les spécialistes : developer, tester, refactorer, security-reviewer",
+                        emplacement: "<code>.github/agents/developer.agent.md</code>, <code>tester.agent.md</code>, <code>refactorer.agent.md</code> et <code>security-reviewer.agent.md</code>.",
                         targetBadge: "Tech Leads / Développeurs", tools: OUTILS.agent,
-                        features: ["*.agent.md", "tools", "model"],
-                        objective: "Créer 5 agents dans <code>.github/agents/</code> : un lead qui planifie et 4 spécialistes, chacun avec des outils et un modèle adaptés à son rôle.",
-                        astuce: "Le bon modèle au bon endroit : un modèle de raisonnement pour planifier (le lead) et pour l'audit de sécurité, un modèle plus économique pour exécuter une tâche claire. Et des outils limités au strict nécessaire : chaque outil déclaré ajoute sa définition au contexte.",
+                        features: ["*.agent.md", "tools", "model", "Compte rendu commun"],
+                        objective: "Créer 4 agents spécialisés dans <code>.github/agents/</code>, chacun avec des outils et un modèle adaptés à son rôle, et qui terminent tous par le même compte rendu court.",
+                        astuce: "Le bon modèle au bon endroit : un modèle de raisonnement pour l'audit de sécurité, un modèle plus économique pour exécuter une tâche claire. Et des outils limités au strict nécessaire : chaque outil déclaré ajoute sa définition au contexte. Ces agents seront pilotés par un lead (lab 6.2) : c'est sur leur compte rendu qu'il prendra ses décisions.",
                         defi: "construire",
-                        consigne: "Remplissez le tableau de conception AVANT d'écrire les fichiers. Faites-le valider, puis écrivez les 5 fichiers.",
+                        consigne: "Remplissez le tableau de conception et le format du compte rendu AVANT d'écrire les fichiers. Faites-les valider, écrivez les 4 fichiers, puis testez chaque agent seul (sélectionné dans la liste) sur une petite tâche.",
                         amorce: `Agent              | Rôle (1 phrase) | Outils autorisés | Modèle (type) | Ce qu'il ne fait JAMAIS
-feature-lead       | ___             | ___              | ___           | ___
 developer          | ___             | ___              | ___           | ___
 tester             | ___             | ___              | ___           | ___
 refactorer         | ___             | ___              | ___           | ___
 security-reviewer  | ___             | ___              | ___           | ___
 
+Compte rendu commun (ce que chaque agent renvoie en fin de tâche) : ___
+
 Puis : .github/agents/<nom>.agent.md (name, description, tools, model + consignes)`,
                         indices: [
-                            "Le feature-lead planifie lui-même : il lit, cherche et tient la liste des tâches (<code>todo</code>), mais ne modifie jamais le code. Pas besoin d'un agent planificateur séparé.",
+                            "Le developer réalise UNE tâche, sans élargir le périmètre, et termine par <code>npm test</code>. Le tester ne modifie que des fichiers <code>*.test.*</code>.",
                             "Le refactorer modifie le code SANS changer son comportement : il n'intervient que si les tests sont au vert, et les relance après chaque modification.",
                             "Le security-reviewer lit et signale, il ne corrige pas : outils de lecture et de recherche uniquement. Donnez-lui une checklist propre à FrigoMalin (XSS via Open Food Facts, import JSON, secrets, CSP, dépendances).",
-                            "Pour <code>model</code>, choisissez parmi les modèles de votre abonnement en comparant le coût affiché au survol dans le sélecteur de modèles."
+                            "Compte rendu : 5 lignes maximum, toujours le même format : statut (OK, KO, BLOQUÉ), fichiers modifiés, résultat de <code>npm test</code>, points ouverts, recommandation. Pour <code>model</code>, comparez le coût affiché au survol dans le sélecteur de modèles."
                         ],
                         reussite: [
-                            "5 agents sélectionnables dans la liste",
-                            "Le feature-lead et le security-reviewer ne peuvent modifier aucun fichier",
-                            "Chaque agent a une section « Tu ne fais jamais »"
+                            "4 agents sélectionnables dans la liste",
+                            "Le security-reviewer ne peut modifier aucun fichier",
+                            "Chaque agent a une section « Tu ne fais jamais » et termine par le compte rendu commun"
                         ],
                         solution: `Agent              | Rôle                                      | Outils                      | Modèle (exemple) | Jamais
-feature-lead       | planifie la feature, tient le plan        | read, search, web, todo     | raisonnement     | modifier un fichier
 developer          | réalise une tâche du plan                 | read, search, edit, execute | économique       | changer le périmètre
 tester             | écrit et lance les tests                  | read, search, edit, execute | économique       | modifier du code hors *.test.*
 refactorer         | simplifie le code, comportement inchangé  | read, search, edit, execute | économique       | modifier un test ou le comportement
 security-reviewer  | audite les fichiers modifiés              | read, search                | raisonnement     | corriger lui-même
+
+Compte rendu commun (dernières lignes de chaque réponse, 5 lignes maximum) :
+Statut : OK | KO | BLOQUÉ
+Fichiers : liste des fichiers modifiés
+Tests : résultat de npm test
+Points ouverts : …
+Recommandation : étape suivante proposée
 
 --- .github/agents/security-reviewer.agent.md ---
 ---
@@ -1294,7 +1291,8 @@ Checklist FrigoMalin :
 - import JSON : schéma validé, taille maximale, champs inconnus rejetés ;
 - aucun secret, jeton ou URL privée dans le code ; CSP intacte dans index.html ;
 - toute nouvelle dépendance est justifiée et sans vulnérabilité connue (npm audit).
-Rends un tableau | Gravité (bloquant/majeur/mineur) | Fichier:ligne | Risque | Correctif proposé |, 10 lignes maximum.
+Détail : tableau | Gravité (bloquant/majeur/mineur) | Fichier:ligne | Risque | Correctif proposé |, 10 lignes maximum.
+Termine par le compte rendu commun ; Statut BLOQUÉ dès qu'un point est bloquant.
 Tu ne fais jamais : corriger toi-même, commenter le style.
 
 --- .github/agents/refactorer.agent.md ---
@@ -1304,97 +1302,144 @@ description: Refactoring de FrigoMalin à comportement constant. À utiliser qua
 tools: ['read', 'search', 'edit', 'execute']
 model: Claude Sonnet 5.5
 ---
-Préalable : lance npm test ; si un test échoue, arrête-toi et rends la main.
+Préalable : lance npm test ; si un test échoue, arrête-toi et renvoie le compte rendu avec Statut KO.
 Améliore uniquement les fichiers de la tâche : noms explicites, fonctions courtes, duplication supprimée, logique métier déplacée vers src/domain.
-Après chaque modification : npm test && npm run lint. Résume les changements en 5 lignes.
+Après chaque modification : npm test && npm run lint.
+Termine par le compte rendu commun.
 Tu ne fais jamais : modifier un test, changer un comportement, ajouter une dépendance, toucher à .github/.
 
-(feature-lead, developer et tester suivent le même modèle.)`,
+(developer et tester suivent le même modèle.)`,
                         correction: [
-                            "Un lead qui planifie lui-même évite un agent et un passage de relais de plus : moins de contexte transféré, moins de tokens.",
+                            "Le compte rendu commun est le contrat entre les spécialistes et leur lead : sans lui, le lead devrait relire chaque diff et son contexte exploserait.",
                             "Le refactorer n'a de sens que protégé par les tests : « tests au vert d'abord » et « ne modifie jamais un test » sont ses deux garde-fous.",
                             "Le security-reviewer en lecture seule garantit la séparation des rôles : celui qui audite n'est pas celui qui corrige.",
                             "Les noms de modèles sont des exemples : adaptez-les à votre abonnement et à leur coût. « Ne touche jamais à .github/ » : un agent ne doit pas pouvoir réécrire ses propres règles."
                         ]
                     },
                     {
-                        id: "fm6_2", title: "Lab 6.2 : Handoffs : du lead à la revue de sécurité",
-                        emplacement: "Dans l'en-tête (entre les deux lignes <code>---</code>) des 5 fichiers <code>.github/agents/*.agent.md</code> du lab 6.1.",
-                        targetBadge: "Tech Leads / Développeurs", tools: OUTILS.agent,
-                        features: ["handoffs", "Validation humaine"],
-                        objective: "Enchaîner les agents avec des boutons de handoff (feature-lead → developer → tester → refactorer → security-reviewer), avec une validation humaine à chaque étape.",
-                        astuce: "Un handoff passe la main à l'agent suivant avec le contexte de la conversation et un prompt prérempli. Avec <code>send: false</code>, vous relisez avant d'envoyer : l'humain reste le chef d'orchestre.",
+                        id: "fm6_2", title: "Lab 6.2 : Le feature-lead : planifier, déléguer, décider, rendre compte",
+                        emplacement: "<code>.github/agents/feature-lead.agent.md</code> ; ses rapports dans <code>docs/reports/</code>, le seul dossier où il écrit.",
+                        targetBadge: "Tech Leads", tools: OUTILS.agent,
+                        features: ["Sous-agents (outil agent)", "agents:", "Décisions sur comptes rendus", "Rapport (outil edit)", "handoffs (option)"],
+                        objective: "Créer le lead de l'équipe : il planifie la feature, délègue chaque tâche aux spécialistes en sous-agents, décide de la suite à partir de leurs comptes rendus et rédige un rapport final. Il ne touche jamais au code.",
+                        astuce: "Le lead est le seul agent que vous sollicitez. Chaque sous-agent démarre avec un contexte neuf et ne renvoie que son compte rendu : le lead ne « voit » jamais les centaines de lignes lues par ses spécialistes, son contexte reste compact sur toute la feature. Il dispose de l'outil <code>edit</code> pour une seule raison : écrire son rapport.",
                         defi: "squelette",
-                        consigne: "Ajoutez le bloc <code>handoffs</code> au feature-lead, puis à chaque agent de la chaîne. Testez sur une petite feature : « bouton Vider les produits périmés ».",
-                        amorce: `--- dans feature-lead.agent.md (en-tête) ---
-handoffs:
-  - label: [___ texte du bouton ___]
-    agent: [___ ___]
-    prompt: [___ prompt prérempli ___]
-    send: [___ true ou false ? pourquoi ? ___]
-
---- developer → ? ---
---- tester → ? (tests au vert : qui passe ensuite ?) ---
---- refactorer → ? ---
---- security-reviewer → ? (et si l'audit trouve un point bloquant ?) ---`,
+                        consigne: "Complétez l'en-tête et les règles de décision du feature-lead. Point d'attention : pour chaque statut de compte rendu (OK, KO, BLOQUÉ), que décide le lead ? Et quand rend-il la main ?",
+                        amorce: `---
+name: feature-lead
+description: [___ ___]
+tools: ['read', 'search', 'todo', [___ lancer des sous-agents ___], [___ écrire le rapport ___]]
+agents: [___ quels agents peut-il appeler ? ___]
+model: [___ type de modèle ___]
+---
+Tu pilotes une feature de bout en bout. Tu n'écris jamais de code.
+1. Planifier : [___ ___]
+2. Déléguer chaque tâche : [___ à qui, dans quel ordre, avec quel contexte ? ___]
+3. Décider à partir des comptes rendus :
+   - Statut OK : [___ ___]
+   - Statut KO (tests rouges) : [___ ___]
+   - Statut BLOQUÉ (audit de sécurité) : [___ ___]
+   - [___ au bout de combien d'échecs rends-tu la main ? ___]
+4. Rapporter : [___ où, avec quel contenu ? ___]
+Tu ne fais jamais : [___ ___]`,
                         indices: [
-                            "<code>send: false</code> préremplit sans envoyer : c'est votre point de contrôle.",
-                            "Ordre logique : on refactorise quand les tests sont au vert, et on audite la sécurité sur le code final, après refactoring.",
-                            "Le security-reviewer propose deux handoffs : « Corriger » (retour au developer) et « Tâche suivante » (retour au feature-lead, qui tient le plan).",
-                            "Le prompt prérempli doit se suffire à lui-même : « Implémente la tâche 1 du plan ci-dessus » plutôt que « continue »."
+                            "Les sous-agents se lancent avec l'outil <code>agent</code> ; la liste <code>agents</code> restreint ceux qu'il peut appeler. Le rapport s'écrit avec l'outil <code>edit</code>, borné par la consigne à <code>docs/reports/</code>.",
+                            "Transmettez à chaque sous-agent la tâche seule (objectif, fichiers, critère de fin), pas tout le plan : contexte minimal, résultat plus fiable.",
+                            "Ordre : developer → tester → refactorer (seulement si les tests sont au vert) → security-reviewer. Un KO ou un BLOQUÉ renvoie la tâche au developer avec le compte rendu ; après 2 échecs sur la même tâche, le lead s'arrête et vous demande.",
+                            "Rapport <code>docs/reports/&lt;feature&gt;.md</code> : tâches et statuts, décisions prises (et pourquoi), résultat des tests, points de sécurité, risques restants.",
+                            "Option : vous voulez valider vous-même chaque passage de relais ? Ajoutez des <code>handoffs</code> avec <code>send: false</code> : un bouton préremplit le prompt de l'agent suivant, et c'est vous qui l'envoyez."
                         ],
                         reussite: [
-                            "La chaîne complète fonctionne en 5 clics",
-                            "Le security-reviewer peut renvoyer vers le developer",
-                            "Au moins un problème a été détecté et corrigé grâce à la boucle"
+                            "Le feature-lead apparaît dans la liste et n'appelle que les 4 spécialistes",
+                            "Chaque statut (OK, KO, BLOQUÉ) a une décision écrite, ainsi que la limite d'échecs",
+                            "Aucune consigne n'autorise le lead à écrire ailleurs que dans <code>docs/reports/</code>"
                         ],
-                        solution: `--- feature-lead.agent.md ---
+                        solution: `---
+name: feature-lead
+description: Lead technique de FrigoMalin. Planifie une feature, délègue implémentation, tests, refactoring et audit aux agents spécialisés, décide à partir de leurs comptes rendus et rédige le rapport final.
+tools: ['read', 'search', 'todo', 'agent', 'edit']
+agents: ['developer', 'tester', 'refactorer', 'security-reviewer']
+model: Claude Opus 5.5
+---
+Tu pilotes une feature de bout en bout. Tu n'écris jamais de code.
+1. Planifier : découpe la feature en tâches de 30 minutes maximum (todo), avec fichiers touchés et critère de fin. Présente le plan et attends ma validation.
+2. Déléguer : pour chaque tâche, appelle en sous-agents developer, puis tester, puis refactorer, puis security-reviewer. Transmets la tâche seule (objectif, fichiers, critère de fin), jamais tout le plan.
+3. Décider à partir des comptes rendus (tu ne relis pas les diffs) :
+   - OK : passe à l'agent suivant ; après l'audit, coche la tâche dans todo et passe à la suivante.
+   - KO (tests rouges) : renvoie la tâche au developer avec le compte rendu du tester ; pas de refactoring sur des tests rouges.
+   - BLOQUÉ (audit) : renvoie au developer les seuls points bloquants, puis refais tester et auditer.
+   - 2 échecs sur la même tâche : arrête-toi et demande-moi.
+4. Rapporter : à la fin, écris docs/reports/<feature>.md : tâches et statuts, décisions prises (et pourquoi), résultat des tests, points de sécurité, risques restants.
+Tu ne fais jamais : modifier un fichier hors de docs/reports/, changer le périmètre validé, ignorer un point bloquant.
+
+--- Option : garder la main avec des handoffs (en-tête) ---
 handoffs:
   - label: Implémenter la tâche 1
     agent: developer
-    prompt: Implémente uniquement la tâche 1 du plan ci-dessus. Arrête-toi quand les tests passent.
-    send: false
-
---- developer.agent.md ---
-handoffs:
-  - label: Faire tester
-    agent: tester
-    prompt: Écris les tests manquants pour le code modifié ci-dessus (cas limites compris) et lance-les.
-    send: false
-
---- tester.agent.md ---
-handoffs:
-  - label: Refactoriser
-    agent: refactorer
-    prompt: Les tests sont au vert. Simplifie le code de cette tâche sans changer son comportement.
-    send: false
-
---- refactorer.agent.md ---
-handoffs:
-  - label: Audit sécurité
-    agent: security-reviewer
-    prompt: Audite les fichiers modifiés par cette tâche avec ta checklist. Classe par gravité.
-    send: false
-
---- security-reviewer.agent.md ---
-handoffs:
-  - label: Corriger les points bloquants
-    agent: developer
-    prompt: Corrige uniquement les points « bloquant » de l'audit ci-dessus, puis relance les tests.
-    send: false
-  - label: Tâche suivante
-    agent: feature-lead
-    prompt: La tâche est terminée et auditée. Mets à jour le plan et propose la tâche suivante.
+    prompt: Implémente uniquement la tâche 1 du plan ci-dessus et termine par ton compte rendu.
     send: false`,
                         correction: [
-                            "<code>send: false</code> partout pendant l'apprentissage ; <code>true</code> seulement pour des transitions sans risque (ex. tester → refactorer quand tout est vert).",
-                            "Le retour au feature-lead ferme la boucle : c'est lui qui tient le plan, aucun agent planificateur séparé n'est nécessaire.",
-                            "Refactoring AVANT l'audit : la sécurité est vérifiée sur le code qui sera réellement commité.",
-                            "La boucle security-reviewer → developer est la plus précieuse : un audit à chaque tâche, pas une fois en fin de projet. Comparer dans le carnet : même feature en session unique contre la chaîne de handoffs."
+                            "Décider sur les comptes rendus, pas sur les diffs : c'est ce qui garde le contexte du lead compact. D'où l'importance du format commun du lab 6.1.",
+                            "L'outil <code>edit</code> ne se restreint pas à un dossier : la limite <code>docs/reports/</code> est une consigne. On la vérifie à la revue (un hook du module 8 peut aussi la contrôler).",
+                            "La limite d'échecs évite la boucle sans fin developer ↔ tester, et la facture qui va avec.",
+                            "Handoffs : une option, pas une étape obligatoire. Ils remplacent l'enchaînement automatique par des boutons (<code>send: false</code>) : utile pour apprendre, ou sur une feature sensible où l'on veut valider chaque passage.",
+                            "La validation du plan par l'humain reste obligatoire, même en orchestration automatique."
                         ]
                     },
                     {
-                        id: "fm6_3", title: "Lab 6.3 : qa-explorer : un agent qui teste l'application comme un humain",
+                        id: "fm6_3", title: "Lab 6.3 : Orchestration automatique : le mode hors ligne (PWA)",
+                        emplacement: "Aucun nouvel agent : on lance le feature-lead (labs 6.1 et 6.2). Le code dans <code>src/</code> et <code>public/</code> (manifeste, icônes) ; le rapport dans <code>docs/reports/pwa-hors-ligne.md</code>.",
+                        targetBadge: "Tech Leads / Développeurs", tools: OUTILS.agent,
+                        features: ["Orchestration", "Contexte isolé", "Rapport final"],
+                        objective: "Confier une vraie feature au feature-lead et le laisser orchestrer l'équipe de bout en bout : plan validé, délégations, décisions sur comptes rendus, rapport final.",
+                        astuce: "Votre rôle change : vous ne codez plus et ne passez plus la main, vous validez le plan, puis vous lisez le rapport et relisez les commits. Un bon prompt d'orchestration décrit le résultat attendu et les contraintes, pas les étapes : les étapes, c'est le travail du lead.",
+                        defi: "construire",
+                        consigne: "Écrivez le prompt que vous confiez au feature-lead, lancez l'orchestration, puis analysez son rapport : quelles décisions a-t-il prises, et étaient-elles justes ?",
+                        amorce: `Ingrédients :
+• la feature : FrigoMalin fonctionne hors ligne et s'installe comme une application
+• périmètre : manifeste, service worker (cache de l'application), icônes, bannière « Vous êtes hors ligne »
+• hors périmètre : ___
+• les principes de copilot-instructions.md (hors ligne d'abord, budget de performance)
+• critère de fin de la feature : ___
+• le rapport attendu : docs/reports/pwa-hors-ligne.md
+
+Votre prompt au feature-lead : ___
+
+Après l'exécution, dans le rapport :
+1. Combien de tâches, combien de retours au developer ? ___
+2. Une décision du lead que vous auriez prise autrement : ___`,
+                        indices: [
+                            "Ne dictez pas les étapes (« appelle le developer puis… ») : elles sont écrites une fois pour toutes dans <code>feature-lead.agent.md</code>.",
+                            "Critère de fin vérifiable : <code>npm test</code> et <code>npm run build</code> passent, l'application est installable et se recharge hors ligne (DevTools → Network → Offline).",
+                            "Pendant l'exécution, dépliez les appels de sous-agents dans le chat : vous voyez la tâche transmise et le compte rendu renvoyé, sans que leur détail n'encombre le contexte du lead.",
+                            "Hors périmètre utile : synchronisation entre appareils, notifications push (elles demanderaient un serveur)."
+                        ],
+                        reussite: [
+                            "Vous avez validé le plan avant toute délégation",
+                            "Le lead n'a modifié aucun fichier hors de <code>docs/reports/</code>",
+                            "Le rapport liste les décisions prises et leurs raisons",
+                            "L'application s'installe et se recharge hors ligne"
+                        ],
+                        solution: `Prompt au feature-lead :
+Feature : FrigoMalin fonctionne hors ligne et s'installe comme une application.
+Périmètre : manifeste web, service worker qui met en cache l'application, icônes 192 et 512 px, bannière « Vous êtes hors ligne » quand le réseau tombe.
+Hors périmètre : synchronisation entre appareils, notifications push.
+Contraintes : principes de copilot-instructions.md (zéro backend, hors ligne d'abord, JavaScript initial < 200 Ko gzip) ; Open Food Facts garde son repli hors ligne.
+Terminé quand : npm test et npm run build passent, l'application est installable et se recharge hors ligne.
+Rapport : docs/reports/pwa-hors-ligne.md.
+
+Analyse du rapport (exemple) :
+1. 4 tâches (manifeste + icônes, service worker, bannière hors ligne, test Playwright hors ligne) ; 1 retour au developer : le cache ignorait le chemin /frigomalin/ de GitHub Pages.
+2. Le lead a refusé de lancer le refactorer tant que les tests étaient rouges : décision conforme à ses règles.`,
+                        correction: [
+                            "Le prompt dit QUOI et QUAND c'est fini ; le COMMENT est dans l'agent. Un prompt qui redicte les étapes signale un feature-lead mal écrit.",
+                            "Piège classique : un service worker qui ignore le <code>base</code> <code>/frigomalin/</code> de GitHub Pages. Si l'équipe d'agents ne l'a pas vu, l'humain doit le voir à la relecture.",
+                            "Le rapport est le livrable de l'orchestration : il trace les décisions, pas seulement le code. Il se relit en revue et nourrit les notes de version (module 10).",
+                            "Même méthode qu'au lab 5.1 (plan → lots → tests), mais c'est le lead qui enchaîne les lots ; votre relecture reste obligatoire avant le merge."
+                        ]
+                    },
+                    {
+                        id: "fm6_4", title: "Lab 6.4 : qa-explorer : un agent qui teste l'application comme un humain",
                         bonus: true,
                         emplacement: "<code>.mcp.json</code> à la <strong>racine du dépôt</strong>, versionné avec Git (à créer s'il n'existe pas ; s'il existe depuis le lab 1.3, ajouter l'entrée <code>playwright</code> à côté de <code>github</code>). Ce n'est pas le <code>mcp.json</code> de votre profil VS Code. L'agent : <code>.github/agents/qa-explorer.agent.md</code>.",
                         targetBadge: "Développeurs / QA", tools: OUTILS.agent,
@@ -1423,7 +1468,7 @@ Tu ne modifies jamais [___ ___].`,
                             "Le format portable <code>.mcp.json</code> utilise la clé racine <code>mcpServers</code> (le format propre à VS Code, <code>.vscode/mcp.json</code>, utilise <code>servers</code>). Serveur absent de la liste des outils ? Vérifiez que le dossier est approuvé (<em>Workspace Trust</em>) et, sur une licence Business/Enterprise, que la politique « MCP servers in Copilot » est activée.",
                             "Le serveur Playwright se lance avec <code>npx</code> et le paquet <code>@playwright/mcp@latest</code> : rien à installer à l'avance, Node suffit.",
                             "Dans <code>tools</code>, <code>playwright/*</code> donne accès à tous les outils de ce serveur (vérifiez le nom avec Configure Tools).",
-                            "Un rapport utile : étapes pour reproduire, gravité, et proposition de test Playwright à ajouter."
+                            "Un rapport utile : étapes pour reproduire, gravité, et proposition de test Playwright à ajouter. Terminez par le compte rendu commun de l'équipe (lab 6.1) pour que le feature-lead puisse l'appeler."
                         ],
                         reussite: [
                             "L'agent ouvre un navigateur et parcourt l'application",
@@ -1447,66 +1492,20 @@ tools: ['playwright/*', 'read']
 Tu explores http://localhost:5173/frigomalin/ (le serveur doit tourner : npm run dev) en 360×800 puis en 1280×800.
 Parcours : ajouter 3 produits (dont un périmé), les retrouver triés, marquer consommé, ouvrir « Que cuisiner ? », passer hors ligne et recharger.
 Vérifie aussi : navigation au clavier, focus visible, textes tronqués, contrastes.
-Rapport dans ta réponse (tu n'écris aucun fichier) : tableau | Problème | Étapes | Gravité | Test Playwright proposé |.
-Tu ne modifies jamais le code de l'application.`,
+Rapport dans ta réponse (tu n'écris aucun fichier) : tableau | Problème | Étapes | Gravité | Test Playwright proposé |, puis le compte rendu commun (Statut KO si un problème est bloquant).
+Tu ne modifies jamais le code de l'application.
+
+--- Pour l'intégrer à l'équipe : feature-lead.agent.md ---
+agents: ['developer', 'tester', 'refactorer', 'security-reviewer', 'qa-explorer']
+(+ dans ses consignes : « en fin de feature, appelle qa-explorer et intègre ses constats au rapport »)`,
                         correction: [
                             "Tester en deux largeurs est indispensable : la maquette Stitch Mobile est la cible principale.",
-                            "Le passage hors ligne vérifie le principe « hors ligne d'abord » de copilot-instructions.md : c'est souvent le premier bug trouvé.",
+                            "Le passage hors ligne vérifie le principe « hors ligne d'abord » de copilot-instructions.md : c'est souvent le premier bug trouvé (et la vérification idéale du lab 6.3).",
                             "Outils limités à <code>playwright/*</code> + lecture : l'agent explore et rapporte, il ne corrige pas.",
+                            "Ajouté à la liste <code>agents</code> du feature-lead, le qa-explorer devient le dernier contrôle de chaque feature : le lead décide sur son compte rendu comme sur celui des autres.",
                             "Un agent Playwright consomme beaucoup de tokens (instantanés de page) : parcours ciblés, jamais « explore tout »."
                         ]
-                    },
-                    {
-                        id: "fm6_4", title: "Lab 6.4 : Le feature-lead devient orchestrateur : le mode hors ligne (PWA)",
-                        emplacement: "Le <strong>même</strong> fichier <code>.github/agents/feature-lead.agent.md</code> (lab 6.1), enrichi : on ajoute l'outil <code>agent</code> et la liste <code>agents</code>.",
-                        targetBadge: "Tech Leads", tools: OUTILS.agent,
-                        features: ["Sous-agents", "agents:", "Contexte isolé"],
-                        objective: "Faire évoluer le <code>feature-lead</code> : il planifie toujours lui-même la feature PWA hors ligne, puis délègue chaque tâche à des sous-agents au lieu de passer la main par des boutons.",
-                        astuce: "Chaque sous-agent démarre avec un contexte neuf et ne renvoie qu'un résumé. L'orchestrateur ne « voit » jamais les centaines de lignes lues par ses sous-agents : c'est l'une des techniques les plus efficaces pour garder le contexte principal sous contrôle.",
-                        defi: "squelette",
-                        consigne: "Complétez l'en-tête et la stratégie du feature-lead. Point d'attention : définissez ce que chaque sous-agent doit RENVOYER (format court).",
-                        amorce: `---
-name: feature-lead
-description: [___ ___]
-tools: ['read', 'search', 'todo', [___ quel outil permet de lancer des sous-agents ? ___]]
-agents: [___ quels agents peut-il appeler ? ___]
----
-Tu planifies et pilotes une feature de bout en bout sans écrire de code toi-même.
-1. [___ planification (par toi-même) ___]
-2. Pour chaque tâche : [___ délégation, dans quel ordre ? ___]
-3. Exige de chaque sous-agent un retour au format : [___ ___]
-4. [___ vérification finale ___]`,
-                        indices: [
-                            "Les sous-agents se lancent avec l'outil <code>agent</code> ; la liste <code>agents</code> restreint ceux qui peuvent être appelés.",
-                            "Même ordre qu'au lab 6.2 (developer → tester → refactorer → security-reviewer), mais sans clic : c'est le lead qui enchaîne.",
-                            "Format de retour court : « statut, fichiers modifiés, résultat des tests, points ouverts » en 5 lignes maximum. Feature PWA : manifeste, service worker, icônes, bannière « hors ligne »."
-                        ],
-                        reussite: [
-                            "L'orchestrateur ne modifie aucun fichier lui-même",
-                            "Chaque sous-agent renvoie un résumé court",
-                            "L'application s'installe et fonctionne hors ligne"
-                        ],
-                        solution: `---
-name: feature-lead
-description: Lead technique de FrigoMalin. Planifie une feature puis l'exécute en déléguant implémentation, tests, refactoring et audit sécurité à des sous-agents.
-tools: ['read', 'search', 'todo', 'agent']
-agents: ['developer', 'tester', 'refactorer', 'security-reviewer']
----
-Tu planifies et pilotes une feature de bout en bout sans écrire de code toi-même.
-1. Découpe toi-même la feature en tâches de 30 minutes maximum (todo) ; présente-moi le plan et attends ma validation.
-2. Pour chaque tâche validée : appelle en sous-agents developer, puis tester, puis refactorer, en leur transmettant la tâche seule (pas tout le plan).
-3. Exige de chaque sous-agent un retour en 5 lignes maximum : statut, fichiers modifiés, résultat de npm test, points ouverts.
-4. Après chaque tâche : appelle security-reviewer ; un point « bloquant » renvoie la tâche à developer. À la fin, donne-moi un bilan (tâches, tests, risques restants).
-
---- Prompt ---
-Feature : FrigoMalin fonctionne hors ligne et s'installe comme une application (manifeste, service worker avec cache de l'application, icônes, bannière « Vous êtes hors ligne »). Respecte les principes de copilot-instructions.md.`,
-                        correction: [
-                            "« La tâche seule, pas tout le plan » : chaque sous-agent reçoit un contexte minimal, donc moins cher et plus fiable.",
-                            "Le lead garde la planification : le plan reste dans SON contexte, les détails d'exécution dans ceux des sous-agents. Le format de retour imposé garde son contexte compact sur toute la feature.",
-                            "La validation du plan par l'humain reste obligatoire, même en orchestration.",
-                            "Comparer dans le carnet : la chaîne de handoffs (lab 6.2) contre l'orchestration (lab 6.4) sur une feature de taille similaire."
-                        ]
-                    },
+                    }
                 ]
             },
             {
@@ -1534,12 +1533,11 @@ Règles :
                         indices: [
                             "Section <strong>System prompt</strong> : cherchez le contenu de <code>copilot-instructions.md</code>, puis celui de <code>ui.instructions.md</code>, <code>domain.instructions.md</code> et <code>tests.instructions.md</code>. Chacun ne doit apparaître que si des fichiers correspondant à son <code>applyTo</code> sont en jeu.",
                             "Section <strong>Context</strong> : les deux fichiers référencés avec <code>#</code> doivent y figurer. Section <strong>Tool responses</strong> : repérez les fichiers que l'agent a lus de lui-même et la sortie de <code>npm test</code>.",
-                            "Tokens : survolez le pied de chaque réponse dans le chat (entrée, entrée en cache, sortie). Notez le total dans <code>docs/usage-log.md</code>."
+                            "Tokens : survolez le pied de chaque réponse dans le chat (entrée, entrée en cache, sortie)."
                         ],
                         reussite: [
                             "Vous savez dire quels fichiers d'instructions ont été chargés, et pourquoi",
-                            "Vous avez identifié le plus gros contributeur au contexte (historique, fichiers lus, sortie d'outil…)",
-                            "Le coût de la tâche est noté dans le carnet de consommation"
+                            "Vous avez identifié le plus gros contributeur au contexte (historique, fichiers lus, sortie d'outil…)"
                         ],
                         solution: `Observations attendues dans la Chat Debug View :
 1. System prompt : copilot-instructions.md toujours présent ; ui.instructions.md (applyTo src/ui/**), domain.instructions.md (src/domain/**) et tests.instructions.md (*.test.ts) présents dès que l'agent touche ces fichiers ; aucun autre fichier d'instructions.
@@ -1847,15 +1845,15 @@ Ne conclus pas sur l'acceptation : la décision appartient au Product Owner.`,
                         ]
                     },
                     {
-                        id: "fm10_2", title: "Lab 10.2 : Release, notes de version & rétrospective chiffrée",
+                        id: "fm10_2", title: "Lab 10.2 : Release, notes de version & rétrospective",
                         bonus: true,
                         emplacement: "<code>.github/skills/release-notes/SKILL.md</code>.",
                         targetBadge: "Toute l'équipe", tools: OUTILS.agent,
-                        features: ["Skill release-notes", "Carnet de consommation"],
-                        objective: "Publier la version 1.0 avec des notes de version orientées utilisateurs, et présenter une rétrospective chiffrée de l'usage de Copilot.",
+                        features: ["Skill release-notes", "Rétrospective"],
+                        objective: "Publier la version 1.0 avec des notes de version orientées utilisateurs, et présenter une rétrospective de l'usage de Copilot.",
                         astuce: "Des notes de version générées depuis les commits parlent aux développeurs (« refactor store »). Pour les utilisateurs, il faut traduire en bénéfices. Un skill fixe ce format une fois pour toutes.",
                         defi: "construire",
-                        consigne: "Créez un skill <code>release-notes</code> (description + format), utilisez-le pour la v1.0, puis préparez 3 diapositives de rétrospective à partir du carnet.",
+                        consigne: "Créez un skill <code>release-notes</code> (description + format), utilisez-le pour la v1.0, puis préparez 3 diapositives de rétrospective.",
                         amorce: `Skill release-notes : ingrédients
 • source : commits et PR depuis le dernier tag
 • 2 publics : utilisateurs (bénéfices) / développeurs (changements techniques)
@@ -1864,17 +1862,17 @@ Ne conclus pas sur l'acceptation : la décision appartient au Product Owner.`,
 
 Rétrospective en 3 diapositives :
 1. Ce qu'on a livré : ___
-2. Ce que Copilot a coûté et rapporté : ___ (chiffres du carnet)
+2. Ce que Copilot a apporté : ___ (faits concrets)
 3. Ce qu'on garde / ce qu'on change dans notre kit Copilot : ___`,
                         indices: [
                             "Le skill peut lancer <code>git log</code> depuis le dernier tag : il lit les commits lui-même, sans copier-coller.",
-                            "Chiffres utiles : crédits totaux, coût moyen par feature, économies obtenues grâce au module 7, points bloquants trouvés par le security-reviewer.",
+                            "Faits utiles : features livrées, tests écrits, points bloquants trouvés par le security-reviewer, décisions tracées dans les rapports du feature-lead (<code>docs/reports/</code>).",
                             "Le « kit Copilot » = vos instructions, agents, skills et hook : ce qui mérite d'être réutilisé dans le prochain projet."
                         ],
                         reussite: [
                             "Tag v1.0 et release GitHub publiés",
                             "Notes de version compréhensibles par un non-développeur",
-                            "La rétrospective contient des chiffres réels"
+                            "La rétrospective s'appuie sur des faits concrets (features, tests, audits)"
                         ],
                         solution: `---
 name: release-notes
@@ -1887,10 +1885,10 @@ description: Rédige les notes de version de FrigoMalin à partir des commits de
 3. Terminer par « Limites connues ».
 Ton simple et positif, en français. N'invente aucune fonctionnalité absente des commits.
 
-Rétrospective : 1) 6 features Must livrées, URL publique, Lighthouse ≥ 90 ; 2) X crédits au total, Y crédits économisés grâce au module 7, Z points bloquants trouvés par le security-reviewer ; 3) on garde : instructions ciblées, skills, handoffs ; on change : sessions trop longues au début.`,
+Rétrospective : 1) 6 features Must livrées, URL publique, Lighthouse ≥ 90 ; 2) X tests écrits, Z points bloquants trouvés par le security-reviewer, contexte allégé grâce au module 7 ; 3) on garde : instructions ciblées, skills, handoffs ; on change : sessions trop longues au début.`,
                         correction: [
                             "« N'invente aucune fonctionnalité absente des commits » : consigne anti-hallucination indispensable pour des notes de version.",
-                            "Les chiffres réels du carnet sont l'aboutissement du fil rouge : sans eux, pas de rétrospective crédible.",
+                            "Des faits vérifiables (features, tests, audits, rapports du feature-lead) plutôt que des impressions : c'est ce qui rend une rétrospective crédible.",
                             "Le kit Copilot (.github/) est un livrable à part entière, réutilisable pour le prochain projet.",
                             "Le skill doit gérer le cas « aucun tag » (première release)."
                         ]
@@ -1929,7 +1927,7 @@ Hors périmètre : synchronisation automatique, comptes.`,
                             "La décision d'architecture (quelle option de partage) est sortie de l'issue : elle relève d'un ADR.",
                             "Le critère « fichier invalide » relie la V2 à la revue de sécurité du lab 8.3 (import JSON = vecteur d'attaque).",
                             "La commande de vérification permet à l'agent de savoir seul s'il a terminé.",
-                            "La boucle est bouclée : l'issue V2 repart dans le même cycle (plan puis implémentation, lab 5.1) ou est confiée directement au feature-lead orchestrateur (lab 6.4)."
+                            "La boucle est bouclée : l'issue V2 repart dans le même cycle (plan puis implémentation, lab 5.1) ou est confiée directement au feature-lead orchestrateur (lab 6.3)."
                         ]
                     }
                 ]
@@ -2336,64 +2334,93 @@ Hors périmètre : synchronisation automatique, comptes.`,
                 workflow.setAttribute('aria-labelledby', 'orchestration-title');
                 workflow.innerHTML = `
                     <div class="max-w-3xl mb-7">
-                        <p class="text-xs font-extrabold uppercase tracking-wider text-fm-700 mb-2">Vue d'ensemble · Lab 6.4</p>
-                        <h3 id="orchestration-title" class="text-xl md:text-2xl font-extrabold text-slate-900 mb-2">Le feature-lead orchestre, les spécialistes exécutent</h3>
-                        <p class="text-sm text-slate-600 leading-relaxed">Le lead découpe le travail, attend votre accord, puis délègue chaque tâche. Les agents travaillent dans leur propre contexte et renvoient une synthèse.</p>
+                        <p class="text-xs font-extrabold uppercase tracking-wider text-fm-700 mb-2">Vue d'ensemble · Labs 6.2 à 6.4</p>
+                        <h3 id="orchestration-title" class="text-xl md:text-2xl font-extrabold text-slate-900 mb-2">Le feature-lead pilote, les spécialistes exécutent et rendent compte</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">Vous ne parlez qu'au lead. Il fait valider son plan, délègue chaque tâche au bon sous-agent, décide de la suite à partir des comptes rendus et rédige le rapport final : c'est le seul fichier qu'il écrit.</p>
                     </div>
-                    <ol class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-x-5 gap-y-4">
-                        <li class="orchestration-step relative min-w-0">
-                            <div class="h-full border border-fm-200 bg-fm-50 rounded-xl p-4">
-                                <div class="orchestration-marker w-10 h-10 rounded-lg bg-fm-700 text-white flex items-center justify-center mb-3">${icon('bot', 'w-5 h-5')}</div>
-                                <p class="text-xs font-bold text-fm-700 mb-1">1 · PLANIFIER</p>
-                                <h4 class="font-extrabold text-slate-900">Feature-lead</h4>
-                                <p class="text-xs text-slate-600 mt-1">Explore, découpe et tient le plan avec <code>todo</code>.</p>
+                    <div class="flex flex-col items-center">
+                        <div class="inline-flex items-center gap-2 rounded-full border border-stone-300 bg-stone-50 px-4 py-1.5 text-xs font-bold text-slate-700 text-center">${icon('user', 'w-4 h-4')} Vous : donnez la feature, validez le plan</div>
+                        <div class="orchestration-connector-v w-1 h-6 rounded-full bg-gradient-to-b from-stone-300 via-fm-400 to-stone-300" aria-hidden="true"></div>
+                        <div class="w-full max-w-2xl border-2 border-fm-300 bg-fm-50 rounded-2xl p-5">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-11 h-11 rounded-xl bg-fm-700 text-white flex items-center justify-center flex-shrink-0">${icon('bot', 'w-6 h-6')}</div>
+                                <div class="min-w-0">
+                                    <p class="text-xs font-bold text-fm-700">LEAD · ORCHESTRATEUR</p>
+                                    <h4 class="font-extrabold text-slate-900">Feature-lead</h4>
+                                </div>
                             </div>
-                        </li>
-                        <li class="orchestration-step relative min-w-0">
+                            <ul class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                                <li class="bg-white border border-fm-200 rounded-lg p-2.5"><p class="font-extrabold text-slate-900">1 · Planifier</p><p class="text-slate-600 mt-0.5">Tâches courtes, avec <code>todo</code></p></li>
+                                <li class="bg-white border border-fm-200 rounded-lg p-2.5"><p class="font-extrabold text-slate-900">2 · Déléguer</p><p class="text-slate-600 mt-0.5">Sous-agents, avec <code>agent</code></p></li>
+                                <li class="bg-white border border-fm-200 rounded-lg p-2.5"><p class="font-extrabold text-slate-900">3 · Décider</p><p class="text-slate-600 mt-0.5">Sur les comptes rendus</p></li>
+                                <li class="bg-white border border-fm-200 rounded-lg p-2.5"><p class="font-extrabold text-slate-900">4 · Rapporter</p><p class="text-slate-600 mt-0.5">Avec <code>edit</code>, dans <code>docs/reports/</code></p></li>
+                            </ul>
+                        </div>
+                        <div class="flex items-center justify-center gap-4 my-2 text-xs font-bold">
+                            <span class="text-fm-700 text-right w-28">tâche ↓</span>
+                            <div class="orchestration-connector-v w-1 h-10 rounded-full bg-gradient-to-b from-fm-300 via-fm-500 to-fm-300" aria-hidden="true"></div>
+                            <span class="text-slate-500 w-28">↑ compte rendu</span>
+                        </div>
+                    </div>
+                    <div class="orchestration-connector h-1 rounded-full mb-4 bg-gradient-to-r from-emerald-400 via-amber-400 to-violet-400" aria-hidden="true"></div>
+                    <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                        <li class="orchestration-step min-w-0">
                             <div class="h-full border border-emerald-200 bg-emerald-50 rounded-xl p-4">
                                 <div class="orchestration-marker w-10 h-10 rounded-lg bg-emerald-700 text-white flex items-center justify-center mb-3">${icon('code', 'w-5 h-5')}</div>
-                                <p class="text-xs font-bold text-emerald-800 mb-1">2 · IMPLÉMENTER</p>
                                 <h4 class="font-extrabold text-slate-900">Developer</h4>
-                                <p class="text-xs text-slate-600 mt-1">Réalise uniquement la tâche validée.</p>
+                                <p class="text-xs text-slate-600 mt-1">Réalise la tâche transmise, rien de plus.</p>
+                                <p class="text-xs text-emerald-800 font-semibold mt-2">Rend : fichiers modifiés, <code>npm test</code></p>
                             </div>
                         </li>
-                        <li class="orchestration-step relative min-w-0">
+                        <li class="orchestration-step min-w-0">
                             <div class="h-full border border-sky-200 bg-sky-50 rounded-xl p-4">
                                 <div class="orchestration-marker w-10 h-10 rounded-lg bg-sky-700 text-white flex items-center justify-center mb-3">${icon('list-checks', 'w-5 h-5')}</div>
-                                <p class="text-xs font-bold text-sky-800 mb-1">3 · TESTER</p>
                                 <h4 class="font-extrabold text-slate-900">Tester</h4>
-                                <p class="text-xs text-slate-600 mt-1">Écrit et lance les tests, puis transmet le résultat.</p>
+                                <p class="text-xs text-slate-600 mt-1">Écrit et lance les tests de la tâche.</p>
+                                <p class="text-xs text-sky-800 font-semibold mt-2">Rend : OK ou KO, tests en échec</p>
                             </div>
                         </li>
-                        <li class="orchestration-step relative min-w-0">
+                        <li class="orchestration-step min-w-0">
                             <div class="h-full border border-amber-200 bg-amber-50 rounded-xl p-4">
                                 <div class="orchestration-marker w-10 h-10 rounded-lg bg-amber-700 text-white flex items-center justify-center mb-3">${icon('wrench', 'w-5 h-5')}</div>
-                                <p class="text-xs font-bold text-amber-800 mb-1">4 · SIMPLIFIER</p>
                                 <h4 class="font-extrabold text-slate-900">Refactorer</h4>
-                                <p class="text-xs text-slate-600 mt-1">Intervient après des tests verts, sans changer le comportement.</p>
+                                <p class="text-xs text-slate-600 mt-1">Simplifie, seulement si les tests sont verts.</p>
+                                <p class="text-xs text-amber-800 font-semibold mt-2">Rend : changements, tests toujours verts</p>
                             </div>
                         </li>
-                        <li class="orchestration-step relative min-w-0">
+                        <li class="orchestration-step min-w-0">
                             <div class="h-full border border-rose-200 bg-rose-50 rounded-xl p-4">
                                 <div class="orchestration-marker w-10 h-10 rounded-lg bg-rose-700 text-white flex items-center justify-center mb-3">${icon('shield-check', 'w-5 h-5')}</div>
-                                <p class="text-xs font-bold text-rose-800 mb-1">5 · AUDITER</p>
                                 <h4 class="font-extrabold text-slate-900">Security-reviewer</h4>
-                                <p class="text-xs text-slate-600 mt-1">Lit le résultat et signale les risques, sans modifier le code.</p>
+                                <p class="text-xs text-slate-600 mt-1">Audite les fichiers modifiés, en lecture seule.</p>
+                                <p class="text-xs text-rose-800 font-semibold mt-2">Rend : OK ou BLOQUÉ, points classés</p>
+                            </div>
+                        </li>
+                        <li class="orchestration-step min-w-0">
+                            <div class="h-full border border-dashed border-violet-300 bg-violet-50 rounded-xl p-4">
+                                <div class="orchestration-marker w-10 h-10 rounded-lg bg-violet-700 text-white flex items-center justify-center mb-3">${icon('compass', 'w-5 h-5')}</div>
+                                <h4 class="font-extrabold text-slate-900">QA-explorer <span class="text-[10px] font-bold text-violet-700 align-middle">BONUS · 6.4</span></h4>
+                                <p class="text-xs text-slate-600 mt-1">Parcourt l'application dans un vrai navigateur.</p>
+                                <p class="text-xs text-violet-800 font-semibold mt-2">Rend : bugs trouvés, tests proposés</p>
                             </div>
                         </li>
                     </ol>
-                    <div class="orchestration-connector h-1 rounded-full my-5 bg-gradient-to-r from-fm-300 via-emerald-400 via-sky-400 via-amber-400 to-rose-400" aria-hidden="true"></div>
-                    <div class="grid md:grid-cols-2 gap-3">
+                    <h4 class="font-extrabold text-slate-900 mt-7 mb-3">Le lead décide à partir des comptes rendus</h4>
+                    <div class="grid md:grid-cols-3 gap-3">
                         <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
-                            <p class="text-sm font-extrabold text-emerald-900">Audit validé</p>
-                            <p class="text-sm text-emerald-800 mt-1">Le bilan revient au feature-lead, qui met à jour le plan et choisit la prochaine tâche.</p>
+                            <p class="text-sm font-extrabold text-emerald-900 flex items-center gap-1.5">${icon('circle-check', 'w-4 h-4')} OK</p>
+                            <p class="text-sm text-emerald-800 mt-1">Agent suivant ; après l'audit, la tâche est cochée dans <code>todo</code> et le lead passe à la suivante.</p>
                         </div>
                         <div class="rounded-xl border border-rose-200 bg-rose-50 p-4">
-                            <p class="text-sm font-extrabold text-rose-900">Point bloquant détecté</p>
-                            <p class="text-sm text-rose-800 mt-1">Retour au developer pour correction, puis reprise des tests et de l’audit.</p>
+                            <p class="text-sm font-extrabold text-rose-900 flex items-center gap-1.5">${icon('rotate-ccw', 'w-4 h-4')} KO ou BLOQUÉ</p>
+                            <p class="text-sm text-rose-800 mt-1">Retour au developer avec le compte rendu, puis nouveaux tests et nouvel audit. Après 2 échecs, il vous rend la main.</p>
+                        </div>
+                        <div class="rounded-xl border border-fm-200 bg-fm-50 p-4">
+                            <p class="text-sm font-extrabold text-fm-900 flex items-center gap-1.5">${icon('file-text', 'w-4 h-4')} Feature terminée</p>
+                            <p class="text-sm text-fm-800 mt-1">Rapport <code>docs/reports/&lt;feature&gt;.md</code> : décisions, tests, risques restants. Vous relisez, puis vous mergez.</p>
                         </div>
                     </div>
-                    <p class="mt-5 border-l-4 border-fm-500 pl-3 text-xs text-slate-600 leading-relaxed"><strong class="text-slate-800">À distinguer :</strong> un handoff propose le passage à l’agent suivant et vous laisse valider chaque étape ; l’orchestration par sous-agents délègue depuis le feature-lead et lui renvoie des synthèses.</p>
+                    <p class="mt-5 border-l-4 border-fm-500 pl-3 text-xs text-slate-600 leading-relaxed"><strong class="text-slate-800">Option handoffs :</strong> pour valider vous-même chaque passage de relais, ajoutez des boutons <code>handoffs</code> (<code>send: false</code>) dans l'en-tête des agents. Chaque bouton préremplit le prompt de l'agent suivant et c'est vous qui l'envoyez : même équipe, mais un contrôle humain à chaque étape au lieu de l'enchaînement automatique.</p>
                 `;
                 view.appendChild(workflow);
             }
